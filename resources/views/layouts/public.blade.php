@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Arga Barbershop')</title>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <header class="header">
+            @yield('header')
+        </header>
+
+        <nav class="pub-nav">
+            <ul class="pub-nav-list">
+                <li><a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">Home</a></li>
+                <li><a href="{{ url('layanan') }}" class="{{ Request::is('layanan') ? 'active' : '' }}">Layanan</a></li>
+                <li><a href="{{ url('antrian') }}" class="{{ Request::is('antrian') ? 'active' : '' }}">Antrian</a></li>
+                <li><a href="{{ url('rekomendasi') }}" class="{{ Request::is('rekomendasi') ? 'active' : '' }}">Gaya
+                        Rambut</a></li>
+                <li><a href="{{ url('galeri') }}" class="{{ Request::is('galeri') ? 'active' : '' }}">Galeri</a></li>
+                <li><a href="{{ url('menu') }}" class="{{ Request::is('menu') ? 'active' : '' }}">Menu Kafe</a></li>
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            @yield('content')
+        </div>
+
+        @yield('action_bar')
+
+    </div>
+
+    @stack('scripts')
+</body>
+
+</html>
