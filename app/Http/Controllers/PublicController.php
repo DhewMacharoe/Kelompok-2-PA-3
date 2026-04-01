@@ -12,25 +12,16 @@ class PublicController extends Controller
 {
     public function index()
     {
-        // Ambil 1 antrian yang sedang dipanggil
-        $dipanggil = Antrian::where('status', 'dipanggil')->first();
-        // Hitung total antrian yang statusnya menunggu
+        $dipanggil = Antrian::where('status', 'sedang dilayani')->first();
         $jumlahMenunggu = Antrian::where('status', 'menunggu')->count();
-
         return view('index', compact('dipanggil', 'jumlahMenunggu'));
     }
 
     public function antrian()
     {
-        // Ambil 1 antrian yang sedang dipanggil
-        $dipanggil = Antrian::where('status', 'dipanggil')->first();
-
-        // Ambil daftar orang yang sedang menunggu, diurutkan dari yang paling lama datang
+        $dipanggil = Antrian::where('status', 'sedang dilayani')->first();
         $menunggu = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
-
-        // Hitung jumlahnya
         $jumlahMenunggu = $menunggu->count();
-
         return view('antrian', compact('dipanggil', 'menunggu', 'jumlahMenunggu'));
     }
 

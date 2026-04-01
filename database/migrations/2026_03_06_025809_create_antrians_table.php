@@ -12,7 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('nomor_antrian');
             $table->string('nama_pelanggan');
-            $table->enum('status', ['menunggu', 'dipanggil', 'selesai'])->default('menunggu');
+            $table->foreignId('layanan_id')->nullable()->constrained('layanans')->onDelete('set null');
+            $table->enum('status', ['menunggu', 'sedang dilayani', 'selesai', 'batal'])->default('menunggu');
             $table->timestamp('waktu_masuk')->useCurrent();
             $table->timestamp('waktu_selesai')->nullable();
             $table->timestamps();

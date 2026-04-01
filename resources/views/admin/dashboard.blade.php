@@ -25,6 +25,15 @@
             <div class="hero-number">{{ $dipanggil ? $dipanggil->nomor_antrian : '--' }}</div>
         </div>
         <div class="hero-name">{{ $dipanggil ? $dipanggil->nama_pelanggan : 'Tidak ada antrian aktif' }}</div>
+
+        @if ($dipanggil)
+            <form action="{{ route('admin.antrian.selesai', $dipanggil->id) }}" method="POST" style="margin-top:12px;">
+                @csrf
+                <button type="submit" class="badge"
+                    style="background:var(--success); color:white; border:none; padding:6px 16px; font-size:12px; cursor:pointer;">✔
+                    Tandai Selesai</button>
+            </form>
+        @endif
     </section>
 
     <div class="summary-grid">
@@ -44,18 +53,22 @@
 
     <div class="card-list">
         @forelse($antrianMenunggu as $item)
-            <div class="queue-card">
-                <div class="queue-number">{{ $item->nomor_antrian }}</div>
-                <div class="queue-info">
-                    <div class="queue-name">{{ $item->nama_pelanggan }}</div>
-                    <div class="queue-time">Masuk: {{ \Carbon\Carbon::parse($item->waktu_masuk)->format('H:i') }} WIB</div>
+            <div class="queue-card" style="display:flex; justify-content:space-between; align-items:center;">
+                <div style="display:flex; align-items:center; gap:16px;">
+                    <div class="queue-number">{{ $item->nomor_antrian }}</div>
+                    <div class="queue-info">
+                        <div class="queue-name">{{ $item->nama_pelanggan }}</div>
+                        <div class="queue-time">Masuk: {{ \Carbon\Carbon::parse($item->waktu_masuk)->format('H:i') }}</div>
+                    </div>
                 </div>
-                <div class="queue-badge"><span class="badge badge-waiting">Menunggu</span></div>
+                <form action="{{ route('admin.antrian.batal', $item->id) }}" method="POST"
+                    onsubmit="return confirm('Yakin ingin membatalkan antrian ini?');">
+                    @csrf
+                    <button type="submit"
+                        style="background:none; border:none; color:var(--danger); font-size:12px; cursor:pointer; text-decoration:underline;">Batal</button>
+                </form>
             </div>
         @empty
-            <div style="text-align:center; padding:20px; color:var(--text-muted); font-size:14px;">
-                Tidak ada pelanggan yang menunggu saat ini.
-            </div>
         @endforelse
     </div>
 
@@ -83,7 +96,12 @@
 
     <div class="action-bar">
         @if ($antrianMenunggu->count() > 0)
-            <button class="btn btn-primary">▶ PANGGIL No. {{ $antrianMenunggu->first()->nomor_antrian }}</button>
+            <form action="{{ route('admin.antrian.panggil', $antrianMenunggu->first()->id) }}" method="POST"
+                style="width:100%;">
+                @csrf
+                <button type="submit" class="btn btn-primary" style="width:100%;">▶ PANGGIL No.
+                    {{ $antrianMenunggu->first()->nomor_antrian }}</button>
+            </form>
         @else
             <button class="btn btn-primary" style="opacity:0.5; cursor:not-allowed;">▶ PANGGIL BERIKUTNYA</button>
         @endif

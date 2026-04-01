@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
 
         // 4. Data Antrian
         $antrians = [
-            ['nomor_antrian' => '05', 'nama_pelanggan' => 'Budi Santoso', 'status' => 'dipanggil', 'waktu_masuk' => now()->subMinutes(30)],
+            ['nomor_antrian' => '05', 'nama_pelanggan' => 'Budi Santoso', 'status' => 'sedang dilayani', 'waktu_masuk' => now()->subMinutes(30)],
             ['nomor_antrian' => '06', 'nama_pelanggan' => 'Andi Wijaya', 'status' => 'menunggu', 'waktu_masuk' => now()->subMinutes(15)],
             ['nomor_antrian' => '07', 'nama_pelanggan' => 'Deni Pratama', 'status' => 'menunggu', 'waktu_masuk' => now()->subMinutes(5)],
         ];

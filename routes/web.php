@@ -35,13 +35,19 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // ==========================================
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
-    // 1. Dashboard Utama Admin (Ini yang BENAR, memanggil AdminController)
+    // 1. Dashboard Utama Admin
     Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
 
+    // --- RUTE AKSI ANTRIAN (DIPINDAHKAN KE SINI) ---
+    Route::post('/antrian/{id}/panggil', [App\Http\Controllers\AdminController::class, 'panggil'])->name('antrian.panggil');
+    Route::post('/antrian/{id}/selesai', [App\Http\Controllers\AdminController::class, 'selesai'])->name('antrian.selesai');
+    Route::post('/antrian/{id}/batal', [App\Http\Controllers\AdminController::class, 'batal'])->name('antrian.batal');
+
     // Kelola Antrian
-    Route::view('/antrian', 'admin.antrian')->name('antrian');
-    Route::view('/tambah-pelanggan', 'admin.tambah-pelanggan')->name('tambah-pelanggan');
-    Route::view('/ubah-status', 'admin.ubah-status')->name('ubah-status');
+    Route::get('/antrian', [App\Http\Controllers\AdminController::class, 'antrian'])->name('antrian');
+
+    Route::get('/tambah-pelanggan', [App\Http\Controllers\AdminController::class, 'tambahPelanggan'])->name('tambah-pelanggan');
+    Route::post('/tambah-pelanggan', [App\Http\Controllers\AdminController::class, 'simpanPelanggan'])->name('simpan-pelanggan');
 
     // Kelola Layanan
     Route::view('/layanan', 'admin.layanan')->name('layanan');
@@ -61,7 +67,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
 // ==========================================
 // REDIRECT /dashboard KE /admin/dashboard
-// (Harus diletakkan DI LUAR grup admin)
 // ==========================================
 Route::get('/dashboard', function () {
     return redirect('/admin/dashboard');

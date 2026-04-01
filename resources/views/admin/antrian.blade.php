@@ -1,60 +1,51 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Antrian')
-@section('header_title', 'Kelola Antrian')
+@section('title', 'Riwayat & Kelola Antrian')
 
-@section('content')
-    <section class="hero" style="padding:16px;">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div>
-                <div class="hero-label">Sedang Dilayani</div>
-                <div style="font-size:32px; font-weight:700; color:#fff; font-family:var(--font-mono);">No. 05</div>
-            </div>
-            <div style="text-align:right;">
-                <div style="font-size:11px; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.06em;">
-                    Menunggu</div>
-                <div style="font-size:28px; font-weight:700; color:#fff;">3</div>
-                <div style="font-size:11px; color:rgba(255,255,255,0.5);">Selesai hari ini: 8</div>
-            </div>
-        </div>
-    </section>
-
-    <div class="filter-bar">
-        <button class="filter-chip active">Semua</button>
-        <button class="filter-chip">Menunggu</button>
-        <button class="filter-chip">Dipanggil</button>
-        <button class="filter-chip">Selesai</button>
-    </div>
-
-    <div class="section-label">Daftar Antrian Hari Ini</div>
-
-    <div class="action-bar">
-        <a href="{{ url('admin/tambah-pelanggan') }}" class="btn btn-primary">+ Tambah Pelanggan</a>
-    </div>
-
-    <div class="modal-overlay" id="modal-selesai" style="display:none;">
-        <div class="modal">
-            <div class="modal-title">Tandai Selesai?</div>
-            <div class="modal-body">
-                <strong>No. 05 — Budi Santoso</strong><br>
-                Tindakan ini tidak bisa dibatalkan.
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-primary btn-sm" onclick="hideModal()">✓ Selesai</button>
-                <button class="btn btn-secondary btn-sm" onclick="hideModal()">Batal</button>
-            </div>
-        </div>
-    </div>
+@section('header_title')
+    <div class="header-title">Riwayat Antrian</div>
+    <div style="width:64px;"></div>
 @endsection
 
-@push('scripts')
-    <script>
-        function showStatusModal() {
-            document.getElementById('modal-selesai').style.display = 'flex';
-        }
+@section('content')
+    <div class="section-label" style="padding-top: 24px;">Semua Riwayat Antrian</div>
 
-        function hideModal() {
-            document.getElementById('modal-selesai').style.display = 'none';
-        }
-    </script>
-@endpush
+    <div class="card-list">
+        @forelse($antrians as $item)
+            <div class="queue-card">
+                <div class="queue-number" style="font-size:18px; width:40px; height:40px;">{{ $item->nomor_antrian }}</div>
+                <div class="queue-info">
+                    <div class="queue-name">{{ $item->nama_pelanggan }}</div>
+                    <div class="queue-time">
+                        Masuk: {{ \Carbon\Carbon::parse($item->waktu_masuk)->format('d M Y, H:i') }}
+                    </div>
+                </div>
+                <div class="queue-badge">
+                    @if ($item->status == 'menunggu')
+                        <span class="badge" style="background:rgba(229,169,60,0.2); color:var(--accent);">Menunggu</span>
+                    @elseif($item->status == 'sedang dilayani')
+                        <span class="badge" style="background:rgba(255,76,76,0.2); color:var(--danger);">Dilayani</span>
+                    @elseif($item->status == 'selesai')
+                        <span class="badge" style="background:rgba(76,175,80,0.2); color:#4CAF50;">Selesai</span>
+                    @elseif($item->status == 'batal')
+                        <span class="badge" style="background:rgba(255,255,255,0.1); color:var(--text-muted);">Batal</span>
+                    @endif
+                </div>
+            </div>
+        @empty
+            <div style="text-align:center; padding:30px 20px; color:var(--text-muted);">
+                Belum ada riwayat antrian yang tercatat.
+            </div>
+        @endforelse
+    </div>
+
+    <div style="height:100px;"></div>
+    <div style="height:100px;"></div>
+
+    <div class="action-bar"
+        style="position:fixed; bottom:0; width:100%; max-width:480px; background:var(--bg-main); padding:16px; border-top:1px solid var(--border-light); z-index:10;">
+        <a href="{{ route('admin.tambah-pelanggan') }}" class="btn btn-secondary"
+            style="width:100%; display:block; text-align:center; padding:14px; border:1px solid var(--border-light); border-radius:8px;">+
+            Tambah Pelanggan Baru</a>
+    </div>
+@endsection
