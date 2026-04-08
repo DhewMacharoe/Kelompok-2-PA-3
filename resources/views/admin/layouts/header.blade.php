@@ -5,5 +5,9 @@
     <div class="ms-auto d-flex align-items-center gap-3">
         <span class="fw-semibold">Admin Mode</span>
         <img src="https://ui-avatars.com/api/?name=Admin&background=0578FB&color=fff" class="rounded-circle" width="35" alt="Profile">
+        <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+        </form>
     </div>
 </header>

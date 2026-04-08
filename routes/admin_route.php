@@ -34,6 +34,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     // Rekap Laporan
     Route::view('/rekap', 'admin.rekap')->name('rekap');
+
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::prefix('test')->group(function () {
