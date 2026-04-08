@@ -2,9 +2,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
-
-
+use App\Http\Controllers\Admin\AdminController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
@@ -36,6 +35,20 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // Rekap Laporan
     Route::view('/rekap', 'admin.rekap')->name('rekap');
 });
+
+Route::prefix('test')->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view("admin.test.dashboard");
+    });
+
+    Route::get('/antrian', function () {
+        return "Antrian";
+    });
+
+});
+
+
 
 // ==========================================
 // REDIRECT /dashboard KE /admin/dashboard

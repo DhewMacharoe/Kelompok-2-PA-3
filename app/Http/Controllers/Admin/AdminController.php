@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 
 use App\Models\Antrian;
 use Carbon\Carbon;
@@ -61,7 +62,7 @@ class AdminController extends Controller
     {
         // Ambil semua data antrian, urutkan dari yang terbaru
         $antrians = Antrian::orderBy('created_at', 'desc')->get();
-        return view('admin.antrian', compact('antrians'));
+        return view('admin.antrian.antrian', compact('antrians'));
     }
 
     // Menampilkan halaman form tambah pelanggan
