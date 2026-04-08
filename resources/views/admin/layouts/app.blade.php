@@ -47,7 +47,6 @@
             color: white !important;
         }
 
-        /* Main Content Wrapper */
         .main-wrapper {
             display: flex;
             flex-direction: column;

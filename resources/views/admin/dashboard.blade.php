@@ -1,110 +1,61 @@
-@extends('layouts.admin')
+@extends('admin.layouts.app')
 
-@section('title', 'Dashboard Admin')
-
-@section('header_title')
-    <div class="header-logo">
-        <div class="logo-icon">✂</div> Admin Panel
-    </div>
-@endsection
-
-@section('header_right')
-    <div style="display:flex; gap:8px; align-items:center;">
-        <span style="font-size:11px; color:var(--text-muted);">👤 {{ auth()->user()->name ?? 'Admin' }}</span>
-        <form action="{{ route('logout') }}" method="POST" style="margin:0;">
-            @csrf
-            <button type="submit" class="header-action">Keluar</button>
-        </form>
-    </div>
-@endsection
+@section('title', 'Dashboard Utama')
 
 @section('content')
-    <section class="hero" style="text-align:center; padding:24px 16px;">
-        <div class="hero-label">Sedang Dilayani</div>
-        <div class="hero-number-box" style="display:inline-block; margin:8px auto;">
-            <div class="hero-number">{{ $dipanggil ? $dipanggil->nomor_antrian : '--' }}</div>
-        </div>
-        <div class="hero-name">{{ $dipanggil ? $dipanggil->nama_pelanggan : 'Tidak ada antrian aktif' }}</div>
+<div class="row g-4">
+    <div class="col-xl-5">
+        <div class="queue-card-main shadow-sm">
+            <p class="text-uppercase small mb-1 opacity-75">Sedang Dilayani</p>
+            <div class="queue-number">A02</div>
+            <p class="mb-4 fs-5">Jappy Sirait</p>
 
-        @if ($dipanggil)
-            <form action="{{ route('admin.antrian.selesai', $dipanggil->id) }}" method="POST" style="margin-top:12px;">
-                @csrf
-                <button type="submit" class="badge"
-                    style="background:var(--success); color:white; border:none; padding:6px 16px; font-size:12px; cursor:pointer;">✔
-                    Tandai Selesai</button>
-            </form>
-        @endif
-    </section>
-
-    <div class="summary-grid">
-        <div class="summary-card">
-            <div class="s-label">👥 Menunggu</div>
-            <div class="s-value">{{ $jumlahMenunggu }}</div>
-            <div class="s-sub">orang</div>
-        </div>
-        <div class="summary-card">
-            <div class="s-label">✅ Selesai</div>
-            <div class="s-value">{{ $jumlahSelesai }}</div>
-            <div class="s-sub">hari ini</div>
-        </div>
-    </div>
-
-    <div class="section-label">Antrian Menunggu</div>
-
-    <div class="card-list">
-        @forelse($antrianMenunggu as $item)
-            <div class="queue-card" style="display:flex; justify-content:space-between; align-items:center;">
-                <div style="display:flex; align-items:center; gap:16px;">
-                    <div class="queue-number">{{ $item->nomor_antrian }}</div>
-                    <div class="queue-info">
-                        <div class="queue-name">{{ $item->nama_pelanggan }}</div>
-                        <div class="queue-time">Masuk: {{ \Carbon\Carbon::parse($item->waktu_masuk)->format('H:i') }}</div>
-                    </div>
-                </div>
-                <form action="{{ route('admin.antrian.batal', $item->id) }}" method="POST"
-                    onsubmit="return confirm('Yakin ingin membatalkan antrian ini?');">
-                    @csrf
-                    <button type="submit"
-                        style="background:none; border:none; color:var(--danger); font-size:12px; cursor:pointer; text-decoration:underline;">Batal</button>
-                </form>
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <button class="btn btn-primary px-4 fw-bold" style="background-color: var(--primary-blue); border:none;">Panggil</button>
+                <button class="btn btn-danger px-4 fw-bold">Batalkan</button>
             </div>
-        @empty
-        @endforelse
+
+            <div class="text-start mt-4 bg-white bg-opacity-10 p-3 rounded">
+                <p class="text-center small mb-3 border-bottom border-secondary pb-2">Antrean Berikutnya</p>
+
+                <div class="d-flex justify-content-between align-items-center mb-2 px-2 border border-white border-1 rounded" style="height: 62px;">
+                    <span>03</span>
+                    <span>Manu Yikwa</span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-2 px-2 border border-white border-1 rounded" style="height: 62px;">
+                    <span>04</span>
+                    <span>Budi Doremi</span>
+                </div>
+
+                <div class="text-center mt-3">
+                    <a href="/admin/antrian" class="text-white-50 text-decoration-none small">Lihat Semua</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="section-label" style="margin-top:8px;">Menu Navigasi</div>
-    <div class="nav-grid">
-        <a href="{{ url('admin/layanan') }}" class="nav-card admin-card">
-            <div class="nav-card-icon">📋</div>
-            <div class="nav-card-label">Kelola Layanan</div>
-        </a>
-        <a href="{{ url('admin/galeri') }}" class="nav-card admin-card">
-            <div class="nav-card-icon">💈</div>
-            <div class="nav-card-label">Kelola Galeri</div>
-        </a>
-        <a href="{{ url('admin/menu') }}" class="nav-card admin-card">
-            <div class="nav-card-icon">☕</div>
-            <div class="nav-card-label">Menu Kafe</div>
-        </a>
-        <a href="{{ url('admin/rekap') }}" class="nav-card admin-card">
-            <div class="nav-card-icon">📊</div>
-            <div class="nav-card-label">Rekap</div>
-        </a>
-    </div>
+    <div class="col-xl-7">
+        <div class="row g-3">
+            @php
+                $stats = [
+                    ['title' => 'Pengunjung Hari ini', 'val' => '12'],
+                    ['title' => 'Menunggu', 'val' => $jumlahMenunggu],
+                    ['title' => 'Antrean dibatalkan', 'val' => '3'],
+                    ['title' => 'Selesai Dilayani', 'val' => $jumlahSelesai]
+                ];
+            @endphp
 
-    <div style="height:100px;"></div>
-
-    <div class="action-bar">
-        @if ($antrianMenunggu->count() > 0)
-            <form action="{{ route('admin.antrian.panggil', $antrianMenunggu->first()->id) }}" method="POST"
-                style="width:100%;">
-                @csrf
-                <button type="submit" class="btn btn-primary" style="width:100%;">▶ PANGGIL No.
-                    {{ $antrianMenunggu->first()->nomor_antrian }}</button>
-            </form>
-        @else
-            <button class="btn btn-primary" style="opacity:0.5; cursor:not-allowed;">▶ PANGGIL BERIKUTNYA</button>
-        @endif
-        <a href="{{ url('admin/tambah-pelanggan') }}" class="btn btn-secondary">+ Tambah Pelanggan</a>
+            @foreach($stats as $s)
+            <div class="col-md-6">
+                <div class="stat-card">
+                    <div class="text-muted small fw-bold mb-2">{{ $s['title'] }}</div>
+                    <div class="display-6 fw-bold text-dark">{{ $s['val'] }}</div>
+                </div>
+            </div>
+            @endforeach
+        </div>
     </div>
+</div>
 @endsection
+
