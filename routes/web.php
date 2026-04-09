@@ -33,3 +33,9 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'doLogin'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('/login-user', [AuthController::class, 'showUserLogin'])->name('login.user');
+Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])->name('firebase.login');
+
+// Test Firebase connection
+Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('test.firebase');
+

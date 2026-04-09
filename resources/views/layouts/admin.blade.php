@@ -12,9 +12,10 @@
     <div class="page-wrapper">
 
         <header class="header">
-            <button class="header-back" onclick="window.location='{{ url('dashboard') }}'">← Dashboard</button>
+            <button class="header-back" onclick="window.location='{{ url('/') }}'">← Dashboard</button>
             <div class="header-title">@yield('header_title', 'Kelola Barbershop')</div>
-            @yield('header_right')
+            <div style="width:80px;"></div>
+             @yield('header_right')
         </header>
 
         <nav class="admin-nav">

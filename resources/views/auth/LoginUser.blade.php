@@ -77,25 +77,43 @@
         <h4>Login</h4>
         <p class="text-muted">Masuk untuk mulai antre</p>
 
-        <form>
-            <div class="mb-3 text-start">
-                <label>Email</label>
-                <input type="email" class="form-control">
-            </div>
+        <button id="googleLoginButton" type="button" class="btn btn-outline-light w-100">Masuk dengan Google</button>
 
-            <div class="mb-3 text-start">
-                <label>Password</label>
-                <input type="password" class="form-control">
-            </div>
-
-            <button class="btn btn-gold w-100 mt-3">Login</button>
+        <form id="firebaseLoginForm" action="{{ route('firebase.login') }}" method="POST" class="d-none">
+            @csrf
+            <input type="hidden" name="idToken" id="firebaseIdToken">
         </form>
 
-        <!-- LINK KE REGISTER -->
-        <p class="mt-3">
-            Belum punya akun?
-            <a href="register.html">Daftar di sini</a>
-        </p>
+        <script type="module">
+            const firebaseConfig = {
+                apiKey: "{{ config('firebase.api_key') }}",
+                authDomain: "{{ config('firebase.auth_domain') }}",
+                projectId: "{{ config('firebase.project_id') }}",
+                storageBucket: "{{ config('firebase.storage_bucket') }}",
+                messagingSenderId: "{{ config('firebase.messaging_sender_id') }}",
+                appId: "{{ config('firebase.app_id') }}",
+                measurementId: "{{ config('firebase.measurement_id') }}"
+            };
+
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+            import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const provider = new GoogleAuthProvider();
+
+            document.getElementById('googleLoginButton').addEventListener('click', async () => {
+                try {
+                    const result = await signInWithPopup(auth, provider);
+                    const idToken = await result.user.getIdToken();
+                    document.getElementById('firebaseIdToken').value = idToken;
+                    document.getElementById('firebaseLoginForm').submit();
+                } catch (error) {
+                    console.error('Firebase Google login failed:', error);
+                    alert('Login Google gagal: ' + error.message);
+                }
+            });
+        </script>
 
     </div>
 </div>
