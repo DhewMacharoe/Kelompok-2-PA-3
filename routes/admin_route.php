@@ -5,14 +5,18 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
+Use App\Http\Controllers\Admin\AntrianController;
+
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    // --- RUTE AKSI ANTRIAN (DIPINDAHKAN KE SINI) ---
-    Route::post('/antrian/{id}/panggil', [AdminController::class, 'panggil'])->name('antrian.panggil');
-    Route::post('/antrian/{id}/selesai', [AdminController::class, 'selesai'])->name('antrian.selesai');
-    Route::post('/antrian/{id}/batal', [AdminController::class, 'batal'])->name('antrian.batal');
+    // --- RUTE AKSI ANTRIAN ---
+    // Route::post('/antrian/{id}/panggil', [AdminController::class, 'panggil'])->name('antrian.panggil');
+    // Route::post('/antrian/{id}/selesai', [AdminController::class, 'selesai'])->name('antrian.selesai');
+    // Route::post('/antrian/{id}/batal', [AdminController::class, 'batal'])->name('antrian.batal');
+
+    Route::patch('/antrian/{id}/ubah-status', [AntrianController::class, 'ubahStatus'])->name('antrian.ubahStatus');
 
     // Kelola Antrian
     Route::get('/antrian', [AdminController::class, 'antrian'])->name('antrian');

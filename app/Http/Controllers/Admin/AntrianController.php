@@ -21,11 +21,22 @@ class AntrianController extends Controller
         return redirect()->back()->with('success', 'Antrian ' . $antrian->nomor_antrian . ' sedang dilayani.');
     }
 
-    public function ubahStatus($id, $status)
+    public function ubahStatus(Request $request, $id)
     {
-        $antrian = Antrian::findOrFail($id);
-        $antrian->update(['status' => $status]);
+        $request->validate([
+            'status' => 'required|in:selesai,batal',
+        ]);
 
-        return redirect()->back()->with('success', 'Status antrian ' . $antrian->nomor_antrian . ' diubah menjadi ' . $status . '.');
+        $antrian = Antrian::findOrFail($id);
+        $antrian->update([
+            'status' => $request->status,
+            'waktu_selesai' => $request->status === 'selesai' ? now() : null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status antrian ' . $antrian->nomor_antrian . ' diubah menjadi ' . $request->status . '.',
+        ]);
     }
 }
+
