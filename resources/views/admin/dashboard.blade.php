@@ -38,7 +38,7 @@
             <div class="col-12">
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
-                        <h6 class="text-muted fw-bold mb-3">Grafik Statistik Antrean Hari Ini (Dummy Data)</h6>
+                        <h6 class="text-muted fw-bold mb-3">Grafik Statistik Antrean Hari Ini </h6>
                         <canvas id="statistikChart" height="120"></canvas>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
             <div class="col-12">
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
-                        <h6 class="text-muted fw-bold mb-3">Tren Pengunjung 7 Hari Terakhir (Dummy Data)</h6>
+                        <h6 class="text-muted fw-bold mb-3">Tren Pengunjung 7 Hari Terakhir </h6>
                         <canvas id="trendChart" height="120"></canvas>
                     </div>
                 </div>
@@ -69,12 +69,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const canvasStatistik = document.getElementById('statistikChart');
     if (canvasStatistik) {
         const ctx1 = canvasStatistik.getContext('2d');
-        const chartDataBar = [25, 8, 2, 15];
+        const chartDataBar = @json($statistikData);
+
+
+        console.log("Data Grafik:", chartDataBar);
 
         new Chart(ctx1, {
             type: 'bar',
             data: {
-                labels: ['Pengunjung', 'Menunggu', 'Dibatalkan', 'Selesai'],
+                labels: [],
                 datasets: [{
                     label: 'Jumlah Orang',
                     data: chartDataBar,

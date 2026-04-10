@@ -15,8 +15,18 @@ class AdminController extends Controller
         $jumlahMenunggu = Antrian::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->count();
         $jumlahSelesai = Antrian::where('status', 'selesai')->whereDate('updated_at', Carbon::today())->count();
         $antrianMenunggu = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->limit(3)->get();
+        $batal= Antrian::where('status', 'batal')->whereDate('updated_at', Carbon::today())->count();
+        $jumlahPengunjung = Antrian::whereDate('created_at', Carbon::today())->count();
 
-        return view('admin.dashboard', compact('dipanggil', 'jumlahMenunggu', 'jumlahSelesai', 'antrianMenunggu'));
+
+        $statistikData = [
+            'pengunjung' => $jumlahPengunjung,
+            'menunggu' => $jumlahMenunggu,
+            'selesai' => $jumlahSelesai,
+            'batal' => $batal,
+        ];
+
+        return view('admin.dashboard', compact('statistikData', 'antrianMenunggu', 'dipanggil'));
     }
 
     // Fungsi Panggil Antrian Selanjutnya

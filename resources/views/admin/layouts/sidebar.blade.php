@@ -1,6 +1,6 @@
 <nav class="sidebar shadow py-4">
     <div class="px-4 mb-4">
-        <h4 class="fw-bold m-0 text-white">Antrean<span style="color: var(--primary-blue)">App</span></h4>
+        <h4 class="fw-bold m-0 text-white"><span style="color: var(--primary-blue)"></span></h4>
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
