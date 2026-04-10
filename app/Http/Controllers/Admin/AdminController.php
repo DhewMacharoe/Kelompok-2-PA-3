@@ -12,11 +12,21 @@ class AdminController extends Controller
     public function dashboard()
     {
         $dipanggil = Antrian::where('status', 'sedang dilayani')->first();
-        $jumlahMenunggu = Antrian::where('status', 'menunggu')->count();
+        $jumlahMenunggu = Antrian::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->count();
         $jumlahSelesai = Antrian::where('status', 'selesai')->whereDate('updated_at', Carbon::today())->count();
-        $antrianMenunggu = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
+        $antrianMenunggu = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->limit(3)->get();
+        $batal= Antrian::where('status', 'batal')->whereDate('updated_at', Carbon::today())->count();
+        $jumlahPengunjung = Antrian::whereDate('created_at', Carbon::today())->count();
 
-        return view('admin.dashboard', compact('dipanggil', 'jumlahMenunggu', 'jumlahSelesai', 'antrianMenunggu'));
+
+        $statistikData = [
+            'pengunjung' => $jumlahPengunjung,
+            'menunggu' => $jumlahMenunggu,
+            'selesai' => $jumlahSelesai,
+            'batal' => $batal,
+        ];
+
+        return view('admin.dashboard', compact('statistikData', 'antrianMenunggu', 'dipanggil'));
     }
 
     // Fungsi Panggil Antrian Selanjutnya
@@ -60,8 +70,11 @@ class AdminController extends Controller
     }
     public function antrian()
     {
-        // Ambil semua data antrian, urutkan dari yang terbaru
-        $antrians = Antrian::orderBy('created_at', 'desc')->get();
+        // Mengambil data antrian yang kolom 'created_at' nya adalah hari ini
+        $antrians = Antrian::whereDate('created_at', now()->today())
+                            ->orderBy('created_at', 'asc')
+                            ->get();
+
         return view('admin.antrian.antrian', compact('antrians'));
     }
 
