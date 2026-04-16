@@ -38,22 +38,8 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $serviceAccountPath = config('firebase.service_account_path');
-
-        if (!$serviceAccountPath) {
-            return back()->with('error', 'Firebase service account path not configured.');
-        }
-
-        $fullPath = base_path($serviceAccountPath);
-
-        if (!file_exists($fullPath)) {
-            return back()->with('error', 'Firebase service account file not found.');
-        }
-
         try {
-            $auth = (new Factory())
-                ->withServiceAccount($fullPath)
-                ->createAuth();
+            $auth = $this->createFirebaseFactory()->createAuth();
 
             // Create user in Firebase Auth
             $firebaseUser = $auth->createUser([
@@ -105,22 +91,8 @@ class AuthController extends Controller
             'idToken' => 'required|string',
         ]);
 
-        $serviceAccountPath = config('firebase.service_account_path');
-
-        if (!$serviceAccountPath) {
-            return back()->with('error', 'Firebase service account path not configured.');
-        }
-
-        $fullPath = base_path($serviceAccountPath);
-
-        if (!file_exists($fullPath)) {
-            return back()->with('error', 'Firebase service account file not found.');
-        }
-
         try {
-            $auth = (new Factory())
-                ->withServiceAccount($fullPath)
-                ->createAuth();
+            $auth = $this->createFirebaseFactory()->createAuth();
 
             $verifiedToken = $auth->verifyIdToken($request->input('idToken'));
         } catch (\Throwable $exception) {
@@ -156,10 +128,39 @@ class AuthController extends Controller
             }
         }
 
+        // If user doesn't have username, redirect to set username
+        if (!$user->username) {
+            Auth::login($user, true);
+            $request->session()->regenerate();
+            return redirect()->route('set.username');
+        }
+
         Auth::login($user, true);
         $request->session()->regenerate();
 
         return redirect()->intended('/');
+    }
+
+    // Menampilkan halaman set username
+    public function showSetUsername()
+    {
+        if (!Auth::check() || Auth::user()->username) {
+            return redirect('/');
+        }
+        return view('auth.set_username');
+    }
+
+    // Memproses set username
+    public function doSetUsername(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string|min:3|max:20|unique:users,username|regex:/^[a-zA-Z0-9_]+$/',
+        ]);
+
+        $user = Auth::user();
+        $user->update(['username' => $request->username]);
+
+        return redirect('/')->with('success', 'Username berhasil diset!');
     }
 
     // Proses logout
@@ -172,25 +173,43 @@ class AuthController extends Controller
         return redirect('/');
     }
 
+    private function createFirebaseFactory(): Factory
+    {
+        $serviceAccountJson = config('firebase.service_account_json');
+        $serviceAccountBase64 = config('firebase.service_account_base64');
+        $serviceAccountPath = config('firebase.service_account_path');
+
+        if ($serviceAccountJson) {
+            return (new Factory())->withServiceAccount($serviceAccountJson);
+        }
+
+        if ($serviceAccountBase64) {
+            $decoded = base64_decode($serviceAccountBase64, true);
+            if ($decoded === false) {
+                throw new \RuntimeException('Firebase service account base64 value is invalid.');
+            }
+
+            return (new Factory())->withServiceAccount($decoded);
+        }
+
+        if ($serviceAccountPath) {
+            $fullPath = base_path($serviceAccountPath);
+
+            if (!file_exists($fullPath)) {
+                throw new \RuntimeException('Firebase service account file not found at: ' . $fullPath);
+            }
+
+            return (new Factory())->withServiceAccount($fullPath);
+        }
+
+        throw new \RuntimeException('Firebase service account configuration is missing.');
+    }
+
     // Test Firebase connection
     public function testFirebase()
     {
-        $serviceAccountPath = config('firebase.service_account_path');
-
-        if (!$serviceAccountPath) {
-            return response()->json(['status' => 'error', 'message' => 'Firebase service account path not configured in config.']);
-        }
-
-        $fullPath = base_path($serviceAccountPath);
-
-        if (!file_exists($fullPath)) {
-            return response()->json(['status' => 'error', 'message' => 'Firebase service account file not found at: ' . $fullPath]);
-        }
-
         try {
-            $auth = (new Factory())
-                ->withServiceAccount($fullPath)
-                ->createAuth();
+            $auth = $this->createFirebaseFactory()->createAuth();
 
             // Try to get the project ID as a basic connectivity test
             $projectId = config('firebase.project_id');

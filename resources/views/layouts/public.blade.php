@@ -13,6 +13,15 @@
 
         <header class="header">
             @yield('header')
+            @auth
+                <div style="position: absolute; top: 10px; right: 10px; display: flex; align-items: center; gap: 10px;">
+                    <span>Halo, {{ Auth::user()->username ?? Auth::user()->name }}</span>
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" style="padding: 5px 10px; background: red; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+                    </form>
+                </div>
+            @endauth
         </header>
 
         <nav class="pub-nav">

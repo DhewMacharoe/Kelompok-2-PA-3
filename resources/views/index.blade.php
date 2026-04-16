@@ -52,7 +52,15 @@
     </div>
 
     <div style="padding:0 16px 24px; text-align:center;">
-        <a href="{{ url('login') }}" style="font-size:11px; color:var(--text-muted); text-decoration:underline;">Masuk
-            sebagai Admin →</a>
+        @guest
+            <a href="{{ url('login') }}" style="font-size:11px; color:var(--text-muted); text-decoration:underline;">Masuk
+                sebagai Admin →</a>
+        @endguest
+    </div>
+    <div style="padding:0 16px 24px; text-align:center;">
+        @guest
+            <a href="{{ url('login-user') }}" style="font-size:11px; color:var(--text-muted); text-decoration:underline;">Masuk
+                sebagai User →</a>
+        @endguest
     </div>
 @endsection
