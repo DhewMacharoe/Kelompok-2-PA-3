@@ -17,6 +17,8 @@ class HomePageController extends Controller
         ->whereDate('created_at', Carbon::today())
         ->count();
 
-        return view('pelanggan.homepage.homepage', compact('antrian', 'jumlahAntrian'));
+        $flora = "flora";
+
+        return view('pelanggan.homepage.homepage', compact('antrian', 'jumlahAntrian', 'flora'));
     }
 }

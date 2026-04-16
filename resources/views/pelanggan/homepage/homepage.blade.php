@@ -103,7 +103,7 @@
         <div class="col-6 col-md-3">
             <a href="#" class="text-decoration-none text-dark fw-bold menu-item d-block">
                 <div class="icon-circle shadow-sm"><i class="fas fa-coffee"></i></div>
-                Menu Coffee
+                Menu Coffee {{ $flora }}
             </a>
         </div>
     </div>
