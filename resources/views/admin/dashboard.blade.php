@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Dashboard Utama')
+@section('title', 'Dashboard')
 
 @section('content')
 <div class="row g-4">
@@ -25,7 +25,7 @@
                 @endforeach
 
                 <div class="text-center mt-3">
-                    <a href="/admin/antrian" class="text-white-50 text-decoration-none small">Lihat Semua</a>
+                    <a href="/admin/antrian" class="text-white-50 text-decoration-none small">Lihat Semua Antrian</a>
                 </div>
             </div>
         </div>
@@ -84,8 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     backgroundColor: [
                         'rgba(54, 162, 235, 0.6)',
                         'rgba(255, 206, 86, 0.6)',
+                        'rgba(39, 174, 96, 0.6)',
                         'rgba(255, 99, 132, 0.6)',
-                        'rgba(75, 192, 192, 0.6)'
+
                     ],
                     borderColor: [
                         'rgba(54, 162, 235, 1)',

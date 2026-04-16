@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-    @section('title', 'Riwayat & Kelola Antrian')
+    @section('title', 'Antrian')
 
     @section('header_title')
         <div class="header-title">Riwayat Antrian</div>

@@ -14,6 +14,13 @@ class AntrianController extends Controller
         return view('antrian.index', compact('data_antrian'));
     }
 
+
+
+    public function create()
+    {
+        return view('antrian.create');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -28,4 +35,6 @@ class AntrianController extends Controller
         Antrian::create($request->all());
         return redirect()->route('antrian.index')->with('success', 'Antrian berhasil ditambahkan!');
     }
+
+
 }
