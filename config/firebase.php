@@ -8,5 +8,7 @@ return [
     'messaging_sender_id' => env('FIREBASE_MESSAGING_SENDER_ID'),
     'app_id' => env('FIREBASE_APP_ID'),
     'measurement_id' => env('FIREBASE_MEASUREMENT_ID'),
+    'service_account_json' => env('FIREBASE_SERVICE_ACCOUNT_JSON'),
+    'service_account_base64' => env('FIREBASE_SERVICE_ACCOUNT_BASE64'),
     'service_account_path' => env('FIREBASE_CREDENTIALS'),
 ];
