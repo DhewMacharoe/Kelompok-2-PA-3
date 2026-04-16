@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomePageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ use App\Http\Controllers\AuthController;
 require __DIR__.'/admin_route.php';
 
 Route::get('/', [PublicController::class, 'index'])->name('home');
+
+Route::get('/test',[HomePageController::class, 'index'])->name('test');
 Route::get('/layanan', [PublicController::class, 'layanan'])->name('layanan');
 Route::get('/antrian', [PublicController::class, 'antrian'])->name('antrian');
 Route::get('/rekomendasi', [PublicController::class, 'rekomendasi'])->name('rekomendasi');
