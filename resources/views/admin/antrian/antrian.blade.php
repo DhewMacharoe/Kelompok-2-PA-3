@@ -195,6 +195,9 @@
                 </div>
             @else
                 <p>Tidak ada antrean yang sedang dilayani saat ini.</p>
+                 <button type="button" class="btn-panggil shadow-sm" onclick="panggil()">
+                        panggil
+                </button>
             @endif
 
 
@@ -265,6 +268,25 @@
     <div style="height:50px;"></div>
 
     <script>
+
+        function panggil() {
+            fetch("{{ route('admin.antrian.panggil') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Antrean berikutnya dipanggil!');
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat memanggil antrean berikutnya.');
+            });
+        }
 
        function ubahStatus(button, id, targetStatus) {
     // Simpan teks asli

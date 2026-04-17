@@ -32,13 +32,13 @@ class AdminController extends Controller
     // Fungsi Panggil Antrian Selanjutnya
     public function panggil($id)
     {
-        // 1. Jika ada yang sedang dilayani, otomatis ubah statusnya jadi 'selesai'
+
         Antrian::where('status', 'sedang dilayani')->update([
             'status' => 'selesai',
             'waktu_selesai' => now()
         ]);
 
-        // 2. Ubah pelanggan yang dipilih menjadi 'sedang dilayani'
+
         $antrian = Antrian::findOrFail($id);
         $antrian->update(['status' => 'sedang dilayani']);
 
@@ -113,6 +113,8 @@ class AdminController extends Controller
             'waktu_masuk' => now()
         ]);
 
-        return redirect()->route('admin.dashboard')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrian.');
+        return redirect()->route('admin.antrian')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrian.');
     }
+
+
 }
