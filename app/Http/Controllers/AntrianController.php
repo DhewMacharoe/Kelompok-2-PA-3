@@ -35,6 +35,7 @@ class AntrianController extends Controller
         Antrian::create($request->all());
         return redirect()->route('antrian.index')->with('success', 'Antrian berhasil ditambahkan!');
     }
+    
 
 
 }

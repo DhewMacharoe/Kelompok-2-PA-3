@@ -7,6 +7,9 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Use App\Http\Controllers\Admin\AntrianController;
 
+Route::get('/test1',[AntrianController::class, 'index'])->name('test');
+
+
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
@@ -20,6 +23,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     // Kelola Antrian
     Route::get('/antrian', [AdminController::class, 'antrian'])->name('antrian');
+
+    Route::post('/antrian/panggil', [AntrianController::class, 'panggil'])->name('antrian.panggil');
 
     Route::get('/tambah-pelanggan', [AdminController::class, 'tambahPelanggan'])->name('tambah-pelanggan');
     Route::post('/tambah-pelanggan', [AdminController::class, 'simpanPelanggan'])->name('simpan-pelanggan');
