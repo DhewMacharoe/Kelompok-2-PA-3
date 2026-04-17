@@ -30,11 +30,17 @@ class PublicController extends Controller
         return view('rekomendasi');
     }
 
-    public function layanan()
+        public function layanan()
     {
-        // Hanya ambil layanan yang statusnya aktif
-        $layanans = Layanan::where('is_active', true)->get();
-        return view('layanan', compact('layanans'));
+        $barber = Layanan::where('is_active', 1)
+            ->where('kategori', 'barber')
+            ->get();
+
+        $kafe = Layanan::where('is_active', 1)
+            ->where('kategori', 'kafe')
+            ->get();
+
+        return view('public.layanan', compact('barber', 'kafe'));
     }
 
     public function galeri()
