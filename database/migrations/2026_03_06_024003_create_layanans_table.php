@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('layanans', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->enum('kategori', ['Layanan Rambut', 'Layanan Jenggot', 'Perawatan']);
+            $table->enum('kategori', ['barber', 'kafe']);
             $table->integer('harga');
-            $table->string('estimasi_waktu')->nullable(); // misal: "30 menit"
+            $table->string('estimasi_waktu')->nullable();
             $table->text('deskripsi')->nullable();
-            $table->string('foto')->nullable(); // path gambar
+            $table->string('foto')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

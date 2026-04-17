@@ -44,3 +44,4 @@ Route::post('/set-username', [AuthController::class, 'doSetUsername'])->name('se
 // Test Firebase connection
 Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('test.firebase');
 
+
