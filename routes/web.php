@@ -45,3 +45,7 @@ Route::post('/set-username', [AuthController::class, 'doSetUsername'])->name('se
 Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('test.firebase');
 
 
+// Rute untuk pelanggan mengambil antrian
+Route::post('/antrian/daftar', [PublicController::class, 'daftarAntrian'])
+    ->name('antrian.daftar')
+    ->middleware('auth');
