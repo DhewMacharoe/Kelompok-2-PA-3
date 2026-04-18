@@ -19,7 +19,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/admin/layanan">
+            <a class="nav-link {{ request()->is('admin/layanan*') ? 'active' : '' }}" href="/admin/layanan">
                 <i class="bi bi-gear"></i> Layanan
             </a>
         </li>

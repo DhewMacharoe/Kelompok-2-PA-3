@@ -8,15 +8,37 @@ use Illuminate\Http\Request;
 
 class LayananController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $layanans = Layanan::latest()->get();
-        return view('admin.layanan.index', compact('layanans'));
+        $category = $request->query('category');
+
+        $query = Layanan::latest();
+
+        if ($category && in_array($category, ['barber', 'kafe'])) {
+            $query->where('kategori', $category);
+        }
+
+        $layanans = $query->get();
+
+        return view('admin.layanan.index', compact('layanans', 'category'));
     }
 
     public function create()
     {
         return view('admin.layanan.create');
+    }
+
+    public function show(Layanan $layanan)
+    {
+        return view('admin.layanan.show', compact('layanan'));
+    }
+
+    public function toggleStatus(Layanan $layanan)
+    {
+        $layanan->update(['is_active' => !$layanan->is_active]);
+
+        return redirect()->route('admin.layanan.index')
+            ->with('success', 'Status layanan berhasil diubah.');
     }
 
     public function store(Request $request)
