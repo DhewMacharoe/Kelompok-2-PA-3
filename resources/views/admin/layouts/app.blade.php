@@ -57,6 +57,9 @@
         .content-area {
             flex: 1;
             padding: 20px;
+            max-width: 1180px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         /* Header & Footer */

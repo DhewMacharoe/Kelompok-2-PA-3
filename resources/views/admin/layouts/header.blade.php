@@ -11,7 +11,7 @@
         <img src="https://ui-avatars.com/api/?name=Admin&background=0578FB&color=fff" class="rounded-circle" width="35" alt="Profile">
         <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
             @csrf
-            <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+            <button type="submit" style="padding: 5px 10px; background: red; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
         </form>
     </div>
 
