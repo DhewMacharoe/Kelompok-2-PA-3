@@ -11,7 +11,7 @@ class AntrianController extends Controller
     {
         $data_antrian = Antrian::all();
 
-        return view('antrian.index', compact('data_antrian'));
+        return view('pelanggan.antrian.antrian ', compact('data_antrian'));
     }
 
 
@@ -35,7 +35,7 @@ class AntrianController extends Controller
         Antrian::create($request->all());
         return redirect()->route('antrian.index')->with('success', 'Antrian berhasil ditambahkan!');
     }
-    
+
 
 
 }
