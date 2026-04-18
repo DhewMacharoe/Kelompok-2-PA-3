@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class AntrianController extends Controller
 {
-    
+
 
     public function ubahStatus(Request $request, $id)
     {

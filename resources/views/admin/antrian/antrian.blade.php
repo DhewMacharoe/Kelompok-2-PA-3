@@ -336,8 +336,6 @@
                 modal.style.display = 'flex';
             }
         }
-
-        // Opsional: Tutup modal saat user klik area gelap (overlay) di luar form
         window.onclick = function(event) {
             const modal = document.getElementById('modalTambah');
             if (event.target == modal) {

@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
+    @vite(['resources/js/app.js'])
+
     @stack('styles')
 
     <style>
@@ -20,7 +22,7 @@
     </style>
 </head>
 <body class="bg-light">
-    @include('pelanggan.partials.navbar')   
+    @include('pelanggan.partials.navbar')
 
     <main>
         @yield('content')

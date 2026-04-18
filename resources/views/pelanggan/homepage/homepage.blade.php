@@ -70,7 +70,9 @@
             </div>
         </div>
         <div class="card-body text-center py-4">
-            <h2 class="mb-0 fw-bold text-dark" style="letter-spacing: 3px;">{{ $antrian ? $antrian->nomor_antrian : 'Tidak ada antrian' }}</h2>
+            <h2 class="mb-0 fw-bold text-dark" id="antrian-nomor" style="letter-spacing: 3px;">{{ $antrian ? $antrian->nomor_antrian : 'Tidak ada antrian' }}</h2>
+            <h2 class="mb-0 fw-bold text-dark" id="antrian-status" style="letter-spacing: 3px;">{{ $antrian?->status ?? 'Tidak ada antrian' }}</h2>
+
         </div>
     </div>
 </section>
@@ -131,3 +133,30 @@
         </div>
 </div>
 @endsection
+@push('scripts')
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', function () {
+
+            window.Echo.channel('Antrian-channel')
+                .listen('AntreanUpadate', (e) => {
+
+                    console.log('DATA MASUK:', e);
+
+                    let antrian = e.antrean;
+
+                    // Update nomor antrian
+                    let nomorEl = document.getElementById('antrian-nomor');
+                    if (nomorEl) {
+                        nomorEl.textContent = antrian.nomor_antrian;
+                    }
+
+                    // Update status
+                    let statusEl = document.getElementById('antrian-status');
+                    if (statusEl) {
+                        statusEl.textContent = antrian.status.toUpperCase();
+                    }
+                });
+        });
+    </script>
+@endpush
+

@@ -54,7 +54,6 @@
 
     <script type="module">
         document.addEventListener('DOMContentLoaded', function () {
-
             window.Echo.channel('Antrian-channel')
                 .listen('AntreanUpadate', (e) => {
 
