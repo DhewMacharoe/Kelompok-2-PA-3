@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
+use App\Models\Menu;
 use App\Models\Antrian;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class AdminController extends Controller
         $jumlahMenunggu = Antrian::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->count();
         $jumlahSelesai = Antrian::where('status', 'selesai')->whereDate('updated_at', Carbon::today())->count();
         $antrianMenunggu = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->limit(3)->get();
-        $batal= Antrian::where('status', 'batal')->whereDate('updated_at', Carbon::today())->count();
+        $batal = Antrian::where('status', 'batal')->whereDate('updated_at', Carbon::today())->count();
         $jumlahPengunjung = Antrian::whereDate('created_at', Carbon::today())->count();
 
 
@@ -72,8 +73,8 @@ class AdminController extends Controller
     {
         // Mengambil data antrian yang kolom 'created_at' nya adalah hari ini
         $antrians = Antrian::whereDate('created_at', now()->today())
-                            ->orderBy('created_at', 'asc')
-                            ->get();
+            ->orderBy('created_at', 'asc')
+            ->get();
 
         return view('admin.antrian.antrian', compact('antrians'));
     }
@@ -115,6 +116,64 @@ class AdminController extends Controller
 
         return redirect()->route('admin.antrian')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrian.');
     }
+    public function index()
+    {
+        $menus = \App\Models\Menu::all();
+        return view('admin.menu', compact('menus'));
+    }
 
+    public function create()
+    {
+        return redirect('/admin/MenuCafe');
+    }
 
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'nama' => 'required',
+            'harga' => 'required|integer',
+            'deskripsi' => 'nullable',
+            'foto' => 'nullable|image',
+            'is_available' => 'required|boolean'
+        ]);
+
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('menus', 'public');
+        }
+
+        \App\Models\Menu::create($data);
+
+        return redirect('/admin/MenuCafe');
+    }
+
+    public function edit(Menu $menu)
+    {
+        return redirect('/admin/MenuCafe');
+    }
+
+    public function update(Request $request, Menu $menu)
+    {
+        $data = $request->validate([
+            'nama' => 'required',
+            'harga' => 'required|integer',
+            'deskripsi' => 'nullable',
+            'foto' => 'nullable|image',
+            'is_available' => 'required|boolean'
+        ]);
+
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('menus', 'public');
+        }
+
+        $menu->update($data);
+
+        return redirect('/admin/MenuCafe');
+    }
+
+    public function destroy(Menu $menu)
+    {
+        $menu->delete();
+
+        return redirect('/admin/MenuCafe');
+    }
 }

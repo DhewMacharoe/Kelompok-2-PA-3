@@ -23,5 +23,10 @@
                 <i class="bi bi-gear"></i> Layanan
             </a>
         </li>
+         <li class="nav-item">
+            <a class="nav-link {{ request()->is('admin/MenuCafe*') ? 'active' : '' }}" href="/admin/MenuCafe">
+                <i class="bi bi-cup"></i> Menu Cafe
+            </a>
+        </li>
     </ul>
 </nav>
