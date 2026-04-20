@@ -46,8 +46,6 @@ class PublicController extends Controller
 
     public function menu()
     {
-        // Ambil semua menu (yang habis tetap ditampilkan dengan label silang)
-        $menus = Menu::all();
-        return view('menu', compact('menus'));
+        return view('pelanggan.menu.menu');
     }
 }

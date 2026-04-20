@@ -1,71 +1,59 @@
-@extends('layouts.public')
-
-@section('title', 'Menu Kafe')
-
-@section('header')
-    <button class="header-back" onclick="history.back()">← Kembali</button>
-    <div class="header-title">Menu Kafe</div>
-    <div style="width:64px;"></div>
-@endsection
+@extends('layouts.app')
 
 @section('content')
-    <div class="banner">
-        <span class="banner-label">FOTO KAFE</span>
-        <div class="banner-text">
-            <div class="banner-title">Kafe Arga</div>
-            <div class="banner-sub">Nikmati waktu menunggu dengan minuman terbaik ☕</div>
+<div class="container-coffee">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">✂ Arga's Home</div>
+        <div class="menu-icon">☰</div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="overlay">
+            <h1 class="heading-1">Menu Coffee</h1>
+            <p class="text-small">Nikmati berbagai pilihan minuman kopi yang tersedia di barbershop kami</p>
         </div>
     </div>
 
-    <div class="filter-bar">
-        <button class="filter-chip active">Semua</button>
-        <button class="filter-chip">☕ Minuman</button>
-        <button class="filter-chip">🍞 Makanan</button>
+    <!-- CARD MENU -->
+    <div class="card">
+        <h2 class="heading-2">Daftar Menu Coffee</h2>
+
+        @php
+        $menus = [
+            ['name'=>'Espresso','desc'=>'Kopi hitam pekat tanpa tambahan','time'=>'30-50 menit','price'=>'12.000','img'=>'espresso.jpg'],
+            ['name'=>'Americano','desc'=>'Espresso yang dicampur air panas','time'=>'30-50 menit','price'=>'15.000','img'=>'americano.jpg'],
+            ['name'=>'Cappuccino','desc'=>'Espresso, susu, dan busa susu','time'=>'26-40 menit','price'=>'20.000','img'=>'cappuccino.jpg'],
+            ['name'=>'Cafe Latte','desc'=>'Espresso dan susu yang creamy','time'=>'35-55 menit','price'=>'22.000','img'=>'latte.jpg'],
+        ];
+        @endphp
+
+        @foreach($menus as $menu)
+        <div class="menu-item">
+            <img src="{{ asset('images/'.$menu['img']) }}" class="menu-img">
+
+            <div class="menu-info">
+                <h3 class="heading-3">{{ $menu['name'] }}</h3>
+                <p class="text-small">{{ $menu['desc'] }}</p>
+
+                <div class="meta">
+                    <span>⏱ {{ $menu['time'] }}</span>
+                    <span class="price">Rp{{ $menu['price'] }}</span>
+                </div>
+            </div>
+        </div>
+        @endforeach
+
+        <div class="note">
+            ☕ Nikmati pilihan kopi ini sambil potong rambut atau menunggu giliran.
+        </div>
+
+        <!-- BUTTON -->
+        <button class="btn-primary full-width">Selengkapnya</button>
+
     </div>
 
-    @foreach (['Minuman', 'Makanan Ringan'] as $kategori)
-        @php $menuKategori = $menus->where('kategori', $kategori); @endphp
-
-        @if ($menuKategori->count() > 0)
-            <div class="category-label">
-                {{ $kategori == 'Minuman' ? '☕' : '🍞' }} {{ $kategori }}
-            </div>
-
-            <div class="card-list">
-                @foreach ($menuKategori as $item)
-                    <div class="card {{ !$item->is_available ? 'style="opacity:0.65;"' : '' }}">
-                        <div class="card-body">
-                            <div class="card-row">
-                                <div class="card-img"
-                                    @if (!$item->is_available) style="background:var(--placeholder-dark);" @endif>
-                                    FOTO MENU
-                                </div>
-                                <div class="card-info">
-                                    <div class="card-title">{{ $item->nama }}</div>
-                                    <div class="card-desc">{{ $item->deskripsi }}</div>
-                                    <div class="card-meta">
-                                        <span class="card-price">Rp {{ number_format($item->harga, 0, ',', '.') }}</span>
-                                        @if ($item->is_available)
-                                            <span class="badge badge-available">✅ Tersedia</span>
-                                        @else
-                                            <span class="badge badge-empty">❌ Habis</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-            <div class="spacer-md"></div>
-        @endif
-    @endforeach
-
-    <div style="height:100px;"></div>
-@endsection
-
-@section('action_bar')
-    <div class="action-bar">
-        <a href="{{ url('/') }}" class="btn btn-primary">← Kembali ke Halaman Utama</a>
-    </div>
+</div>
 @endsection
