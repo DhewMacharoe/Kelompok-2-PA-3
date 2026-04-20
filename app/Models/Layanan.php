@@ -17,19 +17,5 @@ class Layanan extends Model
         'foto',
         'is_active',
     ];
-
-    public function tambahLayanan(array $data): bool
-    {
-        return $this->fill($data)->save();
-    }
-
-    public function updateLayanan(array $data): bool
-    {
-        return $this->update($data);
-    }
-
-    public function getDetailLayanan(): self
-    {
-        return $this;
-    }
 }
+

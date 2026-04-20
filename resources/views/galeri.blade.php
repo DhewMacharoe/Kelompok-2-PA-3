@@ -1,18 +1,23 @@
-@extends('pelanggan.layouts.app')
+@extends('layouts.public')
 
 @section('title', 'Galeri Gaya Rambut')
 
-@section('content')
-    <div class="container py-4">
-        <h2 class="text-center mb-4 text-gold fw-bold">Galeri Gaya Rambut</h2>
+@section('header')
+    <button class="header-back" onclick="history.back()">← Kembali</button>
+    <div class="header-title">Galeri Gaya Rambut</div>
+    <div style="width:64px;"></div>
+@endsection
 
-        <div class="filter-bar mb-4 d-flex justify-content-center gap-2 flex-wrap">
-            <button class="filter-chip active btn btn-outline-gold">Semua</button>
-            <button class="filter-chip btn btn-outline-secondary">Oval</button>
-            <button class="filter-chip btn btn-outline-secondary">Bulat</button>
-            <button class="filter-chip btn btn-outline-secondary">Persegi</button>
-            <button class="filter-chip btn btn-outline-secondary">Lonjong</button>
-        </div>
+@section('content')
+    <div class="filter-bar">
+        <button class="filter-chip active">Semua</button>
+        <button class="filter-chip">Oval</button>
+        <button class="filter-chip">Bulat</button>
+        <button class="filter-chip">Persegi</button>
+        <button class="filter-chip">Lonjong</button>
+    </div>
+
+    <div style="padding:4px 16px 8px; font-size:11px; color:var(--text-muted);">
         Menampilkan <strong>{{ $galeris->count() }}</strong> gaya rambut
     </div>
 
@@ -33,8 +38,11 @@
         @endforeach
     </div>
 
-    <div class="text-center mt-4">
-        <a href="{{ route('rekomendasi') }}" class="btn btn-gold">🔍 Coba Analisis Wajahmu</a>
-    </div>
+    <div style="height:100px;"></div>
+@endsection
+
+@section('action_bar')
+    <div class="action-bar">
+        <a href="{{ url('rekomendasi') }}" class="btn btn-primary">🔍 Coba Analisis Wajahmu</a>
     </div>
 @endsection
