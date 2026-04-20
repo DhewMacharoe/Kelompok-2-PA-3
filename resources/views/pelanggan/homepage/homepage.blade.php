@@ -3,21 +3,13 @@
 @section('title', 'Dashboard - Arga\'s Home')
 
 @push('styles')
-<<<<<<< Updated upstream
+
     @include('pelanggan.homepage.style-index')
 @endpush
 
-@section('content')
-    <section class="hero d-flex justify-content-center align-items-center px-3">
-        <div class="card queue-card shadow-lg border-0">
-            <div class="bg-gold text-white p-3 d-flex align-items-center justify-content-center gap-3">
-                <i class="fas fa-users fs-1"></i>
-                <div>
-                    <h5 class="mb-0 fs-6">Antrian Sedang Dilayani</h5>
-                    <p class="mb-0 small opacity-75">Menunggu hari ini: {{ $jumlahAntrian }}</p>
 =======
-@include('pelanggan.homepage.style-index                                                                                    ')
-@endpush
+@include('pelanggan.homepage.style-index')
+
 
 @section('content')
 <section class="hero d-flex justify-content-center align-items-center px-3">
@@ -76,7 +68,7 @@
                 <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=600" class="card-img-top haircut-img" alt="Buzz Cut">
                 <div class="card-body p-2 text-center"> <h6 class="card-title text-muted mb-1" style="font-size: 0.9rem;">Buzz Cut</h6>
                     <p class="card-text fw-bold text-dark mb-0">Rp 50.000</p>
->>>>>>> Stashed changes
+
                 </div>
             </div>
             <div class="card-body text-center py-4">
