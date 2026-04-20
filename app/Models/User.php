@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Antrian;
+use App\Models\Galeri;
+use App\Models\Layanan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,5 +49,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function kelolaLayanan()
+    {
+        return Layanan::all();
+    }
+
+    public function kelolaGaleri()
+    {
+        return Galeri::all();
+    }
+
+    public function pantauAntrian()
+    {
+        return Antrian::all();
     }
 }
