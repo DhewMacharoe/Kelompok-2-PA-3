@@ -26,12 +26,7 @@
                     </div>
                     <p class="mb-0 text-muted">{{ $antrian->nama_pelanggan }}</p>
                 @else
-                    <div class="text-uppercase small text-muted mb-2">Status antrean</div>
-                    <h2 class="mb-2 fw-bold text-dark" id="antrian-nomor" style="letter-spacing: 3px;">
-                        Tidak ada antrean</h2>
-                    <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill bg-light text-dark fw-semibold mb-3" id="antrian-status">
-                        Kosong
-                    </div>
+
                     <p class="mb-0 text-muted">Belum ada pelanggan yang sedang dilayani</p>
                 @endif
             </div>

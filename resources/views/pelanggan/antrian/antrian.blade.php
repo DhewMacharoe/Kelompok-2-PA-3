@@ -46,10 +46,12 @@
 
                     <div class="footer-section">
                         @auth
-                            <form action="{{ route('antrian.daftar') }}" method="POST" style="width: 100%;">
-                                @csrf
-                                <button type="submit" class="btn btn-add-queue" style="width: 100%;">Tambah Antrean</button>
-                            </form>
+                            @if(!$punyaAntrianAktif)
+                                <form action="{{ route('antrian.daftar') }}" method="POST" style="width: 100%;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-add-queue" style="width: 100%;">Tambah Antrean</button>
+                                </form>
+                            @endif
                         @else
                             <a href="{{ route('login.user') }}" class="btn btn-add-queue" style="width: 100%; text-decoration: none; display: block; text-align: center;">Login</a>
                         @endauth

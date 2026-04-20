@@ -66,6 +66,27 @@
                         Menu Cafe
                     </a>
                 </li>
+
+                @guest
+                    <li class="nav-item d-flex align-items-center justify-content-center">
+                        <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3"
+                            style="background-color: #d4af37; color: #1a1a1a; border-radius: 8px;">
+                            Login User
+                        </a>
+                    </li>
+                @endguest
+
+                @auth
+                    <li class="nav-item d-flex align-items-center justify-content-center">
+                        <form action="{{ route('logout') }}" method="POST" class="m-0">
+                            @csrf
+                            <button type="submit" class="btn btn-sm fw-bold px-3"
+                                style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                @endauth
             </ul>
         </div>
     </div>

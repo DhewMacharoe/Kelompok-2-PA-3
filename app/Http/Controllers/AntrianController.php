@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Antrian;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AntrianController extends Controller
 {
@@ -17,7 +18,15 @@ class AntrianController extends Controller
             ->get();
         $jumlahMenunggu = $antrianMenunggu->count();
 
-        return view('pelanggan.antrian.antrian', compact('antrianSedangDilayani', 'antrianMenunggu', 'jumlahMenunggu'));
+        $punyaAntrianAktif = false;
+        if (Auth::check() && Auth::user()->username) {
+            $punyaAntrianAktif = Antrian::where('nama_pelanggan', Auth::user()->username)
+                ->whereIn('status', ['menunggu', 'sedang dilayani'])
+                ->whereDate('created_at', Carbon::today())
+                ->exists();
+        }
+
+        return view('pelanggan.antrian.antrian', compact('antrianSedangDilayani', 'antrianMenunggu', 'jumlahMenunggu', 'punyaAntrianAktif'));
     }
 
 
