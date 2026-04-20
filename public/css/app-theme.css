@@ -1,0 +1,130 @@
+:root {
+    --bg-dark: #1F1F1F;
+    --sidebar: #3F3F3F;
+    --panel: #24364A;
+    --gold: #C9A35B;
+    --white: #FFFFFF;
+    --light: #F5F5F5;
+    --border: #D9D9D9;
+    --blue: #2F80ED;
+    --red: #EB5757;
+    --green: #27AE60;
+    --gray: #BDBDBD;
+    --text: #222222;
+}
+
+/* GLOBAL */
+body {
+    background: #f3f3f3;
+    color: var(--text);
+    font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 20px;
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.page-subtitle {
+    color: #666;
+    font-size: 14px;
+}
+
+/* CARD */
+.card-box,
+.form-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+/* TABLE */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    background: var(--panel);
+    color: white;
+    padding: 12px;
+}
+
+.data-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* BUTTON */
+.btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+}
+
+.btn-gold {
+    background: var(--gold);
+    color: black;
+}
+
+.btn-blue {
+    background: var(--blue);
+    color: white;
+}
+
+.btn-red {
+    background: var(--red);
+    color: white;
+}
+
+/* BADGE */
+.badge {
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.badge-success {
+    background: rgba(39,174,96,0.2);
+    color: var(--green);
+}
+
+.badge-secondary {
+    background: rgba(0,0,0,0.1);
+    color: #666;
+}
+
+/* FORM */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+/* ALERT */
+.alert-success {
+    background: rgba(39,174,96,0.1);
+    color: var(--green);
+    padding: 10px;
+    border-radius: 8px;
+}
