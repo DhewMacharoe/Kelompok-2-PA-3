@@ -155,15 +155,15 @@
 
 <div class="main-container">
     <div class="filter-bar">
-        <button class="filter-btn active">SEMUA</button>
-        <button class="filter-btn">AKTIF</button>
-        <button class="filter-btn">NONAKTIF</button>
+        <button type="button" class="filter-btn active" data-filter="all">SEMUA</button>
+        <button type="button" class="filter-btn" data-filter="active">AKTIF</button>
+        <button type="button" class="filter-btn" data-filter="inactive">NONAKTIF</button>
     </div>
 
     <div class="menu-grid">
 
         @foreach ($menus as $menu)
-        <div class="menu-card">
+        <div class="menu-card" data-status="{{ $menu->is_available ? 'active' : 'inactive' }}">
             <div class="menu-card-body">
 
                 {{-- FOTO --}}
@@ -216,6 +216,39 @@
                 </form>
 
             </div>
+
+            <!-- Modal Edit -->
+            <div class="modal fade" id="modalEdit{{ $menu->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form action="{{ route('admin.MenuCafe.update', $menu->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5>Edit Menu</h5>
+                            </div>
+
+                            <div class="modal-body">
+                                <input type="text" name="nama" value="{{ $menu->nama }}" class="form-control mb-2" required>
+                                <input type="number" name="harga" value="{{ $menu->harga }}" class="form-control mb-2" required>
+                                <textarea name="deskripsi" class="form-control mb-2">{{ $menu->deskripsi }}</textarea>
+
+                                <input type="file" name="foto" class="form-control mb-2">
+
+                                <select name="is_available" class="form-control" required>
+                                    <option value="1" {{ $menu->is_available ? 'selected' : '' }}>Tersedia</option>
+                                    <option value="0" {{ !$menu->is_available ? 'selected' : '' }}>Tidak</option>
+                                </select>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-warning">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         @endforeach
 
@@ -227,38 +260,6 @@
             </button>
         </div>
 
-    </div>
-    <!-- Modal Edit -->
-    <div class="modal fade" id="modalEdit{{ $menu->id }}" tabindex="-1">
-        <div class="modal-dialog">
-            <form action="{{ route('admin.MenuCafe.update', $menu->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5>Edit Menu</h5>
-                    </div>
-
-                    <div class="modal-body">
-                        <input type="text" name="nama" value="{{ $menu->nama }}" class="form-control mb-2">
-                        <input type="number" name="harga" value="{{ $menu->harga }}" class="form-control mb-2">
-                        <textarea name="deskripsi" class="form-control mb-2">{{ $menu->deskripsi }}</textarea>
-
-                        <input type="file" name="foto" class="form-control mb-2">
-
-                        <select name="is_available" class="form-control">
-                            <option value="1" {{ $menu->is_available ? 'selected' : '' }}>Tersedia</option>
-                            <option value="0" {{ !$menu->is_available ? 'selected' : '' }}>Tidak</option>
-                        </select>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-warning">Update</button>
-                    </div>
-                </div>
-            </form>
-        </div>
     </div>
 
     <!-- Modal Create -->
@@ -292,4 +293,28 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const menuCards = document.querySelectorAll('.menu-card');
+
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', function() {
+                const selectedFilter = this.dataset.filter;
+
+                filterButtons.forEach((btn) => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                menuCards.forEach((card) => {
+                    const cardStatus = card.dataset.status;
+                    const shouldShow = selectedFilter === 'all' || selectedFilter === cardStatus;
+                    card.style.display = shouldShow ? '' : 'none';
+                });
+            });
+        });
+    });
+</script>
+@endpush
 @endsection

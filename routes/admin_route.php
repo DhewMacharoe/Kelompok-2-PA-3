@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\MenuCafeController;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 use App\Http\Controllers\Admin\AntrianController;
 use App\Http\Controllers\Admin\LayananController;
@@ -45,18 +43,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::view('/tambah-gaya', 'admin.tambah-gaya')->name('tambah-gaya');
 
     // Kelola Menu Kafe
-    Route::view('/MenuCafe', 'admin.menu')->name('menu');
-    Route::view('/MenuCafe', 'admin.menu')->name('admin.menu');
-    Route::view('/tambah-menu', 'admin.tambah-menu')->name('tambah-menu');
-
-    Route::get('/MenuCafe', [AdminController::class, 'index'])
-        ->name('admin.MenuCafe');
+    Route::resource('/MenuCafe', AdminController::class)
+        ->parameters(['MenuCafe' => 'menu']);
 
     // Rekap Laporan
     Route::view('/rekap', 'admin.rekap')->name('rekap');
-
-
-    Route::resource('/MenuCafe', AdminController::class);
 
 
     // Logout
