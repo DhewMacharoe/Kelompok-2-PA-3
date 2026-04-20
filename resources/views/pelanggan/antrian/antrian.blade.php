@@ -16,9 +16,9 @@
                 <div class="header-section">
                     <div class="text-gold">SEDANG DILAYANI</div>
                     <div class="active-number-box">
-                        <p class="active-number">05</p>
+                        <p class="active-number">{{ $antrianSedangDilayani ? $antrianSedangDilayani->nomor_antrian : '--' }}</p>
                     </div>
-                    <div class="active-name">jose</div>
+                    <div class="active-name">{{ $antrianSedangDilayani ? $antrianSedangDilayani->nama_pelanggan : 'Kosong' }}</div>
                 </div>
             </div>
 
@@ -28,36 +28,31 @@
                     <div class="queue-section">
                         <div class="section-title">URUTAN ANTRIAN</div>
 
+                        @forelse($antrianMenunggu as $item)
                         <div class="queue-card">
-                            <div class="queue-number-box">06</div>
+                            <div class="queue-number-box">{{ $item->nomor_antrian }}</div>
                             <div class="queue-info">
-                                <p class="queue-name">sugeng</p>
-                                <p class="queue-time">Masuk: 09.45 WIB</p>
+                                <p class="queue-name">{{ substr($item->nama_pelanggan, 0, 3) }}***</p>
+                                <p class="queue-time">Masuk: {{ \Carbon\Carbon::parse($item->waktu_masuk)->format('H:i') }} WIB</p>
                             </div>
                             <div><span class="badge-waiting">MENUNGGU</span></div>
                         </div>
-
-                        <div class="queue-card">
-                            <div class="queue-number-box">07</div>
-                            <div class="queue-info">
-                                <p class="queue-name">paldo</p>
-                                <p class="queue-time">Masuk: 10.02 WIB</p>
-                            </div>
-                            <div><span class="badge-waiting">MENUNGGU</span></div>
+                        @empty
+                        <div style="text-align: center; padding: 20px;">
+                            <p>Tidak ada antrian saat ini</p>
                         </div>
-
-                        <div class="queue-card">
-                            <div class="queue-number-box">08</div>
-                            <div class="queue-info">
-                                <p class="queue-name">jappy</p>
-                                <p class="queue-time">Masuk: 10.18 WIB</p>
-                            </div>
-                            <div><span class="badge-waiting">MENUNGGU</span></div>
-                        </div>
+                        @endforelse
                     </div>
 
                     <div class="footer-section">
-                        <button class="btn btn-add-queue">Tambah Antrean</button>
+                        @auth
+                            <form action="{{ route('antrian.daftar') }}" method="POST" style="width: 100%;">
+                                @csrf
+                                <button type="submit" class="btn btn-add-queue" style="width: 100%;">Tambah Antrean</button>
+                            </form>
+                        @else
+                            <a href="{{ route('login.user') }}" class="btn btn-add-queue" style="width: 100%; text-decoration: none; display: block; text-align: center;">Login</a>
+                        @endauth
                     </div>
 
                 </div>

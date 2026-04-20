@@ -53,6 +53,35 @@
             cursor: pointer;
         }
 
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .filter-btn {
+            border: 1px solid #dfe3e8;
+            background: #fff;
+            color: #2C3E50;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: #2F80ED;
+            color: #2F80ED;
+        }
+
+        .filter-btn.active {
+            background: #2F80ED;
+            border-color: #2F80ED;
+            color: white;
+        }
+
         /* Styling Tabel */
         .table-container {
             background: white;
@@ -207,6 +236,13 @@
             + Tambah
         </button>
 
+        <div class="filter-bar" role="tablist" aria-label="Filter status antrian">
+            <button type="button" class="filter-btn active" data-filter="menunggu" onclick="filterAntrian('menunggu', this)">Menunggu</button>
+            <button type="button" class="filter-btn" data-filter="selesai" onclick="filterAntrian('selesai', this)">Selesai</button>
+            <button type="button" class="filter-btn" data-filter="batal" onclick="filterAntrian('batal', this)">Batal</button>
+            <button type="button" class="filter-btn" data-filter="all" onclick="filterAntrian('all', this)">Semua</button>
+        </div>
+
         <div class="table-container">
             <table class="custom-table">
                 <thead>
@@ -218,15 +254,15 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="antrianTableBody">
                     @forelse($antrians as $item)
-                        <tr class="{{ $item->status == 'sedang dilayani' ? 'row-highlight' : '' }}">
+                        <tr class="{{ $item->status == 'sedang dilayani' ? 'row-highlight' : '' }}" data-status="{{ $item->status }}">
                             <td>{{ $item->nomor_antrian }}</td>
                             <td>{{ $item->nama_pelanggan }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->waktu_masuk)->format('Y-m-d H:i:s') }}</td>
                             <td>
                                 <span class="status-text">
-                                    {{ ucfirst($item->status == 'sedang dilayani' ? 'Dilayani' : $item->status) }}
+                                    {{ $item->status == 'sedang dilayani' ? 'Sedang Dilayani' : ucfirst($item->status) }}
                                 </span>
                             </td>
                             <td>
@@ -268,6 +304,22 @@
     <div style="height:50px;"></div>
 
     <script>
+
+        function filterAntrian(status, button) {
+            const rows = document.querySelectorAll('#antrianTableBody tr[data-status]');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach((item) => item.classList.remove('active'));
+            if (button) {
+                button.classList.add('active');
+            }
+
+            rows.forEach((row) => {
+                const rowStatus = row.getAttribute('data-status');
+                const isVisible = status === 'all' || rowStatus === status;
+                row.style.display = isVisible ? '' : 'none';
+            });
+        }
 
         function panggil() {
             fetch("{{ route('admin.antrian.panggil') }}", {

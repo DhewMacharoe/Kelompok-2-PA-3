@@ -12,16 +12,28 @@
             <div class="bg-gold text-white p-3 d-flex align-items-center justify-content-center gap-3">
                 <i class="fas fa-users fs-1"></i>
                 <div>
-                    <h5 class="mb-0 fs-6">Posisi Antrian Saat Ini</h5>
-                    <p class="mb-0 small opacity-75">jumlah Antrian : {{ $jumlahAntrian }}</p>
+                    <h5 class="mb-0 fs-6">Antrian Sedang Dilayani</h5>
+                    <p class="mb-0 small opacity-75">Menunggu hari ini: {{ $jumlahAntrian }}</p>
                 </div>
             </div>
             <div class="card-body text-center py-4">
-                <h2 class="mb-0 fw-bold text-dark" id="antrian-nomor" style="letter-spacing: 3px;">
-                    {{ $antrian ? $antrian->nomor_antrian : 'Tidak ada antrian' }}</h2>
-                <h2 class="mb-0 fw-bold text-dark" id="antrian-status" style="letter-spacing: 3px;">
-                    {{ $antrian?->status ?? 'Tidak ada antrian' }}</h2>
-
+                @if($antrian)
+                    <div class="text-uppercase small text-muted mb-2">Nomor aktif</div>
+                    <h2 class="mb-2 fw-bold text-dark" id="antrian-nomor" style="letter-spacing: 3px;">
+                        {{ $antrian->nomor_antrian }}</h2>
+                    <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill bg-light text-dark fw-semibold mb-3" id="antrian-status">
+                        {{ $antrian->status === 'sedang dilayani' ? 'Sedang dilayani' : ucfirst($antrian->status) }}
+                    </div>
+                    <p class="mb-0 text-muted">{{ $antrian->nama_pelanggan }}</p>
+                @else
+                    <div class="text-uppercase small text-muted mb-2">Status antrean</div>
+                    <h2 class="mb-2 fw-bold text-dark" id="antrian-nomor" style="letter-spacing: 3px;">
+                        Tidak ada antrean</h2>
+                    <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill bg-light text-dark fw-semibold mb-3" id="antrian-status">
+                        Kosong
+                    </div>
+                    <p class="mb-0 text-muted">Belum ada pelanggan yang sedang dilayani</p>
+                @endif
             </div>
         </div>
     </section>

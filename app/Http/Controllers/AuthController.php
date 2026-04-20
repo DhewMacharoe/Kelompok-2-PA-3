@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Kreait\Firebase\Factory;
-use Lcobucci\JWT\Token\Plain as JwtPlainToken;
 
 class AuthController extends Controller
 {
@@ -99,13 +98,19 @@ class AuthController extends Controller
             return back()->with('error', 'Verifikasi token Firebase gagal: ' . $exception->getMessage());
         }
 
-        if (!$verifiedToken instanceof JwtPlainToken) {
-            return back()->with('error', 'Token Firebase tidak valid.');
+        /** @var \Kreait\Firebase\JWT\Contract\Token $verifiedToken */
+        $payload = $verifiedToken->payload();
+        $firebaseUid = $request->input('firebase_uid') ?: ($payload['sub'] ?? null);
+        $email = $request->input('firebase_email') ?: ($payload['email'] ?? null);
+        $name = $request->input('firebase_name') ?: ($payload['name'] ?? ($email ? explode('@', $email)[0] : 'Pengguna'));
+
+        if (!$firebaseUid) {
+            return back()->with('error', 'Data akun Firebase tidak lengkap.');
         }
 
-        $firebaseUid = $verifiedToken->claims()->get('sub'); // UID is in 'sub' claim
-        $email = $verifiedToken->claims()->get('email');
-        $name = $verifiedToken->claims()->get('name') ?? explode('@', $email)[0];
+        if (!$email) {
+            $email = $firebaseUid . '@firebase.local';
+        }
 
         // Find or create user by firebase_uid
         $user = User::where('firebase_uid', $firebaseUid)->first();

@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Antrian;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AntrianController extends Controller
 {
     public function index()
     {
-        $data_antrian = Antrian::all();
+        $antrianSedangDilayani = Antrian::where('status', 'sedang dilayani')->first();
+        $antrianMenunggu = Antrian::where('status', 'menunggu')
+            ->whereDate('created_at', Carbon::today())
+            ->orderBy('waktu_masuk', 'asc')
+            ->get();
+        $jumlahMenunggu = $antrianMenunggu->count();
 
-        return view('pelanggan.antrian.antrian ', compact('data_antrian'));
+        return view('pelanggan.antrian.antrian', compact('antrianSedangDilayani', 'antrianMenunggu', 'jumlahMenunggu'));
     }
 
 

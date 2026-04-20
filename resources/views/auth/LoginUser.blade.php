@@ -77,11 +77,30 @@
         <h4>Login</h4>
         <p class="text-muted">Masuk untuk mulai antre</p>
 
-        <button id="googleLoginButton" type="button" class="btn btn-outline-light w-100">Masuk dengan Google</button>
+        @if(session('error'))
+            <div class="alert alert-danger py-2 small text-start">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if(session('success'))
+            <div class="alert alert-success py-2 small text-start">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <button id="googleLoginButton" type="button" class="btn btn-outline-light w-100">
+            Masuk dengan Google
+        </button>
+
+        <p id="loginStatus" class="small mt-3 mb-0 text-muted" style="min-height: 20px;"></p>
 
         <form id="firebaseLoginForm" action="{{ route('firebase.login') }}" method="POST" class="d-none">
             @csrf
             <input type="hidden" name="idToken" id="firebaseIdToken">
+            <input type="hidden" name="firebase_uid" id="firebaseUid">
+            <input type="hidden" name="firebase_email" id="firebaseEmail">
+            <input type="hidden" name="firebase_name" id="firebaseName">
         </form>
 
         <script type="module">
@@ -101,15 +120,27 @@
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
             const provider = new GoogleAuthProvider();
+            const loginButton = document.getElementById('googleLoginButton');
+            const loginStatus = document.getElementById('loginStatus');
 
-            document.getElementById('googleLoginButton').addEventListener('click', async () => {
+            provider.setCustomParameters({ prompt: 'select_account' });
+
+            loginButton.addEventListener('click', async () => {
                 try {
+                    loginButton.disabled = true;
+                    loginStatus.textContent = 'Menghubungkan ke Firebase...';
+
                     const result = await signInWithPopup(auth, provider);
                     const idToken = await result.user.getIdToken();
+                    document.getElementById('firebaseUid').value = result.user.uid || '';
+                    document.getElementById('firebaseEmail').value = result.user.email || '';
+                    document.getElementById('firebaseName').value = result.user.displayName || '';
                     document.getElementById('firebaseIdToken').value = idToken;
                     document.getElementById('firebaseLoginForm').submit();
                 } catch (error) {
                     console.error('Firebase Google login failed:', error);
+                    loginStatus.textContent = 'Login gagal: ' + error.message;
+                    loginButton.disabled = false;
                     alert('Login Google gagal: ' + error.message);
                 }
             });
