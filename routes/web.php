@@ -25,9 +25,15 @@ Route::get('/', [HomePageController::class, 'index'])->name('home');
 
 Route::get('/layanan', [PublicController::class, 'layanan'])->name('layanan');
 Route::get('/antrian', [AntrianController::class, 'index'])->name('antrian');
+<<<<<<< Updated upstream
 Route::get('/rekomendasi', [PublicController::class, 'rekomendasi'])->name('rekomendasi');
 Route::get('/galeri', [PublicController::class, 'galeri'])->name('galeri');
 Route::get('/menu', [PublicController::class, 'menu'])->name('menu');
+=======
+Route::post('/antrian', [AntrianController::class, 'store'])->name('antrian.store');
+
+
+>>>>>>> Stashed changes
 
 // ==========================================
 // RUTE OTENTIKASI

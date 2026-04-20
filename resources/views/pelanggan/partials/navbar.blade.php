@@ -13,6 +13,7 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav gap-lg-4 text-center mt-3 mt-lg-0">
                 <li class="nav-item">
+<<<<<<< Updated upstream
                     <a class="nav-link fw-bold {{ request()->routeIs('home') ? 'active' : '' }}" 
                         href="{{ route('home') }}" 
                         style="color: {{ request()->routeIs('home') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
@@ -20,6 +21,9 @@
                         onmouseout="this.style.color='{{ request()->routeIs('home') ? '#d4af37' : 'white' }}'">
                         Beranda
                     </a>
+=======
+                    <a class="nav-link active fw-bold"  href="#" style="color: #d4af37;">Beranda</a>
+>>>>>>> Stashed changes
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('layanan') ? 'active' : '' }}" 
@@ -31,6 +35,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
+<<<<<<< Updated upstream
                     <a class="nav-link fw-bold {{ request()->routeIs('antrian') ? 'active' : '' }}" 
                         href="{{ route('antrian') }}"
                         style="color: {{ request()->routeIs('antrian') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
@@ -38,6 +43,9 @@
                         onmouseout="this.style.color='{{ request()->routeIs('antrian') ? '#d4af37' : 'white' }}'">
                         Antrian
                     </a>
+=======
+                    <a class="nav-link text-white" href="{{ route('antrian') }}">Antrian</a>
+>>>>>>> Stashed changes
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('rekomendasi') ? 'active' : '' }}" 

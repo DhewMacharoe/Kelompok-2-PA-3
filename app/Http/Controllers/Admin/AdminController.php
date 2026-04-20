@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Events\AntreanListUpdate;
 use App\Http\Controllers\Controller;
-
 use App\Models\Antrian;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -41,6 +41,10 @@ class AdminController extends Controller
 
         $antrian = Antrian::findOrFail($id);
         $antrian->update(['status' => 'sedang dilayani']);
+
+        $antrianList = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
+
+        broadcast(new AntreanListUpdate($antrianList))->toOthers();
 
         return redirect()->back()->with('success', 'Antrian ' . $antrian->nomor_antrian . ' sedang dilayani.');
     }
@@ -102,16 +106,20 @@ class AdminController extends Controller
             $nomorBaru = (int)$antrianTerakhir->nomor_antrian + 1;
         }
 
-        // Format angka menjadi 2 digit (misal: 1 jadi 01, 2 jadi 02)
+
         $nomorFormat = str_pad($nomorBaru, 2, '0', STR_PAD_LEFT);
 
         // Simpan ke database
-        Antrian::create([
+        $antrian = Antrian::create([
             'nomor_antrian' => $nomorFormat,
             'nama_pelanggan' => $request->nama_pelanggan,
             'status' => 'menunggu',
             'waktu_masuk' => now()
         ]);
+
+        $antrianList = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
+
+        broadcast(new AntreanListUpdate($antrianList))->toOthers();
 
         return redirect()->route('admin.antrian')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrian.');
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\AntreanUpadate;
+use App\Events\AntreanListUpdate;
 use App\Http\Controllers\Controller;
 use App\Models\Antrian;
 use Illuminate\Http\Request;
@@ -25,6 +26,10 @@ class AntrianController extends Controller
         ]);
 
          broadcast(new AntreanUpadate($antrian))->toOthers();
+         
+         $antrianList = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
+
+        broadcast(new AntreanListUpdate($antrianList))->toOthers();
 
         return response()->json([
             'success' => true,
