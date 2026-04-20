@@ -29,25 +29,7 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('statistikData', 'antrianMenunggu', 'dipanggil'));
     }
 
-    // Fungsi Panggil Antrian Selanjutnya
-    public function panggil($id)
-    {
 
-        Antrian::where('status', 'sedang dilayani')->update([
-            'status' => 'selesai',
-            'waktu_selesai' => now()
-        ]);
-
-
-        $antrian = Antrian::findOrFail($id);
-        $antrian->update(['status' => 'sedang dilayani']);
-
-        $antrianList = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
-
-        broadcast(new AntreanListUpdate($antrianList))->toOthers();
-
-        return redirect()->back()->with('success', 'Antrian ' . $antrian->nomor_antrian . ' sedang dilayani.');
-    }
 
     // Fungsi Selesaikan Antrian Manual
     public function selesai($id)

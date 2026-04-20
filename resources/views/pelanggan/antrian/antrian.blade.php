@@ -49,16 +49,10 @@
                 <div class="header-section">
                     <div class="text-gold">SEDANG DILAYANI</div>
                     <div class="active-number-box">
-<<<<<<< Updated upstream
-                        <p class="active-number">{{ $antrianSedangDilayani ? $antrianSedangDilayani->nomor_antrian : '--' }}</p>
+                        <p class="active-number" id="antrian-nomor">{{ $dipanggil ? $dipanggil->nomor_antrian : '0' }}</p>
                     </div>
-                    <div class="active-name">{{ $antrianSedangDilayani ? $antrianSedangDilayani->nama_pelanggan : 'Kosong' }}</div>
-=======
-                        <p class="active-number">{{ $dipanggil ? $dipanggil->nomor_antrian : '0' }}</p>
+                    <div class="active-name" id = "antrian-nama">{{ $dipanggil ? $dipanggil->nama_pelanggan : 'Tidak ada' }}
                     </div>
-                    <div class="active-name">{{ $dipanggil ? $dipanggil->nama_pelanggan : 'Tidak ada' }}
-                    </div>
->>>>>>> Stashed changes
                 </div>
             </div>
 
@@ -68,20 +62,7 @@
                     <div class="queue-section">
                         <div class="section-title">URUTAN ANTRIAN</div>
 
-<<<<<<< Updated upstream
-                        @forelse($antrianMenunggu as $item)
-                        <div class="queue-card">
-                            <div class="queue-number-box">{{ $item->nomor_antrian }}</div>
-                            <div class="queue-info">
-                                <p class="queue-name">{{ substr($item->nama_pelanggan, 0, 3) }}***</p>
-                                <p class="queue-time">Masuk: {{ \Carbon\Carbon::parse($item->waktu_masuk)->format('H:i') }} WIB</p>
-                            </div>
-                            <div><span class="badge-waiting">MENUNGGU</span></div>
-                        </div>
-                        @empty
-                        <div style="text-align: center; padding: 20px;">
-                            <p>Tidak ada antrian saat ini</p>
-=======
+
                         <div class="queue-list-container">
                             @if ($data_antrian && count($data_antrian) > 0)
                                 @foreach ($data_antrian as $antrian)
@@ -97,26 +78,16 @@
                             @else
                                 <div class="text-center mt-4 mb-4 text-muted">Tidak ada antrian</div>
                             @endif
->>>>>>> Stashed changes
+
                         </div>
-                        @endforelse
                     </div>
 
                     <div class="footer-section">
-<<<<<<< Updated upstream
-                        @auth
-                            <form action="{{ route('antrian.daftar') }}" method="POST" style="width: 100%;">
-                                @csrf
-                                <button type="submit" class="btn btn-add-queue" style="width: 100%;">Tambah Antrean</button>
-                            </form>
-                        @else
-                            <a href="{{ route('login.user') }}" class="btn btn-add-queue" style="width: 100%; text-decoration: none; display: block; text-align: center;">Login</a>
-                        @endauth
-=======
+
                         <button class="btn btn-add-queue" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTambahAntrean" aria-controls="offcanvasTambahAntrean">
                             Tambah Antrean
                         </button>
->>>>>>> Stashed changes
+
                     </div>
 
                 </div>
@@ -149,6 +120,14 @@
 
 @push('scripts')
 <script type="module">
+
+    function formatJam(datetime) {
+    const date = new Date(datetime);
+    return date.toLocaleTimeString('id-ID', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    }
     document.addEventListener('DOMContentLoaded', function () {
         console.log('Echo script loaded');
 
@@ -194,14 +173,34 @@
         } catch (error) {
             console.error('Terjadi kesalahan saat inisialisasi Echo:', error);
         }
+
+        window.Echo.channel('Antrian-channel').listen('AntreanUpadate', (e) => {
+
+                    console.log('DATA MASUK:', e);
+
+                    let antrian = e.antrean;
+
+                    // Update nomor antrian
+                    let nomorEl = document.getElementById('antrian-nomor');
+                    if (nomorEl) {
+                        nomorEl.textContent = antrian.nomor_antrian;
+                    }
+
+                    // Update status
+                    let statusEl = document.getElementById('antrian-status');
+                    if (statusEl) {
+                        statusEl.textContent = antrian.status.toUpperCase();
+                    }
+
+                    let namaEl = document.getElementById('antrian-nama');
+                    if (namaEl) {
+                        namaEl.textContent = antrian.nama_pelanggan;}
+                });
+
+
     });
 
-    function formatJam(datetime) {
-    const date = new Date(datetime);
-    return date.toLocaleTimeString('id-ID', {
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-    }
+
+
 </script>
 @endpush

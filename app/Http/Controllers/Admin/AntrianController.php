@@ -26,7 +26,7 @@ class AntrianController extends Controller
         ]);
 
          broadcast(new AntreanUpadate($antrian))->toOthers();
-         
+
          $antrianList = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
 
         broadcast(new AntreanListUpdate($antrianList))->toOthers();
@@ -44,6 +44,11 @@ class AntrianController extends Controller
             $antrian->update(['status' => 'sedang dilayani']);
 
             broadcast(new AntreanUpadate($antrian))->toOthers();
+
+            $antrianList = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
+
+        broadcast(new AntreanListUpdate($antrianList))->toOthers();
+
 
             return response()->json([
                 'success' => true,

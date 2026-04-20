@@ -10,9 +10,10 @@ class AntrianController extends Controller
 {
     public function index()
     {
-        $data_antrian = Antrian::all();
+        $data_antrian = Antrian::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->get();
+        $dipanggil = Antrian::where('status', 'sedang dilayani')->first();
 
-        return view('pelanggan.antrian.antrian ', compact('data_antrian'));
+        return view('pelanggan.antrian.antrian ', compact('data_antrian', 'dipanggil'));
     }
 
     public function create()
