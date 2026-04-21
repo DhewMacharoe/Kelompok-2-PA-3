@@ -308,6 +308,7 @@
         function filterAntrian(status, button) {
             const rows = document.querySelectorAll('#antrianTableBody tr[data-status]');
             const buttons = document.querySelectorAll('.filter-btn');
+            const normalizedFilter = (status || '').toString().trim().toLowerCase();
 
             buttons.forEach((item) => item.classList.remove('active'));
             if (button) {
@@ -315,11 +316,16 @@
             }
 
             rows.forEach((row) => {
-                const rowStatus = row.getAttribute('data-status');
-                const isVisible = status === 'all' || rowStatus === status;
+                const rowStatus = (row.getAttribute('data-status') || '').toString().trim().toLowerCase();
+                const isVisible = normalizedFilter === 'all' || rowStatus === normalizedFilter;
                 row.style.display = isVisible ? '' : 'none';
             });
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const defaultButton = document.querySelector('.filter-btn[data-filter="menunggu"]');
+            filterAntrian('menunggu', defaultButton);
+        });
 
         function panggil() {
             fetch("{{ route('admin.antrian.panggil') }}", {

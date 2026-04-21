@@ -151,7 +151,9 @@
             channel.listen('AntreanListUpdate', (e) => {
             console.log('Antrian list updated:', e);
 
-            const antreanList = e.antreanList;
+            const antreanList = (e.antreanList || []).filter(item =>
+                String(item.status || '').toLowerCase() === 'menunggu'
+            );
             const queueListContainer = document.querySelector('.queue-list-container');
 
             // Kosongkan isi lama

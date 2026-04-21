@@ -99,7 +99,10 @@ class AdminController extends Controller
             'waktu_masuk' => now()
         ]);
 
-        $antrianList = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
+        $antrianList = Antrian::where('status', 'menunggu')
+            ->whereDate('created_at', Carbon::today())
+            ->orderBy('waktu_masuk', 'asc')
+            ->get();
 
         broadcast(new AntreanListUpdate($antrianList))->toOthers();
 
