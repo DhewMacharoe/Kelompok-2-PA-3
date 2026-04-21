@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Layanan;
@@ -55,7 +56,7 @@ class PublicController extends Controller
     {
         // Ambil semua menu (yang habis tetap ditampilkan dengan label silang)
         $menus = Menu::all();
-        return view('menu', compact('menus'));
+        return view('pelanggan.menu.menu', compact('menus'));
     }
     public function daftarAntrian(Request $request)
     {
