@@ -11,12 +11,8 @@ class AntrianController extends Controller
 {
     public function index()
     {
-        $antrianSedangDilayani = Antrian::where('status', 'sedang dilayani')->first();
-        $antrianMenunggu = Antrian::where('status', 'menunggu')
-            ->whereDate('created_at', Carbon::today())
-            ->orderBy('waktu_masuk', 'asc')
-            ->get();
-        $jumlahMenunggu = $antrianMenunggu->count();
+        $data_antrian = Antrian::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->get();
+        $dipanggil = Antrian::where('status', 'sedang dilayani')->first();
 
         $punyaAntrianAktif = false;
         if (Auth::check() && Auth::user()->username) {
@@ -26,30 +22,45 @@ class AntrianController extends Controller
                 ->exists();
         }
 
-        return view('pelanggan.antrian.antrian', compact('antrianSedangDilayani', 'antrianMenunggu', 'jumlahMenunggu', 'punyaAntrianAktif'));
+        return view('pelanggan.antrian.antrian', compact('data_antrian', 'dipanggil', 'punyaAntrianAktif'));
     }
-
-
 
     public function create()
     {
         return view('antrian.create');
     }
 
+
     public function store(Request $request)
     {
-        $request->validate([
-            'id_pelanggan'      => 'required|integer',
-            'id_pemilik'        => 'required|integer',
-            'nomor_antrian'     => 'required|string',
-            'waktu_pengambilan' => 'required|date',
-            'status'            => 'required|string',
-            'metode_antrian'    => 'required|string',
+        $validateAntrian =$request->validate([
+            'nama_pelanggan' => 'required|string|max:255',
         ]);
 
-        Antrian::create($request->all());
-        return redirect()->route('antrian.index')->with('success', 'Antrian berhasil ditambahkan!');
+        $antrianTerakhir = Antrian::whereDate('created_at', Carbon::today())
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $nomorBaru = 1;
+        if ($antrianTerakhir) {
+            $nomorBaru = (int)$antrianTerakhir->nomor_antrian + 1;
+        }
+
+        $nomorFormat = str_pad($nomorBaru, 2, '0', STR_PAD_LEFT);
+
+        $newAntrian = Antrian::create([
+            'nomor_antrian' => $nomorFormat,
+            'nama_pelanggan' => $validateAntrian['nama_pelanggan'],
+            'status' => 'menunggu',
+            'waktu_masuk' => now()
+        ]);
+
     }
+
+
+
+
+
 
 
 

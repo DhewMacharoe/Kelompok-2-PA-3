@@ -13,55 +13,55 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav gap-lg-4 text-center mt-3 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('home') ? 'active' : '' }}" 
-                        href="{{ route('home') }}" 
+                    <a class="nav-link fw-bold {{ request()->routeIs('home') ? 'active' : '' }}"
+                        href="{{ route('home') }}"
                         style="color: {{ request()->routeIs('home') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'" 
+                        onmouseover="this.style.color='#d4af37'"
                         onmouseout="this.style.color='{{ request()->routeIs('home') ? '#d4af37' : 'white' }}'">
                         Beranda
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('layanan') ? 'active' : '' }}" 
+                    <a class="nav-link fw-bold {{ request()->routeIs('layanan') ? 'active' : '' }}"
                         href="{{ route('layanan') }}"
                         style="color: {{ request()->routeIs('layanan') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'" 
+                        onmouseover="this.style.color='#d4af37'"
                         onmouseout="this.style.color='{{ request()->routeIs('layanan') ? '#d4af37' : 'white' }}'">
                         Layanan
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('antrian') ? 'active' : '' }}" 
+                    <a class="nav-link fw-bold {{ request()->routeIs('antrian') ? 'active' : '' }}"
                         href="{{ route('antrian') }}"
                         style="color: {{ request()->routeIs('antrian') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'" 
+                        onmouseover="this.style.color='#d4af37'"
                         onmouseout="this.style.color='{{ request()->routeIs('antrian') ? '#d4af37' : 'white' }}'">
                         Antrian
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('rekomendasi') ? 'active' : '' }}" 
+                    <a class="nav-link fw-bold {{ request()->routeIs('rekomendasi') ? 'active' : '' }}"
                         href="{{ route('rekomendasi') }}"
                         style="color: {{ request()->routeIs('rekomendasi') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'" 
+                        onmouseover="this.style.color='#d4af37'"
                         onmouseout="this.style.color='{{ request()->routeIs('rekomendasi') ? '#d4af37' : 'white' }}'">
                         Gaya Rambut
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('galeri') ? 'active' : '' }}" 
+                    <a class="nav-link fw-bold {{ request()->routeIs('galeri') ? 'active' : '' }}"
                         href="{{ route('galeri') }}"
                         style="color: {{ request()->routeIs('galeri') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'" 
+                        onmouseover="this.style.color='#d4af37'"
                         onmouseout="this.style.color='{{ request()->routeIs('galeri') ? '#d4af37' : 'white' }}'">
                         Galeri
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('menu') ? 'active' : '' }}" 
+                    <a class="nav-link fw-bold {{ request()->routeIs('menu') ? 'active' : '' }}"
                         href="{{ route('menu') }}"
                         style="color: {{ request()->routeIs('menu') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'" 
+                        onmouseover="this.style.color='#d4af37'"
                         onmouseout="this.style.color='{{ request()->routeIs('menu') ? '#d4af37' : 'white' }}'">
                         Menu Cafe
                     </a>

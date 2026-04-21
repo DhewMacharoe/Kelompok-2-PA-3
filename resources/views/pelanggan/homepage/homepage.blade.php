@@ -3,8 +3,12 @@
 @section('title', 'Dashboard - Arga\'s Home')
 
 @push('styles')
+
     @include('pelanggan.homepage.style-index')
 @endpush
+
+@include('pelanggan.homepage.style-index')
+
 
 @section('content')
     <section class="hero d-flex justify-content-center align-items-center px-3">
@@ -12,8 +16,8 @@
             <div class="bg-gold text-white p-3 d-flex align-items-center justify-content-center gap-3">
                 <i class="fas fa-users fs-1"></i>
                 <div>
-                    <h5 class="mb-0 fs-6">Antrian Sedang Dilayani</h5>
-                    <p class="mb-0 small opacity-75">Menunggu hari ini: {{ $jumlahAntrian }}</p>
+                    <h5 class="mb-0 fs-6">Posisi Antrian Saat Ini</h5>
+                    <p class="mb-0 small opacity-75">jumlah Antrian : {{ $jumlahAntrian }}</p>
                 </div>
             </div>
             <div class="card-body text-center py-4">
@@ -26,13 +30,11 @@
                     </div>
                     <p class="mb-0 text-muted">{{ $antrian->nama_pelanggan }}</p>
                 @else
-
                     <p class="mb-0 text-muted">Belum ada pelanggan yang sedang dilayani</p>
                 @endif
             </div>
         </div>
     </section>
-
     <div class="container py-5">
 
         <h2 class="text-center mb-5 text-uppercase text-dark fw-light">
@@ -94,6 +96,7 @@
     </div>
 @endsection
 @push('scripts')
+    @push('scripts')
     <script type="module">
         document.addEventListener('DOMContentLoaded', function() {
 
