@@ -1,6 +1,11 @@
-@extends('layouts.public')
+@extends('pelanggan.layouts.app')
 
 @section('title', 'Layanan')
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+@endpush
 
 @section('content')
 <section class="layanan-hero">

@@ -53,6 +53,8 @@
                     </div>
                     <div class="active-name" id = "antrian-nama">{{ $dipanggil ? $dipanggil->nama_pelanggan : 'Tidak ada' }}
                     </div>
+                    <div class="active-name" id = "antrian-status">{{ $dipanggil ? $dipanggil->status : 'Tidak ada' }}
+                    </div>
                 </div>
             </div>
 

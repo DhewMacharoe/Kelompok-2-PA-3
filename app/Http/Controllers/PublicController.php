@@ -41,7 +41,7 @@ class PublicController extends Controller
             ->where('kategori', 'kafe')
             ->get();
 
-        return view('public.layanan', compact('barber', 'kafe'));
+        return view('pelanggan.layanan.layanan', compact('barber', 'kafe'));
     }
 
     public function galeri()
