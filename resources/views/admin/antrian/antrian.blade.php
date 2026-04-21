@@ -1,12 +1,12 @@
 @extends('admin.layouts.app')
 
-    @section('title', 'Antrian')
+@section('title', 'Antrian')
 
-    @section('header_title')
-        <div class="header-title">Riwayat Antrian</div>
-    @endsection
+@section('header_title')
+    <div class="header-title">Riwayat Antrian</div>
+@endsection
 
-    @section('content')
+@section('content')
     <style>
         /* CSS Khusus Halaman Ini */
         .main-container {
@@ -23,21 +23,44 @@
             border-radius: 20px;
             margin-bottom: 24px;
         }
-        .serving-display p { margin: 0; opacity: 0.8; font-size: 14px; }
+
+        .serving-display p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
         .serving-display .queue-number-big {
             font-size: 80px;
             font-weight: bold;
             margin: 10px 0;
             display: block;
         }
+
         .btn-group-serving {
             display: flex;
             justify-content: center;
             gap: 15px;
             margin-top: 20px;
         }
-        .btn-panggil { background-color: #2F80ED; color: white; border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; }
-        .btn-batal { background-color: #EB5757; color: white; border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer;}
+
+        .btn-panggil {
+            background-color: #2F80ED;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-batal {
+            background-color: #EB5757;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
 
         /* Tombol Tambah */
         .btn-tambah {
@@ -87,34 +110,50 @@
             background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
+
         .custom-table {
             width: 100%;
             border-collapse: collapse;
             text-align: center;
         }
+
         .custom-table thead {
             background-color: #2C3E50;
             color: white;
         }
-        .custom-table th, .custom-table td {
+
+        .custom-table th,
+        .custom-table td {
             padding: 15px;
             border-bottom: 1px solid #eee;
         }
+
         .row-highlight {
             background-color: #2196F3 !important;
             color: white !important;
         }
-        .row-highlight td { border-color: transparent; }
+
+        .row-highlight td {
+            border-color: transparent;
+        }
 
         /* Status Badge */
-        .status-text { font-weight: 500; }
-        .action-link { color: #4a80da; text-decoration: none; font-weight: 600; }
+        .status-text {
+            font-weight: 500;
+        }
+
+        .action-link {
+            color: #4a80da;
+            text-decoration: none;
+            font-weight: 600;
+        }
 
         /* --- CSS BARU UNTUK CARD FORM (MODAL) --- */
         .modal-overlay {
-            display: none; /* Sembunyikan secara default */
+            display: none;
+            /* Sembunyikan secara default */
             position: fixed;
             top: 0;
             left: 0;
@@ -132,13 +171,20 @@
             border-radius: 12px;
             width: 100%;
             max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             animation: slideDown 0.3s ease-out;
         }
 
         @keyframes slideDown {
-            from { transform: translateY(-20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .form-card-header {
@@ -200,6 +246,7 @@
             cursor: pointer;
             font-weight: 500;
         }
+
         /* --- AKHIR CSS BARU --- */
     </style>
 
@@ -213,19 +260,21 @@
             <p>Sedang dilayani</p>
             <span class="queue-number-big">{{ $current->nomor_antrian ?? '--' }}</span>
             <p style="font-size: 18px; font-weight: 500;">{{ $current->nama_pelanggan ?? 'Tidak ada antrean' }}</p>
-            @if($current)
+            @if ($current)
                 <div class="btn-group-serving">
-                    <button type="button" class="btn-panggil shadow-sm" onclick="ubahStatus(this, {{ $current->id }}, 'selesai')">
+                    <button type="button" class="btn-panggil shadow-sm"
+                        onclick="ubahStatus(this, {{ $current->id }}, 'selesai')">
                         Selesai
                     </button>
-                    <button type="button" class="btn-batal shadow-sm" onclick="ubahStatus(this, {{ $current->id }}, 'batal')">
+                    <button type="button" class="btn-batal shadow-sm"
+                        onclick="ubahStatus(this, {{ $current->id }}, 'batal')">
                         Batalkan
                     </button>
                 </div>
             @else
                 <p>Tidak ada antrean yang sedang dilayani saat ini.</p>
-                 <button type="button" class="btn-panggil shadow-sm" onclick="panggil()">
-                        panggil
+                <button type="button" class="btn-panggil shadow-sm" onclick="panggil()">
+                    panggil
                 </button>
             @endif
 
@@ -237,9 +286,12 @@
         </button>
 
         <div class="filter-bar" role="tablist" aria-label="Filter status antrian">
-            <button type="button" class="filter-btn active" data-filter="menunggu" onclick="filterAntrian('menunggu', this)">Menunggu</button>
-            <button type="button" class="filter-btn" data-filter="selesai" onclick="filterAntrian('selesai', this)">Selesai</button>
-            <button type="button" class="filter-btn" data-filter="batal" onclick="filterAntrian('batal', this)">Batal</button>
+            <button type="button" class="filter-btn active" data-filter="menunggu"
+                onclick="filterAntrian('menunggu', this)">Menunggu</button>
+            <button type="button" class="filter-btn" data-filter="selesai"
+                onclick="filterAntrian('selesai', this)">Selesai</button>
+            <button type="button" class="filter-btn" data-filter="batal"
+                onclick="filterAntrian('batal', this)">Batal</button>
             <button type="button" class="filter-btn" data-filter="all" onclick="filterAntrian('all', this)">Semua</button>
         </div>
 
@@ -251,12 +303,12 @@
                         <th>Nama</th>
                         <th>Masuk</th>
                         <th>Status</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="antrianTableBody">
                     @forelse($antrians as $item)
-                        <tr class="{{ $item->status == 'sedang dilayani' ? 'row-highlight' : '' }}" data-status="{{ $item->status }}">
+                        <tr class="{{ $item->status == 'sedang dilayani' ? 'row-highlight' : '' }}"
+                            data-status="{{ $item->status }}">
                             <td>{{ $item->nomor_antrian }}</td>
                             <td>{{ $item->nama_pelanggan }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->waktu_masuk)->format('Y-m-d H:i:s') }}</td>
@@ -265,13 +317,11 @@
                                     {{ $item->status == 'sedang dilayani' ? 'Sedang Dilayani' : ucfirst($item->status) }}
                                 </span>
                             </td>
-                            <td>
-                                <a href="#" class="action-link" style="{{ $item->status == 'sedang dilayani' ? 'color:white;' : '' }}">Action</a>
-                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" style="padding: 40px; color: #999;">Belum ada riwayat antrian yang tercatat.</td>
+                            <td colspan="5" style="padding: 40px; color: #999;">Belum ada riwayat antrian yang tercatat.
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -290,7 +340,8 @@
                 @csrf
                 <div class="form-group">
                     <label for="nama_pelanggan">Nama Pelanggan</label>
-                    <input type="text" id="nama_pelanggan" name="nama_pelanggan" class="form-control" placeholder="Masukkan nama..." required>
+                    <input type="text" id="nama_pelanggan" name="nama_pelanggan" class="form-control"
+                        placeholder="Masukkan nama..." required>
                 </div>
 
                 <div class="form-actions">
@@ -304,7 +355,6 @@
     <div style="height:50px;"></div>
 
     <script>
-
         function filterAntrian(status, button) {
             const rows = document.querySelectorAll('#antrianTableBody tr[data-status]');
             const buttons = document.querySelectorAll('.filter-btn');
@@ -329,63 +379,66 @@
 
         function panggil() {
             fetch("{{ route('admin.antrian.panggil') }}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Antrean berikutnya dipanggil!');
-                window.location.reload();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan saat memanggil antrean berikutnya.');
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Antrean berikutnya dipanggil!');
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat memanggil antrean berikutnya.');
+                });
         }
 
-       function ubahStatus(button, id, targetStatus) {
-    // Simpan teks asli
-    let originalText = button.innerHTML;
-    button.innerHTML = 'Memproses...';
-    button.disabled = true;
+        function ubahStatus(button, id, targetStatus) {
+            // Simpan teks asli
+            let originalText = button.innerHTML;
+            button.innerHTML = 'Memproses...';
+            button.disabled = true;
 
-    // PERBAIKAN: Sesuaikan URL fetch dengan route prefix 'admin/antrian/...'
-    fetch(`/admin/antrian/${id}/ubah-status`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Pastikan ini ada di dalam file .blade.php
-        },
-        body: JSON.stringify({ status: targetStatus })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+            // PERBAIKAN: Sesuaikan URL fetch dengan route prefix 'admin/antrian/...'
+            fetch(`/admin/antrian/${id}/ubah-status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Pastikan ini ada di dalam file .blade.php
+                    },
+                    body: JSON.stringify({
+                        status: targetStatus
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Status berhasil diubah menjadi: ' + targetStatus);
+
+                    if (targetStatus === 'selesai') {
+                        button.innerHTML = 'Selesai Diproses';
+                    } else {
+                        button.innerHTML = 'Dibatalkan';
+                    }
+
+                    // Opsional: Muat ulang halaman (refresh) agar antrean dan tabel ikut ter-update
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat mengubah status.');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                });
         }
-        return response.json();
-    })
-    .then(data => {
-        alert('Status berhasil diubah menjadi: ' + targetStatus);
 
-        if (targetStatus === 'selesai') {
-            button.innerHTML = 'Selesai Diproses';
-        } else {
-            button.innerHTML = 'Dibatalkan';
-        }
-
-        // Opsional: Muat ulang halaman (refresh) agar antrean dan tabel ikut ter-update
-        window.location.reload();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan saat mengubah status.');
-        button.innerHTML = originalText;
-        button.disabled = false;
-    });
-}
         function toggleModal() {
             const modal = document.getElementById('modalTambah');
             if (modal.style.display === 'flex') {
@@ -401,4 +454,4 @@
             }
         }
     </script>
-    @endsection
+@endsection
