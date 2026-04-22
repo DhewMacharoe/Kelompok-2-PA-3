@@ -23,6 +23,18 @@ class Antrian extends Model
         return 'A' . now()->format('YmdHis') . rand(10, 99);
     }
 
+    public static function cancelExpiredWaitingQueues(?Carbon $referenceDate = null): int
+    {
+        $today = ($referenceDate ?? Carbon::today())->toDateString();
+
+        return static::where('status', 'menunggu')
+            ->whereDate('created_at', '<', $today)
+            ->update([
+                'status' => 'batal',
+                'waktu_selesai' => now(),
+            ]);
+    }
+
     public function updateStatus(string $statusBaru): bool
     {
         $this->status = $statusBaru;
