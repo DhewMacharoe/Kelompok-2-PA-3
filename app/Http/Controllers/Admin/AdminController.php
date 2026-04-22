@@ -57,9 +57,7 @@ class AdminController extends Controller
     public function antrian()
     {
         // Mengambil data antrian yang kolom 'created_at' nya adalah hari ini
-        $antrians = Antrian::whereDate('created_at', now()->today())
-                            ->orderBy('created_at', 'asc')
-                            ->get();
+        $antrians = Antrian::whereDate('created_at', now()->today())->orderBy('created_at', 'asc')->get();
 
         return view('admin.antrian.antrian', compact('antrians'));
     }

@@ -11,14 +11,11 @@ use Carbon\Carbon;
 
 class AntrianController extends Controller
 {
-
-
     public function ubahStatus(Request $request, $id)
     {
         $request->validate([
             'status' => 'required|in:selesai,batal',
         ]);
-
         $antrian = Antrian::findOrFail($id);
         $antrian->update([
             'status' => $request->status,
@@ -27,10 +24,14 @@ class AntrianController extends Controller
 
          broadcast(new AntreanUpadate($antrian))->toOthers();
 
+<<<<<<< Updated upstream
             $antrianList = Antrian::where('status', 'menunggu')
                 ->whereDate('created_at', Carbon::today())
                 ->orderBy('waktu_masuk', 'asc')
                 ->get();
+=======
+         $antrianList =  Antrian::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->get();
+>>>>>>> Stashed changes
 
         broadcast(new AntreanListUpdate($antrianList))->toOthers();
 
@@ -39,7 +40,6 @@ class AntrianController extends Controller
             'message' => 'Status antrian ' . $antrian->nomor_antrian . ' diubah menjadi ' . $request->status . '.',
         ]);
     }
-
     public function panggil(Request $request){
         $antrian = Antrian::where('status', 'menunggu')->first();
 
@@ -48,13 +48,18 @@ class AntrianController extends Controller
 
             broadcast(new AntreanUpadate($antrian))->toOthers();
 
+<<<<<<< Updated upstream
             $antrianList = Antrian::where('status', 'menunggu')
                 ->whereDate('created_at', Carbon::today())
                 ->orderBy('waktu_masuk', 'asc')
                 ->get();
 
         broadcast(new AntreanListUpdate($antrianList))->toOthers();
+=======
+            $antrianList = Antrian::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->get();
+>>>>>>> Stashed changes
 
+            broadcast(new AntreanListUpdate($antrianList))->toOthers();
 
             return response()->json([
                 'success' => true,
