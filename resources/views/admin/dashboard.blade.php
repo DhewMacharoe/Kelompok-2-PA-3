@@ -261,13 +261,26 @@
             if (targetStatus === 'batal') {
                 Swal.fire({
                     title: 'Batalkan Antrean?',
-                    text: "Apakah Anda yakin ingin membatalkan antrean ini? Data tidak dapat dikembalikan.",
+                    text: "Apakah Anda yakin ingin membatalkan antrean ini?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
+                    cancelButtonColor: '#6c757d',
                     confirmButtonText: 'Ya, Batalkan!',
                     cancelButtonText: 'Kembali'
+                }).then((result) => {
+                    if (result.isConfirmed) executeUpdate();
+                });
+            } else if (targetStatus === 'selesai') {
+                Swal.fire({
+                    title: 'Selesaikan Antrean?',
+                    text: "Pelanggan sudah selesai dilayani?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#198754',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Selesai',
+                    cancelButtonText: 'Belum'
                 }).then((result) => {
                     if (result.isConfirmed) executeUpdate();
                 });
