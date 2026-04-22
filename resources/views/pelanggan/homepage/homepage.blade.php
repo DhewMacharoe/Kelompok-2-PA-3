@@ -56,7 +56,7 @@
                 </a>
             </div>
             <div class="col-6 col-md-3">
-                <a href="{{ route('layanan') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
+                <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
                     <div class="icon-circle shadow-sm"><i class="fas fa-cut"></i></div>
                     Layanan Barber
                 </a>

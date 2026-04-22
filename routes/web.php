@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\PelangganLayananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +24,8 @@ require __DIR__ . '/admin_route.php';
 
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 
-Route::get('/layanan', [PublicController::class, 'layanan'])->name('layanan');
+Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
 Route::get('/antrian', [AntrianController::class, 'index'])->name('antrian');
-
 Route::get('/rekomendasi', [PublicController::class, 'rekomendasi'])->name('rekomendasi');
 Route::get('/galeri', [PublicController::class, 'galeri'])->name('galeri');
 Route::get('/menu', [PublicController::class, 'menu'])->name('menu');
