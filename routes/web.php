@@ -30,6 +30,9 @@ Route::get('/rekomendasi', [PublicController::class, 'rekomendasi'])->name('reko
 Route::get('/galeri', [PublicController::class, 'galeri'])->name('galeri');
 Route::get('/menu', [PublicController::class, 'menu'])->name('menu');
 Route::post('/antrian', [AntrianController::class, 'store'])->name('antrian.store');
+Route::patch('/antrian/saya/batal', [AntrianController::class, 'cancelMyQueue'])
+    ->name('antrian.cancel')
+    ->middleware('auth');
 
 
 

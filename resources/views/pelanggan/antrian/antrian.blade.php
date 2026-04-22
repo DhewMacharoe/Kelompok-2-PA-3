@@ -36,12 +36,128 @@
             font-weight: bold;
             border-radius: 8px;
         }
+
+        .my-queue-card {
+            margin: 20px 30px 0;
+            background: linear-gradient(135deg, #fffdf6 0%, #fff8e8 100%);
+            border: 1px solid #e8d7ad;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(112, 86, 35, 0.12);
+            padding: 16px 18px;
+        }
+
+        .my-queue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .my-queue-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #2e2a1f;
+            margin: 0;
+        }
+
+        .my-queue-number {
+            background: #1b1b1b;
+            color: #ffffff;
+            border-radius: 10px;
+            min-width: 58px;
+            text-align: center;
+            padding: 6px 12px;
+            font-size: 1.25rem;
+            font-weight: 800;
+        }
+
+        .my-queue-meta {
+            border-top: 1px solid #e7dcc2;
+            padding-top: 10px;
+            margin-bottom: 12px;
+        }
+
+        .my-queue-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            gap: 14px;
+        }
+
+        .my-queue-meta-label {
+            color: #777067;
+            font-weight: 600;
+        }
+
+        .my-queue-meta-value {
+            color: #2e2a1f;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .my-queue-status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            border: 1px solid #d3c4a0;
+            color: #7a5b1c;
+            background: #fff6dd;
+        }
+
+        .btn-cancel-my-queue {
+            border: 1px solid #d9534f;
+            background: #d9534f;
+            color: #ffffff;
+            width: 100%;
+            border-radius: 10px;
+            font-weight: 700;
+            padding: 9px 12px;
+        }
+
+        .btn-cancel-my-queue:hover {
+            background: #c6423e;
+            border-color: #c6423e;
+            color: #ffffff;
+        }
+
+        .queue-card.my-queue-highlight {
+            border: 1px solid #d8bd79;
+            box-shadow: 0 4px 14px rgba(201, 156, 62, 0.2);
+            background: #fffaf0;
+        }
+
+        .badge-mine {
+            border: 1px solid #1f6f43;
+            color: #1f6f43;
+            background-color: #e8f7ef;
+            font-size: 0.68rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            margin-right: 6px;
+        }
     </style>
 @endpush
 
 @section('content')
 
 <div class="container px-3">
+    @if (session('success'))
+        <div class="alert alert-success mt-3">{{ session('success') }}</div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger mt-3">{{ session('error') }}</div>
+    @endif
+
     <div class="app-card">
         <div class="row g-0">
 
@@ -61,6 +177,44 @@
             <div class="col-md-7">
                 <div class="right-panel">
 
+                    @auth
+                        @if($antrianSayaAktif)
+                            <div class="my-queue-card">
+                                <div class="my-queue-header">
+                                    <h3 class="my-queue-title">Nomor Antrean Anda</h3>
+                                    <div class="my-queue-number">{{ $antrianSayaAktif->nomor_antrian }}</div>
+                                </div>
+
+                                <div class="my-queue-meta">
+                                    <div class="my-queue-meta-row">
+                                        <span class="my-queue-meta-label">Posisi</span>
+                                        <span class="my-queue-meta-value">
+                                            {{ $antrianSayaAktif->status === 'menunggu' ? str_pad((string) ($posisiAntrianSaya ?? 0), 2, '0', STR_PAD_LEFT) : '-' }}
+                                        </span>
+                                    </div>
+                                    <div class="my-queue-meta-row">
+                                        <span class="my-queue-meta-label">Layanan</span>
+                                        <span class="my-queue-meta-value">
+                                            {{ $antrianSayaAktif->layanan1?->nama ?? '-' }}{{ $antrianSayaAktif->layanan2 ? ' + ' . $antrianSayaAktif->layanan2->nama : '' }}
+                                        </span>
+                                    </div>
+                                    <div class="my-queue-meta-row">
+                                        <span class="my-queue-meta-label">Status</span>
+                                        <span class="my-queue-status-chip">{{ strtoupper($antrianSayaAktif->status) }}</span>
+                                    </div>
+                                </div>
+
+                                @if(in_array($antrianSayaAktif->status, ['menunggu', 'sedang dilayani']))
+                                    <form action="{{ route('antrian.cancel') }}" method="POST" onsubmit="return confirm('Batalkan antrean Anda?');">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn-cancel-my-queue">Batalkan Antrean Saya</button>
+                                    </form>
+                                @endif
+                            </div>
+                        @endif
+                    @endauth
+
                     <div class="queue-section">
                         <div class="section-title">URUTAN ANTRIAN</div>
 
@@ -68,13 +222,18 @@
                         <div class="queue-list-container">
                             @if ($data_antrian && count($data_antrian) > 0)
                                 @foreach ($data_antrian as $antrian)
-                                <div class="queue-card">
+                                <div class="queue-card {{ $antrianSayaAktif && $antrianSayaAktif->id === $antrian->id ? 'my-queue-highlight' : '' }}">
                                     <div class="queue-number-box">{{ $antrian->nomor_antrian }}</div>
                                     <div class="queue-info">
                                         <p class="queue-name">{{ $antrian->nama_pelanggan }}</p>
                                         <p class="queue-time">(({{ $antrian->created_at->format('H:i') }}))</p>
                                     </div>
-                                    <div><span class="badge-waiting">MENUNGGU</span></div>
+                                    <div>
+                                        @if($antrianSayaAktif && $antrianSayaAktif->id === $antrian->id)
+                                            <span class="badge-mine">ANTREAN SAYA</span>
+                                        @endif
+                                        <span class="badge-waiting">MENUNGGU</span>
+                                    </div>
                                 </div>
                                 @endforeach
                             @else
@@ -163,6 +322,8 @@
     document.addEventListener('DOMContentLoaded', function () {
         console.log('Echo script loaded');
 
+        const loggedInUsername = @json(auth()->check() ? auth()->user()->username : null);
+
         const layananSelect1 = document.getElementById('layanan_id1');
         const layananSelect2 = document.getElementById('layanan_id2');
         const layananHelp = document.getElementById('layanan-help-pelanggan');
@@ -245,14 +406,15 @@
 
             if (antreanList.length > 0) {
                 antreanList.forEach(item => {
+                    const isMyQueue = loggedInUsername && item.nama_pelanggan === loggedInUsername;
                     queueListContainer.innerHTML += `
-                        <div class="queue-card">
+                        <div class="queue-card ${isMyQueue ? 'my-queue-highlight' : ''}">
                             <div class="queue-number-box">${item.nomor_antrian}</div>
                             <div class="queue-info">
                                 <p class="queue-name">${item.nama_pelanggan}</p>
                                 <p class="queue-time">(${formatJam(item.created_at)})</p>
                             </div>
-                            <div><span class="badge-waiting">MENUNGGU</span></div>
+                            <div>${isMyQueue ? '<span class="badge-mine">ANTREAN SAYA</span>' : ''}<span class="badge-waiting">MENUNGGU</span></div>
                         </div>
                     `;
                 });

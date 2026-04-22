@@ -14,21 +14,51 @@ class AntrianController extends Controller
 {
     public function index()
     {
-        $data_antrian = Antrian::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->get();
+        $data_antrian = Antrian::where('status', 'menunggu')
+            ->whereDate('created_at', Carbon::today())
+            ->orderBy('waktu_masuk', 'asc')
+            ->get();
         $dipanggil = Antrian::where('status', 'sedang dilayani')->first();
         $layananAktif = Layanan::where('is_active', true)
             ->orderBy('nama', 'asc')
             ->get();
 
         $punyaAntrianAktif = false;
+        $antrianSayaAktif = null;
+        $posisiAntrianSaya = null;
+
         if (Auth::check() && Auth::user()->username) {
-            $punyaAntrianAktif = Antrian::where('nama_pelanggan', Auth::user()->username)
+            $antrianSayaAktif = Antrian::with(['layanan1', 'layanan2'])
+                ->where('nama_pelanggan', Auth::user()->username)
                 ->whereIn('status', ['menunggu', 'sedang dilayani'])
                 ->whereDate('created_at', Carbon::today())
-                ->exists();
+                ->orderBy('waktu_masuk', 'asc')
+                ->first();
+
+            $punyaAntrianAktif = (bool) $antrianSayaAktif;
+
+            if ($antrianSayaAktif && $antrianSayaAktif->status === 'menunggu') {
+                $posisiAntrianSaya = Antrian::where('status', 'menunggu')
+                    ->whereDate('created_at', Carbon::today())
+                    ->where(function ($query) use ($antrianSayaAktif) {
+                        $query->where('waktu_masuk', '<', $antrianSayaAktif->waktu_masuk)
+                            ->orWhere(function ($sameTimeQuery) use ($antrianSayaAktif) {
+                                $sameTimeQuery->where('waktu_masuk', $antrianSayaAktif->waktu_masuk)
+                                    ->where('id', '<=', $antrianSayaAktif->id);
+                            });
+                    })
+                    ->count();
+            }
         }
 
-        return view('pelanggan.antrian.antrian', compact('data_antrian', 'dipanggil', 'punyaAntrianAktif', 'layananAktif'));
+        return view('pelanggan.antrian.antrian', compact(
+            'data_antrian',
+            'dipanggil',
+            'punyaAntrianAktif',
+            'layananAktif',
+            'antrianSayaAktif',
+            'posisiAntrianSaya'
+        ));
     }
 
     public function create()
@@ -103,6 +133,42 @@ class AntrianController extends Controller
 
         return back()->with('success', 'Antrian anda terdaftar silahkan tunggu.');
 
+    }
+
+    public function cancelMyQueue()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login.user')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $user = Auth::user();
+        if (!$user->username) {
+            return redirect()->route('set.username')->with('error', 'Silakan atur username terlebih dahulu.');
+        }
+
+        $antrianAktif = Antrian::where('nama_pelanggan', $user->username)
+            ->whereIn('status', ['menunggu', 'sedang dilayani'])
+            ->whereDate('created_at', Carbon::today())
+            ->orderBy('waktu_masuk', 'asc')
+            ->first();
+
+        if (!$antrianAktif) {
+            return back()->with('error', 'Tidak ada antrean aktif yang bisa dibatalkan.');
+        }
+
+        $antrianAktif->update([
+            'status' => 'batal',
+            'waktu_selesai' => now(),
+        ]);
+
+        $antrianList = Antrian::where('status', 'menunggu')
+            ->whereDate('created_at', Carbon::today())
+            ->orderBy('waktu_masuk', 'asc')
+            ->get();
+
+        broadcast(new AntreanListUpdate($antrianList))->toOthers();
+
+        return back()->with('success', 'Antrean Anda berhasil dibatalkan.');
     }
 
 
