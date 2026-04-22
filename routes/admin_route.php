@@ -1,17 +1,18 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\MenuCafeController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-Use App\Http\Controllers\Admin\AntrianController;
+use App\Http\Controllers\Admin\AntrianController;
 use App\Http\Controllers\Admin\LayananController;
 
-Route::get('/test1',[AntrianController::class, 'index'])->name('test');
+Route::get('/test1', [AntrianController::class, 'index'])->name('test');
 
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
@@ -66,7 +67,6 @@ Route::prefix('test')->group(function () {
     Route::get('/antrian', function () {
         return "Antrian";
     });
-
 });
 
 
@@ -77,5 +77,3 @@ Route::prefix('test')->group(function () {
 Route::get('/dashboard', function () {
     return redirect('/admin/dashboard');
 });
-
-

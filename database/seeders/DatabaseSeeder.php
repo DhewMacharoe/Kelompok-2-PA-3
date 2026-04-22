@@ -14,13 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // 0. Data Akun Admin (Ini yang tadi hilang)
-        User::create([
-            'name' => 'Arga Admin',
-            'email' => 'arga@gmail.com',
-            'password' => bcrypt('barber123'),
-        ]);
 
-    
         // 4. Data Antrian
         $antrians = [
             ['nomor_antrian' => '05', 'nama_pelanggan' => 'Budi Santoso', 'status' => 'sedang dilayani', 'waktu_masuk' => now()->subMinutes(30)],
