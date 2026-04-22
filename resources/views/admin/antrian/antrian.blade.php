@@ -230,6 +230,32 @@
             box-sizing: border-box;
         }
 
+        .form-control[multiple] {
+            min-height: 130px;
+        }
+
+        .form-help {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .form-error {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #d93025;
+        }
+
+        .error-box {
+            background: #fff4f4;
+            border: 1px solid #ffd8d8;
+            color: #8a1c1c;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
         .form-actions {
             display: flex;
             justify-content: flex-end;
@@ -334,12 +360,57 @@
                 <button onclick="toggleModal()" class="btn-close">&times;</button>
             </div>
 
-            <form action="{{ route('admin.tambah-pelanggan') }}" method="POST">
+            @if ($errors->any())
+                <div class="error-box">
+                    <strong>Data belum valid:</strong>
+                    <ul style="margin: 6px 0 0 16px; padding: 0;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form id="formTambahAntrian" action="{{ route('admin.simpan-pelanggan') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="nama_pelanggan">Nama Pelanggan</label>
                     <input type="text" id="nama_pelanggan" name="nama_pelanggan" class="form-control"
-                        placeholder="Masukkan nama..." required>
+                        placeholder="Masukkan nama..." value="{{ old('nama_pelanggan') }}" required>
+                    @error('nama_pelanggan')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="layanan_id1">Layanan 1 (wajib)</label>
+                    <select id="layanan_id1" name="layanan_id1" class="form-control" required>
+                        <option value="">Pilih layanan 1</option>
+                        @foreach ($layananAktif as $layanan)
+                            <option value="{{ $layanan->id }}" @selected((string) $layanan->id === (string) old('layanan_id1'))>
+                                {{ $layanan->nama }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('layanan_id1')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="layanan_id2">Layanan 2 (opsional)</label>
+                    <select id="layanan_id2" name="layanan_id2" class="form-control">
+                        <option value="">Pilih layanan 2</option>
+                        @foreach ($layananAktif as $layanan)
+                            <option value="{{ $layanan->id }}" @selected((string) $layanan->id === (string) old('layanan_id2'))>
+                                {{ $layanan->nama }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <div class="form-help" id="layanan-help">Pilih layanan kedua jika dibutuhkan, dan tidak boleh sama dengan layanan 1.</div>
+                    @error('layanan_id2')
+                        <div class="form-error">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-actions">
@@ -373,6 +444,69 @@
         document.addEventListener('DOMContentLoaded', function () {
             const defaultButton = document.querySelector('.filter-btn[data-filter="menunggu"]');
             filterAntrian('menunggu', defaultButton);
+
+            const layananSelect1 = document.getElementById('layanan_id1');
+            const layananSelect2 = document.getElementById('layanan_id2');
+            const layananHelp = document.getElementById('layanan-help');
+            const formTambah = document.getElementById('formTambahAntrian');
+            const hasFormErrors = !!document.querySelector('#modalTambah .error-box');
+
+            function syncLayananDropdown() {
+                if (!layananSelect1 || !layananSelect2) {
+                    return;
+                }
+
+                const selectedLayanan1 = layananSelect1.value;
+
+                Array.from(layananSelect2.options).forEach(option => {
+                    if (!option.value) {
+                        return;
+                    }
+
+                    const isSameAsLayanan1 = selectedLayanan1 !== '' && option.value === selectedLayanan1;
+                    option.disabled = isSameAsLayanan1;
+                    option.hidden = isSameAsLayanan1;
+                });
+
+                if (layananSelect2.value && layananSelect2.value === selectedLayanan1) {
+                    layananSelect2.value = '';
+                }
+
+                if (layananHelp) {
+                    layananHelp.textContent = layananSelect2.value
+                        ? 'Dua layanan dipilih.'
+                        : 'Baru satu layanan dipilih. Layanan 2 bersifat opsional.';
+                }
+            }
+
+            if (layananSelect1 && layananSelect2) {
+                layananSelect1.addEventListener('change', syncLayananDropdown);
+                layananSelect2.addEventListener('change', syncLayananDropdown);
+                syncLayananDropdown();
+            }
+
+            if (formTambah) {
+                formTambah.addEventListener('submit', function (event) {
+                    if (!layananSelect1 || !layananSelect2) {
+                        return;
+                    }
+
+                    if (!layananSelect1.value) {
+                        event.preventDefault();
+                        alert('Layanan 1 wajib dipilih.');
+                        return;
+                    }
+
+                    if (layananSelect2.value && layananSelect2.value === layananSelect1.value) {
+                        event.preventDefault();
+                        alert('Layanan 1 dan layanan 2 tidak boleh sama.');
+                    }
+                });
+            }
+
+            if (hasFormErrors) {
+                document.getElementById('modalTambah').style.display = 'flex';
+            }
         });
 
         function panggil() {

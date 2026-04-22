@@ -12,7 +12,8 @@ class Antrian extends Model
     protected $fillable = [
         'nomor_antrian',
         'nama_pelanggan',
-        'layanan_id',
+        'layanan_id1',
+        'layanan_id2',
         'status',
         'waktu_masuk',
         'waktu_selesai',
@@ -53,12 +54,23 @@ class Antrian extends Model
         }
 
         return Carbon::parse($this->waktu_masuk)
-            ->addMinutes($this->layanan?->estimasi_waktu ?? 30)
+            ->addMinutes($this->layanan1?->estimasi_waktu ?? 30)
             ->toDateTimeString();
     }
 
-    public function layanan()
+    public function layanan1()
     {
-        return $this->belongsTo(Layanan::class);
+        return $this->belongsTo(Layanan::class, 'layanan_id1');
+    }
+
+    public function layanan2()
+    {
+        return $this->belongsTo(Layanan::class, 'layanan_id2');
+    }
+
+    public function layanans()
+    {
+        return $this->belongsToMany(Layanan::class, 'antrian_layanan', 'antrian_id', 'layanan_id')
+            ->withTimestamps();
     }
 }

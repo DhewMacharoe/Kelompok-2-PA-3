@@ -32,4 +32,10 @@ class Layanan extends Model
     {
         return $this;
     }
+
+    public function antrians()
+    {
+        return $this->belongsToMany(Antrian::class, 'antrian_layanan', 'layanan_id', 'antrian_id')
+            ->withTimestamps();
+    }
 }

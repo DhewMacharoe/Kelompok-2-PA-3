@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 use App\Events\AntreanListUpdate;
 use App\Http\Controllers\Controller;
 use App\Models\Antrian;
+use App\Models\Layanan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -60,10 +62,13 @@ class AdminController extends Controller
     {
         Antrian::cancelExpiredWaitingQueues();
 
-        
+        $layananAktif = Layanan::where('is_active', true)
+            ->orderBy('nama', 'asc')
+            ->get();
+
         $antrians = Antrian::orderBy('created_at', 'asc')->get();
 
-        return view('admin.antrian.antrian', compact('antrians'));
+        return view('admin.antrian.antrian', compact('antrians', 'layananAktif'));
     }
 
     // Menampilkan halaman form tambah pelanggan
@@ -76,7 +81,20 @@ class AdminController extends Controller
     public function simpanPelanggan(Request $request)
     {
         $request->validate([
-            'nama_pelanggan' => 'required|string|max:255'
+            'nama_pelanggan' => 'required|string|max:255',
+            'layanan_id1' => [
+                'required',
+                Rule::exists('layanans', 'id')->where(function ($query) {
+                    $query->where('is_active', true);
+                }),
+            ],
+            'layanan_id2' => [
+                'nullable',
+                'different:layanan_id1',
+                Rule::exists('layanans', 'id')->where(function ($query) {
+                    $query->where('is_active', true);
+                }),
+            ],
         ]);
 
         // Cari nomor antrian terakhir di hari yang sama
@@ -94,9 +112,14 @@ class AdminController extends Controller
         $nomorFormat = str_pad($nomorBaru, 2, '0', STR_PAD_LEFT);
 
         // Simpan ke database
+        $layananId1 = $request->input('layanan_id1');
+        $layananId2 = $request->input('layanan_id2');
+
         $antrian = Antrian::create([
             'nomor_antrian' => $nomorFormat,
             'nama_pelanggan' => $request->nama_pelanggan,
+            'layanan_id1' => $layananId1,
+            'layanan_id2' => $layananId2,
             'status' => 'menunggu',
             'waktu_masuk' => now()
         ]);

@@ -109,11 +109,37 @@
   </div>
 
   <div class="offcanvas-body">
-      <form action="{{ route('antrian.store') }}" method="POST">
+      <form id="formTambahAntrianPelanggan" action="{{ route('antrian.store') }}" method="POST">
           @csrf
-          <div class="mb-4">
+          <div class="mb-4" style="display: none;">
               <label for="nama_pelanggan" class="form-label text-muted">Nama Pelanggan</label>
-              <input type="text" class="form-control form-control-lg" id="nama_pelanggan" name="nama_pelanggan" placeholder="Ketik nama di sini..." required>
+              <input type="text" class="form-control form-control-lg" id="nama_pelanggan" value="{{ auth()->user()->username ?? '' }}" readonly>
+              <small class="text-muted">Nama otomatis diambil dari akun yang sedang login.</small>
+          </div>
+          <div class="mb-4">
+              <label for="layanan_id1" class="form-label text-muted">Layanan 1 (wajib)</label>
+              <select id="layanan_id1" name="layanan_id1" class="form-control form-control-lg" required>
+                  <option value="">Pilih layanan 1</option>
+                  @foreach ($layananAktif as $layanan)
+                      <option value="{{ $layanan->id }}" @selected((string) $layanan->id === (string) old('layanan_id1'))>{{ $layanan->nama }}</option>
+                  @endforeach
+              </select>
+              @error('layanan_id1')
+                  <small class="text-danger">{{ $message }}</small>
+              @enderror
+          </div>
+          <div class="mb-4">
+              <label for="layanan_id2" class="form-label text-muted">Layanan 2 (opsional)</label>
+              <select id="layanan_id2" name="layanan_id2" class="form-control form-control-lg">
+                  <option value="">Pilih layanan 2</option>
+                  @foreach ($layananAktif as $layanan)
+                      <option value="{{ $layanan->id }}" @selected((string) $layanan->id === (string) old('layanan_id2'))>{{ $layanan->nama }}</option>
+                  @endforeach
+              </select>
+              <small class="text-muted" id="layanan-help-pelanggan">Layanan 2 tidak boleh sama dengan layanan 1.</small>
+              @error('layanan_id2')
+                  <small class="text-danger d-block">{{ $message }}</small>
+              @enderror
           </div>
           <div class="d-grid">
               <button type="submit" class="btn btn-submit-bottom btn-lg">Tambah</button>
@@ -136,6 +162,64 @@
     }
     document.addEventListener('DOMContentLoaded', function () {
         console.log('Echo script loaded');
+
+        const layananSelect1 = document.getElementById('layanan_id1');
+        const layananSelect2 = document.getElementById('layanan_id2');
+        const layananHelp = document.getElementById('layanan-help-pelanggan');
+        const formTambahPelanggan = document.getElementById('formTambahAntrianPelanggan');
+
+        function syncLayananDropdownPelanggan() {
+            if (!layananSelect1 || !layananSelect2) {
+                return;
+            }
+
+            const selectedLayanan1 = layananSelect1.value;
+
+            Array.from(layananSelect2.options).forEach(option => {
+                if (!option.value) {
+                    return;
+                }
+
+                const isSameAsLayanan1 = selectedLayanan1 !== '' && option.value === selectedLayanan1;
+                option.disabled = isSameAsLayanan1;
+                option.hidden = isSameAsLayanan1;
+            });
+
+            if (layananSelect2.value && layananSelect2.value === selectedLayanan1) {
+                layananSelect2.value = '';
+            }
+
+            if (layananHelp) {
+                layananHelp.textContent = layananSelect2.value
+                    ? 'Dua layanan dipilih.'
+                    : 'Layanan 2 opsional dan tidak boleh sama dengan layanan 1.';
+            }
+        }
+
+        if (layananSelect1 && layananSelect2) {
+            layananSelect1.addEventListener('change', syncLayananDropdownPelanggan);
+            layananSelect2.addEventListener('change', syncLayananDropdownPelanggan);
+            syncLayananDropdownPelanggan();
+        }
+
+        if (formTambahPelanggan) {
+            formTambahPelanggan.addEventListener('submit', function (event) {
+                if (!layananSelect1 || !layananSelect2) {
+                    return;
+                }
+
+                if (!layananSelect1.value) {
+                    event.preventDefault();
+                    alert('Layanan 1 wajib dipilih.');
+                    return;
+                }
+
+                if (layananSelect2.value && layananSelect2.value === layananSelect1.value) {
+                    event.preventDefault();
+                    alert('Layanan 1 dan layanan 2 tidak boleh sama.');
+                }
+            });
+        }
 
         if (typeof window.Echo === 'undefined') {
             console.error('window.Echo is not defined');
