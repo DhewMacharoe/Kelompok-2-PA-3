@@ -2,6 +2,10 @@
 
 @section('title', 'Menu Kafe')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+@endpush
+
 @section('content')
     <section class="menu-hero">
         <div class="menu-hero-overlay">

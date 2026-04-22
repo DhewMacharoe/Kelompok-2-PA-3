@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Layanan</title>
 </head>
+
 <body>
     <h1>Layanan Arga's Home</h1>
 
@@ -14,7 +16,7 @@
             <p>Estimasi: {{ $item->estimasi_waktu ?? '-' }}</p>
             <p>Deskripsi: {{ $item->deskripsi }}</p>
 
-            @if($item->foto)
+            @if ($item->foto)
                 <img src="{{ asset('storage/' . $item->foto) }}" width="150">
             @endif
         </div>
@@ -29,7 +31,7 @@
             <p>Harga: Rp{{ number_format($item->harga, 0, ',', '.') }}</p>
             <p>Deskripsi: {{ $item->deskripsi }}</p>
 
-            @if($item->foto)
+            @if ($item->foto)
                 <img src="{{ asset('storage/' . $item->foto) }}" width="150">
             @endif
         </div>
@@ -37,4 +39,5 @@
         <p>Belum ada menu kafe.</p>
     @endforelse
 </body>
+
 </html>

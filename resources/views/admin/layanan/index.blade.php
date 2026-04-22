@@ -7,8 +7,9 @@
 @endsection
 
 @section('content')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
-        /* CSS Khusus Halaman Ini */
         .main-container {
             padding: 20px;
             font-family: 'Inter', sans-serif;
@@ -16,7 +17,6 @@
             margin: 0 auto;
         }
 
-        /* Tombol Tambah */
         .btn-tambah {
             background-color: #4CC779;
             color: white;
@@ -30,7 +30,6 @@
             cursor: pointer;
         }
 
-        /* Styling Tabel */
         .table-container {
             background: white;
             border-radius: 12px;
@@ -55,7 +54,6 @@
             border-bottom: 1px solid #eee;
         }
 
-        /* Status Badge */
         .status-text {
             font-weight: 500;
         }
@@ -66,7 +64,6 @@
             font-weight: 600;
         }
 
-        /* Badge */
         .badge-active {
             background-color: #4CC779;
             color: white;
@@ -224,25 +221,22 @@
 
     <div class="main-container">
         @if (session('success'))
-            <div
-                style="background-color: #4CC779; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
-                {{ session('success') }}
-            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: '{{ session('success') }}',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                });
+            </script>
         @endif
 
         <div
             style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: space-between; margin-bottom: 8px;">
             <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; flex: 1; min-width: 320px;">
-                <div>
-                    <label for="categoryFilter"
-                        style="font-weight: 600; color: #2C3E50; display:block; margin-bottom:6px;">Kategori</label>
-                    <select id="categoryFilter"
-                        style="padding: 10px 12px; border-radius: 8px; border: 1px solid #ddd; min-width: 160px;">
-                        <option value="" {{ empty($category) ? 'selected' : '' }}>Semua</option>
-                        <option value="barber" {{ ($category ?? '') === 'barber' ? 'selected' : '' }}>Barber</option>
-                        <option value="kafe" {{ ($category ?? '') === 'kafe' ? 'selected' : '' }}>Kafe</option>
-                    </select>
-                </div>
                 <div>
                     <label for="statusFilter"
                         style="font-weight: 600; color: #2C3E50; display:block; margin-bottom:6px;">Status</label>
@@ -262,9 +256,8 @@
             </div>
 
             <div style="display: flex; align-items: flex-end;">
-                <a href="{{ route('admin.layanan.create') }}" class="btn-tambah shadow-sm" style="white-space: nowrap;">
-                    + Tambah
-                </a>
+                <a href="{{ route('admin.layanan.create') }}" class="btn-tambah shadow-sm" style="white-space: nowrap;">+
+                    Tambah</a>
             </div>
         </div>
 
@@ -275,18 +268,16 @@
                 <thead>
                     <tr>
                         <th>Nama</th>
-                        <th>Kategori</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($layanans as $item)
-                        <tr data-name="{{ strtolower($item->nama) }}" data-category="{{ strtolower($item->kategori) }}"
+                        <tr data-name="{{ strtolower($item->nama) }}"
                             data-status="{{ $item->is_active ? 'aktif' : 'nonaktif' }}"
                             data-description="{{ strtolower($item->deskripsi ?? '') }}">
                             <td>{{ $item->nama }}</td>
-                            <td>{{ ucfirst($item->kategori) }}</td>
                             <td>
                                 @if ($item->is_active)
                                     <span class="badge badge-active">Aktif</span>
@@ -298,26 +289,35 @@
                                 <button type="button" class="btn btn-secondary btn-sm btn-view"
                                     data-nama="{{ $item->nama }}"
                                     data-foto="{{ $item->foto ? asset('storage/' . $item->foto) : '' }}"
-                                    data-kategori="{{ ucfirst($item->kategori) }}"
                                     data-harga="Rp {{ number_format($item->harga, 0, ',', '.') }}"
                                     data-estimasi="{{ $item->estimasi_waktu ?? '-' }}"
                                     data-status="{{ $item->is_active ? 'Aktif' : 'Nonaktif' }}"
                                     data-deskripsi="{{ str_replace(["\r", "\n"], ' ', e($item->deskripsi ?? 'Tidak ada deskripsi tambahan.')) }}">View</button>
+
                                 <form action="{{ route('admin.layanan.toggleStatus', $item->id) }}" method="POST"
+                                    class="form-toggle" data-nama="{{ $item->nama }}"
+                                    data-status="{{ $item->is_active ? 'nonaktifkan' : 'aktifkan' }}"
                                     style="display: inline;">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit"
-                                        class="btn {{ $item->is_active ? 'btn-warning' : 'btn-success' }} btn-sm">
+                                    <button type="button"
+                                        class="btn {{ $item->is_active ? 'btn-warning' : 'btn-success' }} btn-sm btn-toggle-alert">
                                         {{ $item->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
                                     </button>
                                 </form>
+
                                 <a href="{{ route('admin.layanan.edit', $item->id) }}"
                                     class="btn btn-primary btn-sm">Edit</a>
 
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal" data-id="{{ $item->id }}"
-                                    data-nama="{{ $item->nama }}">Hapus</button>
+                                <button type="button" class="btn btn-danger btn-sm btn-delete-alert"
+                                    data-id="{{ $item->id }}" data-nama="{{ $item->nama }}">Hapus</button>
+
+                                <form id="delete-form-{{ $item->id }}"
+                                    action="{{ route('admin.layanan.destroy', $item->id) }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             </td>
                         </tr>
                     @empty
@@ -339,63 +339,23 @@
                     <p id="detailLabel" style="margin-top: 8px; color: #556673;">Detail lengkap layanan barbershop.</p>
                 </div>
             </div>
-
             <div id="detailImg" class="detail-modal-img">Tidak ada gambar</div>
-
             <div class="detail-modal-body">
-                <div class="detail-modal-item">
-                    <strong>Kategori</strong>
-                    <span id="detailKategori">-</span>
-                </div>
-                <div class="detail-modal-item">
-                    <strong>Harga</strong>
-                    <span id="detailHarga">-</span>
-                </div>
-                <div class="detail-modal-item">
-                    <strong>Estimasi Waktu</strong>
-                    <span id="detailEstimasi">-</span>
-                </div>
-                <div class="detail-modal-item">
-                    <strong>Status</strong>
-                    <span id="detailStatus">-</span>
-                </div>
-                <div class="detail-modal-desc">
-                    <strong>Deskripsi:</strong>
+                <div class="detail-modal-item"><strong>Harga</strong> <span id="detailHarga">-</span></div>
+                <div class="detail-modal-item"><strong>Estimasi Waktu</strong> <span id="detailEstimasi">-</span></div>
+                <div class="detail-modal-item"><strong>Status</strong> <span id="detailStatus">-</span></div>
+                <div class="detail-modal-desc"><strong>Deskripsi:</strong>
                     <p id="detailDeskripsi" style="margin-top: 8px;">-</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Apakah Anda yakin ingin menghapus layanan "<strong id="deleteServiceName"></strong>"?</p>
-                    <p class="text-muted">Tindakan ini tidak dapat dibatalkan.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <form id="deleteForm" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
+        // === LOGIKA MODAL VIEW ===
         const modal = document.getElementById('detailModal');
         const detailImg = document.getElementById('detailImg');
         const detailNama = document.getElementById('detailNama');
-        const detailKategori = document.getElementById('detailKategori');
         const detailHarga = document.getElementById('detailHarga');
         const detailEstimasi = document.getElementById('detailEstimasi');
         const detailStatus = document.getElementById('detailStatus');
@@ -405,7 +365,6 @@
         document.querySelectorAll('.btn-view').forEach(button => {
             button.addEventListener('click', () => {
                 detailNama.textContent = button.dataset.nama;
-                detailKategori.textContent = button.dataset.kategori;
                 detailHarga.textContent = button.dataset.harga;
                 detailEstimasi.textContent = button.dataset.estimasi;
                 detailStatus.textContent = button.dataset.status;
@@ -418,36 +377,69 @@
                     detailImg.style.backgroundImage = 'none';
                     detailImg.textContent = 'Tidak ada gambar';
                 }
-
                 modal.classList.add('show');
             });
         });
 
-        detailClose.addEventListener('click', () => {
-            modal.classList.remove('show');
-        });
-
+        detailClose.addEventListener('click', () => modal.classList.remove('show'));
         modal.addEventListener('click', event => {
-            if (event.target === modal) {
-                modal.classList.remove('show');
-            }
+            if (event.target === modal) modal.classList.remove('show');
         });
 
-        // Delete Modal Handling
-        const deleteModalEl = document.getElementById('deleteModal');
-        const deleteServiceName = document.getElementById('deleteServiceName');
-        const deleteForm = document.getElementById('deleteForm');
 
-        deleteModalEl.addEventListener('show.bs.modal', event => {
-            const button = event.relatedTarget;
-            const serviceId = button.getAttribute('data-id');
-            const serviceName = button.getAttribute('data-nama');
+        // === LOGIKA SWEETALERT2 UNTUK AKSI BUTTON ===
 
-            deleteServiceName.textContent = serviceName;
-            deleteForm.action = `/admin/layanan/${serviceId}`;
+        // 1. Konfirmasi Ubah Status
+        document.querySelectorAll('.btn-toggle-alert').forEach(button => {
+            button.addEventListener('click', function() {
+                const form = this.closest('form');
+                const nama = form.dataset.nama;
+                const statusAction = form.dataset.status; // "aktifkan" atau "nonaktifkan"
+
+                Swal.fire({
+                    title: 'Konfirmasi Perubahan',
+                    text: `Apakah Anda yakin ingin ${statusAction} layanan "${nama}"?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: statusAction === 'aktifkan' ? '#198754' : '#f39c12',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: `Ya, ${statusAction}`,
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Submit form jika disetujui
+                    }
+                });
+            });
         });
 
-        const categoryFilter = document.getElementById('categoryFilter');
+        // 2. Konfirmasi Hapus Data
+        document.querySelectorAll('.btn-delete-alert').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.dataset.id;
+                const nama = this.dataset.nama;
+
+                Swal.fire({
+                    title: 'Hapus Layanan?',
+                    text: `Apakah Anda yakin ingin menghapus layanan "${nama}"? Data yang dihapus tidak dapat dikembalikan.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Jalankan form hidden yang sesuai dengan ID
+                        document.getElementById(`delete-form-${id}`).submit();
+                    }
+                });
+            });
+        });
+
+
+        // === LOGIKA FILTER & SEARCH (Tetap Sama) ===
+        const categoryFilter = document.getElementById('categoryFilter'); // (Asumsi ada, atau skip jika error)
         const statusFilter = document.getElementById('statusFilter');
         const searchInput = document.getElementById('searchInput');
         const suggestionBox = document.getElementById('searchSuggestion');
@@ -479,24 +471,13 @@
 
         function doesMatch(row, query) {
             const name = row.dataset.name;
-            const category = row.dataset.category;
             const description = row.dataset.description;
-
             if (!query) return true;
+            if (name.includes(query) || description.includes(query)) return true;
+            if (query.length <= 2) return name.startsWith(query);
 
-            if (name.includes(query) || category.includes(query) || description.includes(query)) {
-                return true;
-            }
-
-            if (query.length <= 2) {
-                return name.startsWith(query) || category.startsWith(query);
-            }
-
-            const fields = [name, category, description];
-            return fields.some(field => {
-                const score = similarity(field, query);
-                return score >= 0.72;
-            });
+            const fields = [name, description];
+            return fields.some(field => similarity(field, query) >= 0.72);
         }
 
         function updateSuggestion(query) {
@@ -504,14 +485,11 @@
                 suggestionBox.textContent = '';
                 return;
             }
-
-            const scores = rows.map(row => {
-                    const name = row.dataset.name;
-                    return {
-                        name,
-                        score: similarity(name, query)
-                    };
-                }).filter(item => item.score > 0.35)
+            const scores = rows.map(row => ({
+                    name: row.dataset.name,
+                    score: similarity(row.dataset.name, query)
+                }))
+                .filter(item => item.score > 0.35)
                 .sort((a, b) => b.score - a.score)
                 .slice(0, 4)
                 .map(item => item.name);
@@ -520,7 +498,6 @@
                 suggestionBox.textContent = '';
                 return;
             }
-
             if (scores.length) {
                 const suggestions = scores.map(name => `<strong>${name}</strong>`).join(', ');
                 suggestionBox.innerHTML = `Mungkin Anda maksud: ${suggestions}`;
@@ -530,31 +507,20 @@
         }
 
         function filterRows() {
-            const category = categoryFilter.value.toLowerCase();
-            const status = statusFilter.value.toLowerCase();
-            const query = searchInput.value.trim().toLowerCase();
-            let visibleCount = 0;
+            const status = statusFilter ? statusFilter.value.toLowerCase() : '';
+            const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
 
             rows.forEach(row => {
-                const matchesCategory = !category || row.dataset.category === category;
                 const matchesStatus = !status || row.dataset.status === status;
                 const matchesSearch = doesMatch(row, query);
-                const visible = matchesCategory && matchesStatus && matchesSearch;
-                row.style.display = visible ? '' : 'none';
-                if (visible) visibleCount++;
+                row.style.display = (matchesStatus && matchesSearch) ? '' : 'none';
             });
-
             updateSuggestion(query);
-
-            if (!query) {
-                suggestionBox.textContent = '';
-            }
+            if (!query) suggestionBox.textContent = '';
         }
 
-        [categoryFilter, statusFilter, searchInput].forEach(element => {
-            element.addEventListener('input', filterRows);
-            element.addEventListener('change', filterRows);
-        });
+        if (statusFilter) statusFilter.addEventListener('change', filterRows);
+        if (searchInput) searchInput.addEventListener('input', filterRows);
     </script>
 
     <div style="height:50px;"></div>

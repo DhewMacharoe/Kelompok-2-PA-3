@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('layanans', function (Blueprint $table) {
-            $table->string('kategori')->change();
         });
     }
 

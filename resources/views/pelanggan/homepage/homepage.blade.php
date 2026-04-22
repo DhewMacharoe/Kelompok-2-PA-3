@@ -21,11 +21,12 @@
                 </div>
             </div>
             <div class="card-body text-center py-4">
-                @if($antrian)
+                @if ($antrian)
                     <div class="text-uppercase small text-muted mb-2">Nomor aktif</div>
                     <h2 class="mb-2 fw-bold text-dark" id="antrian-nomor" style="letter-spacing: 3px;">
                         {{ $antrian->nomor_antrian }}</h2>
-                    <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill bg-light text-dark fw-semibold mb-3" id="antrian-status">
+                    <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill bg-light text-dark fw-semibold mb-3"
+                        id="antrian-status">
                         {{ $antrian->status === 'sedang dilayani' ? 'Sedang dilayani' : ucfirst($antrian->status) }}
                     </div>
                     <p class="mb-0 text-muted">{{ $antrian->nama_pelanggan }}</p>
@@ -97,28 +98,28 @@
 @endsection
 @push('scripts')
     @push('scripts')
-    <script type="module">
-        document.addEventListener('DOMContentLoaded', function() {
+        <script type="module">
+            document.addEventListener('DOMContentLoaded', function() {
 
-            window.Echo.channel('Antrian-channel')
-                .listen('AntreanUpadate', (e) => {
+                window.Echo.channel('Antrian-channel')
+                    .listen('AntreanUpadate', (e) => {
 
-                    console.log('DATA MASUK:', e);
+                        console.log('DATA MASUK:', e);
 
-                    let antrian = e.antrean;
+                        let antrian = e.antrean;
 
-                    // Update nomor antrian
-                    let nomorEl = document.getElementById('antrian-nomor');
-                    if (nomorEl) {
-                        nomorEl.textContent = antrian.nomor_antrian;
-                    }
+                        // Update nomor antrian
+                        let nomorEl = document.getElementById('antrian-nomor');
+                        if (nomorEl) {
+                            nomorEl.textContent = antrian.nomor_antrian;
+                        }
 
-                    // Update status
-                    let statusEl = document.getElementById('antrian-status');
-                    if (statusEl) {
-                        statusEl.textContent = antrian.status.toUpperCase();
-                    }
-                });
-        });
-    </script>
-@endpush
+                        // Update status
+                        let statusEl = document.getElementById('antrian-status');
+                        if (statusEl) {
+                            statusEl.textContent = antrian.status.toUpperCase();
+                        }
+                    });
+            });
+        </script>
+    @endpush

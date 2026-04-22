@@ -34,15 +34,7 @@ class PublicController extends Controller
 
     public function layanan()
     {
-        $barber = Layanan::where('is_active', 1)
-            ->where('kategori', 'barber')
-            ->get();
-
-        $kafe = Layanan::where('is_active', 1)
-            ->where('kategori', 'kafe')
-            ->get();
-
-        return view('pelanggan.layanan.layanan', compact('barber', 'kafe'));
+        return view('pelanggan.layanan.layanan');
     }
 
     public function galeri()

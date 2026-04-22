@@ -76,6 +76,7 @@
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @php
         use App\Models\Antrian;
@@ -101,26 +102,21 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // ... (Grafik 1 & Grafik 2 tetap sama seperti sebelumnya, tidak saya ubah) ...
+            // Logik Grafik (Tetap sama)
             const canvasStatistik = document.getElementById('statistikChart');
             if (canvasStatistik) {
                 const ctx1 = canvasStatistik.getContext('2d');
-                const chartDataBar = @json($statistikData);
                 new Chart(ctx1, {
                     type: 'bar',
                     data: {
                         labels: ['Menunggu', 'Selesai', 'Batal'],
                         datasets: [{
                             label: 'Jumlah Orang',
-                            data: chartDataBar,
-                            backgroundColor: [
-                                'rgba(54, 162, 235, 0.6)',
-                                'rgba(39, 174, 96, 0.6)',
+                            data: @json($statistikData),
+                            backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(39, 174, 96, 0.6)',
                                 'rgba(255, 99, 132, 0.6)'
                             ],
-                            borderColor: [
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(39, 174, 96, 1)',
+                            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(39, 174, 96, 1)',
                                 'rgba(255, 99, 132, 1)'
                             ],
                             borderWidth: 1,
@@ -149,20 +145,16 @@
             const canvasTrend = document.getElementById('trendChart');
             if (canvasTrend) {
                 const ctx2 = canvasTrend.getContext('2d');
-                const labelsLine = @json($trendLabels);
-                const chartDataLine = @json($trendData);
                 new Chart(ctx2, {
                     type: 'line',
                     data: {
-                        labels: labelsLine,
+                        labels: @json($trendLabels),
                         datasets: [{
                             label: 'Total Pengunjung',
-                            data: chartDataLine,
+                            data: @json($trendData),
                             borderColor: 'rgba(47, 128, 237, 1)',
                             backgroundColor: 'rgba(47, 128, 237, 0.1)',
                             borderWidth: 3,
-                            pointBackgroundColor: 'rgba(47, 128, 237, 1)',
-                            pointRadius: 4,
                             fill: true,
                             tension: 0.4
                         }]
@@ -187,58 +179,101 @@
             }
         });
 
-        // === FUNGSI JAVASCRIPT BARU UNTUK TOMBOL ===
 
         function panggil() {
-            fetch("{{ route('admin.antrian.panggil') }}", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert('Antrean berikutnya dipanggil!');
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat memanggil antrean berikutnya.');
-                });
+            Swal.fire({
+                title: 'Panggil Antrean?',
+                text: "Sistem akan memanggil pelanggan selanjutnya ke kursi pangkas.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#0d6efd',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Panggil',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Memproses...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    fetch("{{ route('admin.antrian.panggil') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Panggilan Berhasil',
+                                text: 'Nomor antrean berikutnya telah dipanggil.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => window.location.reload());
+                        })
+                        .catch(error => {
+                            Swal.fire('Gagal', 'Terjadi kesalahan saat memanggil antrean.', 'error');
+                        });
+                }
+            });
         }
 
         function ubahStatus(button, id, targetStatus) {
-            let originalText = button.innerHTML;
-            button.innerHTML = 'Memproses...';
-            button.disabled = true;
+            const executeUpdate = () => {
+                let originalText = button.innerHTML;
+                button.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+                button.disabled = true;
 
-            fetch(`/admin/antrian/${id}/ubah-status`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        status: targetStatus
+                fetch(`/admin/antrian/${id}/ubah-status`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            status: targetStatus
+                        })
                     })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    alert('Status berhasil diubah menjadi: ' + targetStatus);
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat mengubah status.');
-                    button.innerHTML = originalText;
-                    button.disabled = false;
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: `Antrean telah ditandai sebagai ${targetStatus}.`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => window.location.reload());
+                    })
+                    .catch(error => {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                        Swal.fire('Gagal', 'Gagal mengubah status antrean.', 'error');
+                    });
+            };
+
+            // Dialog Konfirmasi Khusus Pembatalan
+            if (targetStatus === 'batal') {
+                Swal.fire({
+                    title: 'Batalkan Antrean?',
+                    text: "Apakah Anda yakin ingin membatalkan antrean ini? Data tidak dapat dikembalikan.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Batalkan!',
+                    cancelButtonText: 'Kembali'
+                }).then((result) => {
+                    if (result.isConfirmed) executeUpdate();
                 });
+            } else {
+                executeUpdate();
+            }
         }
     </script>
 @endpush

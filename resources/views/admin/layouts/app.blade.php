@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,13 +26,12 @@
         /* Sidebar Styling */
         .sidebar {
             background-color: var(--dark-bg);
-            min-height: 100vh;
+            height: 100%;
             color: white;
-            z-index: 100;
         }
 
         .sidebar .nav-link {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             padding: 12px 20px;
             margin: 5px 15px;
             border-radius: 8px;
@@ -40,7 +40,7 @@
 
         .sidebar .nav-link:hover {
             color: white;
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .sidebar .nav-link.active {
@@ -79,36 +79,57 @@
         }
 
         /* Reusable Components from previous design */
-        .queue-card-main { background-color: var(--dark-bg); color: white; border-radius: 15px; padding: 30px; text-align: center; }
-        .queue-number { font-size: 4.5rem; font-weight: 800; }
-        .stat-card { background: white; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .queue-card-main {
+            background-color: var(--dark-bg);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .queue-number {
+            font-size: 4.5rem;
+            font-weight: 800;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
 
         @media (max-width: 768px) {
-            .sidebar { min-height: auto; }
+            .sidebar {
+                min-height: auto;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<div class="container-fluid p-0">
-    <div class="row g-0">
-        <div class="col-md-3 col-lg-2">
-            @include('admin.layouts.sidebar')
-        </div>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <div class="col-md-3 col-lg-2">
+                @include('admin.layouts.sidebar')
+            </div>
 
-        <div class="col-md-9 col-lg-10 main-wrapper">
-            @include('admin.layouts.header')
+            <div class="col-md-9 col-lg-10 main-wrapper">
+                @include('admin.layouts.header')
 
-            <main class="content-area">
-                @yield('content')
-            </main>
+                <main class="content-area">
+                    @yield('content')
+                </main>
 
-            @include('admin.layouts.footer')
+                @include('admin.layouts.footer')
+            </div>
         </div>
     </div>
-</div>
-@stack('scripts')
+    @stack('scripts')
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

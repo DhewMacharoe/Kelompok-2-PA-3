@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('layanans', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->enum('kategori', ['barber', 'kafe']);
             $table->integer('harga');
             $table->string('estimasi_waktu')->nullable();
             $table->text('deskripsi')->nullable();

@@ -10,17 +10,11 @@ class LayananController extends Controller
 {
     public function index(Request $request)
     {
-        $category = $request->query('category');
-
         $query = Layanan::latest();
-
-        if ($category && in_array($category, ['barber', 'kafe'])) {
-            $query->where('kategori', $category);
-        }
 
         $layanans = $query->get();
 
-        return view('admin.layanan.index', compact('layanans', 'category'));
+        return view('admin.layanan.index', compact('layanans'));
     }
 
     public function create()
@@ -45,7 +39,6 @@ class LayananController extends Controller
     {
         $data = $request->validate([
             'nama' => 'required|string|max:255',
-            'kategori' => 'required|in:barber,kafe',
             'harga' => 'required|numeric',
             'estimasi_waktu' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
@@ -72,7 +65,6 @@ class LayananController extends Controller
     {
         $data = $request->validate([
             'nama' => 'required|string|max:255',
-            'kategori' => 'required|in:barber,kafe',
             'harga' => 'required|numeric',
             'estimasi_waktu' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',

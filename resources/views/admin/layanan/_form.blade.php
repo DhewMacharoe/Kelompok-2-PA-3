@@ -9,17 +9,6 @@
 </div>
 
 <div class="form-group">
-    <label>Kategori</label>
-        <select name="kategori" class="form-control">
-            <option value="barber" @selected(old('kategori', $layanan->kategori ?? '') == 'barber')>Barber</option>
-            <option value="kafe" @selected(old('kategori', $layanan->kategori ?? '') == 'kafe')>Kafe</option>
-        </select>
-    @error('kategori')
-        <small class="text-danger">{{ $message }}</small>
-    @enderror
-</div>
-
-<div class="form-group">
     <label>Harga</label>
     <input type="number" name="harga" class="form-control" value="{{ old('harga', $layanan->harga ?? '') }}">
     @error('harga')
@@ -29,7 +18,8 @@
 
 <div class="form-group">
     <label>Estimasi Waktu</label>
-    <input type="text" name="estimasi_waktu" class="form-control" value="{{ old('estimasi_waktu', $layanan->estimasi_waktu ?? '') }}">
+    <input type="text" name="estimasi_waktu" class="form-control"
+        value="{{ old('estimasi_waktu', $layanan->estimasi_waktu ?? '') }}">
     @error('estimasi_waktu')
         <small class="text-danger">{{ $message }}</small>
     @enderror
@@ -51,7 +41,7 @@
     @enderror
 </div>
 
-@if(!empty($layanan?->foto))
+@if (!empty($layanan?->foto))
     <div class="form-group">
         <label>Preview Gambar</label><br>
         <img src="{{ asset('storage/' . $layanan->foto) }}" class="preview-img">

@@ -7,8 +7,10 @@
 @endsection
 
 @section('content')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
-        /* CSS Khusus Halaman Ini */
+        /* CSS Khusus Halaman Ini (Tetap sama seperti aslinya) */
         .main-container {
             padding: 20px;
             font-family: 'Inter', sans-serif;
@@ -153,7 +155,6 @@
         /* --- CSS BARU UNTUK CARD FORM (MODAL) --- */
         .modal-overlay {
             display: none;
-            /* Sembunyikan secara default */
             position: fixed;
             top: 0;
             left: 0;
@@ -272,11 +273,22 @@
             cursor: pointer;
             font-weight: 500;
         }
-
-        /* --- AKHIR CSS BARU --- */
     </style>
 
     <div class="main-container">
+        @if (session('success'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: '{{ session('success') }}',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                });
+            </script>
+        @endif
 
         @php
             $current = $antrians->where('status', 'sedang dilayani')->first();
@@ -407,7 +419,8 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="form-help" id="layanan-help">Pilih layanan kedua jika dibutuhkan, dan tidak boleh sama dengan layanan 1.</div>
+                    <div class="form-help" id="layanan-help">Pilih layanan kedua jika dibutuhkan, dan tidak boleh sama
+                        dengan layanan 1.</div>
                     @error('layanan_id2')
                         <div class="form-error">{{ $message }}</div>
                     @enderror
@@ -424,6 +437,7 @@
     <div style="height:50px;"></div>
 
     <script>
+        // === LOGIKA FILTER ===
         function filterAntrian(status, button) {
             const rows = document.querySelectorAll('#antrianTableBody tr[data-status]');
             const buttons = document.querySelectorAll('.filter-btn');
@@ -441,7 +455,7 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const defaultButton = document.querySelector('.filter-btn[data-filter="menunggu"]');
             filterAntrian('menunggu', defaultButton);
 
@@ -473,9 +487,9 @@
                 }
 
                 if (layananHelp) {
-                    layananHelp.textContent = layananSelect2.value
-                        ? 'Dua layanan dipilih.'
-                        : 'Baru satu layanan dipilih. Layanan 2 bersifat opsional.';
+                    layananHelp.textContent = layananSelect2.value ?
+                        'Dua layanan dipilih.' :
+                        'Baru satu layanan dipilih. Layanan 2 bersifat opsional.';
                 }
             }
 
@@ -485,21 +499,30 @@
                 syncLayananDropdown();
             }
 
+            // === PERUBAHAN SWEETALERT: Validasi Form ===
             if (formTambah) {
-                formTambah.addEventListener('submit', function (event) {
+                formTambah.addEventListener('submit', function(event) {
                     if (!layananSelect1 || !layananSelect2) {
                         return;
                     }
 
                     if (!layananSelect1.value) {
                         event.preventDefault();
-                        alert('Layanan 1 wajib dipilih.');
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Peringatan',
+                            text: 'Layanan 1 wajib dipilih.'
+                        });
                         return;
                     }
 
                     if (layananSelect2.value && layananSelect2.value === layananSelect1.value) {
                         event.preventDefault();
-                        alert('Layanan 1 dan layanan 2 tidak boleh sama.');
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Peringatan',
+                            text: 'Layanan 1 dan layanan 2 tidak boleh sama.'
+                        });
                     }
                 });
             }
@@ -509,68 +532,7 @@
             }
         });
 
-        function panggil() {
-            fetch("{{ route('admin.antrian.panggil') }}", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert('Antrean berikutnya dipanggil!');
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat memanggil antrean berikutnya.');
-                });
-        }
-
-        function ubahStatus(button, id, targetStatus) {
-            // Simpan teks asli
-            let originalText = button.innerHTML;
-            button.innerHTML = 'Memproses...';
-            button.disabled = true;
-
-            // PERBAIKAN: Sesuaikan URL fetch dengan route prefix 'admin/antrian/...'
-            fetch(`/admin/antrian/${id}/ubah-status`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Pastikan ini ada di dalam file .blade.php
-                    },
-                    body: JSON.stringify({
-                        status: targetStatus
-                    })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    alert('Status berhasil diubah menjadi: ' + targetStatus);
-
-                    if (targetStatus === 'selesai') {
-                        button.innerHTML = 'Selesai Diproses';
-                    } else {
-                        button.innerHTML = 'Dibatalkan';
-                    }
-
-                    // Opsional: Muat ulang halaman (refresh) agar antrean dan tabel ikut ter-update
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat mengubah status.');
-                    button.innerHTML = originalText;
-                    button.disabled = false;
-                });
-        }
-
+        // === LOGIKA MODAL TAMBAH ===
         function toggleModal() {
             const modal = document.getElementById('modalTambah');
             if (modal.style.display === 'flex') {
@@ -584,6 +546,112 @@
             if (event.target == modal) {
                 modal.style.display = "none";
             }
+        }
+
+        // === PERUBAHAN SWEETALERT: Fungsi Panggil ===
+        function panggil() {
+            Swal.fire({
+                title: 'Panggil Antrean?',
+                text: "Sistem akan memanggil pelanggan selanjutnya.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#2F80ED',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Panggil',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Tampilkan loading saat fetch berjalan
+                    Swal.fire({
+                        title: 'Memproses...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    fetch("{{ route('admin.antrian.panggil') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: 'Antrean berikutnya dipanggil!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire('Gagal', 'Terjadi kesalahan saat memanggil antrean berikutnya.', 'error');
+                        });
+                }
+            });
+        }
+
+        // === PERUBAHAN SWEETALERT: Fungsi Ubah Status ===
+        function ubahStatus(button, id, targetStatus) {
+            let swalConfig = {
+                title: targetStatus === 'selesai' ? 'Selesaikan Antrean?' : 'Batalkan Antrean?',
+                text: targetStatus === 'selesai' ? 'Tandai antrean ini sebagai selesai?' :
+                    'Apakah Anda yakin ingin membatalkan antrean ini?',
+                icon: targetStatus === 'selesai' ? 'question' : 'warning',
+                showCancelButton: true,
+                confirmButtonColor: targetStatus === 'selesai' ? '#4CC779' : '#EB5757',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: targetStatus === 'selesai' ? 'Ya, Selesai' : 'Ya, Batalkan',
+                cancelButtonText: 'Kembali'
+            };
+
+            Swal.fire(swalConfig).then((result) => {
+                if (result.isConfirmed) {
+                    let originalText = button.innerHTML;
+                    button.innerHTML = 'Memproses...';
+                    button.disabled = true;
+
+                    fetch(`/admin/antrian/${id}/ubah-status`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                status: targetStatus
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: 'Status berhasil diubah menjadi: ' + targetStatus,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire('Gagal', 'Terjadi kesalahan saat mengubah status.', 'error');
+                            button.innerHTML = originalText;
+                            button.disabled = false;
+                        });
+                }
+            });
         }
     </script>
 @endsection
