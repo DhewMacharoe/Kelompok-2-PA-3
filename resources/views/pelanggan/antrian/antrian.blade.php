@@ -145,6 +145,21 @@
             letter-spacing: 0.4px;
             margin-right: 6px;
         }
+
+        .guest-queue-hint {
+            border: 1px dashed #d8bd79;
+            background: linear-gradient(135deg, #fffdf7 0%, #fff6e4 100%);
+            border-radius: 12px;
+            padding: 14px 16px;
+            text-align: center;
+        }
+
+        .guest-queue-hint p {
+            margin: 0;
+            color: #4a3f2b;
+            font-weight: 600;
+            line-height: 1.45;
+        }
     </style>
 @endpush
 
@@ -251,7 +266,9 @@
                                 </button>
                             @endif
                         @else
-                            <a href="{{ route('login.user') }}" class="btn btn-add-queue" style="width: 100%; text-decoration: none; display: block; text-align: center;">Login</a>
+                            <div class="guest-queue-hint">
+                                <p>Pergi ke kasir untuk mengambil antrian atau login menggunakan Google.</p>
+                            </div>
                         @endauth
                     </div>
 

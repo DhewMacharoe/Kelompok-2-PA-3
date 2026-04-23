@@ -14,15 +14,8 @@
     <div class="auth-card auth-card--compact">
         <div class="auth-form">
             <div class="auth-form-inner">
-                <div class="auth-badge">
-                    <div class="auth-dot"></div>
-                    <span>Profile Setup</span>
-                </div>
-
                 <div class="auth-kicker">Langkah terakhir</div>
                 <h2 class="auth-section-title">Pilih username untuk Arga's Home</h2>
-                <p class="auth-section-copy">Username ini akan menjadi identitas Anda di sistem. Pilih yang unik, mudah diingat, dan sesuai aturan karakter.</p>
-
                 @if(session('error'))
                     <div class="auth-alert auth-alert--error small text-start">
                         {{ session('error') }}
