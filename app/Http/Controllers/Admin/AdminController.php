@@ -129,7 +129,7 @@ class AdminController extends Controller
             ->orderBy('waktu_masuk', 'asc')
             ->get();
 
-        broadcast(new AntreanListUpdate($antrianList))->toOthers();
+        // broadcast(new AntreanListUpdate($antrianList))->toOthers();
 
         return redirect()->route('admin.antrian')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrian.');
     }
