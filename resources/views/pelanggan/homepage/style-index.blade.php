@@ -51,4 +51,59 @@
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
     }
+
+    @media (max-width: 767.98px) {
+        .hero {
+            height: auto;
+            min-height: 240px;
+            padding-top: 24px;
+            padding-bottom: 24px;
+        }
+
+        .queue-card {
+            max-width: 100%;
+        }
+
+        .icon-circle {
+            width: 54px;
+            height: 54px;
+            font-size: 1.35rem;
+            margin-bottom: 8px;
+        }
+
+        .menu-item {
+            font-size: 0.8rem;
+        }
+
+        .haircut-img {
+            height: 120px;
+        }
+
+        .border-gold-left {
+            border-left-width: 3px;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .hero {
+            min-height: 220px;
+        }
+
+        #antrian-nomor {
+            letter-spacing: 2px !important;
+        }
+
+        .queue-card .bg-gold {
+            padding: 0.85rem !important;
+        }
+
+        .queue-card .bg-gold h5 {
+            font-size: 0.9rem;
+        }
+
+        .container.py-5 {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+        }
+    }
 </style>

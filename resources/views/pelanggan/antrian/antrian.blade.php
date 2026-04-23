@@ -160,6 +160,159 @@
             font-weight: 600;
             line-height: 1.45;
         }
+
+        @media (max-width: 991.98px) {
+            .app-card {
+                margin: 24px auto;
+            }
+
+            .header-section {
+                padding: 42px 20px;
+                min-height: 280px;
+            }
+
+            .active-number {
+                font-size: 4rem;
+            }
+
+            .queue-section {
+                padding: 24px;
+            }
+
+            .footer-section {
+                padding: 16px 24px 24px;
+            }
+
+            .my-queue-card {
+                margin: 16px 24px 0;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .app-card {
+                margin: 16px auto;
+                border-radius: 12px;
+            }
+
+            .header-section {
+                padding: 28px 16px;
+                min-height: auto;
+            }
+
+            .text-gold {
+                margin-bottom: 12px;
+            }
+
+            .active-number-box {
+                padding: 10px 28px;
+                margin: 12px 0;
+            }
+
+            .active-number {
+                font-size: 3rem;
+            }
+
+            .active-name {
+                font-size: 0.95rem;
+                letter-spacing: 1px;
+                margin-top: 12px;
+                word-break: break-word;
+            }
+
+            .queue-section {
+                padding: 16px;
+            }
+
+            .section-title {
+                margin-bottom: 16px;
+            }
+
+            .queue-list-container {
+                max-height: 320px;
+                padding-right: 6px;
+            }
+
+            .queue-card {
+                flex-wrap: wrap;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .queue-number-box {
+                width: 44px;
+                height: 44px;
+                font-size: 1rem;
+            }
+
+            .queue-info {
+                margin-left: 10px;
+                min-width: 0;
+                flex: 1 1 auto;
+            }
+
+            .queue-name {
+                font-size: 0.95rem;
+                overflow-wrap: anywhere;
+            }
+
+            .queue-time {
+                font-size: 0.75rem;
+            }
+
+            .badge-waiting,
+            .badge-mine {
+                font-size: 0.65rem;
+                padding: 4px 8px;
+            }
+
+            .footer-section {
+                padding: 12px 16px 16px;
+            }
+
+            .my-queue-card {
+                margin: 12px 16px 0;
+                padding: 14px;
+            }
+
+            .my-queue-header {
+                align-items: flex-start;
+            }
+
+            .my-queue-number {
+                font-size: 1.1rem;
+                min-width: 52px;
+                padding: 6px 10px;
+            }
+
+            .my-queue-meta-row {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .my-queue-meta-value {
+                text-align: left;
+                overflow-wrap: anywhere;
+            }
+
+            .offcanvas.offcanvas-bottom {
+                max-height: 88vh;
+            }
+
+            .offcanvas .offcanvas-body {
+                overflow-y: auto;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .active-number {
+                font-size: 2.6rem;
+            }
+
+            .my-queue-title {
+                font-size: 0.95rem;
+            }
+        }
     </style>
 @endpush
 

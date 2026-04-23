@@ -1,4 +1,42 @@
-<nav class="navbar navbar-expand-lg" style="background-color: #1a1a1a; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+<style>
+    @media (max-width: 991.98px) {
+        .pelanggan-navbar .navbar-brand {
+            font-size: 1.1rem !important;
+            max-width: calc(100% - 70px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pelanggan-navbar .navbar-collapse {
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+
+        .pelanggan-navbar .nav-link {
+            padding-top: 0.55rem;
+            padding-bottom: 0.55rem;
+        }
+
+        .pelanggan-navbar .navbar-nav .btn {
+            width: 100%;
+            margin-top: 6px;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .pelanggan-navbar .container {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+
+        .pelanggan-navbar .navbar-toggler i {
+            font-size: 1.5rem !important;
+        }
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg pelanggan-navbar" style="background-color: #1a1a1a; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
     <div class="container">
         <a class="navbar-brand text-decoration-none d-flex align-items-center gap-2" href="{{ route('home') }}"
             style="color: #d4af37; font-weight: bold; font-size: 1.3rem;">
