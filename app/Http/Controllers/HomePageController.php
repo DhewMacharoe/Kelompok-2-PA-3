@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Antrian;
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -17,8 +18,8 @@ class HomePageController extends Controller
         ->whereDate('created_at', Carbon::today())
         ->count();
 
-        $flora = "flora";
+        $layanans = Layanan::where('is_active', true)->get();
 
-        return view('pelanggan.homepage.homepage', compact('antrian', 'jumlahAntrian', 'flora'));
+        return view('pelanggan.homepage.homepage', compact('antrian', 'jumlahAntrian','layanans' ));
     }
 }

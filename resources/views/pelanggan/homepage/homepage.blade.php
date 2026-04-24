@@ -64,7 +64,7 @@
             <div class="col-6 col-md-3">
                 <a href="{{ route('menu') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
                     <div class="icon-circle shadow-sm"><i class="fas fa-coffee"></i></div>
-                    Menu Coffee {{ $flora }}
+                    Menu Coffee
                 </a>
             </div>
         </div>
@@ -72,26 +72,21 @@
         <h4 class="border-gold-left ps-2 mb-4 fw-bold">Jenis Model Rambut Lainnya</h4>
 
         <div class="row g-3">
+            @foreach ($layanans as $layanan)
             <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                 <div class="card haircut-card shadow-sm border-0 h-100">
+
                     <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=600"
                         class="card-img-top haircut-img" alt="Buzz Cut">
                     <div class="card-body p-2 text-center">
-                        <h6 class="card-title text-muted mb-1" style="font-size: 0.9rem;">Buzz Cut</h6>
-                        <p class="card-text fw-bold text-dark mb-0">Rp 50.000</p>
+                        <h6 class="card-title text-muted mb-1" style="font-size: 0.9rem;">{{ $layanan->nama }}</h6>
+                        <p class="card-text fw-bold text-dark mb-0">{{ $layanan->harga }}</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                <div class="card haircut-card shadow-sm border-0 h-100">
-                    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=600"
-                        class="card-img-top haircut-img" alt="Undercut">
-                    <div class="card-body p-2 text-center">
-                        <h6 class="card-title text-muted mb-1" style="font-size: 0.9rem;">Undercut</h6>
-                        <p class="card-text fw-bold text-dark mb-0">Rp 50.000</p>
-                    </div>
-                </div>
+            @endforeach
+
             </div>
         </div>
     </div>

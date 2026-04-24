@@ -335,9 +335,9 @@
                     <div class="active-number-box">
                         <p class="active-number" id="antrian-nomor">{{ $dipanggil ? $dipanggil->nomor_antrian : '0' }}</p>
                     </div>
-                    <div class="active-name" id = "antrian-nama">{{ $dipanggil ? $dipanggil->nama_pelanggan : 'Tidak ada' }}
+                    <div class="active-name" id = "antrian-nama">{{ $dipanggil ? $dipanggil->nama_pelanggan : 'Tidak ada antrian' }}
                     </div>
-                    <div class="active-name" id = "antrian-status">{{ $dipanggil ? $dipanggil->status : 'Tidak ada' }}
+                    <div class="active-name" id = "antrian-status">{{ $dipanggil ? $dipanggil->status : '' }}
                     </div>
                 </div>
             </div>
@@ -420,7 +420,7 @@
                             @endif
                         @else
                             <div class="guest-queue-hint">
-                                <p>Pergi ke kasir untuk mengambil antrian atau login menggunakan Google.</p>
+                                <p>Pergi ke kasir untuk mengambil antrian atau login menggunakan Google.klik <a href="{{ route('login.user') }}">disini untuk login</a></p>
                             </div>
                         @endauth
                     </div>
