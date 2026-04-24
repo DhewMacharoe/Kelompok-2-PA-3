@@ -3,8 +3,10 @@
 @section('title', 'Layanan')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    @include('pelanggan.layanan.styles')
+    @include('pelanggan.homepage.style-index')
 @endpush
+
 
 @section('content')
     <section class="layanan-hero">
@@ -26,7 +28,14 @@
                 <div class="layanan-card">
                     <div class="layanan-card-image">
                         @if ($layanan->foto)
-                            <img src="{{ asset('storage/' . $layanan->foto) }}" alt="{{ $layanan->nama }}">
+                            @php
+                                // Sementara: dukung URL eksternal dari seeder API gambar.
+                                // <img src="{{ asset('storage/' . $layanan->foto) }}" alt="{{ $layanan->nama }}">
+                                $fotoLayanan = \Illuminate\Support\Str::startsWith($layanan->foto, ['http://', 'https://'])
+                                    ? $layanan->foto
+                                    : asset('storage/' . $layanan->foto);
+                            @endphp
+                            <img src="{{ $fotoLayanan }}" alt="{{ $layanan->nama }}">
                         @else
                             <img src="https://via.placeholder.com/1200x800?text=No+Image" alt="{{ $layanan->nama }}">
                         @endif
@@ -44,8 +53,6 @@
                 </div>
             @endforelse
         </div>
-        <div class="layanan-note">
-            <p>Informasi layanan ini membantu pelanggan mengetahui pilihan layanan yang tersedia.</p>
-        </div>
+        
     </section>
 @endsection

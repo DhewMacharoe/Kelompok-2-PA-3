@@ -42,7 +42,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::delete('/layanan/{layanan}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
     // Kelola Galeri (Gaya Rambut)
-    Route::view('/galeri', 'admin.galeri')->name('galeri');
+    Route::view('/galeri', 'admin.galeri.index')->name('galeri');
     Route::view('/tambah-gaya', 'admin.tambah-gaya')->name('tambah-gaya');
 
     // Kelola Menu Kafe

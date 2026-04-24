@@ -45,8 +45,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/login-user', [AuthController::class, 'showUserLogin'])->name('login.user');
 Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])->name('firebase.login');
-Route::get('/set-username', [AuthController::class, 'showSetUsername'])->name('set.username');
-Route::post('/set-username', [AuthController::class, 'doSetUsername'])->name('set.username.post');
+Route::get('/set-username', [AuthController::class, 'showSetUsername'])->name('set.username')->middleware('auth');
+Route::post('/set-username', [AuthController::class, 'doSetUsername'])->name('set.username.post')->middleware('auth');
 
 // Test Firebase connection
 Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('test.firebase');

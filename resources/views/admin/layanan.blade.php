@@ -17,7 +17,14 @@
             <p>Deskripsi: {{ $item->deskripsi }}</p>
 
             @if ($item->foto)
-                <img src="{{ asset('storage/' . $item->foto) }}" width="150">
+                @php
+                    // Sementara: dukung URL eksternal dari seeder API gambar.
+                    // <img src="{{ asset('storage/' . $item->foto) }}" width="150">
+                    $fotoBarber = \Illuminate\Support\Str::startsWith($item->foto, ['http://', 'https://'])
+                        ? $item->foto
+                        : asset('storage/' . $item->foto);
+                @endphp
+                <img src="{{ $fotoBarber }}" width="150">
             @endif
         </div>
     @empty
@@ -32,7 +39,14 @@
             <p>Deskripsi: {{ $item->deskripsi }}</p>
 
             @if ($item->foto)
-                <img src="{{ asset('storage/' . $item->foto) }}" width="150">
+                @php
+                    // Sementara: dukung URL eksternal dari seeder API gambar.
+                    // <img src="{{ asset('storage/' . $item->foto) }}" width="150">
+                    $fotoKafe = \Illuminate\Support\Str::startsWith($item->foto, ['http://', 'https://'])
+                        ? $item->foto
+                        : asset('storage/' . $item->foto);
+                @endphp
+                <img src="{{ $fotoKafe }}" width="150">
             @endif
         </div>
     @empty

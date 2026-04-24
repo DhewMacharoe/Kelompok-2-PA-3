@@ -26,10 +26,9 @@
                         class="{{ Request::is('admin/antrian') ? 'active' : '' }}">Antrian</a></li>
                 <li><a href="{{ url('admin/layanan') }}"
                         class="{{ Request::is('admin/layanan') ? 'active' : '' }}">Layanan</a></li>
-                <li><a href="{{ url('admin/galeri') }}"
+                <li><a href="{{ route('admin.galeri') }}"
                         class="{{ Request::is('admin/galeri') ? 'active' : '' }}">Galeri</a></li>
-                <li><a href="{{ url('admin/menu') }}" class="{{ Request::is('admin/menu') ? 'active' : '' }}">Menu
-                        Kafe</a></li>
+                <li><a href="{{ url('admin/menu') }}" class="{{ Request::is('admin/menu') ? 'active' : '' }}">Menu Kafe</a></li>
                 <li><a href="{{ url('admin/rekap') }}"
                         class="{{ Request::is('admin/rekap') ? 'active' : '' }}">Rekap</a></li>
             </ul>
