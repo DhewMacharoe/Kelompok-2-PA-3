@@ -197,12 +197,23 @@ class AuthController extends Controller
                 ->with('info', 'Username sudah diatur sebelumnya.');
         }
 
-        $request->validate([
-            'username' => 'required|string|min:3|max:20|unique:users,username|regex:/^[a-zA-Z0-9_]+$/',
+        $request->merge([
+            'username' => trim((string) $request->input('username')),
+        ]);
+
+        $validated = $request->validate([
+            'username' => 'required|string|min:3|max:20|alpha_dash|unique:users,username',
+        ], [
+            'username.required' => 'Username wajib diisi.',
+            'username.min' => 'Username minimal 3 karakter.',
+            'username.max' => 'Username maksimal 20 karakter.',
+            'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, strip, dan underscore.',
+            'username.unique' => 'Username sudah digunakan, silakan pilih yang lain.',
         ]);
 
         $user = Auth::user();
-        $user->update(['username' => trim($request->username)]);
+        $user->username = $validated['username'];
+        $user->save();
 
         return redirect('/')->with('success', 'Username berhasil diset!');
     }
