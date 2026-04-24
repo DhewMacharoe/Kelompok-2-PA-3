@@ -83,6 +83,7 @@
             flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 16px;
+            align-items: center;
         }
 
         .filter-btn {
@@ -105,6 +106,38 @@
             background: #2F80ED;
             border-color: #2F80ED;
             color: white;
+        }
+
+        .date-filter-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .date-filter-wrap label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+
+        .date-filter-input {
+            border: 1px solid #dfe3e8;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            min-width: 220px;
+        }
+
+        .btn-reset-filter {
+            border: 1px solid #dfe3e8;
+            background: #fff;
+            color: #2C3E50;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
         }
 
         /* Styling Tabel */
@@ -277,15 +310,22 @@
 
     <div class="main-container">
         @if (session('success'))
+            <div id="flash-success" data-message="{{ session('success') }}" hidden></div>
+        @endif
+
+        @if (session('success'))
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil!',
-                        text: '{{ session('success') }}',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
+                    const flashSuccess = document.getElementById('flash-success');
+                    if (flashSuccess && flashSuccess.dataset.message) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: flashSuccess.dataset.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
                 });
             </script>
         @endif
@@ -300,12 +340,12 @@
             <p style="font-size: 18px; font-weight: 500;">{{ $current->nama_pelanggan ?? 'Tidak ada antrean' }}</p>
             @if ($current)
                 <div class="btn-group-serving">
-                    <button type="button" class="btn-panggil shadow-sm"
-                        onclick="ubahStatus(this, {{ $current->id }}, 'selesai')">
+                    <button type="button" class="btn-panggil shadow-sm queue-action-btn"
+                        data-queue-id="{{ $current->id }}" data-queue-status="selesai">
                         Selesai
                     </button>
-                    <button type="button" class="btn-batal shadow-sm"
-                        onclick="ubahStatus(this, {{ $current->id }}, 'batal')">
+                    <button type="button" class="btn-batal shadow-sm queue-action-btn"
+                        data-queue-id="{{ $current->id }}" data-queue-status="batal">
                         Batalkan
                     </button>
                 </div>
@@ -331,6 +371,12 @@
             <button type="button" class="filter-btn" data-filter="all" onclick="filterAntrian('all', this)">Semua</button>
         </div>
 
+        <div class="date-filter-wrap">
+            <label for="tanggalFilter">Filter tanggal:</label>
+            <input type="date" id="tanggalFilter" class="date-filter-input">
+            <button type="button" class="btn-reset-filter" onclick="resetTanggalFilter()">Reset Tanggal</button>
+        </div>
+
         <div class="table-container">
             <table class="custom-table">
                 <thead>
@@ -344,10 +390,14 @@
                 <tbody id="antrianTableBody">
                     @forelse($antrians as $item)
                         <tr class="{{ $item->status == 'sedang dilayani' ? 'row-highlight' : '' }}"
-                            data-status="{{ $item->status }}">
+                            data-status="{{ $item->status }}"
+                            data-date-created="{{ \Carbon\Carbon::parse($item->created_at)->toDateString() }}"
+                            data-date-finished="{{ $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai)->toDateString() : '' }}">
                             <td>{{ $item->nomor_antrian }}</td>
                             <td>{{ $item->nama_pelanggan }}</td>
-                            <td>{{ \Carbon\Carbon::parse($item->waktu_masuk)->format('Y-m-d H:i:s') }}</td>
+                            <td>
+                                {{ \Carbon\Carbon::parse($item->waktu_masuk)->translatedFormat('d M Y, H:i') }} WIB
+                            </td>
                             <td>
                                 <span class="status-text">
                                     {{ $item->status == 'sedang dilayani' ? 'Sedang Dilayani' : ucfirst($item->status) }}
@@ -442,6 +492,7 @@
             const rows = document.querySelectorAll('#antrianTableBody tr[data-status]');
             const buttons = document.querySelectorAll('.filter-btn');
             const normalizedFilter = (status || '').toString().trim().toLowerCase();
+            const selectedDate = document.getElementById('tanggalFilter')?.value || '';
 
             buttons.forEach((item) => item.classList.remove('active'));
             if (button) {
@@ -450,14 +501,58 @@
 
             rows.forEach((row) => {
                 const rowStatus = (row.getAttribute('data-status') || '').toString().trim().toLowerCase();
-                const isVisible = normalizedFilter === 'all' || rowStatus === normalizedFilter;
+                const rowDate = normalizedFilter === 'selesai' || normalizedFilter === 'batal' || normalizedFilter === 'all'
+                    ? (row.getAttribute('data-date-finished') || row.getAttribute('data-date-created') || '')
+                    : (row.getAttribute('data-date-created') || '');
+
+                const matchesStatus = normalizedFilter === 'all' || rowStatus === normalizedFilter;
+                const matchesDate = !selectedDate || rowDate === selectedDate || rowStatus === 'menunggu';
+                const isVisible = matchesStatus && (normalizedFilter === 'menunggu' ? true : matchesDate);
                 row.style.display = isVisible ? '' : 'none';
             });
         }
 
+        function resetTanggalFilter() {
+            const tanggalInput = document.getElementById('tanggalFilter');
+            if (tanggalInput) {
+                tanggalInput.value = '';
+            }
+
+            const activeButton = document.querySelector('.filter-btn.active') || document.querySelector('.filter-btn[data-filter="menunggu"]');
+            filterAntrian(activeButton?.dataset?.filter || 'menunggu', activeButton);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            if (window.Echo) {
+                window.Echo.channel('Antrian-channel').listen('AntreanUpadate', () => {
+                    window.location.reload();
+                });
+
+                window.Echo.channel('AntrianList-channel').listen('AntreanListUpdate', () => {
+                    window.location.reload();
+                });
+            }
+
             const defaultButton = document.querySelector('.filter-btn[data-filter="menunggu"]');
             filterAntrian('menunggu', defaultButton);
+
+            document.querySelectorAll('.queue-action-btn').forEach((button) => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.queueId;
+                    const targetStatus = this.dataset.queueStatus;
+                    if (id && targetStatus) {
+                        ubahStatus(this, id, targetStatus);
+                    }
+                });
+            });
+
+            const tanggalFilter = document.getElementById('tanggalFilter');
+            if (tanggalFilter) {
+                tanggalFilter.addEventListener('change', function() {
+                    const activeButton = document.querySelector('.filter-btn.active') || defaultButton;
+                    filterAntrian(activeButton?.dataset?.filter || 'menunggu', activeButton);
+                });
+            }
 
             const layananSelect1 = document.getElementById('layanan_id1');
             const layananSelect2 = document.getElementById('layanan_id2');

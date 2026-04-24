@@ -82,7 +82,7 @@ class PublicController extends Controller
         ]);
 
         // (Opsional) Jika menggunakan Laravel Reverb/Pusher, uncomment baris di bawah agar admin real-time terupdate
-        // broadcast(new \App\Events\AntreanUpadate($antrian))->toOthers();
+        event(new \App\Events\AntreanUpadate($antrian));
 
         return back()->with('success', 'Antrian anda terdaftar silahkan tunggu');
     }
