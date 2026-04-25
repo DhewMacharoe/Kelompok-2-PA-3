@@ -102,6 +102,16 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            if (window.Echo) {
+                window.Echo.channel('Antrian-channel').listen('AntreanUpadate', () => {
+                    window.location.reload();
+                });
+
+                window.Echo.channel('AntrianList-channel').listen('AntreanListUpdate', () => {
+                    window.location.reload();
+                });
+            }
+
             // Logik Grafik (Tetap sama)
             const canvasStatistik = document.getElementById('statistikChart');
             if (canvasStatistik) {

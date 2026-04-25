@@ -60,11 +60,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('layanan') ? 'active' : '' }}"
+                    <a class="nav-link fw-bold {{ request()->routeIs('pelanggan.layanan') ? 'active' : '' }}"
                         href="{{ route('pelanggan.layanan') }}"
-                        style="color: {{ request()->routeIs('layanan') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
+                        style="color: {{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
                         onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('layanan') ? '#d4af37' : 'white' }}'">
+                        onmouseout="this.style.color='{{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}'">
                         Layanan
                     </a>
                 </li>

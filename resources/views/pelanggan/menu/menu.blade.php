@@ -3,7 +3,7 @@
 @section('title', 'Menu Kafe')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    @include('pelanggan.menu.styles')
 @endpush
 
 @section('content')
@@ -23,61 +23,36 @@
         </div>
 
         <div class="menu-list">
-            <div class="menu-card">
-                <div class="menu-card-image">
-                    <img src="https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?q=80&w=1200&auto=format&fit=crop"
-                        alt="Espresso">
-                </div>
-                <div class="menu-card-body">
-                    <h3>Espresso</h3>
-                    <p class="menu-desc">Kopi hitam pekat tanpa tambahan.</p>
-                    <div class="menu-meta">
-                        <span class="menu-price">Rp12.000</span>
+            @forelse ($menus as $menu)
+                <div class="menu-card">
+                    <div class="menu-card-image">
+                        @php
+                            // Sementara: dukung URL eksternal API gambar.
+                            // <img src="{{ asset('storage/' . $menu->foto) }}" alt="{{ $menu->nama }}">
+                            $fotoMenu = null;
+                            if (!empty($menu->foto)) {
+                                $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
+                                    ? $menu->foto
+                                    : asset('storage/' . $menu->foto);
+                            }
+                        @endphp
+                        <img src="{{ $fotoMenu ?? 'https://via.placeholder.com/1200x800?text=No+Image' }}"
+                            alt="{{ $menu->nama }}">
+                    </div>
+                    <div class="menu-card-body">
+                        <h3>{{ $menu->nama }}</h3>
+                        <p class="menu-desc">{{ $menu->deskripsi ?? '-' }}</p>
+                        <div class="menu-meta">
+                            <span class="menu-price">Rp{{ number_format($menu->harga, 0, ',', '.') }}</span>
+                            @if (!$menu->is_available)
+                                <span style="margin-left: 10px; color: #b71c1c; font-weight: 700;">Habis</span>
+                            @endif
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="menu-card">
-                <div class="menu-card-image">
-                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200&auto=format&fit=crop"
-                        alt="Americano">
-                </div>
-                <div class="menu-card-body">
-                    <h3>Americano</h3>
-                    <p class="menu-desc">Espresso yang dicampur air panas.</p>
-                    <div class="menu-meta">
-                        <span class="menu-price">Rp15.000</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="menu-card">
-                <div class="menu-card-image">
-                    <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?q=80&w=1200&auto=format&fit=crop"
-                        alt="Cappuccino">
-                </div>
-                <div class="menu-card-body">
-                    <h3>Cappuccino</h3>
-                    <p class="menu-desc">Espresso, susu, dan busa susu.</p>
-                    <div class="menu-meta">
-                        <span class="menu-price">Rp20.000</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="menu-card">
-                <div class="menu-card-image">
-                    <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=1200&auto=format&fit=crop"
-                        alt="Cafe Latte">
-                </div>
-                <div class="menu-card-body">
-                    <h3>Café Latte</h3>
-                    <p class="menu-desc">Espresso dan susu yang creamy.</p>
-                    <div class="menu-meta">
-                        <span class="menu-price">Rp22.000</span>
-                    </div>
-                </div>
-            </div>
+            @empty
+                <p>Menu kafe belum tersedia saat ini.</p>
+            @endforelse
         </div>
 
         <div class="menu-note">

@@ -129,7 +129,7 @@ class AntrianController extends Controller
             ->orderBy('waktu_masuk', 'asc')
             ->get();
 
-        broadcast(new AntreanListUpdate($antrianList))->toOthers();
+        // broadcast(new AntreanListUpdate($antrianList))->toOthers();
 
         return back()->with('success', 'Antrian anda terdaftar silahkan tunggu.');
 
@@ -166,7 +166,7 @@ class AntrianController extends Controller
             ->orderBy('waktu_masuk', 'asc')
             ->get();
 
-        broadcast(new AntreanListUpdate($antrianList))->toOthers();
+        // broadcast(new AntreanListUpdate($antrianList))->toOthers();
 
         return back()->with('success', 'Antrean Anda berhasil dibatalkan.');
     }

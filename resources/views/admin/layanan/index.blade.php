@@ -33,12 +33,15 @@
         .table-container {
             background: white;
             border-radius: 12px;
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .custom-table {
             width: 100%;
+            min-width: 720px;
             border-collapse: collapse;
             text-align: center;
         }
@@ -52,6 +55,14 @@
         .custom-table td {
             padding: 15px;
             border-bottom: 1px solid #eee;
+            white-space: nowrap;
+        }
+
+        .custom-table th:first-child,
+        .custom-table td:first-child {
+            min-width: 220px;
+            text-align: left;
+            white-space: normal;
         }
 
         .status-text {
@@ -89,6 +100,7 @@
             display: flex;
             gap: 10px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -98,6 +110,7 @@
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
+            white-space: nowrap;
         }
 
         .btn-primary {
@@ -217,19 +230,171 @@
             color: #556673;
             line-height: 1.7;
         }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 12px;
+            }
+
+            #statusFilter,
+            #searchInput {
+                min-width: 0 !important;
+                width: 100%;
+            }
+
+            .btn-tambah {
+                width: 100%;
+                text-align: center;
+            }
+
+            #searchSuggestion {
+                font-size: 0.85rem;
+            }
+
+            .table-container {
+                overflow: visible;
+                background: transparent;
+                box-shadow: none;
+            }
+
+            .custom-table,
+            .custom-table thead,
+            .custom-table tbody,
+            .custom-table tr,
+            .custom-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .custom-table {
+                min-width: 0;
+            }
+
+            .custom-table thead {
+                display: none;
+            }
+
+            .custom-table tbody {
+                display: grid;
+                gap: 10px;
+            }
+
+            .custom-table tr[data-name] {
+                background: #fff;
+                border: 1px solid #e9edf2;
+                border-radius: 12px;
+                padding: 10px 12px;
+                box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+            }
+
+            .custom-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 9px 0;
+                font-size: 13px;
+                text-align: right;
+                white-space: normal;
+                border-bottom: 1px dashed #edf1f6;
+            }
+
+            .custom-table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #2C3E50;
+                text-align: left;
+                min-width: 92px;
+            }
+
+            .custom-table th:first-child,
+            .custom-table td:first-child {
+                min-width: 0;
+                text-align: right;
+            }
+
+            .custom-table td.action-buttons {
+                display: block;
+                text-align: left;
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .custom-table td.action-buttons::before {
+                display: block;
+                margin-bottom: 8px;
+            }
+
+            .custom-table td.action-buttons button,
+            .custom-table td.action-buttons a,
+            .custom-table td.action-buttons form {
+                margin: 0 6px 6px 0;
+                vertical-align: top;
+            }
+
+            .custom-table tr.empty-row-row {
+                border: none;
+                background: transparent;
+                padding: 0;
+                box-shadow: none;
+            }
+
+            .custom-table td.empty-row-cell {
+                display: block;
+                text-align: center;
+                border: 1px dashed #d8dee8;
+                background: #fff;
+                border-radius: 12px;
+                padding: 20px 12px !important;
+            }
+
+            .custom-table td.empty-row-cell::before {
+                content: none;
+            }
+
+            .btn {
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+
+            .detail-modal {
+                padding: 10px;
+            }
+
+            .detail-modal-card {
+                padding: 16px;
+                border-radius: 14px;
+            }
+
+            .detail-modal-img {
+                width: 100%;
+                height: 210px;
+                border-radius: 12px;
+            }
+
+            .detail-modal-item {
+                gap: 10px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 
     <div class="main-container">
         @if (session('success'))
+            <div id="flash-success" data-message="{{ session('success') }}" hidden></div>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil!',
-                        text: '{{ session('success') }}',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
+                    const flashSuccess = document.getElementById('flash-success');
+                    if (flashSuccess && flashSuccess.dataset.message) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: flashSuccess.dataset.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
                 });
             </script>
         @endif
@@ -277,18 +442,18 @@
                         <tr data-name="{{ strtolower($item->nama) }}"
                             data-status="{{ $item->is_active ? 'aktif' : 'nonaktif' }}"
                             data-description="{{ strtolower($item->deskripsi ?? '') }}">
-                            <td>{{ $item->nama }}</td>
-                            <td>
+                            <td data-label="Nama">{{ $item->nama }}</td>
+                            <td data-label="Status">
                                 @if ($item->is_active)
                                     <span class="badge badge-active">Aktif</span>
                                 @else
                                     <span class="badge badge-inactive">Nonaktif</span>
                                 @endif
                             </td>
-                            <td class="action-buttons">
+                            <td data-label="Action" class="action-buttons">
                                 <button type="button" class="btn btn-secondary btn-sm btn-view"
                                     data-nama="{{ $item->nama }}"
-                                    data-foto="{{ $item->foto ? asset('storage/' . $item->foto) : '' }}"
+                                    data-foto="{{ $item->foto ? (\Illuminate\Support\Str::startsWith($item->foto, ['http://', 'https://']) ? $item->foto : asset('storage/' . $item->foto)) : '' }}"
                                     data-harga="Rp {{ number_format($item->harga, 0, ',', '.') }}"
                                     data-estimasi="{{ $item->estimasi_waktu ?? '-' }}"
                                     data-status="{{ $item->is_active ? 'Aktif' : 'Nonaktif' }}"
@@ -321,8 +486,8 @@
                             </td>
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="4" class="empty-row">Belum ada data layanan.</td>
+                        <tr class="empty-row-row">
+                            <td colspan="3" class="empty-row empty-row-cell">Belum ada data layanan.</td>
                         </tr>
                     @endforelse
                 </tbody>

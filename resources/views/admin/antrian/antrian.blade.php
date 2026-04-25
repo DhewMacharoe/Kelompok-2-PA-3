@@ -83,6 +83,7 @@
             flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 16px;
+            align-items: center;
         }
 
         .filter-btn {
@@ -107,16 +108,51 @@
             color: white;
         }
 
+        .date-filter-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .date-filter-wrap label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+
+        .date-filter-input {
+            border: 1px solid #dfe3e8;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            min-width: 220px;
+        }
+
+        .btn-reset-filter {
+            border: 1px solid #dfe3e8;
+            background: #fff;
+            color: #2C3E50;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
         /* Styling Tabel */
         .table-container {
             background: white;
             border-radius: 12px;
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .custom-table {
             width: 100%;
+            min-width: 760px;
             border-collapse: collapse;
             text-align: center;
         }
@@ -130,6 +166,14 @@
         .custom-table td {
             padding: 15px;
             border-bottom: 1px solid #eee;
+            white-space: nowrap;
+        }
+
+        .custom-table th:nth-child(2),
+        .custom-table td:nth-child(2) {
+            min-width: 170px;
+            text-align: left;
+            white-space: normal;
         }
 
         .row-highlight {
@@ -273,19 +317,175 @@
             cursor: pointer;
             font-weight: 500;
         }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 12px;
+            }
+
+            .serving-display {
+                border-radius: 14px;
+                padding: 24px 14px;
+            }
+
+            .serving-display .queue-number-big {
+                font-size: 58px;
+                line-height: 1;
+            }
+
+            .btn-group-serving {
+                width: 100%;
+                gap: 8px;
+            }
+
+            .btn-group-serving button,
+            .btn-tambah,
+            .btn-reset-filter {
+                width: 100%;
+            }
+
+            .filter-bar {
+                gap: 8px;
+            }
+
+            .filter-btn {
+                flex: 1 1 calc(50% - 8px);
+                text-align: center;
+                padding: 9px 10px;
+            }
+
+            .date-filter-wrap {
+                align-items: stretch;
+            }
+
+            .date-filter-wrap label {
+                width: 100%;
+                margin-bottom: 0;
+            }
+
+            .date-filter-input,
+            .btn-reset-filter {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .table-container {
+                overflow: visible;
+                background: transparent;
+                box-shadow: none;
+            }
+
+            .custom-table,
+            .custom-table thead,
+            .custom-table tbody,
+            .custom-table tr,
+            .custom-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .custom-table {
+                min-width: 0;
+            }
+
+            .custom-table thead {
+                display: none;
+            }
+
+            .custom-table tbody {
+                display: grid;
+                gap: 10px;
+            }
+
+            .custom-table tr[data-status] {
+                background: #fff;
+                border: 1px solid #e9edf2;
+                border-radius: 12px;
+                padding: 10px 12px;
+                box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+            }
+
+            .custom-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 9px 0;
+                font-size: 13px;
+                text-align: right;
+                white-space: normal;
+                border-bottom: 1px dashed #edf1f6;
+            }
+
+            .custom-table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #2C3E50;
+                text-align: left;
+                min-width: 120px;
+            }
+
+            .custom-table td:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .custom-table th:nth-child(2),
+            .custom-table td:nth-child(2) {
+                min-width: 0;
+                text-align: right;
+            }
+
+            .row-highlight {
+                background: #eaf4ff !important;
+                color: #1f3552 !important;
+                border-color: #bfd9ff !important;
+            }
+
+            .row-highlight td {
+                border-color: #d8e8ff;
+            }
+
+            .custom-table tr.empty-row-row {
+                border: none;
+                background: transparent;
+                padding: 0;
+                box-shadow: none;
+            }
+
+            .custom-table td.empty-row-cell {
+                display: block;
+                text-align: center;
+                border: 1px dashed #d8dee8;
+                background: #fff;
+                border-radius: 12px;
+                padding: 20px 12px !important;
+            }
+
+            .custom-table td.empty-row-cell::before {
+                content: none;
+            }
+        }
     </style>
 
     <div class="main-container">
         @if (session('success'))
+            <div id="flash-success" data-message="{{ session('success') }}" hidden></div>
+        @endif
+
+        @if (session('success'))
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil!',
-                        text: '{{ session('success') }}',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
+                    const flashSuccess = document.getElementById('flash-success');
+                    if (flashSuccess && flashSuccess.dataset.message) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: flashSuccess.dataset.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
                 });
             </script>
         @endif
@@ -300,12 +500,12 @@
             <p style="font-size: 18px; font-weight: 500;">{{ $current->nama_pelanggan ?? 'Tidak ada antrean' }}</p>
             @if ($current)
                 <div class="btn-group-serving">
-                    <button type="button" class="btn-panggil shadow-sm"
-                        onclick="ubahStatus(this, {{ $current->id }}, 'selesai')">
+                    <button type="button" class="btn-panggil shadow-sm queue-action-btn"
+                        data-queue-id="{{ $current->id }}" data-queue-status="selesai">
                         Selesai
                     </button>
-                    <button type="button" class="btn-batal shadow-sm"
-                        onclick="ubahStatus(this, {{ $current->id }}, 'batal')">
+                    <button type="button" class="btn-batal shadow-sm queue-action-btn"
+                        data-queue-id="{{ $current->id }}" data-queue-status="batal">
                         Batalkan
                     </button>
                 </div>
@@ -331,32 +531,46 @@
             <button type="button" class="filter-btn" data-filter="all" onclick="filterAntrian('all', this)">Semua</button>
         </div>
 
+        <div class="date-filter-wrap">
+            <label for="tanggalFilter">Filter tanggal:</label>
+            <input type="date" id="tanggalFilter" class="date-filter-input">
+            <button type="button" class="btn-reset-filter" onclick="resetTanggalFilter()">Reset Tanggal</button>
+        </div>
+
         <div class="table-container">
             <table class="custom-table">
                 <thead>
                     <tr>
                         <th>Nomor Antrean</th>
                         <th>Nama</th>
-                        <th>Masuk</th>
+                        <th>Tanggal Masuk</th>
+                        <th>Jam Kedatangan</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody id="antrianTableBody">
                     @forelse($antrians as $item)
                         <tr class="{{ $item->status == 'sedang dilayani' ? 'row-highlight' : '' }}"
-                            data-status="{{ $item->status }}">
-                            <td>{{ $item->nomor_antrian }}</td>
-                            <td>{{ $item->nama_pelanggan }}</td>
-                            <td>{{ \Carbon\Carbon::parse($item->waktu_masuk)->format('Y-m-d H:i:s') }}</td>
-                            <td>
+                            data-status="{{ $item->status }}"
+                            data-date-created="{{ \Carbon\Carbon::parse($item->created_at)->toDateString() }}"
+                            data-date-finished="{{ $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai)->toDateString() : '' }}">
+                            <td data-label="Nomor Antrean">{{ $item->nomor_antrian }}</td>
+                            <td data-label="Nama">{{ $item->nama_pelanggan }}</td>
+                            <td data-label="Tanggal Masuk">
+                                {{ \Carbon\Carbon::parse($item->waktu_masuk)->translatedFormat('d M Y') }}
+                            </td>
+                            <td data-label="Jam Kedatangan">
+                                {{ \Carbon\Carbon::parse($item->waktu_masuk)->format('H:i') }} WIB
+                            </td>
+                            <td data-label="Status">
                                 <span class="status-text">
                                     {{ $item->status == 'sedang dilayani' ? 'Sedang Dilayani' : ucfirst($item->status) }}
                                 </span>
                             </td>
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="5" style="padding: 40px; color: #999;">Belum ada riwayat antrian yang tercatat.
+                        <tr class="empty-row-row">
+                            <td colspan="5" class="empty-row-cell" style="padding: 40px; color: #999;">Belum ada riwayat antrian yang tercatat.
                             </td>
                         </tr>
                     @endforelse
@@ -442,6 +656,7 @@
             const rows = document.querySelectorAll('#antrianTableBody tr[data-status]');
             const buttons = document.querySelectorAll('.filter-btn');
             const normalizedFilter = (status || '').toString().trim().toLowerCase();
+            const selectedDate = document.getElementById('tanggalFilter')?.value || '';
 
             buttons.forEach((item) => item.classList.remove('active'));
             if (button) {
@@ -450,14 +665,67 @@
 
             rows.forEach((row) => {
                 const rowStatus = (row.getAttribute('data-status') || '').toString().trim().toLowerCase();
-                const isVisible = normalizedFilter === 'all' || rowStatus === normalizedFilter;
+                const rowDate = normalizedFilter === 'selesai' || normalizedFilter === 'batal' || normalizedFilter === 'all'
+                    ? (row.getAttribute('data-date-finished') || row.getAttribute('data-date-created') || '')
+                    : (row.getAttribute('data-date-created') || '');
+
+                const matchesStatus = normalizedFilter === 'all' || rowStatus === normalizedFilter;
+                const matchesDate = !selectedDate || rowDate === selectedDate || rowStatus === 'menunggu';
+                const isVisible = matchesStatus && (normalizedFilter === 'menunggu' ? true : matchesDate);
                 row.style.display = isVisible ? '' : 'none';
             });
         }
 
+        function getTodayDateString() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function resetTanggalFilter() {
+            const tanggalInput = document.getElementById('tanggalFilter');
+            if (tanggalInput) {
+                tanggalInput.value = getTodayDateString();
+            }
+
+            const activeButton = document.querySelector('.filter-btn.active') || document.querySelector('.filter-btn[data-filter="menunggu"]');
+            filterAntrian(activeButton?.dataset?.filter || 'menunggu', activeButton);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            if (window.Echo) {
+                window.Echo.channel('Antrian-channel').listen('AntreanUpadate', () => {
+                    window.location.reload();
+                });
+
+                window.Echo.channel('AntrianList-channel').listen('AntreanListUpdate', () => {
+                    window.location.reload();
+                });
+            }
+
             const defaultButton = document.querySelector('.filter-btn[data-filter="menunggu"]');
             filterAntrian('menunggu', defaultButton);
+
+            document.querySelectorAll('.queue-action-btn').forEach((button) => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.queueId;
+                    const targetStatus = this.dataset.queueStatus;
+                    if (id && targetStatus) {
+                        ubahStatus(this, id, targetStatus);
+                    }
+                });
+            });
+
+            const tanggalFilter = document.getElementById('tanggalFilter');
+            if (tanggalFilter) {
+                tanggalFilter.value = getTodayDateString();
+                tanggalFilter.addEventListener('change', function() {
+                    const activeButton = document.querySelector('.filter-btn.active') || defaultButton;
+                    filterAntrian(activeButton?.dataset?.filter || 'menunggu', activeButton);
+                });
+            }
 
             const layananSelect1 = document.getElementById('layanan_id1');
             const layananSelect2 = document.getElementById('layanan_id2');

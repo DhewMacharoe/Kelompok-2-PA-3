@@ -30,6 +30,11 @@
             color: white;
         }
 
+        .sidebar-shell {
+            position: relative;
+            z-index: 1045;
+        }
+
         .sidebar .nav-link {
             color: rgba(255, 255, 255, 0.8);
             padding: 12px 20px;
@@ -52,6 +57,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            min-width: 0;
         }
 
         .content-area {
@@ -67,6 +73,9 @@
             background: white;
             padding: 15px 25px;
             border-bottom: 1px solid #dee2e6;
+            position: sticky;
+            top: 0;
+            z-index: 1030;
         }
 
         .main-footer {
@@ -100,9 +109,76 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
+        .sidebar-backdrop {
+            display: none;
+        }
+
+        .content-area .table-container,
+        .content-area .table-responsive,
+        .content-area table {
+            max-width: 100%;
+        }
+
+        .content-area .table-container,
+        .content-area .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         @media (max-width: 768px) {
+            .row.g-0 {
+                flex-wrap: nowrap;
+            }
+
+            .sidebar-shell {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 280px;
+                max-width: 82vw;
+                height: 100vh;
+                transform: translateX(-100%);
+                transition: transform 0.25s ease;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            }
+
+            body.sidebar-open .sidebar-shell {
+                transform: translateX(0);
+            }
+
             .sidebar {
-                min-height: auto;
+                min-height: 100vh;
+                height: 100vh;
+                overflow-y: auto;
+            }
+
+            .sidebar-backdrop {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.35);
+                z-index: 1040;
+            }
+
+            body.sidebar-open .sidebar-backdrop {
+                display: block;
+            }
+
+            .main-wrapper {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .main-header {
+                padding: 12px 14px;
+            }
+
+            .content-area {
+                padding: 14px;
+            }
+
+            .main-footer {
+                padding: 12px;
+                font-size: 0.82rem;
             }
         }
     </style>
@@ -112,9 +188,11 @@
 
     <div class="container-fluid p-0">
         <div class="row g-0">
-            <div class="col-md-3 col-lg-2">
+            <div class="col-md-3 col-lg-2 sidebar-shell" id="adminSidebarShell">
                 @include('admin.layouts.sidebar')
             </div>
+
+            <button type="button" class="sidebar-backdrop border-0 p-0 w-100" id="adminSidebarBackdrop" aria-label="Tutup menu"></button>
 
             <div class="col-md-9 col-lg-10 main-wrapper">
                 @include('admin.layouts.header')
@@ -128,6 +206,45 @@
         </div>
     </div>
     @stack('scripts')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.getElementById('mobileSidebarToggle');
+            const closeButton = document.getElementById('mobileSidebarClose');
+            const backdrop = document.getElementById('adminSidebarBackdrop');
+            const sidebarLinks = document.querySelectorAll('#adminSidebarShell .nav-link');
+
+            function closeSidebar() {
+                document.body.classList.remove('sidebar-open');
+            }
+
+            function toggleSidebar() {
+                document.body.classList.toggle('sidebar-open');
+            }
+
+            if (toggleButton) {
+                toggleButton.addEventListener('click', toggleSidebar);
+            }
+
+            if (closeButton) {
+                closeButton.addEventListener('click', closeSidebar);
+            }
+
+            if (backdrop) {
+                backdrop.addEventListener('click', closeSidebar);
+            }
+
+            sidebarLinks.forEach(function(link) {
+                link.addEventListener('click', closeSidebar);
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    closeSidebar();
+                }
+            });
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

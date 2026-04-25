@@ -19,6 +19,15 @@ class AuthController extends Controller
     // Menampilkan halaman login pengguna
     public function showUserLogin()
     {
+        if (Auth::check() && Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.dashboard')
+                ->with('error', 'Admin yang sedang login tidak dapat masuk sebagai user.');
+        }
+
+        if (Auth::check()) {
+            return redirect('/');
+        }
+
         return view('auth.LoginUser');
     }
 
@@ -86,6 +95,11 @@ class AuthController extends Controller
     // Memproses login Google via Firebase
     public function firebaseLogin(Request $request)
     {
+        if (Auth::check() && Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.dashboard')
+                ->with('error', 'Admin yang sedang login tidak dapat login sebagai user.');
+        }
+
         $request->validate([
             'idToken' => 'required|string',
         ]);
@@ -149,21 +163,57 @@ class AuthController extends Controller
     // Menampilkan halaman set username
     public function showSetUsername()
     {
-        if (!Auth::check() || Auth::user()->username) {
+        if (!Auth::check()) {
+            return redirect()->route('login.user');
+        }
+
+        if (Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.dashboard')
+                ->with('error', 'Admin tidak memerlukan pengaturan username pelanggan.');
+        }
+
+        if (Auth::user()->username) {
             return redirect('/');
         }
+
         return view('auth.set_username');
     }
 
     // Memproses set username
     public function doSetUsername(Request $request)
     {
-        $request->validate([
-            'username' => 'required|string|min:3|max:20|unique:users,username|regex:/^[a-zA-Z0-9_]+$/',
+        if (!Auth::check()) {
+            return redirect()->route('login.user')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        if (Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.dashboard')
+                ->with('error', 'Admin tidak dapat mengubah username pelanggan.');
+        }
+
+        if (Auth::user()->username) {
+            return redirect('/')
+                ->with('info', 'Username sudah diatur sebelumnya.');
+        }
+
+        $request->merge([
+            'username' => trim((string) $request->input('username')),
+        ]);
+
+        $validated = $request->validate([
+            'username' => 'required|string|min:3|max:20|alpha_dash|unique:users,username',
+        ], [
+            'username.required' => 'Username wajib diisi.',
+            'username.min' => 'Username minimal 3 karakter.',
+            'username.max' => 'Username maksimal 20 karakter.',
+            'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, strip, dan underscore.',
+            'username.unique' => 'Username sudah digunakan, silakan pilih yang lain.',
         ]);
 
         $user = Auth::user();
-        $user->update(['username' => $request->username]);
+        $user->username = $validated['username'];
+        $user->save();
 
         return redirect('/')->with('success', 'Username berhasil diset!');
     }

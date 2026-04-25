@@ -101,7 +101,14 @@
             </div>
 
             @if ($layanan->foto)
-                <div class="detail-img" style="background-image: url('{{ asset('storage/' . $layanan->foto) }}')"></div>
+                @php
+                    // Sementara: dukung URL eksternal dari seeder API gambar.
+                    // background-image: url('{{ asset('storage/' . $layanan->foto) }}')
+                    $fotoLayanan = \Illuminate\Support\Str::startsWith($layanan->foto, ['http://', 'https://'])
+                        ? $layanan->foto
+                        : asset('storage/' . $layanan->foto);
+                @endphp
+                <div class="detail-img" style="background-image: url('{{ $fotoLayanan }}')"></div>
             @else
                 <div class="detail-img"
                     style="display:flex; align-items:center; justify-content:center; color:#8b97a6; font-weight:600;">Tidak

@@ -1,5 +1,10 @@
 <nav class="sidebar shadow py-4">
     <div class="px-4 mb-4">
+        <div class="d-flex justify-content-end d-md-none mb-2">
+            <button type="button" class="btn btn-sm btn-outline-light" id="mobileSidebarClose" aria-label="Tutup menu">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
         <h4 class="fw-bold m-0 text-white"><span style="color: var(--primary-blue)"></span></h4>
     </div>
     <ul class="nav flex-column">
@@ -14,7 +19,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/admin/galeri">
+            <a class="nav-link {{ request()->is('admin/galeri*') ? 'active' : '' }}" href="{{ route('admin.galeri') }}">
                 <i class="bi bi-images"></i> Galeri
             </a>
         </li>

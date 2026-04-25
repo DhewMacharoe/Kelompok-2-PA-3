@@ -15,6 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         // 0. Data Akun Admin (Ini yang tadi hilang)
 
+        // 1. Data Layanan
+        $this->call(LayananSeeder::class);
+
+        // 2. Data Menu Kafe
+        $this->call(MenuSeeder::class);
+
         // 4. Data Antrian
         $antrians = [
             ['nomor_antrian' => '05', 'nama_pelanggan' => 'Budi Santoso', 'status' => 'sedang dilayani', 'waktu_masuk' => now()->subMinutes(30)],

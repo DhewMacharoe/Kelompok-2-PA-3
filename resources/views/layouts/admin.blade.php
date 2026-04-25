@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Barbershop')</title>
+    <link rel="icon" type="image/svg+xml"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/svgs/solid/scissors.svg">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 
@@ -26,10 +28,9 @@
                         class="{{ Request::is('admin/antrian') ? 'active' : '' }}">Antrian</a></li>
                 <li><a href="{{ url('admin/layanan') }}"
                         class="{{ Request::is('admin/layanan') ? 'active' : '' }}">Layanan</a></li>
-                <li><a href="{{ url('admin/galeri') }}"
+                <li><a href="{{ route('admin.galeri') }}"
                         class="{{ Request::is('admin/galeri') ? 'active' : '' }}">Galeri</a></li>
-                <li><a href="{{ url('admin/menu') }}" class="{{ Request::is('admin/menu') ? 'active' : '' }}">Menu
-                        Kafe</a></li>
+                <li><a href="{{ url('admin/menu') }}" class="{{ Request::is('admin/menu') ? 'active' : '' }}">Menu Kafe</a></li>
                 <li><a href="{{ url('admin/rekap') }}"
                         class="{{ Request::is('admin/rekap') ? 'active' : '' }}">Rekap</a></li>
             </ul>

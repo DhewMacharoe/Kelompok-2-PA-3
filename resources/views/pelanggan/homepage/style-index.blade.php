@@ -17,6 +17,64 @@
     /* Warna Kustom Barbershop */
     .bg-gold { background-color: #c5a059; }
     .text-gold { color: #c5a059; }
+        .detail-card-button {
+            width: 100%;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            text-align: left;
+            cursor: pointer;
+        }
+        .detail-card-button:focus {
+            outline: none;
+        }
+        .detail-card-button .haircut-card {
+            height: 100%;
+        }
+        .detail-card-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            align-items: center;
+            font-size: 0.75rem;
+            margin-top: 8px;
+            color: #6c757d;
+        }
+        .detail-card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #495057;
+        }
+        .detail-modal-img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 16px;
+            background: #f1f3f5;
+        }
+        .detail-modal-price {
+            color: #c5a059;
+            font-size: 1.25rem;
+            font-weight: 800;
+        }
+        .detail-modal-text {
+            color: #5f6368;
+            line-height: 1.7;
+        }
+        .detail-modal .modal-content {
+            border: 0;
+            border-radius: 18px;
+        }
+        .detail-modal .modal-header {
+            border-bottom: 1px solid #eef1f5;
+        }
     .border-gold-left { border-left: 4px solid #c5a059; }
 
     /* Ikon Menu */

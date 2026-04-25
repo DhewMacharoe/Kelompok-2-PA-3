@@ -22,15 +22,14 @@ class AntrianController extends Controller
             'status' => $request->status,
             'waktu_selesai' => $request->status === 'selesai' ? now() : null,
         ]);
-
-        broadcast(new AntreanUpadate($antrian))->toOthers();
+        event(new AntreanUpadate($antrian));
 
         $antrianList = Antrian::where('status', 'menunggu')
             ->whereDate('created_at', Carbon::today())
             ->orderBy('waktu_masuk', 'asc')
             ->get();
 
-        broadcast(new AntreanListUpdate($antrianList))->toOthers();
+        event(new AntreanListUpdate($antrianList));
 
         return response()->json([
             'success' => true,
@@ -48,14 +47,14 @@ class AntrianController extends Controller
         if ($antrian) {
             $antrian->update(['status' => 'sedang dilayani']);
 
-            broadcast(new AntreanUpadate($antrian))->toOthers();
+            event(new AntreanUpadate($antrian));
 
             $antrianList = Antrian::where('status', 'menunggu')
                 ->whereDate('created_at', Carbon::today())
                 ->orderBy('waktu_masuk', 'asc')
                 ->get();
 
-            broadcast(new AntreanListUpdate($antrianList))->toOthers();
+            event(new AntreanListUpdate($antrianList));
 
             return response()->json([
                 'success' => true,
@@ -73,7 +72,7 @@ class AntrianController extends Controller
     {
         $antrean->update(['status' => $request->status]);
 
-        broadcast(new AntreanUpadate($antrean))->toOthers();
+        event(new AntreanUpadate($antrean));
 
         return back();
     }

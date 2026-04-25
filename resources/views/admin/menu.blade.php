@@ -178,7 +178,14 @@
 
                 {{-- FOTO --}}
                 @if($menu->foto)
-                <img src="{{ asset('storage/' . $menu->foto) }}" class="menu-img">
+                @php
+                    // Sementara: dukung URL eksternal jika foto berupa link API gambar.
+                    // <img src="{{ asset('storage/' . $menu->foto) }}" class="menu-img">
+                    $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
+                        ? $menu->foto
+                        : asset('storage/' . $menu->foto);
+                @endphp
+                <img src="{{ $fotoMenu }}" class="menu-img">
                 @else
                 <img src="https://via.placeholder.com/65" class="menu-img">
                 @endif
@@ -241,7 +248,11 @@
 
                             <div class="modal-body">
                                 <input type="text" name="nama" value="{{ $menu->nama }}" class="form-control mb-2" required>
-                                <input type="number" name="harga" value="{{ $menu->harga }}" class="form-control mb-2" required>
+                                <input type="text" id="harga_mask_edit_{{ $menu->id }}" class="form-control mb-2 harga-mask"
+                                    data-target="harga_raw_edit_{{ $menu->id }}"
+                                    value="Rp.{{ number_format($menu->harga, 0, ',', '.') }}" placeholder="Rp.0" required>
+                                <input type="hidden" name="harga" id="harga_raw_edit_{{ $menu->id }}"
+                                    value="{{ $menu->harga }}">
                                 <textarea name="deskripsi" class="form-control mb-2">{{ $menu->deskripsi }}</textarea>
 
                                 <input type="file" name="foto" class="form-control mb-2">
@@ -285,7 +296,9 @@
 
                     <div class="modal-body">
                         <input type="text" name="nama" placeholder="Nama" class="form-control mb-2">
-                        <input type="number" name="harga" placeholder="Harga" class="form-control mb-2">
+                        <input type="text" id="harga_mask_create" class="form-control mb-2 harga-mask"
+                            data-target="harga_raw_create" placeholder="Rp.0" required>
+                        <input type="hidden" name="harga" id="harga_raw_create">
                         <textarea name="deskripsi" class="form-control mb-2"></textarea>
                         <input type="file" name="foto" class="form-control mb-2">
 
@@ -309,6 +322,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const filterButtons = document.querySelectorAll('.filter-btn');
         const menuCards = document.querySelectorAll('.menu-card');
+        const hargaMasks = document.querySelectorAll('.harga-mask');
 
         filterButtons.forEach((button) => {
             button.addEventListener('click', function() {
@@ -322,6 +336,43 @@
                     const shouldShow = selectedFilter === 'all' || selectedFilter === cardStatus;
                     card.style.display = shouldShow ? '' : 'none';
                 });
+            });
+        });
+
+        function formatRupiah(angka) {
+            const numberString = angka.replace(/[^\d]/g, '');
+            if (!numberString) {
+                return '';
+            }
+
+            const sisa = numberString.length % 3;
+            let rupiah = numberString.substr(0, sisa);
+            const ribuan = numberString.substr(sisa).match(/\d{3}/g);
+
+            if (ribuan) {
+                const separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            return 'Rp.' + rupiah;
+        }
+
+        hargaMasks.forEach((input) => {
+            const targetId = input.dataset.target;
+            const rawInput = document.getElementById(targetId);
+
+            if (!rawInput) {
+                return;
+            }
+
+            if (rawInput.value) {
+                input.value = formatRupiah(rawInput.value.toString());
+            }
+
+            input.addEventListener('input', function() {
+                const numericValue = this.value.replace(/[^\d]/g, '');
+                rawInput.value = numericValue;
+                this.value = formatRupiah(numericValue);
             });
         });
     });

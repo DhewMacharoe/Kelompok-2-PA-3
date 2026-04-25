@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Events\AntreanListUpdate;
+use App\Events\AntreanUpadate;
 use App\Http\Controllers\Controller;
 use App\Models\Antrian;
 use App\Models\Layanan;
@@ -44,6 +45,8 @@ class AdminController extends Controller
             'waktu_selesai' => now()
         ]);
 
+        event(new AntreanUpadate($antrian));
+
         return redirect()->back()->with('success', 'Layanan selesai.');
     }
 
@@ -55,6 +58,8 @@ class AdminController extends Controller
             'status' => 'batal',
             'waktu_selesai' => now()
         ]);
+
+        event(new AntreanUpadate($antrian));
 
         return redirect()->back()->with('success', 'Antrian ' . $antrian->nomor_antrian . ' dibatalkan.');
     }
@@ -129,7 +134,7 @@ class AdminController extends Controller
             ->orderBy('waktu_masuk', 'asc')
             ->get();
 
-        broadcast(new AntreanListUpdate($antrianList))->toOthers();
+        event(new AntreanListUpdate($antrianList));
 
         return redirect()->route('admin.antrian')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrian.');
     }
