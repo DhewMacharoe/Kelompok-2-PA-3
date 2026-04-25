@@ -144,12 +144,15 @@
         .table-container {
             background: white;
             border-radius: 12px;
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .custom-table {
             width: 100%;
+            min-width: 760px;
             border-collapse: collapse;
             text-align: center;
         }
@@ -163,6 +166,14 @@
         .custom-table td {
             padding: 15px;
             border-bottom: 1px solid #eee;
+            white-space: nowrap;
+        }
+
+        .custom-table th:nth-child(2),
+        .custom-table td:nth-child(2) {
+            min-width: 170px;
+            text-align: left;
+            white-space: normal;
         }
 
         .row-highlight {
@@ -306,6 +317,155 @@
             cursor: pointer;
             font-weight: 500;
         }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 12px;
+            }
+
+            .serving-display {
+                border-radius: 14px;
+                padding: 24px 14px;
+            }
+
+            .serving-display .queue-number-big {
+                font-size: 58px;
+                line-height: 1;
+            }
+
+            .btn-group-serving {
+                width: 100%;
+                gap: 8px;
+            }
+
+            .btn-group-serving button,
+            .btn-tambah,
+            .btn-reset-filter {
+                width: 100%;
+            }
+
+            .filter-bar {
+                gap: 8px;
+            }
+
+            .filter-btn {
+                flex: 1 1 calc(50% - 8px);
+                text-align: center;
+                padding: 9px 10px;
+            }
+
+            .date-filter-wrap {
+                align-items: stretch;
+            }
+
+            .date-filter-wrap label {
+                width: 100%;
+                margin-bottom: 0;
+            }
+
+            .date-filter-input,
+            .btn-reset-filter {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .table-container {
+                overflow: visible;
+                background: transparent;
+                box-shadow: none;
+            }
+
+            .custom-table,
+            .custom-table thead,
+            .custom-table tbody,
+            .custom-table tr,
+            .custom-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .custom-table {
+                min-width: 0;
+            }
+
+            .custom-table thead {
+                display: none;
+            }
+
+            .custom-table tbody {
+                display: grid;
+                gap: 10px;
+            }
+
+            .custom-table tr[data-status] {
+                background: #fff;
+                border: 1px solid #e9edf2;
+                border-radius: 12px;
+                padding: 10px 12px;
+                box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+            }
+
+            .custom-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 9px 0;
+                font-size: 13px;
+                text-align: right;
+                white-space: normal;
+                border-bottom: 1px dashed #edf1f6;
+            }
+
+            .custom-table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #2C3E50;
+                text-align: left;
+                min-width: 120px;
+            }
+
+            .custom-table td:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .custom-table th:nth-child(2),
+            .custom-table td:nth-child(2) {
+                min-width: 0;
+                text-align: right;
+            }
+
+            .row-highlight {
+                background: #eaf4ff !important;
+                color: #1f3552 !important;
+                border-color: #bfd9ff !important;
+            }
+
+            .row-highlight td {
+                border-color: #d8e8ff;
+            }
+
+            .custom-table tr.empty-row-row {
+                border: none;
+                background: transparent;
+                padding: 0;
+                box-shadow: none;
+            }
+
+            .custom-table td.empty-row-cell {
+                display: block;
+                text-align: center;
+                border: 1px dashed #d8dee8;
+                background: #fff;
+                border-radius: 12px;
+                padding: 20px 12px !important;
+            }
+
+            .custom-table td.empty-row-cell::before {
+                content: none;
+            }
+        }
     </style>
 
     <div class="main-container">
@@ -383,7 +543,8 @@
                     <tr>
                         <th>Nomor Antrean</th>
                         <th>Nama</th>
-                        <th>Masuk</th>
+                        <th>Tanggal Masuk</th>
+                        <th>Jam Kedatangan</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -393,20 +554,23 @@
                             data-status="{{ $item->status }}"
                             data-date-created="{{ \Carbon\Carbon::parse($item->created_at)->toDateString() }}"
                             data-date-finished="{{ $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai)->toDateString() : '' }}">
-                            <td>{{ $item->nomor_antrian }}</td>
-                            <td>{{ $item->nama_pelanggan }}</td>
-                            <td>
-                                {{ \Carbon\Carbon::parse($item->waktu_masuk)->translatedFormat('d M Y, H:i') }} WIB
+                            <td data-label="Nomor Antrean">{{ $item->nomor_antrian }}</td>
+                            <td data-label="Nama">{{ $item->nama_pelanggan }}</td>
+                            <td data-label="Tanggal Masuk">
+                                {{ \Carbon\Carbon::parse($item->waktu_masuk)->translatedFormat('d M Y') }}
                             </td>
-                            <td>
+                            <td data-label="Jam Kedatangan">
+                                {{ \Carbon\Carbon::parse($item->waktu_masuk)->format('H:i') }} WIB
+                            </td>
+                            <td data-label="Status">
                                 <span class="status-text">
                                     {{ $item->status == 'sedang dilayani' ? 'Sedang Dilayani' : ucfirst($item->status) }}
                                 </span>
                             </td>
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="5" style="padding: 40px; color: #999;">Belum ada riwayat antrian yang tercatat.
+                        <tr class="empty-row-row">
+                            <td colspan="5" class="empty-row-cell" style="padding: 40px; color: #999;">Belum ada riwayat antrian yang tercatat.
                             </td>
                         </tr>
                     @endforelse
@@ -512,10 +676,18 @@
             });
         }
 
+        function getTodayDateString() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
         function resetTanggalFilter() {
             const tanggalInput = document.getElementById('tanggalFilter');
             if (tanggalInput) {
-                tanggalInput.value = '';
+                tanggalInput.value = getTodayDateString();
             }
 
             const activeButton = document.querySelector('.filter-btn.active') || document.querySelector('.filter-btn[data-filter="menunggu"]');
@@ -548,6 +720,7 @@
 
             const tanggalFilter = document.getElementById('tanggalFilter');
             if (tanggalFilter) {
+                tanggalFilter.value = getTodayDateString();
                 tanggalFilter.addEventListener('change', function() {
                     const activeButton = document.querySelector('.filter-btn.active') || defaultButton;
                     filterAntrian(activeButton?.dataset?.filter || 'menunggu', activeButton);
