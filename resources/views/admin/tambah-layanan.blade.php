@@ -10,14 +10,6 @@
     </div>
 
     <div class="main-content">
-        <div style="padding:16px;">
-            <div class="upload-area" id="upload-area">
-                <div class="upload-icon">📷</div>
-                <div class="upload-label">Upload Foto Layanan</div>
-                <div class="upload-hint">(opsional)</div>
-            </div>
-        </div>
-
         <div class="error-banner" id="form-error" style="display:none;">
             ⚠ <span id="error-detail">3 field belum diisi. Periksa kembali form.</span>
         </div>

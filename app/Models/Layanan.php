@@ -13,7 +13,6 @@ class Layanan extends Model
         'harga',
         'estimasi_waktu',
         'deskripsi',
-        'foto',
         'is_active',
     ];
 

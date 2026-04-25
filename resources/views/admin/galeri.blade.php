@@ -339,7 +339,6 @@
                     <p id="detailLabel" style="margin-top: 8px; color: #556673;">Detail lengkap layanan barbershop.</p>
                 </div>
             </div>
-            <div id="detailImg" class="detail-modal-img">Tidak ada gambar</div>
             <div class="detail-modal-body">
                 <div class="detail-modal-item"><strong>Harga</strong> <span id="detailHarga">-</span></div>
                 <div class="detail-modal-item"><strong>Estimasi Waktu</strong> <span id="detailEstimasi">-</span></div>

@@ -19,27 +19,9 @@
     </section>
 
     <section class="layanan-content">
-        <div class="layanan-section-header">
-            <h3>Daftar Layanan</h3>
-        </div>
-
         <div class="layanan-grid">
             @forelse($layanans as $layanan)
                 <div class="layanan-card">
-                    <div class="layanan-card-image">
-                        @if ($layanan->foto)
-                            @php
-                                // Sementara: dukung URL eksternal dari seeder API gambar.
-                                // <img src="{{ asset('storage/' . $layanan->foto) }}" alt="{{ $layanan->nama }}">
-                                $fotoLayanan = \Illuminate\Support\Str::startsWith($layanan->foto, ['http://', 'https://'])
-                                    ? $layanan->foto
-                                    : asset('storage/' . $layanan->foto);
-                            @endphp
-                            <img src="{{ $fotoLayanan }}" alt="{{ $layanan->nama }}">
-                        @else
-                            <img src="https://via.placeholder.com/1200x800?text=No+Image" alt="{{ $layanan->nama }}">
-                        @endif
-                    </div>
                     <div class="layanan-card-body">
                         <h4>{{ $layanan->nama }}</h4>
                         <p class="layanan-desc">{{ $layanan->deskripsi }}</p>
@@ -53,6 +35,6 @@
                 </div>
             @endforelse
         </div>
-        
+
     </section>
 @endsection

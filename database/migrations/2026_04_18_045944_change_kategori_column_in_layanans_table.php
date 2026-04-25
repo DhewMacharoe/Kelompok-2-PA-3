@@ -11,17 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('layanans', function (Blueprint $table) {
-        });
+        Schema::table('layanans', function (Blueprint $table) {});
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::table('layanans', function (Blueprint $table) {
-            $table->enum('kategori', ['barber', 'kafe'])->change();
-        });
-    }
 };

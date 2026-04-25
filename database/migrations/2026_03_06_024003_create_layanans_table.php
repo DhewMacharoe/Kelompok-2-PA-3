@@ -17,7 +17,6 @@ return new class extends Migration
             $table->integer('harga');
             $table->string('estimasi_waktu')->nullable();
             $table->text('deskripsi')->nullable();
-            $table->string('foto')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

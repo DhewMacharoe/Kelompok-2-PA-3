@@ -453,7 +453,6 @@
                             <td data-label="Action" class="action-buttons">
                                 <button type="button" class="btn btn-secondary btn-sm btn-view"
                                     data-nama="{{ $item->nama }}"
-                                    data-foto="{{ $item->foto ? (\Illuminate\Support\Str::startsWith($item->foto, ['http://', 'https://']) ? $item->foto : asset('storage/' . $item->foto)) : '' }}"
                                     data-harga="Rp {{ number_format($item->harga, 0, ',', '.') }}"
                                     data-estimasi="{{ $item->estimasi_waktu ?? '-' }}"
                                     data-status="{{ $item->is_active ? 'Aktif' : 'Nonaktif' }}"
@@ -504,7 +503,6 @@
                     <p id="detailLabel" style="margin-top: 8px; color: #556673;">Detail lengkap layanan barbershop.</p>
                 </div>
             </div>
-            <div id="detailImg" class="detail-modal-img">Tidak ada gambar</div>
             <div class="detail-modal-body">
                 <div class="detail-modal-item"><strong>Harga</strong> <span id="detailHarga">-</span></div>
                 <div class="detail-modal-item"><strong>Estimasi Waktu</strong> <span id="detailEstimasi">-</span></div>
@@ -534,14 +532,6 @@
                 detailEstimasi.textContent = button.dataset.estimasi;
                 detailStatus.textContent = button.dataset.status;
                 detailDeskripsi.textContent = button.dataset.deskripsi;
-
-                if (button.dataset.foto) {
-                    detailImg.style.backgroundImage = `url(${button.dataset.foto})`;
-                    detailImg.textContent = '';
-                } else {
-                    detailImg.style.backgroundImage = 'none';
-                    detailImg.textContent = 'Tidak ada gambar';
-                }
                 modal.classList.add('show');
             });
         });

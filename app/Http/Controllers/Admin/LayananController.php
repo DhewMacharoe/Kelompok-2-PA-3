@@ -43,13 +43,9 @@ class LayananController extends Controller
             'harga' => 'required|numeric',
             'estimasi_waktu' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_active' => 'required|boolean',
         ]);
 
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('layanan', 'public');
-        }
 
         Layanan::create($data);
 
@@ -69,13 +65,8 @@ class LayananController extends Controller
             'harga' => 'required|numeric',
             'estimasi_waktu' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_active' => 'required|boolean',
         ]);
-
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('layanan', 'public');
-        }
 
         $layanan->update($data);
 

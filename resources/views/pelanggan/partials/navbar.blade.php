@@ -36,14 +36,15 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg pelanggan-navbar" style="background-color: #1a1a1a; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+<nav class="navbar navbar-expand-lg pelanggan-navbar"
+    style="background-color: #1a1a1a; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
     <div class="container">
-        <a class="navbar-brand text-decoration-none d-flex align-items-center gap-2" href="{{ route('home') }}"
-            style="color: #d4af37; font-weight: bold; font-size: 1.3rem;">
-            <i class="fas fa-scissors"></i> Arga's Home
-        </a>
+        <div class="text-center mt-2 mb-2">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="Arga Home's Logo"
+                class="img-fluid border border-white border-2 p-1 rounded" style="max-height: 50px;">
+        </div>
 
-        <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse"
+        <button class="navbar-toggler text-white border-0 mb-5" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars fs-1"></i>
         </button>

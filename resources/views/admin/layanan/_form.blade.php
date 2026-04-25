@@ -38,25 +38,6 @@
     @enderror
 </div>
 
-<div class="form-group">
-    <label>Gambar Layanan</label>
-    <input type="file" name="foto" class="form-control">
-    @error('foto')
-        <small class="text-danger">{{ $message }}</small>
-    @enderror
-</div>
-
-@if (!empty($layanan?->foto))
-    <div class="form-group">
-        <label>Preview Gambar</label><br>
-        @php
-            $previewFoto = \Illuminate\Support\Str::startsWith($layanan->foto, ['http://', 'https://'])
-                ? $layanan->foto
-                : asset('storage/' . $layanan->foto);
-        @endphp
-        <img src="{{ $previewFoto }}" class="preview-img" style="max-width: 200px;">
-    </div>
-@endif
 
 <div class="form-group">
     <label>Status</label>
