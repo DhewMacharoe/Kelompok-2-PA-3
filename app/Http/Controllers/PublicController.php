@@ -29,7 +29,7 @@ class PublicController extends Controller
 
     public function rekomendasi()
     {
-        return view('rekomendasi');
+        return view('pelanggan.rekomendasi.rekomendasi');
     }
 
     public function layanan()
@@ -41,7 +41,7 @@ class PublicController extends Controller
     {
         // Hanya ambil gaya rambut yang aktif
         $galeris = Galeri::where('is_active', true)->get();
-        return view('galeri', compact('galeris'));
+        return view('pelanggan.galeri.galeri', compact('galeris'));
     }
 
     public function menu()

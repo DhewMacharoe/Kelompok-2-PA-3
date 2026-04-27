@@ -61,15 +61,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('pelanggan.layanan') ? 'active' : '' }}"
-                        href="{{ route('pelanggan.layanan') }}"
-                        style="color: {{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}'">
-                        Layanan
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('antrian') ? 'active' : '' }}"
                         href="{{ route('antrian') }}"
                         style="color: {{ request()->routeIs('antrian') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
@@ -79,12 +70,21 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link fw-bold {{ request()->routeIs('pelanggan.layanan') ? 'active' : '' }}"
+                        href="{{ route('pelanggan.layanan') }}"
+                        style="color: {{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
+                        onmouseover="this.style.color='#d4af37'"
+                        onmouseout="this.style.color='{{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}'">
+                        Layanan
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('rekomendasi') ? 'active' : '' }}"
                         href="{{ route('rekomendasi') }}"
                         style="color: {{ request()->routeIs('rekomendasi') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
                         onmouseover="this.style.color='#d4af37'"
                         onmouseout="this.style.color='{{ request()->routeIs('rekomendasi') ? '#d4af37' : 'white' }}'">
-                        Gaya Rambut
+                        Rekomendasi
                     </a>
                 </li>
                 <li class="nav-item">
