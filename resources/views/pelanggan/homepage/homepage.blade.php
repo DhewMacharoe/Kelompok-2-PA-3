@@ -46,7 +46,7 @@
 
         <div class="text-center mb-5">
             <img src="{{ asset('assets/images/logo.png') }}" alt="Arga Home's Logo" class="img-fluid"
-                style="max-height: 380px; max-width:max-content;">
+                style="max-height: 380px;">
         </div>
 
         <div class="row text-center mb-5 g-4">
@@ -83,40 +83,59 @@
             </a>
         </div>
 
+        @php
+            $count = $layanans->count();
+
+            if ($count <= 4) {
+                $selectedLayanans = $layanans;
+            } else {
+                $first = $layanans->first();
+                $last = $layanans->last();
+                
+                $midIndex = (int) floor($count / 2) - 1;
+                $middle = $layanans->slice($midIndex, 2);
+
+                $selectedLayanans = collect([$first])
+                    ->merge($middle)
+                    ->push($last);
+            }
+        @endphp
+
         <div class="row g-3 mb-5">
-            @foreach ($layanans->take(4) as $layanan)
-                <div class="col-6 col-md-4 col-lg-3">
-                    <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none d-block h-100">
-                        <div class="card haircut-card shadow-sm border-0 h-100 transition-hover">
-                            <div class="card-body p-3 text-center d-flex flex-column justify-content-between">
+            @foreach ($selectedLayanans as $layanan)
+                <div class="col-12 col-md-6">
+                    <a href="{{ route('pelanggan.layanan', ['id' => $layanan->id]) }}"
+                        class="text-decoration-none d-block h-100">
+                        <div
+                            class="bg-white p-3 rounded shadow-sm border transition-hover h-100 d-flex justify-content-between align-items-center">
 
-                                <div class="mb-3">
-                                    <h6 class="card-title fw-bold text-dark mb-1" style="font-size: 1.05rem;">
-                                        {{ $layanan->nama }}</h6>
-                                    @if ($layanan->deskripsi)
-                                        <p class="text-muted small mb-0 text-truncate opacity-75">{{ $layanan->deskripsi }}
-                                        </p>
-                                    @endif
+                            <div class="d-flex align-items-center gap-3 overflow-hidden">
+                                <div class="bg-light rounded-circle d-flex flex-shrink-0 align-items-center justify-content-center"
+                                    style="width: 45px; height: 45px;">
+                                    <i class="fas fa-cut text-gold fs-5"></i>
                                 </div>
-
-                                <div>
-                                    <p class="card-text fw-bold mb-2" style="font-size: 1.15rem; color: #212529;">
-                                        Rp{{ number_format($layanan->harga, 0, ',', '.') }}
-                                    </p>
-
-                                    <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
-                                        <span class="badge bg-light text-secondary border fw-normal"
-                                            style="font-size: 0.75rem;">
-                                            <i class="fas fa-external-link-alt"></i> Detail
-                                        </span>
-                                        <span class="text-muted fw-semibold" style="font-size: 0.75rem;">
-                                            <i class="far fa-clock text-gold"></i> {{ $layanan->estimasi_waktu ?? '-' }}
-                                            mnt
-                                        </span>
+                                <div class="text-start text-truncate">
+                                    <h6 class="mb-1 fw-bold text-dark text-truncate">{{ $layanan->nama }}</h6>
+                                    <div class="text-muted small d-flex align-items-center gap-2 text-truncate">
+                                        <span><i class="far fa-clock text-gold"></i> {{ $layanan->estimasi_waktu ?? '-' }}
+                                            mnt</span>
+                                        @if ($layanan->deskripsi)
+                                            <span>•</span>
+                                            <span class="text-truncate opacity-75">{{ $layanan->deskripsi }}</span>
+                                        @endif
                                     </div>
                                 </div>
-
                             </div>
+
+                            <div class="text-end ms-3 flex-shrink-0">
+                                <div class="fw-bold text-dark" style="font-size: 1.1rem;">
+                                    Rp{{ number_format($layanan->harga, 0, ',', '.') }}
+                                </div>
+                                <div class="text-gold small fw-semibold mt-1">
+                                    Lihat <i class="fas fa-chevron-right ms-1" style="font-size: 0.7rem;"></i>
+                                </div>
+                            </div>
+
                         </div>
                     </a>
                 </div>

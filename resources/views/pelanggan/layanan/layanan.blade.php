@@ -7,6 +7,7 @@
     @include('pelanggan.homepage.style-index')
 @endpush
 
+{{-- Hapus loop kosong yang ada di sini sebelumnya --}}
 
 @section('content')
     <section class="layanan-hero">
@@ -21,7 +22,8 @@
     <section class="layanan-content">
         <div class="layanan-grid">
             @forelse($layanans as $layanan)
-                <div class="layanan-card">
+                {{-- PASANG ID DI SINI agar bisa ditemukan oleh JavaScript --}}
+                <div class="layanan-card" id="layanan-{{ $layanan->id }}">
                     <div class="layanan-card-body">
                         <h4>{{ $layanan->nama }}</h4>
                         <p class="layanan-desc">{{ $layanan->deskripsi }}</p>
@@ -35,6 +37,41 @@
                 </div>
             @endforelse
         </div>
-
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetId = urlParams.get('id');
+
+            if (targetId) {
+                const targetElement = document.getElementById('layanan-' + targetId);
+
+                if (targetElement) {
+                    // Beri sedikit jeda agar browser selesai merender layout
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+
+                        // Efek highlight
+                        targetElement.style.transition = 'all 0.5s ease';
+                        targetElement.style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.8)';
+                        targetElement.style.transform = 'scale(1.05)';
+                        targetElement.style.zIndex = '10';
+
+                        // Kembalikan ke normal setelah 3 detik
+                        setTimeout(() => {
+                            targetElement.style.boxShadow = '';
+                            targetElement.style.transform = '';
+                            targetElement.style.zIndex = '';
+                        }, 3000);
+                    }, 300);
+                }
+            }
+        });
+    </script>
+@endpush
