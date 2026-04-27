@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Concerns\HandlesPublicImageUploads;
 use Illuminate\Http\Request;
 use App\Models\Layanan;
 
 class PelangganLayananController extends Controller
 {
+    use HandlesPublicImageUploads;
+
     public function index()
     {
         $layanans = \App\Models\Layanan::where('is_active', true)->get();
@@ -22,9 +24,15 @@ class PelangganLayananController extends Controller
             'harga' => 'required|numeric',
             'estimasi_waktu' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_active' => 'required|boolean',
         ]);
 
+        if ($request->hasFile('foto')) {
+            $folder = 'layanan';
+            $this->deleteImageFromPublic($layanan->foto);
+            $data['foto'] = $this->storeImageToPublic($request->file('foto'), $folder);
+        }
         $layanan->update($data);
 
         return redirect()->route('admin.layanan.index')
@@ -33,6 +41,7 @@ class PelangganLayananController extends Controller
 
     public function destroy(Layanan $layanan)
     {
+        $this->deleteImageFromPublic($layanan->foto);
 
         $layanan->delete();
 

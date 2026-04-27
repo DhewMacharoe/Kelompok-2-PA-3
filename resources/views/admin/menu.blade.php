@@ -180,10 +180,10 @@
                 @if($menu->foto)
                 @php
                     // Sementara: dukung URL eksternal jika foto berupa link API gambar.
-                    // <img src="{{ asset('storage/' . $menu->foto) }}" class="menu-img">
+                    // <img src="{{ asset('images/' . $menu->foto) }}" class="menu-img">
                     $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
                         ? $menu->foto
-                        : asset('storage/' . $menu->foto);
+                        : asset('images/' . $menu->foto);
                 @endphp
                 <img src="{{ $fotoMenu }}" class="menu-img">
                 @else

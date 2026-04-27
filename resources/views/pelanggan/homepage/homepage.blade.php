@@ -152,7 +152,7 @@
                         if (!empty($menu->foto)) {
                             $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
                                 ? $menu->foto
-                                : asset('storage/' . $menu->foto);
+                                : asset('images/' . $menu->foto);
                         }
                     @endphp
                     <div role="button" tabindex="0" class="detail-card-button" data-bs-toggle="modal"

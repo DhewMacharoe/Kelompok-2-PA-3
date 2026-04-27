@@ -24,6 +24,20 @@
             @forelse($layanans as $layanan)
                 {{-- PASANG ID DI SINI agar bisa ditemukan oleh JavaScript --}}
                 <div class="layanan-card" id="layanan-{{ $layanan->id }}">
+                    <div class="layanan-card-image">
+                        @if ($layanan->foto)
+                            @php
+                                // Sementara: dukung URL eksternal dari seeder API gambar.
+                                // <img src="{{ asset('images/' . $layanan->foto) }}" alt="{{ $layanan->nama }}">
+                                $fotoLayanan = \Illuminate\Support\Str::startsWith($layanan->foto, ['http://', 'https://'])
+                                    ? $layanan->foto
+                                    : asset('images/' . $layanan->foto);
+                            @endphp
+                            <img src="{{ $fotoLayanan }}" alt="{{ $layanan->nama }}">
+                        @else
+                            <img src="https://via.placeholder.com/1200x800?text=No+Image" alt="{{ $layanan->nama }}">
+                        @endif
+                    </div>
                     <div class="layanan-card-body">
                         <h4>{{ $layanan->nama }}</h4>
                         <p class="layanan-desc">{{ $layanan->deskripsi }}</p>

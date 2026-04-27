@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Concerns\HandlesPublicImageUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Layanan;
 use Illuminate\Http\Request;
 
 class LayananController extends Controller
 {
+    use HandlesPublicImageUploads;
+
     public function index(Request $request)
 
     {
@@ -43,9 +46,14 @@ class LayananController extends Controller
             'harga' => 'required|numeric',
             'estimasi_waktu' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_active' => 'required|boolean',
         ]);
 
+        if ($request->hasFile('foto')) {
+            $folder = 'layanan';
+            $data['foto'] = $this->storeImageToPublic($request->file('foto'), $folder);
+        }
 
         Layanan::create($data);
 
@@ -65,9 +73,15 @@ class LayananController extends Controller
             'harga' => 'required|numeric',
             'estimasi_waktu' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_active' => 'required|boolean',
         ]);
 
+        if ($request->hasFile('foto')) {
+            $folder = 'layanan';
+            $this->deleteImageFromPublic($layanan->foto);
+            $data['foto'] = $this->storeImageToPublic($request->file('foto'), $folder);
+        }
         $layanan->update($data);
 
         return redirect()->route('admin.layanan.index')
@@ -76,6 +90,8 @@ class LayananController extends Controller
 
     public function destroy(Layanan $layanan)
     {
+        $this->deleteImageFromPublic($layanan->foto);
+
         $layanan->delete();
 
         return redirect()->route('admin.layanan.index')

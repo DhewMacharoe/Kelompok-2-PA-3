@@ -56,3 +56,20 @@ Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('tes
 Route::post('/antrian/daftar', [PublicController::class, 'daftarAntrian'])
     ->name('antrian.daftar')
     ->middleware('auth');
+
+// Serve image files stored in project-root /images for local/dev access.
+Route::get('/images/{path}', function (string $path) {
+    $baseDirectory = realpath(base_path('images'));
+    $filePath = realpath(base_path('images/' . $path));
+
+    if (
+        !$baseDirectory ||
+        !$filePath ||
+        !str_starts_with($filePath, $baseDirectory . DIRECTORY_SEPARATOR) ||
+        !is_file($filePath)
+    ) {
+        abort(404);
+    }
+
+    return response()->file($filePath);
+})->where('path', '.*')->name('images.serve');

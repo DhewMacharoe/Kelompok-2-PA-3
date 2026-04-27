@@ -453,6 +453,7 @@
                             <td data-label="Action" class="action-buttons">
                                 <button type="button" class="btn btn-secondary btn-sm btn-view"
                                     data-nama="{{ $item->nama }}"
+                                    data-foto="{{ $item->foto ? (\Illuminate\Support\Str::startsWith($item->foto, ['http://', 'https://']) ? $item->foto : asset('images/' . $item->foto)) : '' }}"
                                     data-harga="Rp {{ number_format($item->harga, 0, ',', '.') }}"
                                     data-estimasi="{{ $item->estimasi_waktu ?? '-' }}"
                                     data-status="{{ $item->is_active ? 'Aktif' : 'Nonaktif' }}"

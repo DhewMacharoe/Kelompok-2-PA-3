@@ -28,12 +28,12 @@
                     <div class="menu-card-image">
                         @php
                             // Sementara: dukung URL eksternal API gambar.
-                            // <img src="{{ asset('storage/' . $menu->foto) }}" alt="{{ $menu->nama }}">
+                            // <img src="{{ asset('images/' . $menu->foto) }}" alt="{{ $menu->nama }}">
                             $fotoMenu = null;
                             if (!empty($menu->foto)) {
                                 $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
                                     ? $menu->foto
-                                    : asset('storage/' . $menu->foto);
+                                    : asset('images/' . $menu->foto);
                             }
                         @endphp
                         <img src="{{ $fotoMenu ?? 'https://via.placeholder.com/1200x800?text=No+Image' }}"
