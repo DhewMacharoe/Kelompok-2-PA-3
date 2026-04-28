@@ -501,23 +501,26 @@
             @if ($current)
                 <div class="btn-group-serving">
                     <button type="button" class="btn-panggil shadow-sm queue-action-btn"
-                        data-queue-id="{{ $current->id }}" data-queue-status="selesai">
+                        data-queue-id="{{ $current->id }}" data-queue-status="selesai"
+                        data-loading-text="Menyelesaikan...">
                         Selesai
                     </button>
                     <button type="button" class="btn-batal shadow-sm queue-action-btn"
-                        data-queue-id="{{ $current->id }}" data-queue-status="batal">
+                        data-queue-id="{{ $current->id }}" data-queue-status="batal"
+                        data-loading-text="Membatalkan...">
                         Batalkan
                     </button>
                 </div>
             @else
                 <p>Tidak ada antrean yang sedang dilayani saat ini.</p>
-                <button type="button" class="btn-panggil shadow-sm" onclick="panggil()">
+                <button type="button" class="btn-panggil shadow-sm" onclick="panggil()"
+                    data-loading-text="Memanggil...">
                     panggil
                 </button>
             @endif
         </div>
 
-        <button onclick="toggleModal()" class="btn-tambah shadow-sm">
+        <button onclick="toggleModal()" class="btn-tambah shadow-sm" data-loading-text="Membuka form...">
             + Tambah
         </button>
 
@@ -642,7 +645,7 @@
 
                 <div class="form-actions">
                     <button type="button" class="btn-batal" onclick="toggleModal()">Batal</button>
-                    <button type="submit" class="btn-submit">Simpan</button>
+                    <button type="submit" class="btn-submit" data-loading-text="Menyimpan...">Simpan</button>
                 </div>
             </form>
         </div>

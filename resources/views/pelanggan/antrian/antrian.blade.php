@@ -376,7 +376,7 @@
                                     <form action="{{ route('antrian.cancel') }}" method="POST" onsubmit="return confirm('Batalkan antrean Anda?');">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="btn-cancel-my-queue">Batalkan Antrean Saya</button>
+                                        <button type="submit" class="btn-cancel-my-queue" data-loading-text="Membatalkan...">Batalkan Antrean Saya</button>
                                     </form>
                                 @endif
                             </div>
@@ -414,7 +414,7 @@
                     <div class="footer-section">
                         @auth
                             @if(!$punyaAntrianAktif)
-                                <button class="btn btn-add-queue" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTambahAntrean" aria-controls="offcanvasTambahAntrean" style="width: 100%;">
+                                <button class="btn btn-add-queue" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTambahAntrean" aria-controls="offcanvasTambahAntrean" data-loading-text="Membuka form..." style="width: 100%;">
                                     Tambah Antrean
                                 </button>
                             @endif
@@ -471,7 +471,7 @@
               @enderror
           </div>
           <div class="d-grid">
-              <button type="submit" class="btn btn-submit-bottom btn-lg">Tambah</button>
+              <button type="submit" class="btn btn-submit-bottom btn-lg" data-loading-text="Mengambil antrean...">Tambah</button>
           </div>
       </form>
   </div>
