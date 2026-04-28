@@ -22,7 +22,7 @@ class AntrianController extends Controller
             'status' => $request->status,
             'waktu_selesai' => $request->status === 'selesai' ? now() : null,
         ]);
-        event(new AntreanUpadate($antrian));
+        broadcast(new AntreanUpadate($antrian));
 
         $antrianList = Antrian::where('status', 'menunggu')
             ->whereDate('created_at', Carbon::today())

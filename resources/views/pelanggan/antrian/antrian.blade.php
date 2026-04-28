@@ -619,6 +619,15 @@
                     let namaEl = document.getElementById('antrian-nama');
                     if (namaEl) {
                         namaEl.textContent = antrian.nama_pelanggan;}
+
+                    const text = `Nomor antrian ${antrian.nomor_antrian}, atas nama ${antrian.nama_pelanggan}, status ${antrian.status}`;
+
+                    const speech = new SpeechSynthesisUtterance(text);
+                    speech.lang = 'id-ID'; // bahasa Indonesia
+                    speech.rate = 1; // kecepatan bicara (0.1 - 10)
+                    speech.pitch = 1; // nada suara
+
+                    window.speechSynthesis.speak(speech);
                 });
 
 
