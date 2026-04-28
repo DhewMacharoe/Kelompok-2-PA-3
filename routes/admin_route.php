@@ -52,7 +52,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::delete('/menu/{menu}', [MenuCafeController::class, 'destroy'])->name('menu.destroy');
 
     // Rekap Laporan
-    Route::view('/rekap', 'admin.rekap')->name('rekap');
+    Route::get('/rekap', [AdminController::class, 'rekapPemasukan'])->name('rekap');
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

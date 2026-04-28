@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class Antrian extends Model
 {
@@ -72,5 +73,26 @@ class Antrian extends Model
     {
         return $this->belongsToMany(Layanan::class, 'antrian_layanan', 'antrian_id', 'layanan_id')
             ->withTimestamps();
+    }
+
+    public function layananUntukRekap(): Collection
+    {
+        $layanans = $this->relationLoaded('layanans')
+            ? $this->layanans
+            : $this->layanans()->get();
+
+        if ($layanans->isNotEmpty()) {
+            return $layanans->unique('id')->values();
+        }
+
+        return collect([
+            $this->relationLoaded('layanan1') ? $this->layanan1 : $this->layanan1()->first(),
+            $this->relationLoaded('layanan2') ? $this->layanan2 : $this->layanan2()->first(),
+        ])->filter()->unique('id')->values();
+    }
+
+    public function totalPemasukanRekap(): int
+    {
+        return $this->layananUntukRekap()->sum('harga');
     }
 }

@@ -73,3 +73,6 @@ Route::get('/images/{path}', function (string $path) {
 
     return response()->file($filePath);
 })->where('path', '.*')->name('images.serve');
+
+
+
