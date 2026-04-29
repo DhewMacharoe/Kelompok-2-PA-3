@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\AntrianController;
+use App\Http\Controllers\Pelanggan\AntrianController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomePageController;
-use App\Http\Controllers\PelangganLayananController;
+use App\Http\Controllers\Pelanggan\PelangganLayananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +73,3 @@ Route::get('/images/{path}', function (string $path) {
 
     return response()->file($filePath);
 })->where('path', '.*')->name('images.serve');
-
-
-

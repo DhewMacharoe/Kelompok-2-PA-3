@@ -6,11 +6,38 @@ use App\Events\AntreanListUpdate;
 use App\Events\AntreanUpadate;
 use App\Http\Controllers\Controller;
 use App\Models\Antrian;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AntrianController extends Controller
 {
+    public function index()
+    {
+        $antrian = Antrian::getQueueBeingServed();
+
+        return view('admin.antrian.test', compact('antrian'));
+    }
+
+    public function panggil(Request $request)
+    {
+        $antrian = Antrian::todayWaitingQueues()->first();
+
+        if (!$antrian) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak ada antrian yang menunggu.',
+            ]);
+        }
+
+        $antrian->markAsServing();
+        $this->broadcastQueueStatusUpdate($antrian);
+        $this->broadcastQueueListUpdate();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Antrian ' . $antrian->nomor_antrian . ' sedang dilayani.',
+        ]);
+    }
+
     public function ubahStatus(Request $request, $id)
     {
         $request->validate([
@@ -18,18 +45,15 @@ class AntrianController extends Controller
         ]);
 
         $antrian = Antrian::findOrFail($id);
-        $antrian->update([
-            'status' => $request->status,
-            'waktu_selesai' => $request->status === 'selesai' ? now() : null,
-        ]);
-        broadcast(new AntreanUpadate($antrian));
+        
+        if ($request->status === 'selesai') {
+            $antrian->markAsComplete();
+        } else {
+            $antrian->cancelQueue();
+        }
 
-        $antrianList = Antrian::where('status', 'menunggu')
-            ->whereDate('created_at', Carbon::today())
-            ->orderBy('waktu_masuk', 'asc')
-            ->get();
-
-        event(new AntreanListUpdate($antrianList));
+        $this->broadcastQueueStatusUpdate($antrian);
+        $this->broadcastQueueListUpdate();
 
         return response()->json([
             'success' => true,
@@ -37,52 +61,24 @@ class AntrianController extends Controller
         ]);
     }
 
-    public function panggil(Request $request)
-    {
-        $antrian = Antrian::where('status', 'menunggu')
-            ->whereDate('created_at', Carbon::today())
-            ->orderBy('waktu_masuk', 'asc')
-            ->first();
-
-        if ($antrian) {
-            $antrian->update(['status' => 'sedang dilayani']);
-
-            event(new AntreanUpadate($antrian));
-
-            $antrianList = Antrian::where('status', 'menunggu')
-                ->whereDate('created_at', Carbon::today())
-                ->orderBy('waktu_masuk', 'asc')
-                ->get();
-
-            event(new AntreanListUpdate($antrianList));
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Antrian ' . $antrian->nomor_antrian . ' sedang dilayani.',
-            ]);
-        }
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Tidak ada antrian yang menunggu.',
-        ]);
-    }
-
     public function updateStatus(Request $request, Antrian $antrean)
     {
         $antrean->update(['status' => $request->status]);
-
-        event(new AntreanUpadate($antrean));
+        $this->broadcastQueueStatusUpdate($antrean);
 
         return back();
     }
 
-    public function index()
-    {
-        $antrian = Antrian::where('status', 'sedang dilayani')
-            ->whereDate('created_at', Carbon::today())
-            ->first();
+    // ============ PRIVATE HELPERS ============
 
-        return view('admin.antrian.test', compact('antrian'));
+    private function broadcastQueueStatusUpdate(Antrian $antrian): void
+    {
+        broadcast(new AntreanUpadate($antrian));
+    }
+
+    private function broadcastQueueListUpdate(): void
+    {
+        $antrianList = Antrian::getTodayWaitingQueues();
+        event(new AntreanListUpdate($antrianList));
     }
 }
