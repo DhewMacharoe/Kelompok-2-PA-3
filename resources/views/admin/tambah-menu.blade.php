@@ -23,6 +23,38 @@
         </div>
 
         <div class="form-section">
+            <form id="menu-form" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    <label for="nama">Nama Menu</label>
+                    <input type="text" id="nama" name="nama" required>
+                </div>
+                <div class="form-group">
+                    <label for="kategori">Kategori</label>
+                    <select id="kategori" name="kategori" required>
+                        <option value="">Pilih Kategori</option>
+                        <option value="makanan">Makanan</option>
+                        <option value="minuman">Minuman</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="harga">Harga</label>
+                    <input type="number" id="harga" name="harga" required>
+                </div>
+                <div class="form-group">
+                    <label for="deskripsi">Deskripsi</label>
+                    <textarea id="deskripsi" name="deskripsi"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="foto">Foto (URL atau Upload)</label>
+                    <input type="text" id="foto" name="foto" placeholder="URL gambar atau biarkan kosong untuk upload">
+                    <input type="file" id="foto_file" name="foto_file" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label for="is_available">Tersedia</label>
+                    <input type="checkbox" id="is_available" name="is_available" value="1" checked>
+                </div>
+            </form>
         </div>
         <div style="height:100px;"></div>
     </div>

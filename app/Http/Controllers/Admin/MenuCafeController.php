@@ -14,8 +14,9 @@ class MenuCafeController extends Controller
     public function index()
     {
         $menus = Menu::orderByDesc('updated_at')->get();
+        $categories = ['Makanan', 'Minuman'];
 
-        return view('admin.menu', compact('menus'));
+        return view('admin.menu', compact('menus', 'categories'));
     }
 
     public function create()
@@ -27,6 +28,7 @@ class MenuCafeController extends Controller
     {
         $data = $request->validate([
             'nama' => 'required',
+            'kategori' => 'required|string',
             'harga' => 'required|integer',
             'deskripsi' => 'nullable',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -52,11 +54,16 @@ class MenuCafeController extends Controller
     {
         $data = $request->validate([
             'nama' => 'required',
+            'kategori' => 'required|string',
             'harga' => 'required|integer',
             'deskripsi' => 'nullable',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_available' => 'required|boolean'
         ]);
+
+        if (!$request->filled('kategori')) {
+            $data['kategori'] = $menu->kategori;
+        }
 
         if ($request->hasFile('foto')) {
             $folder = 'menus';

@@ -46,8 +46,8 @@ class PublicController extends Controller
 
     public function menu()
     {
-        // Ambil semua menu (yang habis tetap ditampilkan dengan label silang)
-        $menus = Menu::all();
+        // Ambil hanya menu yang tersedia untuk halaman pelanggan
+        $menus = Menu::where('is_available', true)->get();
         return view('pelanggan.menu.menu', compact('menus'));
     }
     public function daftarAntrian(Request $request)
