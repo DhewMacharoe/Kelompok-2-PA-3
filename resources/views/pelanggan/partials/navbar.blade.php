@@ -102,7 +102,7 @@
                         style="color: {{ request()->routeIs('menu') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
                         onmouseover="this.style.color='#d4af37'"
                         onmouseout="this.style.color='{{ request()->routeIs('menu') ? '#d4af37' : 'white' }}'">
-                        Menu Cafe
+                        Café 
                     </a>
                 </li>
 
@@ -110,7 +110,7 @@
                     <li class="nav-item d-flex align-items-center justify-content-center">
                         <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3"
                             style="background-color: #d4af37; color: #1a1a1a; border-radius: 8px;">
-                            Login User
+                            Login
                         </a>
                     </li>
                 @endguest

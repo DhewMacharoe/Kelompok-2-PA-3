@@ -14,7 +14,7 @@
                 <i class="fas fa-users fs-1"></i>
                 <div>
                     <h5 class="mb-0 fs-6">Status Antrian</h5>
-                    <p class="mb-0 small opacity-75">Total Antrian: {{ $jumlahAntrian }}</p>
+                    <p class="mb-0 small opacity-75">Total Antrian {{ $jumlahAntrian }}</p>
                 </div>
             </div>
 
@@ -35,8 +35,8 @@
                     <p class="mb-0 text-muted fw-bold">{{ $antrian->nama_pelanggan }}</p>
                 @else
                     <div class="py-3">
-                        <i class="fas fa-check-circle text-muted fs-2 mb-2"></i>
-                        <p class="mb-0 text-muted">Belum ada antrian aktif</p>
+                        <i class="fas fa-user-circle text-muted fs-2 mb-2"></i>
+                        <p class="mb-0 text-muted">Tidak antrian yang sedang dilayani</p>
                     </div>
                 @endif
             </div>
@@ -53,7 +53,7 @@
             <div class="col-6 col-md-3">
                 <a href="{{ route('antrian') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
                     <div class="icon-circle shadow-sm"><i class="fas fa-id-card"></i></div>
-                    Antrian Barbershop
+                    Antrian
                 </a>
             </div>
             <div class="col-6 col-md-3">
@@ -65,13 +65,13 @@
             <div class="col-6 col-md-3">
                 <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
                     <div class="icon-circle shadow-sm"><i class="fas fa-cut"></i></div>
-                    Layanan Barber
+                    Layanan
                 </a>
             </div>
             <div class="col-6 col-md-3">
                 <a href="{{ route('menu') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
                     <div class="icon-circle shadow-sm"><i class="fas fa-coffee"></i></div>
-                    Menu Coffee
+                    Café
                 </a>
             </div>
         </div>
@@ -142,7 +142,7 @@
             @endforeach
         </div>
 
-        <h4 class="border-gold-left ps-2 mb-4 mt-5 fw-bold">Menu Cafe</h4>
+        <h4 class="border-gold-left ps-2 mb-4 mt-5 fw-bold">Menu Café</h4>
 
         <div class="row g-3">
             @forelse ($menus as $menu)

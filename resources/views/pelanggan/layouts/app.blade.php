@@ -117,7 +117,7 @@
         }
 
         .footer-bottom {
-            background-color: #111;
+            background-color: #1a1a1a;
             padding: 15px 0;
             margin-top: 40px;
             text-align: center;
@@ -132,7 +132,7 @@
         @include('pelanggan.partials.navbar')
     </div>
 
-    <main>
+    <main style="min-height: 60vh">
         @yield('content')
     </main>
 

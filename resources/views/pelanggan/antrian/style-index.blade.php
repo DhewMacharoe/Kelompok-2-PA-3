@@ -126,6 +126,22 @@
          color: #ffffff;
      }
 
+     .btn-cancel-my-queue:disabled,
+     .btn-cancel-my-queue.disabled {
+         background: #b7b7b7;
+         border-color: #b7b7b7;
+         color: #f5f5f5;
+         cursor: not-allowed;
+         opacity: 0.8;
+     }
+
+     .btn-cancel-my-queue:disabled:hover,
+     .btn-cancel-my-queue.disabled:hover {
+         background: #b7b7b7;
+         border-color: #b7b7b7;
+         color: #f5f5f5;
+     }
+
      .queue-card.my-queue-highlight {
          border: 1px solid #d8bd79;
          box-shadow: 0 4px 14px rgba(201, 156, 62, 0.2);
