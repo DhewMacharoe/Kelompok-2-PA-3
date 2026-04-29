@@ -3,9 +3,6 @@
 @section('title', 'Galeri')
 
 @section('content')
-<div class="content-header">
-    <h2>Galeri</h2>
-</div>
 
 @push  ('styles')
 <link rel="stylesheet" href="{{ asset('css/admin_galeri.css') }}">
@@ -20,7 +17,6 @@
     @endif
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4>Kelola Galeri</h4>
 
         <a href="{{ route('admin.galeri.create') }}" class="btn btn-success">
             + Tambah

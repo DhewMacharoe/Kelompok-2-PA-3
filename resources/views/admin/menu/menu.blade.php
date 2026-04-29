@@ -13,6 +13,7 @@
         padding: 20px;
         background-color: #f4f4f4;
         min-height: 100vh;
+        font-family: 'Inter', sans-serif;
     }
 
     /* Filter Bar */
@@ -44,16 +45,15 @@
         border: 1px solid #d6d9dd;
         background: white;
         font-size: 12px;
-        font-weight: 700;
-        color: #444;
+        font-weight: bold;
+        color: #6c757d;
         text-transform: uppercase;
-        cursor: pointer;
     }
 
     .filter-btn.active {
-        background-color: #203857;
+        background-color: #337ab7;
         color: white;
-        border-color: #203857;
+        border-color: #337ab7;
     }
 
     /* Grid Menu */
@@ -104,12 +104,15 @@
         border-bottom: 2px solid #152538;
     }
 
-    .menu-table tbody tr:hover {
-        background: #f8fafc;
-    }
-
-    .cell-menu {
-        min-width: 240px;
+    /* Badge Aktif */
+    .badge-aktif {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: bold;
+        border: 1px solid #c8e6c9;
     }
 
     .menu-row-item {
@@ -193,32 +196,10 @@
 
 
 <div class="main-container">
-    @php
-        $categories = $menus->pluck('kategori')->unique();
-    @endphp
-
-    <div class="top-bar">
-        <div class="top-actions">
-            <button class="btn-tambahkan" data-bs-toggle="modal" data-bs-target="#modalCreate">
-                TAMBAHKAN +
-            </button>
-        </div>
-
-        <div class="filter-bar">
-            <div class="filter-group">
-                <span class="filter-group-label">Status</span>
-                <button type="button" class="filter-btn active" data-filter="all" data-filter-type="status">SEMUA</button>
-                <button type="button" class="filter-btn" data-filter="active" data-filter-type="status">AKTIF</button>
-                <button type="button" class="filter-btn" data-filter="inactive" data-filter-type="status">NONAKTIF</button>
-            </div>
-            <div class="filter-group">
-                <span class="filter-group-label">Kategori</span>
-                <button type="button" class="filter-btn active" data-filter="all" data-filter-type="category">SEMUA</button>
-                @foreach($categories as $category)
-                    <button type="button" class="filter-btn" data-filter="{{ $category }}" data-filter-type="category">{{ strtoupper($category) }}</button>
-                @endforeach
-            </div>
-        </div>
+    <div class="filter-bar">
+        <button type="button" class="filter-btn active" data-filter="all">SEMUA</button>
+        <button type="button" class="filter-btn" data-filter="active">AKTIF</button>
+        <button type="button" class="filter-btn" data-filter="inactive">NONAKTIF</button>
     </div>
 
     <div class="table-container">

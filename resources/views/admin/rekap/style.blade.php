@@ -1,6 +1,7 @@
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
     .rekap-wrap {
-        --rekap-primary: #0578FB;
+        --rekap-primary: ##2F80ED;
         --rekap-surface: #ffffff;
         --rekap-bg: #f4f7f6;
         --rekap-border: #dbe3ee;
@@ -8,10 +9,11 @@
         --rekap-muted: #6b7a90;
         --rekap-radius: 14px;
         --rekap-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
-        background: linear-gradient(180deg, #f8fbff 0%, #f4f7f6 100%);
+        /* background: linear-gradient(180deg, #f8fbff 0%, #f4f7f6 100%); */
         border-radius: 18px;
         padding: 24px;
         min-height: 100%;
+        font-family: 'Inter', sans-serif;
     }
 
     .rekap-wrap * {
@@ -441,7 +443,7 @@
     .grand-total {
         color: var(--primary-blue);
         font-weight: 800;
-        font-family: 'DM Mono', monospace;
+        /* font-family: 'DM Mono', monospace; */
     }
 
     .rekap-total-label {
