@@ -22,7 +22,6 @@
     <section class="layanan-content">
         <div class="layanan-grid">
             @forelse($layanans as $layanan)
-                {{-- PASANG ID DI SINI agar bisa ditemukan oleh JavaScript --}}
                 <div class="layanan-card" id="layanan-{{ $layanan->id }}">
                     {{-- Bagian gambar diganti dengan Icon --}}
                     <div class="icon-circle shadow-sm">

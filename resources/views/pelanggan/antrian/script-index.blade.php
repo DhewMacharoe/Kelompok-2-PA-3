@@ -1,21 +1,80 @@
 <script type="module">
 
     function formatJam(datetime) {
-    const date = new Date(datetime);
-    return date.toLocaleTimeString('id-ID', {
-        hour: '2-digit',
-        minute: '2-digit'
-    });
+        const date = new Date(datetime);
+        return date.toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
     }
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log('Echo script loaded');
 
-        const loggedInUsername = @json(auth()->check() ? auth()->user()->username : null);
+    function setButtonDisabled(button, disabled) {
+        if (!button) {
+            return;
+        }
+
+        button.disabled = disabled;
+        button.classList.toggle('disabled', disabled);
+        button.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+        button.style.pointerEvents = disabled ? 'none' : '';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const queueAppCard = document.querySelector('.app-card');
+        const loggedInUsername = queueAppCard?.dataset.loggedInUsername || null;
 
         const layananSelect1 = document.getElementById('layanan_id1');
         const layananSelect2 = document.getElementById('layanan_id2');
         const layananHelp = document.getElementById('layanan-help-pelanggan');
         const formTambahPelanggan = document.getElementById('formTambahAntrianPelanggan');
+        const queueListContainer = document.querySelector('.queue-list-container');
+        const myQueueCard = document.getElementById('my-queue-card');
+        const myQueueNumber = document.getElementById('my-queue-number');
+        const myQueuePosition = document.getElementById('my-queue-position');
+        const myQueueServices = document.getElementById('my-queue-services');
+        const myQueueStatusChip = document.getElementById('my-queue-status-chip');
+        const cancelQueueAction = document.getElementById('my-queue-cancel-action');
+        const cancelQueueButton = document.getElementById('btn-cancel-my-queue');
+
+        function normalizeStatus(status) {
+            return String(status || '').toLowerCase();
+        }
+
+        function isCurrentUserQueue(antrian) {
+            return !!loggedInUsername && String(antrian?.nama_pelanggan || '') === String(loggedInUsername);
+        }
+
+        function updateMyQueueCard(antrian) {
+            if (!myQueueCard || !isCurrentUserQueue(antrian)) {
+                return;
+            }
+
+            const status = normalizeStatus(antrian.status);
+
+            if (cancelQueueAction) {
+                cancelQueueAction.hidden = status !== 'menunggu';
+            }
+
+            if (myQueueNumber && antrian.nomor_antrian) {
+                myQueueNumber.textContent = antrian.nomor_antrian;
+            }
+
+            if (myQueuePosition && status !== 'menunggu') {
+                myQueuePosition.textContent = '-';
+            }
+
+            if (myQueueStatusChip) {
+                myQueueStatusChip.textContent = status ? status.toUpperCase() : '-';
+            }
+
+            setButtonDisabled(cancelQueueButton, status === 'sedang dilayani');
+
+            if (!['menunggu', 'sedang dilayani'].includes(status)) {
+                window.setTimeout(() => {
+                    window.location.reload();
+                }, 120);
+            }
+        }
 
         function syncLayananDropdownPelanggan() {
             if (!layananSelect1 || !layananSelect2) {
@@ -71,89 +130,65 @@
         }
 
         if (typeof window.Echo === 'undefined') {
-            console.error('window.Echo is not defined');
             return;
         }
 
-        console.log('Echo is available');
-
         try {
-            const channel = window.Echo.channel('AntrianList-channel');
-            console.log('Channel created:', channel);
+            window.Echo.channel('AntrianList-channel').listen('AntreanListUpdate', (e) => {
+                const antreanList = (e.antreanList || []).filter(item =>
+                    normalizeStatus(item.status) === 'menunggu'
+                );
 
-            channel.listen('AntreanListUpdate', (e) => {
-            console.log('Antrian list updated:', e);
+                if (!queueListContainer) {
+                    return;
+                }
 
-            const antreanList = (e.antreanList || []).filter(item =>
-                String(item.status || '').toLowerCase() === 'menunggu'
-            );
-            const queueListContainer = document.querySelector('.queue-list-container');
+                queueListContainer.innerHTML = '';
 
-            // Kosongkan isi lama
-            queueListContainer.innerHTML = '';
-
-            if (antreanList.length > 0) {
-                antreanList.forEach(item => {
-                    const isMyQueue = loggedInUsername && item.nama_pelanggan === loggedInUsername;
-                    queueListContainer.innerHTML += `
-                        <div class="queue-card ${isMyQueue ? 'my-queue-highlight' : ''}">
-                            <div class="queue-number-box">${item.nomor_antrian}</div>
-                            <div class="queue-info">
-                                <p class="queue-name">${item.nama_pelanggan}</p>
-                                <p class="queue-time">(${formatJam(item.created_at)})</p>
+                if (antreanList.length > 0) {
+                    antreanList.forEach(item => {
+                        const isMyQueue = isCurrentUserQueue(item);
+                        queueListContainer.insertAdjacentHTML('beforeend', `
+                            <div class="queue-card ${isMyQueue ? 'my-queue-highlight' : ''}">
+                                <div class="queue-number-box">${item.nomor_antrian}</div>
+                                <div class="queue-info">
+                                    <p class="queue-name">${item.nama_pelanggan}</p>
+                                    <p class="queue-time">(${formatJam(item.created_at)})</p>
+                                </div>
+                                <div>${isMyQueue ? '<span class="badge-mine">ANTREAN SAYA</span>' : ''}<span class="badge-waiting">MENUNGGU</span></div>
                             </div>
-                            <div>${isMyQueue ? '<span class="badge-mine">ANTREAN SAYA</span>' : ''}<span class="badge-waiting">MENUNGGU</span></div>
-                        </div>
+                        `);
+                    });
+                } else {
+                    queueListContainer.innerHTML = `
+                        <div class="text-center mt-4 mb-4 text-muted">Tidak ada antrian</div>
                     `;
-                });
-            } else {
-                queueListContainer.innerHTML = `
-                    <div class="text-center mt-4 mb-4 text-muted">Tidak ada antrian</div>
-                `;
-            }
-        });
+                }
+            });
         } catch (error) {
-            console.error('Terjadi kesalahan saat inisialisasi Echo:', error);
+            return;
         }
 
         window.Echo.channel('Antrian-channel').listen('AntreanUpadate', (e) => {
+            const antrian = e.antrean;
 
-                    console.log('DATA MASUK:', e);
+            const nomorEl = document.getElementById('antrian-nomor');
+            if (nomorEl) {
+                nomorEl.textContent = antrian.nomor_antrian;
+            }
 
-                    let antrian = e.antrean;
+            const statusEl = document.getElementById('antrian-status');
+            if (statusEl) {
+                statusEl.textContent = String(antrian.status || '').toUpperCase();
+            }
 
-                    // Update nomor antrian
-                    let nomorEl = document.getElementById('antrian-nomor');
-                    if (nomorEl) {
-                        nomorEl.textContent = antrian.nomor_antrian;
-                    }
+            const namaEl = document.getElementById('antrian-nama');
+            if (namaEl) {
+                namaEl.textContent = antrian.nama_pelanggan;
+            }
 
-                    // Update status
-                    let statusEl = document.getElementById('antrian-status');
-                    if (statusEl) {
-                        statusEl.textContent = antrian.status.toUpperCase();
-                    }
-
-                    let namaEl = document.getElementById('antrian-nama');
-                    if (namaEl) {
-                        namaEl.textContent = antrian.nama_pelanggan;}
-
-                    const text = `Nomor antrian ${antrian.nomor_antrian}, atas nama ${antrian.nama_pelanggan}, status ${antrian.status}`;
-
-                // suara dingdong
-                // const dingdong = new Audio('/sounds/dingdong.mp3'); // pastikan file ada
-
-                // dingdong.play();
-
-                dingdong.onended = () => {
-                    const speech = new SpeechSynthesisUtterance(text);
-                    speech.lang = 'id-ID';
-                    speech.rate = 1;
-                    speech.pitch = 1;
-
-                    window.speechSynthesis.speak(speech);
-                    };
-                });
+            updateMyQueueCard(antrian);
+        });
 
 
     });

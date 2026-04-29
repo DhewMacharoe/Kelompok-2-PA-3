@@ -39,7 +39,7 @@
                     <li><a href="{{ url('rekomendasi') }}" class="{{ Request::is('rekomendasi') ? 'active' : '' }}">Gaya
                             Rambut</a></li>
                     <li><a href="{{ url('galeri') }}" class="{{ Request::is('galeri') ? 'active' : '' }}">Galeri</a></li>
-                    <li><a href="{{ url('menu') }}" class="{{ Request::is('menu') ? 'active' : '' }}">Menu Kafe</a></li>
+                    <li><a href="{{ url('menu') }}" class="{{ Request::is('menu') ? 'active' : '' }}">Café</a></li>
                 </ul>
             </nav>
         @endunless

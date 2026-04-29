@@ -17,14 +17,14 @@
         <div class="alert alert-danger mt-3">{{ session('error') }}</div>
     @endif
 
-    <div class="app-card">
+    <div class="app-card" data-logged-in-username="{{ auth()->check() ? auth()->user()->username : '' }}">
         <div class="row g-0">
 
             <div class="col-md-5">
                 <div class="header-section">
                     <div class="text-gold">SEDANG DILAYANI</div>
                     <div class="active-number-box">
-                        <p class="active-number" id="antrian-nomor">{{ $dipanggil ? $dipanggil->nomor_antrian : '0' }}</p>
+                        <p class="active-number" id="antrian-nomor">{{ $dipanggil ? $dipanggil->nomor_antrian : ' ‎  ' }}</p>
                     </div>
                     <div class="active-name" id = "antrian-nama">{{ $dipanggil ? $dipanggil->nama_pelanggan : 'Tidak ada antrian' }}
                     </div>
@@ -38,37 +38,41 @@
 
                     @auth
                         @if($antrianSayaAktif)
-                            <div class="my-queue-card">
+                            <div class="my-queue-card" id="my-queue-card">
                                 <div class="my-queue-header">
                                     <h3 class="my-queue-title">Nomor Antrean Anda</h3>
-                                    <div class="my-queue-number">{{ $antrianSayaAktif->nomor_antrian }}</div>
+                                    <div class="my-queue-number" id="my-queue-number">{{ $antrianSayaAktif->nomor_antrian }}</div>
                                 </div>
 
                                 <div class="my-queue-meta">
                                     <div class="my-queue-meta-row">
                                         <span class="my-queue-meta-label">Posisi</span>
-                                        <span class="my-queue-meta-value">
+                                        <span class="my-queue-meta-value" id="my-queue-position">
                                             {{ $antrianSayaAktif->status === 'menunggu' ? str_pad((string) ($posisiAntrianSaya ?? 0), 2, '0', STR_PAD_LEFT) : '-' }}
                                         </span>
                                     </div>
                                     <div class="my-queue-meta-row">
                                         <span class="my-queue-meta-label">Layanan</span>
-                                        <span class="my-queue-meta-value">
+                                        <span class="my-queue-meta-value" id="my-queue-services">
                                             {{ $antrianSayaAktif->layanan1?->nama ?? '-' }}{{ $antrianSayaAktif->layanan2 ? ' + ' . $antrianSayaAktif->layanan2->nama : '' }}
                                         </span>
                                     </div>
                                     <div class="my-queue-meta-row">
                                         <span class="my-queue-meta-label">Status</span>
-                                        <span class="my-queue-status-chip">{{ strtoupper($antrianSayaAktif->status) }}</span>
+                                        <span class="my-queue-status-chip" id="my-queue-status-chip">{{ strtoupper($antrianSayaAktif->status) }}</span>
                                     </div>
                                 </div>
 
-                                @if(in_array($antrianSayaAktif->status, ['menunggu', 'sedang dilayani']))
-                                    <form action="{{ route('antrian.cancel') }}" method="POST" onsubmit="return confirm('Batalkan antrean Anda?');">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="btn-cancel-my-queue" data-loading-text="Membatalkan...">Batalkan Antrean Saya</button>
-                                    </form>
+                                @if($antrianSayaAktif->status === 'menunggu')
+                                    <div id="my-queue-cancel-action">
+                                        <form action="{{ route('antrian.cancel') }}" method="POST" onsubmit="return confirm('Batalkan antrean Anda?');">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" id="btn-cancel-my-queue" class="btn-cancel-my-queue" data-loading-text="Membatalkan..." @disabled($antrianSayaAktif->status === 'sedang dilayani')>
+                                                Batalkan Antrean Saya
+                                            </button>
+                                        </form>
+                                    </div>
                                 @endif
                             </div>
                         @endif
