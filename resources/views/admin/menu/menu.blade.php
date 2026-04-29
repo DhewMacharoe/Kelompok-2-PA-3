@@ -104,40 +104,79 @@
     /* Footer Card & Tombol */
     .menu-card-footer {
         display: flex;
+        align-items: center;
         padding: 10px 15px;
         background-color: #f9f8f3;
         /* Warna krem muda sesuai gambar */
         gap: 10px;
     }
 
-    .btn-edit {
+    .action-btn {
+        padding: 5px 12px;
+        border: none;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 11px;
+        font-weight: bold;
+        transition: opacity 0.2s ease;
+    }
+
+    .action-btn:hover {
+        opacity: 0.86;
+    }
+
+    .action-btn-detail {
+        background-color: #337ab7;
+    }
+
+    .action-btn-edit {
         background-color: #ffc107;
-        color: white;
-        border: none;
-        padding: 5px 15px;
-        border-radius: 4px;
-        font-size: 11px;
-        font-weight: bold;
+        color: #1f2937;
     }
 
-    .btn-nonaktif {
+    .action-btn-toggle-off {
         background-color: #d9534f;
-        color: white;
-        border: none;
-        padding: 5px 15px;
-        border-radius: 4px;
-        font-size: 11px;
-        font-weight: bold;
     }
 
-    .btn-aktifkan {
+    .action-btn-toggle-on {
         background-color: #5cb85c;
-        color: white;
-        border: none;
-        padding: 5px 15px;
-        border-radius: 4px;
-        font-size: 11px;
-        font-weight: bold;
+    }
+
+    .action-btn-delete {
+        background-color: #7f1d1d;
+    }
+
+    .menu-loading-btn.is-loading {
+        position: relative;
+        color: transparent !important;
+        pointer-events: none;
+    }
+
+    .menu-loading-btn.is-loading::after {
+        content: '';
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(255, 255, 255, 0.65);
+        border-top-color: rgba(255, 255, 255, 1);
+        border-radius: 50%;
+        animation: menuSpin 0.75s linear infinite;
+    }
+
+    .btn.btn-warning.menu-loading-btn.is-loading::after,
+    .btn.btn-success.menu-loading-btn.is-loading::after,
+    .btn.btn-secondary.menu-loading-btn.is-loading::after {
+        border-color: rgba(17, 24, 39, 0.25);
+        border-top-color: rgba(17, 24, 39, 0.95);
+    }
+
+    @keyframes menuSpin {
+        to {
+            transform: rotate(360deg);
+        }
     }
 
     /* Card Tambah Menu */
@@ -158,6 +197,12 @@
         border-radius: 5px;
         font-weight: bold;
         font-size: 12px;
+    }
+
+    .menu-detail-description {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        white-space: pre-wrap;
     }
 </style>
 
@@ -210,15 +255,26 @@
 
             <div class="menu-card-footer">
 
-                {{-- EDIT --}}
-                <button class="btn-edit"
+                {{-- DETAIL --}}
+                <button type="button" class="action-btn action-btn-detail"
                     data-bs-toggle="modal"
-                    data-bs-target="#modalEdit{{ $menu->id }}">
+                    data-bs-target="#modalDetail{{ $menu->id }}"
+                    title="Detail"
+                    aria-label="Lihat detail menu {{ $menu->nama }}">
+                    DETAIL
+                </button>
+
+                {{-- EDIT --}}
+                <button type="button" class="action-btn action-btn-edit"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalEdit{{ $menu->id }}"
+                    title="Edit"
+                    aria-label="Edit menu {{ $menu->nama }}">
                     EDIT
                 </button>
 
                 {{-- TOGGLE STATUS --}}
-                <form action="{{ route('admin.menu.update', $menu->id) }}" method="POST">
+                <form id="toggle-form-{{ $menu->id }}" action="{{ route('admin.menu.update', $menu->id) }}" method="POST">
                     @csrf
                     @method('PUT')
 
@@ -227,11 +283,71 @@
                     <input type="hidden" name="deskripsi" value="{{ $menu->deskripsi }}">
                     <input type="hidden" name="is_available" value="{{ $menu->is_available ? 0 : 1 }}">
 
-                    <button type="submit" class="{{ $menu->is_available ? 'btn-nonaktif' : 'btn-aktifkan' }}">
-                        {{ $menu->is_available ? 'NONAKTIFKAN' : 'AKTIFKAN' }}
+                    @if($menu->is_available)
+                    <button type="button"
+                        class="action-btn action-btn-toggle-off btn-open-confirm"
+                        data-confirm-form="toggle-form-{{ $menu->id }}"
+                        data-confirm-message="Yakin ingin menonaktifkan menu ini?"
+                        title="Nonaktifkan"
+                        aria-label="Nonaktifkan menu {{ $menu->nama }}">
+                        NONAKTIFKAN
+                    </button>
+                    @else
+                    <button type="submit"
+                        class="action-btn action-btn-toggle-on menu-loading-btn"
+                        data-loading-text="Mengaktifkan..."
+                        title="Aktifkan"
+                        aria-label="Aktifkan menu {{ $menu->nama }}">
+                        AKTIFKAN
+                    </button>
+                    @endif
+                </form>
+
+                {{-- HAPUS --}}
+                <form id="delete-form-{{ $menu->id }}" action="{{ route('admin.menu.destroy', $menu->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button"
+                        class="action-btn action-btn-delete btn-open-confirm"
+                        data-confirm-form="delete-form-{{ $menu->id }}"
+                        data-confirm-message="Yakin ingin menghapus menu ini? Data tidak bisa dikembalikan."
+                        title="Hapus"
+                        aria-label="Hapus menu {{ $menu->nama }}">
+                        HAPUS
                     </button>
                 </form>
 
+            </div>
+
+            <!-- Modal Detail -->
+            <div class="modal fade" id="modalDetail{{ $menu->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5>Detail Menu</h5>
+                        </div>
+
+                        <div class="modal-body">
+                            @if($menu->foto)
+                            @php
+                                $fotoDetail = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
+                                    ? $menu->foto
+                                    : asset('images/' . $menu->foto);
+                            @endphp
+                            <img src="{{ $fotoDetail }}" class="img-fluid rounded mb-3" alt="Foto {{ $menu->nama }}">
+                            @endif
+
+                            <p class="mb-1"><strong>Nama:</strong> {{ $menu->nama }}</p>
+                            <p class="mb-1"><strong>Harga:</strong> Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
+                            <p class="mb-1"><strong>Status:</strong> {{ $menu->is_available ? 'Aktif' : 'Nonaktif' }}</p>
+                            <p class="mb-0 menu-detail-description"><strong>Deskripsi:</strong> {{ $menu->deskripsi ?: '-' }}</p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Modal Edit -->
@@ -264,7 +380,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-warning">Update</button>
+                                <button type="submit" class="btn btn-warning menu-loading-btn" data-loading-text="Mengupdate...">Update</button>
                             </div>
                         </div>
                     </form>
@@ -309,10 +425,29 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Simpan</button>
+                        <button type="submit" class="btn btn-success menu-loading-btn" data-loading-text="Menyimpan...">Simpan</button>
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Aksi -->
+    <div class="modal fade" id="modalKonfirmasiAksi" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="konfirmasiAksiMessage">
+                    Yakin ingin melanjutkan aksi ini?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger menu-loading-btn" id="btnKonfirmasiAksi">Ya, Lanjutkan</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -323,6 +458,12 @@
         const filterButtons = document.querySelectorAll('.filter-btn');
         const menuCards = document.querySelectorAll('.menu-card');
         const hargaMasks = document.querySelectorAll('.harga-mask');
+        const confirmButtons = document.querySelectorAll('.btn-open-confirm');
+        const confirmMessageEl = document.getElementById('konfirmasiAksiMessage');
+        const confirmSubmitBtn = document.getElementById('btnKonfirmasiAksi');
+        const confirmModalElement = document.getElementById('modalKonfirmasiAksi');
+        const confirmModal = confirmModalElement ? new bootstrap.Modal(confirmModalElement) : null;
+        let activeConfirmForm = null;
 
         filterButtons.forEach((button) => {
             button.addEventListener('click', function() {
@@ -373,6 +514,56 @@
                 const numericValue = this.value.replace(/[^\d]/g, '');
                 rawInput.value = numericValue;
                 this.value = formatRupiah(numericValue);
+            });
+        });
+
+        confirmButtons.forEach((button) => {
+            button.addEventListener('click', function() {
+                const formId = this.dataset.confirmForm;
+                const message = this.dataset.confirmMessage || 'Yakin ingin melanjutkan aksi ini?';
+                const targetForm = formId ? document.getElementById(formId) : null;
+
+                if (!targetForm || !confirmModal) {
+                    return;
+                }
+
+                activeConfirmForm = targetForm;
+                confirmMessageEl.textContent = message;
+                confirmModal.show();
+            });
+        });
+
+        if (confirmSubmitBtn) {
+            confirmSubmitBtn.addEventListener('click', function() {
+                if (!activeConfirmForm) {
+                    return;
+                }
+
+                this.classList.add('is-loading');
+                this.disabled = true;
+                activeConfirmForm.submit();
+            });
+        }
+
+        if (confirmModalElement) {
+            confirmModalElement.addEventListener('hidden.bs.modal', function() {
+                activeConfirmForm = null;
+                if (confirmSubmitBtn) {
+                    confirmSubmitBtn.classList.remove('is-loading');
+                    confirmSubmitBtn.disabled = false;
+                }
+            });
+        }
+
+        const menuForms = document.querySelectorAll('.main-container form');
+        menuForms.forEach((form) => {
+            form.addEventListener('submit', function(event) {
+                const submitter = event.submitter;
+                if (!submitter || !submitter.classList.contains('menu-loading-btn')) {
+                    return;
+                }
+
+                submitter.classList.add('is-loading');
             });
         });
     });

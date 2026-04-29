@@ -62,6 +62,7 @@
                         Dengan melanjutkan, Anda setuju untuk menggunakan akun Google sebagai identitas masuk ke layanan
                         Arga Home's.
                     </p>
+                    <p class="auth-footer-copy">Atau <a href="/login" class="text-decoration-underline auth-footer-copy mb-0">Masuk Sebagai Admin</a></p>
 
                     <script type="module">
                         const firebaseConfig = {
@@ -96,7 +97,7 @@
                         loginButton.addEventListener('click', async () => {
                             try {
                                 loginButton.disabled = true;
-                                loginStatus.textContent = 'Menghubungkan ke Firebase...';
+                                loginStatus.textContent = 'Menghubungkan ke Google...';
 
                                 const result = await signInWithPopup(auth, provider);
                                 const idToken = await result.user.getIdToken();
