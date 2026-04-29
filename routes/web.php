@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\AntrianController;
+use App\Http\Controllers\Pelanggan\AntrianController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomePageController;
-use App\Http\Controllers\PelangganLayananController;
+use App\Http\Controllers\Pelanggan\PelangganLayananController;
+use App\Http\Controllers\Pelanggan\PelangganGaleriController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::get('/', [HomePageController::class, 'index'])->name('home');
 Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
 Route::get('/antrian', [AntrianController::class, 'index'])->name('antrian');
 Route::get('/rekomendasi', [PublicController::class, 'rekomendasi'])->name('rekomendasi');
-Route::get('/galeri', [PublicController::class, 'galeri'])->name('galeri');
+Route::get('/galeri', [PelangganGaleriController::class, 'index'])->name('galeri');
 Route::get('/menu', [PublicController::class, 'menu'])->name('menu');
 Route::post('/antrian', [AntrianController::class, 'store'])->name('antrian.store');
 Route::patch('/antrian/saya/batal', [AntrianController::class, 'cancelMyQueue'])

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Pelanggan;
 
 use App\Http\Controllers\Concerns\HandlesPublicImageUploads;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Layanan;
+use Illuminate\Http\Request;
 
 class PelangganLayananController extends Controller
 {
@@ -12,7 +13,7 @@ class PelangganLayananController extends Controller
 
     public function index()
     {
-        $layanans = \App\Models\Layanan::where('is_active', true)->get();
+        $layanans = Layanan::where('is_active', true)->get();
 
         return view('pelanggan.layanan.layanan', compact('layanans'));
     }

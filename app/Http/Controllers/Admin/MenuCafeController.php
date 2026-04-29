@@ -16,7 +16,7 @@ class MenuCafeController extends Controller
         $menus = Menu::orderByDesc('updated_at')->get();
         $categories = ['Makanan', 'Minuman'];
 
-        return view('admin.menu', compact('menus', 'categories'));
+        return view('admin.menu.menu', compact('menus'));
     }
 
     public function create()

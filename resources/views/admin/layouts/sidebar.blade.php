@@ -19,7 +19,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ request()->is('admin/galeri*') ? 'active' : '' }}" href="{{ route('admin.galeri') }}">
+            <a class="nav-link {{ request()->is('admin/galeri*') ? 'active' : '' }}" href="{{ route('admin.galeri.index') }}">
                 <i class="bi bi-images"></i> Galeri
             </a>
         </li>
@@ -31,6 +31,11 @@
         <li class="nav-item">
             <a class="nav-link {{ request()->is('admin/menu*') ? 'active' : '' }}" href="/admin/menu">
                 <i class="bi bi-cup"></i> Menu Cafe
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ request()->is('admin/rekap*') ? 'active' : '' }}" href="{{ route('admin.rekap') }}">
+                <i class="bi bi-receipt"></i> Rekap Pemasukan
             </a>
         </li>
     </ul>

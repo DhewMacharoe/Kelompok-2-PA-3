@@ -166,12 +166,12 @@
         color: #ffffff;
     }
 
-    .btn-nonaktif {
+    .action-btn-toggle-off {
         background-color: #d9534f;
         color: #ffffff;
     }
 
-    .btn-aktifkan {
+    .action-btn-toggle-on {
         background-color: #5cb85c;
         color: #ffffff;
     }
@@ -327,10 +327,29 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Simpan</button>
+                        <button type="submit" class="btn btn-success menu-loading-btn" data-loading-text="Menyimpan...">Simpan</button>
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Aksi -->
+    <div class="modal fade" id="modalKonfirmasiAksi" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="konfirmasiAksiMessage">
+                    Yakin ingin melanjutkan aksi ini?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger menu-loading-btn" id="btnKonfirmasiAksi">Ya, Lanjutkan</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -341,6 +360,12 @@
         const filterButtons = document.querySelectorAll('.filter-btn');
         const menuRows = document.querySelectorAll('.menu-row');
         const hargaMasks = document.querySelectorAll('.harga-mask');
+        const confirmButtons = document.querySelectorAll('.btn-open-confirm');
+        const confirmMessageEl = document.getElementById('konfirmasiAksiMessage');
+        const confirmSubmitBtn = document.getElementById('btnKonfirmasiAksi');
+        const confirmModalElement = document.getElementById('modalKonfirmasiAksi');
+        const confirmModal = confirmModalElement ? new bootstrap.Modal(confirmModalElement) : null;
+        let activeConfirmForm = null;
 
         const statusButtons = document.querySelectorAll('[data-filter-type="status"]');
         const categoryButtons = document.querySelectorAll('[data-filter-type="category"]');
@@ -412,6 +437,56 @@
                 const numericValue = this.value.replace(/[^\d]/g, '');
                 rawInput.value = numericValue;
                 this.value = formatRupiah(numericValue);
+            });
+        });
+
+        confirmButtons.forEach((button) => {
+            button.addEventListener('click', function() {
+                const formId = this.dataset.confirmForm;
+                const message = this.dataset.confirmMessage || 'Yakin ingin melanjutkan aksi ini?';
+                const targetForm = formId ? document.getElementById(formId) : null;
+
+                if (!targetForm || !confirmModal) {
+                    return;
+                }
+
+                activeConfirmForm = targetForm;
+                confirmMessageEl.textContent = message;
+                confirmModal.show();
+            });
+        });
+
+        if (confirmSubmitBtn) {
+            confirmSubmitBtn.addEventListener('click', function() {
+                if (!activeConfirmForm) {
+                    return;
+                }
+
+                this.classList.add('is-loading');
+                this.disabled = true;
+                activeConfirmForm.submit();
+            });
+        }
+
+        if (confirmModalElement) {
+            confirmModalElement.addEventListener('hidden.bs.modal', function() {
+                activeConfirmForm = null;
+                if (confirmSubmitBtn) {
+                    confirmSubmitBtn.classList.remove('is-loading');
+                    confirmSubmitBtn.disabled = false;
+                }
+            });
+        }
+
+        const menuForms = document.querySelectorAll('.main-container form');
+        menuForms.forEach((form) => {
+            form.addEventListener('submit', function(event) {
+                const submitter = event.submitter;
+                if (!submitter || !submitter.classList.contains('menu-loading-btn')) {
+                    return;
+                }
+
+                submitter.classList.add('is-loading');
             });
         });
     });

@@ -263,18 +263,6 @@ class AuthController extends Controller
     // Test Firebase connection
     public function testFirebase()
     {
-        try {
-            $auth = $this->createFirebaseFactory()->createAuth();
-
-            // Try to get the project ID as a basic connectivity test
-            $projectId = config('firebase.project_id');
-            if (!$projectId) {
-                return response()->json(['status' => 'error', 'message' => 'Firebase project ID not configured.']);
-            }
-
-            return response()->json(['status' => 'success', 'message' => 'Firebase is connected. Project ID: ' . $projectId]);
-        } catch (\Throwable $exception) {
-            return response()->json(['status' => 'error', 'message' => 'Firebase connection failed: ' . $exception->getMessage()]);
-        }
+       
     }
 }
