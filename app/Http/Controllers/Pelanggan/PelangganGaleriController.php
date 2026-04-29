@@ -1,18 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
-<<<<<<< Updated upstream
-
-=======
+namespace App\Http\Controllers\Pelanggan;
+use App\Http\Controllers\Controller;
 use App\Models\Galeri;
->>>>>>> Stashed changes
 use Illuminate\Http\Request;
 
 class PelangganGaleriController extends Controller
 {
-<<<<<<< Updated upstream
-    //
-=======
     public function index()
     {
         $galeris = Galeri::where('is_active', true)
@@ -21,5 +15,4 @@ class PelangganGaleriController extends Controller
 
         return view('pelanggan.galeri.galeri', compact('galeris'));
     }
->>>>>>> Stashed changes
 }

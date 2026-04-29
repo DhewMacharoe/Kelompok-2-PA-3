@@ -5,13 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomePageController;
-<<<<<<< Updated upstream
 use App\Http\Controllers\Pelanggan\PelangganLayananController;
+use App\Http\Controllers\Pelanggan\PelangganGaleriController;
 
-=======
-use App\Http\Controllers\PelangganLayananController;
-use App\Http\Controllers\PelangganGaleriController;
->>>>>>> Stashed changes
 /*
 |--------------------------------------------------------------------------
 | Web Routes
