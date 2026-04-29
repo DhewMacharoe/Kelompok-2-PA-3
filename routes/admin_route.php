@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\MenuCafeController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\Admin\AntrianController;
 use App\Http\Controllers\Admin\LayananController;
+use App\Http\Controllers\Admin\GaleriController;
 
 Route::get('/test1', [AntrianController::class, 'index'])->name('test');
 
@@ -41,9 +42,14 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('/layanan/{layanan}', [LayananController::class, 'update'])->name('layanan.update');
     Route::delete('/layanan/{layanan}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
-    // Kelola Galeri (Gaya Rambut)
-    Route::view('/galeri', 'admin.galeri.index')->name('galeri');
-    Route::view('/tambah-gaya', 'admin.tambah-gaya')->name('tambah-gaya');
+    // Kelola Galeri
+    Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri.index');
+    Route::get('/galeri/create', [GaleriController::class, 'create'])->name('galeri.create');
+    Route::post('/galeri', [GaleriController::class, 'store'])->name('galeri.store');
+    Route::get('/galeri/{galeri}/edit', [GaleriController::class, 'edit'])->name('galeri.edit');
+    Route::put('/galeri/{galeri}', [GaleriController::class, 'update'])->name('galeri.update');
+    Route::patch('/galeri/{galeri}/toggle-status', [GaleriController::class, 'toggleStatus'])->name('galeri.toggleStatus');
+    Route::delete('/galeri/{galeri}', [GaleriController::class, 'destroy'])->name('galeri.destroy');
 
     // Kelola Menu Kafe
     Route::get('/menu', [MenuCafeController::class, 'index'])->name('menu.index');
