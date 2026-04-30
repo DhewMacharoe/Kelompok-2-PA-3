@@ -107,8 +107,7 @@
                 </div>
 
                 <div class="tbl-search-wrap">
-                    <span class="search-ico">🔎</span>
-                    <input type="text" id="tableSearch" placeholder="Cari nama / nomor antrean…"
+                    <input type="text" id="tableSearch" placeholder="Cari nama /nomor antrean…"
                         oninput="filterTable(this.value)">
                 </div>
             </div>
