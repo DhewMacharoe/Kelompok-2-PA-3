@@ -3,7 +3,7 @@
 @section('title', 'Antrean')
 
 @push('styles')
-    @include('pelanggan.antrean.style-index')
+    @include('pelanggan.antrian.style-index')
 @endpush
 
 @section('content')
@@ -190,5 +190,5 @@
 @endsection
 
 @push('scripts')
-    @include('pelanggan.antrean.script-index')
+    @include('pelanggan.antrian.script-index')
 @endpush

@@ -7,7 +7,7 @@
 @endsection
 
 @push('styles')
-    @include('admin.antrean.style-index')
+    @include('admin.antrian.style-index')
 @endpush
 
 @section('content')
@@ -199,5 +199,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.antrean.script-index')
+    @include('admin.antrian.script-index')
 @endpush

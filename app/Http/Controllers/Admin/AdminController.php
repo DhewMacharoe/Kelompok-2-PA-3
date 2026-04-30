@@ -74,7 +74,7 @@ class AdminController extends Controller
 
         $antreans = Antrean::orderBy('created_at', 'asc')->get();
 
-        return view('admin.antrean.antrean', compact('antreans', 'layananAktif'));
+        return view('admin.antrian.antrian', compact('antreans', 'layananAktif'));
     }
 
     public function rekapPemasukan(Request $request)

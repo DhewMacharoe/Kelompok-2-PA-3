@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class AntreanController extends Controller
+class AntrianController extends Controller
 {
     public function index()
     {
@@ -38,7 +38,7 @@ class AntreanController extends Controller
             }
         }
 
-        return view('pelanggan.antrean.antrean', compact(
+        return view('pelanggan.antrian.antrian', compact(
             'data_antrean',
             'dipanggil',
             'punyaAntreanAktif',

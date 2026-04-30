@@ -187,7 +187,23 @@
             }
 
             updateMyQueueCard(antrean);
+            const nomorAntrian = antrean.nomor_antrean || antrean.nomor_antrian || '-';
+            const namaPelanggan = antrean.nama_pelanggan || '-';
+            const status = antrean.status || '-';
+            const text = `Nomor antrian ${nomorAntrian}, atas nama ${namaPelanggan}, status ${status}`;
+
+            if ('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance(text);
+                speech.lang = 'id-ID'; // bahasa Indonesia
+                speech.rate = 1; // kecepatan bicara (0.1 - 10)
+                speech.pitch = 1; // nada suara
+                window.speechSynthesis.speak(speech);
+            } else {
+                console.warn('[PWA] Speech synthesis tidak didukung di browser ini');
+            }
         });
+
+
 
 
     });
