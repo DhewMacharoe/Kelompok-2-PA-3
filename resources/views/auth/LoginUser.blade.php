@@ -19,7 +19,7 @@
 
                     <div class="auth-kicker">Selamat datang</div>
                     <h2 class="auth-section-title">Masuk ke Arga Home's</h2>
-                    <p class="auth-section-copy">Masuk dengan Google untuk Mengambil Antrian Lebih Cepat</p>
+                    <p class="auth-section-copy">Masuk dengan Google untuk Mengambil Antrean Lebih Cepat</p>
 
                     @if (session('error'))
                         <div class="auth-alert auth-alert--error small text-start">

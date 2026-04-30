@@ -6,11 +6,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\MenuCafeController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-use App\Http\Controllers\Admin\AntrianController;
+use App\Http\Controllers\Admin\AntreanController;
 use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\GaleriController;
 
-Route::get('/test1', [AntrianController::class, 'index'])->name('test');
+Route::get('/test1', [AntreanController::class, 'index'])->name('test');
 
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -18,16 +18,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
     // --- RUTE AKSI ANTRIAN ---
-    // Route::post('/antrian/{id}/panggil', [AdminController::class, 'panggil'])->name('antrian.panggil');
-    // Route::post('/antrian/{id}/selesai', [AdminController::class, 'selesai'])->name('antrian.selesai');
-    // Route::post('/antrian/{id}/batal', [AdminController::class, 'batal'])->name('antrian.batal');
+    // Route::post('/antrean/{id}/panggil', [AdminController::class, 'panggil'])->name('antrean.panggil');
+    // Route::post('/antrean/{id}/selesai', [AdminController::class, 'selesai'])->name('antrean.selesai');
+    // Route::post('/antrean/{id}/batal', [AdminController::class, 'batal'])->name('antrean.batal');
 
-    Route::patch('/antrian/{id}/ubah-status', [AntrianController::class, 'ubahStatus'])->name('antrian.ubahStatus');
+    Route::patch('/antrean/{id}/ubah-status', [AntreanController::class, 'ubahStatus'])->name('antrean.ubahStatus');
 
-    // Kelola Antrian
-    Route::get('/antrian', [AdminController::class, 'antrian'])->name('antrian');
+    // Kelola Antrean
+    Route::get('/antrean', [AdminController::class, 'antrean'])->name('antrean');
 
-    Route::post('/antrian/panggil', [AntrianController::class, 'panggil'])->name('antrian.panggil');
+    Route::post('/antrean/panggil', [AntreanController::class, 'panggil'])->name('antrean.panggil');
 
     Route::get('/tambah-pelanggan', [AdminController::class, 'tambahPelanggan'])->name('tambah-pelanggan');
     Route::post('/tambah-pelanggan', [AdminController::class, 'simpanPelanggan'])->name('simpan-pelanggan');
@@ -70,8 +70,8 @@ Route::prefix('test')->group(function () {
         return view("admin.test.dashboard");
     });
 
-    Route::get('/antrian', function () {
-        return "Antrian";
+    Route::get('/antrean', function () {
+        return "Antrean";
     });
 });
 

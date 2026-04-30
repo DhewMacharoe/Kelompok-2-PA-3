@@ -179,7 +179,7 @@
             min-height: 220px;
         }
 
-        #antrian-nomor {
+        #antrean-nomor {
             letter-spacing: 2px !important;
         }
 

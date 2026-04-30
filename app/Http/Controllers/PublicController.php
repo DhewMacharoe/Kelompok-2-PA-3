@@ -7,24 +7,24 @@ use Carbon\Carbon;
 use App\Models\Layanan;
 use App\Models\Galeri;
 use App\Models\Menu;
-use App\Models\Antrian;
+use App\Models\Antrean;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
     public function index()
     {
-        $dipanggil = Antrian::where('status', 'sedang dilayani')->first();
-        $jumlahMenunggu = Antrian::where('status', 'menunggu')->count();
+        $dipanggil = Antrean::where('status', 'sedang dilayani')->first();
+        $jumlahMenunggu = Antrean::where('status', 'menunggu')->count();
         return view('index', compact('dipanggil', 'jumlahMenunggu'));
     }
 
-    public function antrian()
+    public function antrean()
     {
-        $dipanggil = Antrian::where('status', 'sedang dilayani')->first();
-        $menunggu = Antrian::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
+        $dipanggil = Antrean::where('status', 'sedang dilayani')->first();
+        $menunggu = Antrean::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
         $jumlahMenunggu = $menunggu->count();
-        return view('antrian', compact('dipanggil', 'menunggu', 'jumlahMenunggu'));
+        return view('antrean', compact('dipanggil', 'menunggu', 'jumlahMenunggu'));
     }
 
     public function rekomendasi()
@@ -50,7 +50,7 @@ class PublicController extends Controller
         $menus = Menu::where('is_available', true)->get();
         return view('pelanggan.menu.menu', compact('menus'));
     }
-    public function daftarAntrian(Request $request)
+    public function daftarAntrean(Request $request)
     {
         $user = Auth::user();
 
@@ -60,30 +60,30 @@ class PublicController extends Controller
         }
 
         // Opsional: Cek apakah user sudah mengantri hari ini dan statusnya belum selesai/batal
-        $antrianAktif = Antrian::where('nama_pelanggan', $user->username)
+        $antreanAktif = Antrean::where('nama_pelanggan', $user->username)
             ->whereIn('status', ['menunggu', 'sedang dilayani'])
             ->whereDate('created_at', Carbon::today())
             ->first();
 
-        if ($antrianAktif) {
-            return back()->with('error', 'Anda sudah berada di dalam daftar antrian saat ini.');
+        if ($antreanAktif) {
+            return back()->with('error', 'Anda sudah berada di dalam daftar antrean saat ini.');
         }
 
-        // Generate nomor antrian (Sesuaikan formatnya jika ada aturan khusus dari database Anda)
-        $jumlahAntrianHariIni = Antrian::whereDate('created_at', Carbon::today())->count();
-        $nomorAntrianBaru = 'A' . str_pad($jumlahAntrianHariIni + 1, 3, '0', STR_PAD_LEFT);
+        // Generate nomor antrean (Sesuaikan formatnya jika ada aturan khusus dari database Anda)
+        $jumlahAntreanHariIni = Antrean::whereDate('created_at', Carbon::today())->count();
+        $nomorAntreanBaru = 'A' . str_pad($jumlahAntreanHariIni + 1, 3, '0', STR_PAD_LEFT);
 
-        // Masukkan data antrian baru
-        $antrian = Antrian::create([
-            'nomor_antrian' => $nomorAntrianBaru,
+        // Masukkan data antrean baru
+        $antrean = Antrean::create([
+            'nomor_antrean' => $nomorAntreanBaru,
             'nama_pelanggan' => $user->username,
             'status' => 'menunggu',
             'waktu_masuk' => Carbon::now(),
         ]);
 
         // (Opsional) Jika menggunakan Laravel Reverb/Pusher, uncomment baris di bawah agar admin real-time terupdate
-        event(new \App\Events\AntreanUpadate($antrian));
+        event(new \App\Events\AntreanUpadate($antrean));
 
-        return back()->with('success', 'Antrian anda terdaftar silahkan tunggu');
+        return back()->with('success', 'Antrean anda terdaftar silahkan tunggu');
     }
 }

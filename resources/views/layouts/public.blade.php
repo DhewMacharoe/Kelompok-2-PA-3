@@ -17,7 +17,7 @@
             $hidePublicChrome = trim($__env->yieldContent('hide_public_chrome')) === '1';
         @endphp
 
-        @unless($hidePublicChrome)
+        @unless ($hidePublicChrome)
             <header class="header">
                 @yield('header')
                 @auth
@@ -25,7 +25,8 @@
                         <span>Halo, {{ Auth::user()->username ?? Auth::user()->name }}</span>
                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                             @csrf
-                            <button type="submit" style="padding: 5px 10px; background: red; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+                            <button type="submit"
+                                style="padding: 5px 10px; background: red; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
                         </form>
                     </div>
                 @endauth
@@ -35,7 +36,7 @@
                 <ul class="pub-nav-list">
                     <li><a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">Home</a></li>
                     <li><a href="{{ url('layanan') }}" class="{{ Request::is('layanan') ? 'active' : '' }}">Layanan</a></li>
-                    <li><a href="{{ url('antrian') }}" class="{{ Request::is('antrian') ? 'active' : '' }}">Antrian</a></li>
+                    <li><a href="{{ url('antrean') }}" class="{{ Request::is('antrean') ? 'active' : '' }}">Antrean</a></li>
                     <li><a href="{{ url('rekomendasi') }}" class="{{ Request::is('rekomendasi') ? 'active' : '' }}">Gaya
                             Rambut</a></li>
                     <li><a href="{{ url('galeri') }}" class="{{ Request::is('galeri') ? 'active' : '' }}">Galeri</a></li>

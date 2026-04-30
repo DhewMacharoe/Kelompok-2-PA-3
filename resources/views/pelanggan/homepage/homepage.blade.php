@@ -13,30 +13,30 @@
         <div class="bg-gold text-white p-3 d-flex align-items-center justify-content-center gap-3">
             <i class="fas fa-users fs-1"></i>
             <div>
-                <h5 class="mb-0 fs-6">Status Antrian</h5>
-                <p class="mb-0 small opacity-75">Total Antrian {{ $jumlahAntrian }}</p>
+                <h5 class="mb-0 fs-6">Status Antrean</h5>
+                <p class="mb-0 small opacity-75">Total Antrean {{ $jumlahAntrean }}</p>
             </div>
         </div>
 
         <div class="card-body text-center py-4">
-            @if ($antrian)
+            @if ($antrean)
             <div class="text-uppercase small text-muted mb-2 font-weight-bold">Sekarang Melayani</div>
 
-            <h2 class="mb-2 fw-bold text-dark" id="antrian-nomor" style="letter-spacing: 3px; font-size: 2.5rem;">
-                {{ $antrian->nomor_antrian }}
+            <h2 class="mb-2 fw-bold text-dark" id="antrean-nomor" style="letter-spacing: 3px; font-size: 2.5rem;">
+                {{ $antrean->nomor_antrean }}
             </h2>
 
             <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill bg-light text-dark fw-semibold mb-3 border"
-                id="antrian-status">
+                id="antrean-status">
                 <span class="dot bg-success rounded-circle me-2" style="width: 10px; height: 10px;"></span>
-                {{ $antrian->status === 'sedang dilayani' ? 'Dalam Proses' : ucfirst($antrian->status) }}
+                {{ $antrean->status === 'sedang dilayani' ? 'Dalam Proses' : ucfirst($antrean->status) }}
             </div>
 
-            <p class="mb-0 text-muted fw-bold">{{ $antrian->nama_pelanggan }}</p>
+            <p class="mb-0 text-muted fw-bold">{{ $antrean->nama_pelanggan }}</p>
             @else
             <div class="py-3">
                 <i class="fas fa-user-circle text-muted fs-2 mb-2"></i>
-                <p class="mb-0 text-muted">Tidak antrian yang sedang dilayani</p>
+                <p class="mb-0 text-muted">Tidak antrean yang sedang dilayani</p>
             </div>
             @endif
         </div>
@@ -51,9 +51,9 @@
 
     <div class="row text-center mb-5 g-4">
         <div class="col-6 col-md-3">
-            <a href="{{ route('antrian') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
+            <a href="{{ route('antrean') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
                 <div class="icon-circle shadow-sm"><i class="fas fa-id-card"></i></div>
-                Antrian
+                Antrean
             </a>
         </div>
         <div class="col-6 col-md-3">
@@ -267,26 +267,26 @@
         }
 
         if (window.Echo) {
-            window.Echo.channel('Antrian-channel')
+            window.Echo.channel('Antrean-channel')
                 .listen('AntreanUpadate', (e) => {
-                    const antrian = e.antrean;
+                    const antrean = e.antrean;
 
                     // Update cepat untuk elemen utama, lalu sinkronkan penuh melalui reload.
-                    const nomorEl = document.getElementById('antrian-nomor');
-                    if (nomorEl && antrian?.nomor_antrian) {
-                        nomorEl.textContent = antrian.nomor_antrian;
+                    const nomorEl = document.getElementById('antrean-nomor');
+                    if (nomorEl && antrean?.nomor_antrean) {
+                        nomorEl.textContent = antrean.nomor_antrean;
                     }
 
-                    const statusEl = document.getElementById('antrian-status');
-                    if (statusEl && antrian?.status) {
-                        statusEl.textContent = antrian.status.toUpperCase();
+                    const statusEl = document.getElementById('antrean-status');
+                    if (statusEl && antrean?.status) {
+                        statusEl.textContent = antrean.status.toUpperCase();
                     }
 
                     window.location.reload();
                 });
 
             // Saat daftar menunggu berubah (tambah/batal/dipanggil), sinkronkan seluruh dashboard.
-            window.Echo.channel('AntrianList-channel')
+            window.Echo.channel('AntreanList-channel')
                 .listen('AntreanListUpdate', () => {
                     window.location.reload();
                 });

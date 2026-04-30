@@ -56,12 +56,13 @@
     <div class="container">
         <div class="d-flex align-items-center justify-content-between w-100 py-2">
             <a href="{{ route('home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center">
-            <img src="{{ asset('assets/images/favicon.png') }}" alt="Arga Home's Logo"
-                class="img-fluid " style="max-height: 40px;">
+                <img src="{{ asset('assets/images/favicon.png') }}" alt="Arga Home's Logo" class="img-fluid "
+                    style="max-height: 40px;">
             </a>
 
             <button class="navbar-toggler text-white border-0 shadow-none" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
@@ -78,12 +79,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('antrian') ? 'active' : '' }}"
-                        href="{{ route('antrian') }}"
-                        style="color: {{ request()->routeIs('antrian') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
+                    <a class="nav-link fw-bold {{ request()->routeIs('antrean') ? 'active' : '' }}"
+                        href="{{ route('antrean') }}"
+                        style="color: {{ request()->routeIs('antrean') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
                         onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('antrian') ? '#d4af37' : 'white' }}'">
-                        Antrian
+                        onmouseout="this.style.color='{{ request()->routeIs('antrean') ? '#d4af37' : 'white' }}'">
+                        Antrean
                     </a>
                 </li>
                 <li class="nav-item">
@@ -119,7 +120,7 @@
                         style="color: {{ request()->routeIs('menu') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
                         onmouseover="this.style.color='#d4af37'"
                         onmouseout="this.style.color='{{ request()->routeIs('menu') ? '#d4af37' : 'white' }}'">
-                        Café 
+                        Café
                     </a>
                 </li>
 

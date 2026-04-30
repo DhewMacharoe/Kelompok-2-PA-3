@@ -1,14 +1,13 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Antrian')
+@section('title', 'Antrean')
 
 @section('header_title')
-    <div class="header-title">Riwayat Antrian</div>
+    <div class="header-title">Riwayat Antrean</div>
 @endsection
 
-@push("styles")
-    @include('admin.antrian.style-index')
-
+@push('styles')
+    @include('admin.antrean.style-index')
 @endpush
 
 @section('content')
@@ -36,30 +35,27 @@
         @endif
 
         @php
-            $current = $antrians->where('status', 'sedang dilayani')->first();
+            $current = $antreans->where('status', 'sedang dilayani')->first();
         @endphp
 
         <div class="serving-display">
             <p>Sedang dilayani</p>
-            <span class="queue-number-big">{{ $current->nomor_antrian ?? '--' }}</span>
+            <span class="queue-number-big">{{ $current->nomor_antrean ?? '--' }}</span>
             <p style="font-size: 18px; font-weight: 500;">{{ $current->nama_pelanggan ?? 'Tidak ada antrean' }}</p>
             @if ($current)
                 <div class="btn-group-serving">
-                    <button type="button" class="btn-panggil shadow-sm queue-action-btn"
-                        data-queue-id="{{ $current->id }}" data-queue-status="selesai"
-                        data-loading-text="Menyelesaikan...">
+                    <button type="button" class="btn-panggil shadow-sm queue-action-btn" data-queue-id="{{ $current->id }}"
+                        data-queue-status="selesai" data-loading-text="Menyelesaikan...">
                         Selesai
                     </button>
-                    <button type="button" class="btn-batal shadow-sm queue-action-btn"
-                        data-queue-id="{{ $current->id }}" data-queue-status="batal"
-                        data-loading-text="Membatalkan...">
+                    <button type="button" class="btn-batal shadow-sm queue-action-btn" data-queue-id="{{ $current->id }}"
+                        data-queue-status="batal" data-loading-text="Membatalkan...">
                         Batalkan
                     </button>
                 </div>
             @else
                 <p>Tidak ada antrean yang sedang dilayani saat ini.</p>
-                <button type="button" class="btn-panggil shadow-sm" onclick="panggil()"
-                    data-loading-text="Memanggil...">
+                <button type="button" class="btn-panggil shadow-sm" onclick="panggil()" data-loading-text="Memanggil...">
                     panggil
                 </button>
             @endif
@@ -69,14 +65,14 @@
             + Tambah
         </button>
 
-        <div class="filter-bar" role="tablist" aria-label="Filter status antrian">
+        <div class="filter-bar" role="tablist" aria-label="Filter status antrean">
             <button type="button" class="filter-btn active" data-filter="menunggu"
-                onclick="filterAntrian('menunggu', this)">Menunggu</button>
+                onclick="filterAntrean('menunggu', this)">Menunggu</button>
             <button type="button" class="filter-btn" data-filter="selesai"
-                onclick="filterAntrian('selesai', this)">Selesai</button>
+                onclick="filterAntrean('selesai', this)">Selesai</button>
             <button type="button" class="filter-btn" data-filter="batal"
-                onclick="filterAntrian('batal', this)">Batal</button>
-            <button type="button" class="filter-btn" data-filter="all" onclick="filterAntrian('all', this)">Semua</button>
+                onclick="filterAntrean('batal', this)">Batal</button>
+            <button type="button" class="filter-btn" data-filter="all" onclick="filterAntrean('all', this)">Semua</button>
         </div>
 
         <div class="date-filter-wrap">
@@ -96,13 +92,13 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody id="antrianTableBody">
-                    @forelse($antrians as $item)
+                <tbody id="antreanTableBody">
+                    @forelse($antreans as $item)
                         <tr class="{{ $item->status == 'sedang dilayani' ? 'row-highlight' : '' }}"
                             data-status="{{ $item->status }}"
                             data-date-created="{{ \Carbon\Carbon::parse($item->created_at)->toDateString() }}"
                             data-date-finished="{{ $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai)->toDateString() : '' }}">
-                            <td data-label="Nomor Antrean">{{ $item->nomor_antrian }}</td>
+                            <td data-label="Nomor Antrean">{{ $item->nomor_antrean }}</td>
                             <td data-label="Nama">{{ $item->nama_pelanggan }}</td>
                             <td data-label="Tanggal Masuk">
                                 {{ \Carbon\Carbon::parse($item->waktu_masuk)->translatedFormat('d M Y') }}
@@ -118,7 +114,8 @@
                         </tr>
                     @empty
                         <tr class="empty-row-row">
-                            <td colspan="5" class="empty-row-cell" style="padding: 40px; color: #999;">Belum ada riwayat antrian yang tercatat.
+                            <td colspan="5" class="empty-row-cell" style="padding: 40px; color: #999;">Belum ada riwayat
+                                antrean yang tercatat.
                             </td>
                         </tr>
                     @endforelse
@@ -145,7 +142,7 @@
                 </div>
             @endif
 
-            <form id="formTambahAntrian" action="{{ route('admin.simpan-pelanggan') }}" method="POST">
+            <form id="formTambahAntrean" action="{{ route('admin.simpan-pelanggan') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="nama_pelanggan">Nama Pelanggan</label>
@@ -202,6 +199,5 @@
 @endsection
 
 @push('scripts')
-    @include('admin.antrian.script-index')
-
+    @include('admin.antrean.script-index')
 @endpush

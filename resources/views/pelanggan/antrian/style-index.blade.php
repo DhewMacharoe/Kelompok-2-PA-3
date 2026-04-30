@@ -1,5 +1,5 @@
  <style>
-     /* CSS untuk membuat antrian bisa di-scroll */
+     /* CSS untuk membuat antrean bisa di-scroll */
      .queue-list-container {
          max-height: 400px;
          overflow-y: auto;

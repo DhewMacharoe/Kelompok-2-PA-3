@@ -8,8 +8,8 @@
 
 @section('content')
     @php
-        $formatter = fn ($nilai) => 'Rp ' . number_format($nilai, 0, ',', '.');
-        $totalTransaksi = $antrians->count();
+        $formatter = fn($nilai) => 'Rp ' . number_format($nilai, 0, ',', '.');
+        $totalTransaksi = $antreans->count();
         $hariActive = $periode === 'hari' ? 'active' : '';
         $mingguActive = $periode === 'minggu' ? 'active' : '';
         $bulanActive = $periode === 'bulan' ? 'active' : '';
@@ -24,9 +24,12 @@
             <div class="filter-row">
                 <div class="quick-pills">
                     <a href="{{ route('admin.rekap', ['periode' => 'hari']) }}" class="pill {{ $hariActive }}">Hari Ini</a>
-                    <a href="{{ route('admin.rekap', ['periode' => 'minggu']) }}" class="pill {{ $mingguActive }}">Minggu Ini</a>
-                    <a href="{{ route('admin.rekap', ['periode' => 'bulan']) }}" class="pill {{ $bulanActive }}">Bulan Ini</a>
-                    <a href="{{ route('admin.rekap', ['periode' => 'tahun']) }}" class="pill {{ $tahunActive }}">Tahun Ini</a>
+                    <a href="{{ route('admin.rekap', ['periode' => 'minggu']) }}" class="pill {{ $mingguActive }}">Minggu
+                        Ini</a>
+                    <a href="{{ route('admin.rekap', ['periode' => 'bulan']) }}" class="pill {{ $bulanActive }}">Bulan
+                        Ini</a>
+                    <a href="{{ route('admin.rekap', ['periode' => 'tahun']) }}" class="pill {{ $tahunActive }}">Tahun
+                        Ini</a>
                 </div>
 
                 <div class="filter-divider"></div>
@@ -36,17 +39,20 @@
 
                     <div>
                         <label for="dari">Dari</label>
-                        <input type="date" id="dari" name="dari" value="{{ request('dari', $mulai->format('Y-m-d')) }}">
+                        <input type="date" id="dari" name="dari"
+                            value="{{ request('dari', $mulai->format('Y-m-d')) }}">
                     </div>
 
                     <div>
                         <label for="sampai">Sampai</label>
-                        <input type="date" id="sampai" name="sampai" value="{{ request('sampai', $selesai->format('Y-m-d')) }}">
+                        <input type="date" id="sampai" name="sampai"
+                            value="{{ request('sampai', $selesai->format('Y-m-d')) }}">
                     </div>
 
                     <div>
                         <label for="bulan_pilih">Atau Pilih Bulan</label>
-                        <input type="month" id="bulan_pilih" name="bulan_pilih" value="{{ request('bulan_pilih') }}" placeholder="YYYY-MM">
+                        <input type="month" id="bulan_pilih" name="bulan_pilih" value="{{ request('bulan_pilih') }}"
+                            placeholder="YYYY-MM">
                     </div>
 
                     <button type="submit" class="btn-filter-apply">Terapkan</button>
@@ -102,7 +108,8 @@
 
                 <div class="tbl-search-wrap">
                     <span class="search-ico">🔎</span>
-                    <input type="text" id="tableSearch" placeholder="Cari nama / nomor antrian…" oninput="filterTable(this.value)">
+                    <input type="text" id="tableSearch" placeholder="Cari nama / nomor antrean…"
+                        oninput="filterTable(this.value)">
                 </div>
             </div>
 
@@ -118,15 +125,15 @@
                     </thead>
 
                     <tbody id="rekapTbody">
-                        @forelse ($antrians as $antrian)
+                        @forelse ($antreans as $antrean)
                             @php
-                                $layanans = $antrian->layananUntukRekap();
-                                $totalAntrian = $antrian->totalPemasukanRekap();
+                                $layanans = $antrean->layananUntukRekap();
+                                $totalAntrean = $antrean->totalPemasukanRekap();
                             @endphp
                             <tr class="rekap-row">
                                 <td data-label="Pelanggan">
-                                    <div class="pelanggan-name">{{ $antrian->nama_pelanggan }}</div>
-                                    <div class="pelanggan-no">{{ $antrian->nomor_antrian }}</div>
+                                    <div class="pelanggan-name">{{ $antrean->nama_pelanggan }}</div>
+                                    <div class="pelanggan-no">{{ $antrean->nomor_antrean }}</div>
                                 </td>
                                 <td data-label="Layanan">
                                     <div class="layanan-badges">
@@ -136,11 +143,11 @@
                                     </div>
                                 </td>
                                 <td data-label="Total Harga" class="text-end">
-                                    <span class="harga-cell">{{ $formatter($totalAntrian) }}</span>
+                                    <span class="harga-cell">{{ $formatter($totalAntrean) }}</span>
                                 </td>
                                 <td data-label="Tanggal Selesai">
-                                    <div class="tanggal-main">{{ $antrian->updated_at->translatedFormat('d M Y') }}</div>
-                                    <div class="tanggal-time">{{ $antrian->updated_at->format('H:i') }}</div>
+                                    <div class="tanggal-main">{{ $antrean->updated_at->translatedFormat('d M Y') }}</div>
+                                    <div class="tanggal-time">{{ $antrean->updated_at->format('H:i') }}</div>
                                 </td>
                             </tr>
                         @empty
@@ -155,7 +162,7 @@
                         @endforelse
                     </tbody>
 
-                    @if ($antrians->count())
+                    @if ($antreans->count())
                         <tfoot>
                             <tr>
                                 <td colspan="2" class="text-end rekap-total-label">Total Keseluruhan</td>

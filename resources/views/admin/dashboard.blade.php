@@ -8,7 +8,7 @@
             <div class="queue-card-main shadow-sm">
                 <p class="text-uppercase small mb-1 opacity-75">Sedang Dilayani</p>
                 <div class="queue-number">
-                    {{ $dipanggil ? substr($dipanggil->nomor_antrian, -2) : '--' }}
+                    {{ $dipanggil ? substr($dipanggil->nomor_antrean, -2) : '--' }}
                 </div>
                 <p class="mb-4 fs-5">{{ $dipanggil ? $dipanggil->nama_pelanggan : 'Tidak ada' }}</p>
 
@@ -32,16 +32,16 @@
                 <div class="text-start mt-4 bg-white bg-opacity-10 p-3 rounded">
                     <p class="text-center small mb-3 border-bottom border-secondary pb-2">Antrean Berikutnya</p>
 
-                    @foreach ($antrianMenunggu as $item)
+                    @foreach ($antreanMenunggu as $item)
                         <div class="d-flex justify-content-between align-items-center mb-2 px-2 border border-white border-1 rounded"
                             style="height: 62px;">
-                            <span>{{ substr($item->nomor_antrian, -2) }}</span>
+                            <span>{{ substr($item->nomor_antrean, -2) }}</span>
                             <span>{{ $item->nama_pelanggan }}</span>
                         </div>
                     @endforeach
 
                     <div class="text-center mt-3">
-                        <a href="/admin/antrian" class="text-white-50 text-decoration-none small">Lihat Semua Antrian</a>
+                        <a href="/admin/antrean" class="text-white-50 text-decoration-none small">Lihat Semua Antrean</a>
                     </div>
                 </div>
             </div>
@@ -79,11 +79,11 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @php
-        use App\Models\Antrian;
+        use App\Models\Antrean;
         use Carbon\Carbon;
 
         $hariIni = Carbon::today();
-        $dataStatus = Antrian::whereDate('created_at', $hariIni)
+        $dataStatus = Antrean::whereDate('created_at', $hariIni)
             ->selectRaw('status, count(*) as total')
             ->groupBy('status')
             ->pluck('total', 'status')
@@ -96,18 +96,18 @@
         for ($i = 6; $i >= 0; $i--) {
             $tanggal = Carbon::today()->subDays($i);
             $trendLabels[] = $tanggal->translatedFormat('l');
-            $trendData[] = Antrian::whereDate('created_at', $tanggal)->count();
+            $trendData[] = Antrean::whereDate('created_at', $tanggal)->count();
         }
     @endphp
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             if (window.Echo) {
-                window.Echo.channel('Antrian-channel').listen('AntreanUpadate', () => {
+                window.Echo.channel('Antrean-channel').listen('AntreanUpadate', () => {
                     window.location.reload();
                 });
 
-                window.Echo.channel('AntrianList-channel').listen('AntreanListUpdate', () => {
+                window.Echo.channel('AntreanList-channel').listen('AntreanListUpdate', () => {
                     window.location.reload();
                 });
             }
@@ -210,7 +210,7 @@
                         }
                     });
 
-                    fetch("{{ route('admin.antrian.panggil') }}", {
+                    fetch("{{ route('admin.antrean.panggil') }}", {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -240,7 +240,7 @@
                 button.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
                 button.disabled = true;
 
-                fetch(`/admin/antrian/${id}/ubah-status`, {
+                fetch(`/admin/antrean/${id}/ubah-status`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
