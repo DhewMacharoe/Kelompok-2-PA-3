@@ -127,29 +127,155 @@
 
 @media (max-width: 768px) {
     .layanan-hero {
-        height: 220px;
+        height: 200px;
     }
 
     .layanan-hero-text h1 {
-        font-size: 30px;
-    }
-
-    .layanan-section-header h3 {
         font-size: 28px;
     }
 
+    .layanan-section-header h3 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .layanan-content {
+        padding: 24px 16px 40px;
+    }
+
     .layanan-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
     .layanan-card {
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
+        text-align: center;
+        padding: 16px 12px;
+        gap: 8px;
+        border-radius: 16px;
+        border: 1px solid #f0ede5;
     }
 
-    .layanan-card-image img {
-        width: 100%;
-        height: 220px;
+    .layanan-card .icon-circle {
+        width: 46px;
+        height: 46px;
+        font-size: 20px;
+        margin-bottom: 4px;
     }
+
+    .layanan-card-body {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .layanan-card-body h4 {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        line-height: 1.3;
+    }
+
+    .layanan-desc {
+        font-size: 11px;
+        color: #666;
+        margin-bottom: 10px;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .layanan-time {
+        font-size: 11px;
+        color: #777;
+        margin-bottom: 8px;
+        background: #f9f8f3;
+        padding: 4px 10px;
+        border-radius: 99px;
+        border: 1px solid #ece6da;
+    }
+
+    .layanan-price {
+        font-size: 15px;
+        font-weight: 800;
+        color: #c9a24f;
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 9999;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-card {
+    width: min(560px, 100%);
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    color: #333;
+}
+
+.modal-content {
+    padding: 24px;
+}
+
+.modal-content h3 {
+    margin: 0 0 12px;
+    font-size: 24px;
+    color: #111;
+}
+
+.modal-category {
+    display: inline-block;
+    margin: 0 10px 10px 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.modal-description {
+    color: #444;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 16px 0 20px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-price {
+    color: #c9a24f;
+    font-size: 20px;
+    font-weight: 800;
 }
 </style>

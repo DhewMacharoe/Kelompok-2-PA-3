@@ -14,11 +14,11 @@
 
                 <div class="d-flex justify-content-center gap-3 mb-4">
                     @if ($dipanggil)
-                        <button type="button" class="btn btn-success px-4 fw-bold shadow-sm"
+                        <button type="button" class="btn btn-success px-4 fw-bold shadow-sm" style="background-color: #4CC779;"
                             onclick="ubahStatus(this, {{ $dipanggil->id }}, 'selesai')">
                             Selesai
                         </button>
-                        <button type="button" class="btn btn-danger px-4 fw-bold shadow-sm"
+                        <button type="button" class="btn btn-danger px-4 fw-bold shadow-sm" style="background-color: #EB5757;"
                             onclick="ubahStatus(this, {{ $dipanggil->id }}, 'batal')">
                             Batalkan
                         </button>
@@ -103,7 +103,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             if (window.Echo) {
-                window.Echo.channel('Antrean-channel').listen('AntreanUpadate', () => {
+                window.Echo.channel('Antrean-channel').listen('AntreanUpdate', () => {
                     window.location.reload();
                 });
 

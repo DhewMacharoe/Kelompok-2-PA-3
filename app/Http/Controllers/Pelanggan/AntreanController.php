@@ -71,8 +71,8 @@ class AntreanController extends Controller
             return back()->with('error', 'Anda sudah berada di dalam daftar antrean saat ini.');
         }
 
-        $lastNumber = Antrean::getLastQueueNumberToday();
-        $nomorFormat = str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
+        // Generate nomor antrean dengan format 2-digit yang auto-reset per hari
+        $nomorFormat = Antrean::generateDailyQueueNumber();
 
         Antrean::create([
             'nomor_antrean' => $nomorFormat,

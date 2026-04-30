@@ -10,7 +10,7 @@
     <section class="menu-hero">
         <div class="menu-hero-overlay">
             <div class="menu-hero-text">
-                <h1>Menu Coffee</h1>
+                <h1>Menu Café</h1>
                 <p>Nikmati berbagai pilihan minuman kopi yang tersedia di barbershop kami.</p>
             </div>
         </div>

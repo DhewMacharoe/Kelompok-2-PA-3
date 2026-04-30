@@ -168,7 +168,7 @@
             return;
         }
 
-        window.Echo.channel('Antrean-channel').listen('AntreanUpadate', (e) => {
+        const handleQueueStatusUpdate = (e) => {
             const antrean = e.antrean;
 
             const nomorEl = document.getElementById('antrean-nomor');
@@ -197,11 +197,18 @@
                 speech.lang = 'id-ID'; // bahasa Indonesia
                 speech.rate = 1; // kecepatan bicara (0.1 - 10)
                 speech.pitch = 1; // nada suara
+                // Cancel antrian ucapan sebelumnya agar notifikasi terbaru langsung dibacakan.
+                window.speechSynthesis.cancel();
                 window.speechSynthesis.speak(speech);
             } else {
                 console.warn('[PWA] Speech synthesis tidak didukung di browser ini');
             }
-        });
+        };
+
+        // Kompatibilitas: dengarkan nama event baru dan lama.
+        window.Echo.channel('Antrean-channel')
+            .listen('AntreanUpdate', handleQueueStatusUpdate)
+            .listen('AntreanUpadate', handleQueueStatusUpdate);
 
 
 

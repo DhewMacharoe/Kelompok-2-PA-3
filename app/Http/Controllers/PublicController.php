@@ -9,6 +9,7 @@ use App\Models\Galeri;
 use App\Models\Menu;
 use App\Models\Antrean;
 use Illuminate\Http\Request;
+use App\Events\AntreanUpdate;
 
 class PublicController extends Controller
 {
@@ -82,7 +83,7 @@ class PublicController extends Controller
         ]);
 
         // (Opsional) Jika menggunakan Laravel Reverb/Pusher, uncomment baris di bawah agar admin real-time terupdate
-        event(new \App\Events\AntreanUpadate($antrean));
+        event(new AntreanUpdate($antrean));
 
         return back()->with('success', 'Antrean anda terdaftar silahkan tunggu');
     }

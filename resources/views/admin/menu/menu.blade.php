@@ -37,7 +37,7 @@
     .filter-group-label {
         font-size: 12px;
         color: #6c757d;
-        /* text-transform: uppercase; */ 
+        /* text-transform: uppercase; */
         letter-spacing: 0.08em;
         font-weight: 700;
     }
@@ -250,7 +250,7 @@
     }
 
     .btn-tambahkan {
-        background-color: #28a745;
+        background-color: #4CC779;
         color: #ffffff;
     }
 
