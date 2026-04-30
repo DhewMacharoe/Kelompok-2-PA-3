@@ -6,7 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Barbershop')</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#6777ef">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Admin Barbershop">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    @laravelPwa
 </head>
 
 <body>
@@ -41,6 +47,8 @@
 
     </div>
     @stack('scripts')
+    <script src="{{ asset('pwa-install.js') }}"></script>
+    <script src="{{ asset('background-sync.js') }}"></script>
 </body>
 
 </html>

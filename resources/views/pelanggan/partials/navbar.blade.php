@@ -102,8 +102,16 @@
                         style="color: {{ request()->routeIs('menu') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
                         onmouseover="this.style.color='#d4af37'"
                         onmouseout="this.style.color='{{ request()->routeIs('menu') ? '#d4af37' : 'white' }}'">
-                        Café 
+                        Café
                     </a>
+                </li>
+
+                <li class="nav-item d-flex align-items-center justify-content-center">
+                    <button id="pwa-install-btn" type="button" class="btn btn-sm fw-bold px-3"
+                        style="background-color: #6777ef; color: white; border-radius: 8px; border: none; display: none;"
+                        title="Install aplikasi">
+                        <i class="fas fa-download me-2"></i>Install App
+                    </button>
                 </li>
 
                 @guest

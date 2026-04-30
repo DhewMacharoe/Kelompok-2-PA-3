@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Arga Home\'s')</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#6777ef">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Arga Home's">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -13,6 +18,9 @@
     @vite(['resources/js/app.js'])
 
     @stack('styles')
+
+    <script src="{{ asset('pwa-install.js') }}"></script>
+    <script src="{{ asset('background-sync.js') }}"></script>
 
     <style>
         /* =========================================
@@ -141,7 +149,8 @@
         .navbar-custom .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
         .navbar-custom .nav-links a:hover { color: #d4af37; }
 
-    </style>
+    </script>
+    @laravelPwa
 </head>
 
 <body class="bg-light">
