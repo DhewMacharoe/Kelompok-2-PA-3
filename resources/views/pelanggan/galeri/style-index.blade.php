@@ -193,4 +193,91 @@
         font-size: 14px;
     }
 }
+
+/* Modal CSS */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 9999;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-card {
+    width: min(700px, 100%);
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #333;
+    z-index: 10;
+    transition: background 0.3s;
+}
+
+.modal-close:hover {
+    background: #fff;
+}
+
+.modal-image-wrapper {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    background: #f5f2ed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.modal-content {
+    padding: 24px;
+}
+
+.modal-content h3 {
+    margin: 0 0 12px;
+    font-size: 24px;
+    color: #111;
+}
+
+.modal-description {
+    color: #444;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .modal-image-wrapper {
+        height: 250px;
+    }
+}
 </style>

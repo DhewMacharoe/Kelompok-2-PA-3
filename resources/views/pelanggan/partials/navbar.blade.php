@@ -117,10 +117,10 @@
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('menu') ? 'active' : '' }}"
                         href="{{ route('menu') }}"
-                        style="color: {{ request()->routeIs('menu') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
+                        style="color: {{ request()->routeIs('menu') ? '#d4af37' : 'white' }}; transition: color 0.3s ease; white-space: nowrap;"
                         onmouseover="this.style.color='#d4af37'"
                         onmouseout="this.style.color='{{ request()->routeIs('menu') ? '#d4af37' : 'white' }}'">
-                        Café
+                        Menu Café
                     </a>
                 </li>
 
