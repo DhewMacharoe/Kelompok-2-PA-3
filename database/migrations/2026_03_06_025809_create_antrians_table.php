@@ -8,11 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('antrians', function (Blueprint $table) {
+        Schema::create('antreans', function (Blueprint $table) {
             $table->id();
-            $table->string('nomor_antrian')->unique();
+            $table->string('nomor_antrean')->unique();
             $table->string('nama_pelanggan')->index();
-            
+
             // Layanan yang diambil pelanggan
             $table->foreignId('layanan_id1')
                 ->nullable()
@@ -22,7 +22,7 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('layanans')
                 ->nullOnDelete();
-            
+
             // Status tracking
             $table->enum('status', ['menunggu', 'sedang dilayani', 'selesai', 'batal'])
                 ->default('menunggu')
@@ -35,6 +35,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('antrians');
+        Schema::dropIfExists('antreans');
     }
 };

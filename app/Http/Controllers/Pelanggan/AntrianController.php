@@ -4,53 +4,53 @@ namespace App\Http\Controllers\Pelanggan;
 
 use App\Events\AntreanListUpdate;
 use App\Http\Controllers\Controller;
-use App\Models\Antrian;
+use App\Models\Antrean;
 use App\Models\Layanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class AntrianController extends Controller
+class AntreanController extends Controller
 {
     public function index()
     {
-        $data_antrian = Antrian::getTodayWaitingQueues();
-        $dipanggil = Antrian::getQueueBeingServed();
+        $data_antrean = Antrean::getTodayWaitingQueues();
+        $dipanggil = Antrean::getQueueBeingServed();
         $layananAktif = Layanan::where('is_active', true)
             ->orderBy('nama', 'asc')
             ->get();
 
-        $punyaAntrianAktif = false;
-        $antrianSayaAktif = null;
-        $posisiAntrianSaya = null;
+        $punyaAntreanAktif = false;
+        $antreanSayaAktif = null;
+        $posisiAntreanSaya = null;
 
         if (Auth::check() && Auth::user()->username) {
-            $antrianSayaAktif = Antrian::with(['layanan1', 'layanan2'])
+            $antreanSayaAktif = Antrean::with(['layanan1', 'layanan2'])
                 ->byCustomerName(Auth::user()->username)
                 ->todayActiveQueues()
                 ->orderBy('waktu_masuk', 'asc')
                 ->first();
 
-            $punyaAntrianAktif = (bool) $antrianSayaAktif;
+            $punyaAntreanAktif = (bool) $antreanSayaAktif;
 
-            if ($antrianSayaAktif && $antrianSayaAktif->status === 'menunggu') {
-                $posisiAntrianSaya = $antrianSayaAktif->calculateQueuePosition();
+            if ($antreanSayaAktif && $antreanSayaAktif->status === 'menunggu') {
+                $posisiAntreanSaya = $antreanSayaAktif->calculateQueuePosition();
             }
         }
 
-        return view('pelanggan.antrian.antrian', compact(
-            'data_antrian',
+        return view('pelanggan.antrean.antrean', compact(
+            'data_antrean',
             'dipanggil',
-            'punyaAntrianAktif',
+            'punyaAntreanAktif',
             'layananAktif',
-            'antrianSayaAktif',
-            'posisiAntrianSaya'
+            'antreanSayaAktif',
+            'posisiAntreanSaya'
         ));
     }
 
     public function create()
     {
-        return view('antrian.create');
+        return view('antrean.create');
     }
 
     public function store(Request $request)
@@ -67,15 +67,15 @@ class AntrianController extends Controller
 
         $this->validateQueueRequest($request);
 
-        if (Antrian::customerHasActiveQueue($user->username)) {
-            return back()->with('error', 'Anda sudah berada di dalam daftar antrian saat ini.');
+        if (Antrean::customerHasActiveQueue($user->username)) {
+            return back()->with('error', 'Anda sudah berada di dalam daftar antrean saat ini.');
         }
 
-        $lastNumber = Antrian::getLastQueueNumberToday();
+        $lastNumber = Antrean::getLastQueueNumberToday();
         $nomorFormat = str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
 
-        Antrian::create([
-            'nomor_antrian' => $nomorFormat,
+        Antrean::create([
+            'nomor_antrean' => $nomorFormat,
             'nama_pelanggan' => $user->username,
             'layanan_id1' => $request->input('layanan_id1'),
             'layanan_id2' => $request->input('layanan_id2'),
@@ -85,7 +85,7 @@ class AntrianController extends Controller
 
         $this->broadcastQueueUpdate();
 
-        return back()->with('success', 'Antrian anda terdaftar silahkan tunggu.');
+        return back()->with('success', 'Antrean anda terdaftar silahkan tunggu.');
     }
 
     public function cancelMyQueue()
@@ -99,13 +99,13 @@ class AntrianController extends Controller
             return redirect()->route('set.username')->with('error', 'Silakan atur username terlebih dahulu.');
         }
 
-        $antrianAktif = Antrian::getCustomerActiveQueue($user->username);
+        $antreanAktif = Antrean::getCustomerActiveQueue($user->username);
 
-        if (!$antrianAktif) {
+        if (!$antreanAktif) {
             return back()->with('error', 'Tidak ada antrean aktif yang bisa dibatalkan.');
         }
 
-        $antrianAktif->cancelQueue();
+        $antreanAktif->cancelQueue();
         $this->broadcastQueueUpdate();
 
         return back()->with('success', 'Antrean Anda berhasil dibatalkan.');
@@ -134,8 +134,8 @@ class AntrianController extends Controller
 
     private function broadcastQueueUpdate(): void
     {
-        $antrianList = Antrian::getTodayWaitingQueues();
-        event(new AntreanListUpdate($antrianList));
-        // broadcast(new AntreanListUpdate($antrianList))->toOthers();
+        $antreanList = Antrean::getTodayWaitingQueues();
+        event(new AntreanListUpdate($antreanList));
+        // broadcast(new AntreanListUpdate($antreanList))->toOthers();
     }
 }

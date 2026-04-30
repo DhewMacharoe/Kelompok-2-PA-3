@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Pelanggan\AntrianController;
+use App\Http\Controllers\Pelanggan\AntreanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
@@ -13,7 +13,7 @@ use App\Http\Controllers\Pelanggan\PelangganGaleriController;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Rute untuk antarmuka publik dan admin aplikasi antrian barbershop.
+| Rute untuk antarmuka publik dan admin aplikasi antrean barbershop.
 |
 */
 
@@ -26,13 +26,13 @@ require __DIR__ . '/admin_route.php';
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 
 Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
-Route::get('/antrian', [AntrianController::class, 'index'])->name('antrian');
+Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
 Route::get('/rekomendasi', [PublicController::class, 'rekomendasi'])->name('rekomendasi');
 Route::get('/galeri', [PelangganGaleriController::class, 'index'])->name('galeri');
 Route::get('/menu', [PublicController::class, 'menu'])->name('menu');
-Route::post('/antrian', [AntrianController::class, 'store'])->name('antrian.store');
-Route::patch('/antrian/saya/batal', [AntrianController::class, 'cancelMyQueue'])
-    ->name('antrian.cancel')
+Route::post('/antrean', [AntreanController::class, 'store'])->name('antrean.store');
+Route::patch('/antrean/saya/batal', [AntreanController::class, 'cancelMyQueue'])
+    ->name('antrean.cancel')
     ->middleware('auth');
 
 
@@ -53,9 +53,9 @@ Route::post('/set-username', [AuthController::class, 'doSetUsername'])->name('se
 Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('test.firebase');
 
 
-// Rute untuk pelanggan mengambil antrian
-Route::post('/antrian/daftar', [PublicController::class, 'daftarAntrian'])
-    ->name('antrian.daftar')
+// Rute untuk pelanggan mengambil antrean
+Route::post('/antrean/daftar', [PublicController::class, 'daftarAntrean'])
+    ->name('antrean.daftar')
     ->middleware('auth');
 
 // Serve image files stored in project-root /images for local/dev access.

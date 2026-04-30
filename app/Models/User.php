@@ -3,7 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Antrian;
+use App\Models\Antrean;
 use App\Models\Galeri;
 use App\Models\Layanan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -62,8 +62,8 @@ class User extends Authenticatable
         return Galeri::all();
     }
 
-    public function pantauAntrian()
+    public function pantauAntrean()
     {
-        return Antrian::all();
+        return Antrean::all();
     }
 }

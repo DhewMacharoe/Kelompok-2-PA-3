@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Antrian;
+use App\Models\Antrean;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -35,7 +35,7 @@ class AntreanListUpdate implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new Channel('AntrianList-channel'),
+            new Channel('AntreanList-channel'),
         ];
     }
 
@@ -45,6 +45,4 @@ class AntreanListUpdate implements ShouldBroadcastNow
             'antreanList' => $this->antreanList,
         ];
     }
-
-
 }

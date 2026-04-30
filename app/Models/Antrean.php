@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
-class Antrian extends Model
+class Antrean extends Model
 {
-    protected $table = 'antrians';
+    protected $table = 'antreans';
 
     protected $fillable = [
-        'nomor_antrian',
+        'nomor_antrean',
         'nama_pelanggan',
         'layanan_id1',
         'layanan_id2',
@@ -20,7 +20,7 @@ class Antrian extends Model
         'waktu_selesai',
     ];
 
-    public static function generateNomorAntrian(): string
+    public static function generateNomorAntrean(): string
     {
         return 'A' . now()->format('YmdHis') . rand(10, 99);
     }
@@ -71,7 +71,7 @@ class Antrian extends Model
 
     public function layanans()
     {
-        return $this->belongsToMany(Layanan::class, 'antrian_layanan', 'antrian_id', 'layanan_id')
+        return $this->belongsToMany(Layanan::class, 'antrean_layanan', 'antrean_id', 'layanan_id')
             ->withTimestamps();
     }
 
@@ -99,7 +99,7 @@ class Antrian extends Model
     // ============ SCOPES ============
 
     /**
-     * Scope untuk mengambil antrian menunggu hari ini yang sudah diurutkan
+     * Scope untuk mengambil antrean menunggu hari ini yang sudah diurutkan
      */
     public function scopeTodayWaitingQueues($query)
     {
@@ -109,7 +109,7 @@ class Antrian extends Model
     }
 
     /**
-     * Scope untuk mengambil antrian aktif (menunggu atau sedang dilayani) hari ini
+     * Scope untuk mengambil antrean aktif (menunggu atau sedang dilayani) hari ini
      */
     public function scopeTodayActiveQueues($query)
     {
@@ -118,7 +118,7 @@ class Antrian extends Model
     }
 
     /**
-     * Scope untuk mengambil antrian berdasarkan nama pelanggan hari ini
+     * Scope untuk mengambil antrean berdasarkan nama pelanggan hari ini
      */
     public function scopeByCustomerName($query, $nama)
     {
@@ -135,7 +135,7 @@ class Antrian extends Model
     }
 
     /**
-     * Ambil antrian yang sedang dilayani hari ini
+     * Ambil antrean yang sedang dilayani hari ini
      */
     public static function getQueueBeingServed()
     {
@@ -145,7 +145,7 @@ class Antrian extends Model
     }
 
     /**
-     * Cek apakah pelanggan sudah punya antrian aktif hari ini
+     * Cek apakah pelanggan sudah punya antrean aktif hari ini
      */
     public static function customerHasActiveQueue(string $namaCustomer): bool
     {
@@ -155,7 +155,7 @@ class Antrian extends Model
     }
 
     /**
-     * Ambil antrian aktif pelanggan hari ini
+     * Ambil antrean aktif pelanggan hari ini
      */
     public static function getCustomerActiveQueue(string $namaCustomer)
     {
@@ -166,23 +166,23 @@ class Antrian extends Model
     }
 
     /**
-     * Dapatkan nomor antrian terakhir hari ini
+     * Dapatkan nomor antrean terakhir hari ini
      */
     public static function getLastQueueNumberToday(): int
     {
-        $lastAntrian = static::whereDate('created_at', Carbon::today())
+        $lastAntrean = static::whereDate('created_at', Carbon::today())
             ->orderBy('id', 'desc')
             ->first();
 
-        if (!$lastAntrian) {
+        if (!$lastAntrean) {
             return 0;
         }
 
-        return (int)$lastAntrian->nomor_antrian;
+        return (int)$lastAntrean->nomor_antrean;
     }
 
     /**
-     * Hitung posisi antrian pelanggan dalam daftar menunggu
+     * Hitung posisi antrean pelanggan dalam daftar menunggu
      */
     public function calculateQueuePosition(): int
     {
@@ -203,7 +203,7 @@ class Antrian extends Model
     }
 
     /**
-     * Batalkan antrian dan set waktu selesai
+     * Batalkan antrean dan set waktu selesai
      */
     public function cancelQueue(): bool
     {
@@ -214,7 +214,7 @@ class Antrian extends Model
     }
 
     /**
-     * Set antrian menjadi sedang dilayani
+     * Set antrean menjadi sedang dilayani
      */
     public function markAsServing(): bool
     {
@@ -222,7 +222,7 @@ class Antrian extends Model
     }
 
     /**
-     * Set antrian menjadi selesai
+     * Set antrean menjadi selesai
      */
     public function markAsComplete(): bool
     {

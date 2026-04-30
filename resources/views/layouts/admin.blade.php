@@ -16,20 +16,21 @@
             <button class="header-back" onclick="window.location='{{ url('/') }}'">← Dashboard</button>
             <div class="header-title">@yield('header_title', 'Kelola Barbershop')</div>
             <div style="width:80px;"></div>
-             @yield('header_right')
+            @yield('header_right')
         </header>
 
         <nav class="admin-nav">
             <ul class="admin-nav-list">
                 <li><a href="{{ url('dashboard') }}"
                         class="{{ Request::is('dashboard') ? 'active' : '' }}">Dashboard</a></li>
-                <li><a href="{{ url('admin/antrian') }}"
-                        class="{{ Request::is('admin/antrian') ? 'active' : '' }}">Antrian</a></li>
+                <li><a href="{{ url('admin/antrean') }}"
+                        class="{{ Request::is('admin/antrean') ? 'active' : '' }}">Antrean</a></li>
                 <li><a href="{{ url('admin/layanan') }}"
                         class="{{ Request::is('admin/layanan') ? 'active' : '' }}">Layanan</a></li>
                 <li><a href="{{ route('admin.galeri') }}"
                         class="{{ Request::is('admin/galeri') ? 'active' : '' }}">Galeri</a></li>
-                <li><a href="{{ url('admin/menu') }}" class="{{ Request::is('admin/menu') ? 'active' : '' }}">Menu Kafe</a></li>
+                <li><a href="{{ url('admin/menu') }}" class="{{ Request::is('admin/menu') ? 'active' : '' }}">Menu
+                        Kafe</a></li>
                 <li><a href="{{ url('admin/rekap') }}"
                         class="{{ Request::is('admin/rekap') ? 'active' : '' }}">Rekap</a></li>
             </ul>

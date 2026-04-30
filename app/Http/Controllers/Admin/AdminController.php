@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Events\AntreanListUpdate;
 use App\Events\AntreanUpadate;
 use App\Http\Controllers\Controller;
-use App\Models\Antrian;
+use App\Models\Antrean;
 use App\Models\Layanan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,14 +15,14 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        Antrian::cancelExpiredWaitingQueues();
+        Antrean::cancelExpiredWaitingQueues();
 
-        $dipanggil = Antrian::where('status', 'sedang dilayani')->first();
-        $jumlahMenunggu = Antrian::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->count();
-        $jumlahSelesai = Antrian::where('status', 'selesai')->whereDate('updated_at', Carbon::today())->count();
-        $antrianMenunggu = Antrian::whereDate('created_at', now()->today())->where('status', 'menunggu')->orderBy('created_at', 'asc')->limit(3)->get();
-        $batal= Antrian::where('status', 'batal')->whereDate('updated_at', Carbon::today())->count();
-        $jumlahPengunjung = Antrian::whereDate('created_at', Carbon::today())->count();
+        $dipanggil = Antrean::where('status', 'sedang dilayani')->first();
+        $jumlahMenunggu = Antrean::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->count();
+        $jumlahSelesai = Antrean::where('status', 'selesai')->whereDate('updated_at', Carbon::today())->count();
+        $antreanMenunggu = Antrean::whereDate('created_at', now()->today())->where('status', 'menunggu')->orderBy('created_at', 'asc')->limit(3)->get();
+        $batal = Antrean::where('status', 'batal')->whereDate('updated_at', Carbon::today())->count();
+        $jumlahPengunjung = Antrean::whereDate('created_at', Carbon::today())->count();
 
 
         $statistikData = [
@@ -31,49 +32,49 @@ class AdminController extends Controller
             'batal' => $batal,
         ];
 
-        return view('admin.dashboard', compact('statistikData', 'antrianMenunggu', 'dipanggil'));
+        return view('admin.dashboard', compact('statistikData', 'antreanMenunggu', 'dipanggil'));
     }
 
 
 
-    // Fungsi Selesaikan Antrian Manual
+    // Fungsi Selesaikan Antrean Manual
     public function selesai($id)
     {
-        $antrian = Antrian::findOrFail($id);
-        $antrian->update([
+        $antrean = Antrean::findOrFail($id);
+        $antrean->update([
             'status' => 'selesai',
             'waktu_selesai' => now()
         ]);
 
-        event(new AntreanUpadate($antrian));
+        event(new AntreanUpadate($antrean));
 
         return redirect()->back()->with('success', 'Layanan selesai.');
     }
 
-    // Fungsi Batalkan Antrian
+    // Fungsi Batalkan Antrean
     public function batal($id)
     {
-        $antrian = Antrian::findOrFail($id);
-        $antrian->update([
+        $antrean = Antrean::findOrFail($id);
+        $antrean->update([
             'status' => 'batal',
             'waktu_selesai' => now()
         ]);
 
-        event(new AntreanUpadate($antrian));
+        event(new AntreanUpadate($antrean));
 
-        return redirect()->back()->with('success', 'Antrian ' . $antrian->nomor_antrian . ' dibatalkan.');
+        return redirect()->back()->with('success', 'Antrean ' . $antrean->nomor_antrean . ' dibatalkan.');
     }
-    public function antrian()
+    public function antrean()
     {
-        Antrian::cancelExpiredWaitingQueues();
+        Antrean::cancelExpiredWaitingQueues();
 
         $layananAktif = Layanan::where('is_active', true)
             ->orderBy('nama', 'asc')
             ->get();
 
-        $antrians = Antrian::orderBy('created_at', 'asc')->get();
+        $antreans = Antrean::orderBy('created_at', 'asc')->get();
 
-        return view('admin.antrian.antrian', compact('antrians', 'layananAktif'));
+        return view('admin.antrean.antrean', compact('antreans', 'layananAktif'));
     }
 
     public function rekapPemasukan(Request $request)
@@ -116,7 +117,7 @@ class AdminController extends Controller
         $mulai = $mulai->copy()->startOfDay();
         $selesai = $selesai->copy()->endOfDay();
 
-        $antrians = Antrian::query()
+        $antreans = Antrean::query()
             ->with([
                 'layanans' => function ($query) {
                     $query->select('layanans.id', 'nama', 'harga');
@@ -129,12 +130,12 @@ class AdminController extends Controller
             ->orderByDesc('updated_at')
             ->get();
 
-        $totalPemasukan = $antrians->sum(function (Antrian $antrian) {
-            return $antrian->totalPemasukanRekap();
+        $totalPemasukan = $antreans->sum(function (Antrean $antrean) {
+            return $antrean->totalPemasukanRekap();
         });
 
         return view('admin.rekap.rekap', compact(
-            'antrians',
+            'antreans',
             'periode',
             'labelPeriode',
             'mulai',
@@ -169,15 +170,15 @@ class AdminController extends Controller
             ],
         ]);
 
-        // Cari nomor antrian terakhir di hari yang sama
-        $antrianTerakhir = Antrian::whereDate('created_at', Carbon::today())
+        // Cari nomor antrean terakhir di hari yang sama
+        $antreanTerakhir = Antrean::whereDate('created_at', Carbon::today())
             ->orderBy('id', 'desc')
             ->first();
 
         // Generate nomor baru
         $nomorBaru = 1;
-        if ($antrianTerakhir) {
-            $nomorBaru = (int)$antrianTerakhir->nomor_antrian + 1;
+        if ($antreanTerakhir) {
+            $nomorBaru = (int)$antreanTerakhir->nomor_antrean + 1;
         }
 
 
@@ -187,8 +188,8 @@ class AdminController extends Controller
         $layananId1 = $request->input('layanan_id1');
         $layananId2 = $request->input('layanan_id2');
 
-        $antrian = Antrian::create([
-            'nomor_antrian' => $nomorFormat,
+        $antrean = Antrean::create([
+            'nomor_antrean' => $nomorFormat,
             'nama_pelanggan' => $request->nama_pelanggan,
             'layanan_id1' => $layananId1,
             'layanan_id2' => $layananId2,
@@ -196,17 +197,15 @@ class AdminController extends Controller
             'waktu_masuk' => now()
         ]);
 
-        $antrian->layanans()->sync(array_values(array_filter([$layananId1, $layananId2])));
+        $antrean->layanans()->sync(array_values(array_filter([$layananId1, $layananId2])));
 
-        $antrianList = Antrian::where('status', 'menunggu')
+        $antreanList = Antrean::where('status', 'menunggu')
             ->whereDate('created_at', Carbon::today())
             ->orderBy('waktu_masuk', 'asc')
             ->get();
 
-        event(new AntreanListUpdate($antrianList));
+        event(new AntreanListUpdate($antreanList));
 
-        return redirect()->route('admin.antrian')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrian.');
+        return redirect()->route('admin.antrean')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrean.');
     }
-
-
 }

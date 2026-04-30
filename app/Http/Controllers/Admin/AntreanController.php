@@ -5,36 +5,36 @@ namespace App\Http\Controllers\Admin;
 use App\Events\AntreanListUpdate;
 use App\Events\AntreanUpadate;
 use App\Http\Controllers\Controller;
-use App\Models\Antrian;
+use App\Models\Antrean;
 use Illuminate\Http\Request;
 
-class AntrianController extends Controller
+class AntreanController extends Controller
 {
     public function index()
     {
-        $antrian = Antrian::getQueueBeingServed();
+        $antrean = Antrean::getQueueBeingServed();
 
-        return view('admin.antrian.test', compact('antrian'));
+        return view('admin.antrean.test', compact('antrean'));
     }
 
     public function panggil(Request $request)
     {
-        $antrian = Antrian::todayWaitingQueues()->first();
+        $antrean = Antrean::todayWaitingQueues()->first();
 
-        if (!$antrian) {
+        if (!$antrean) {
             return response()->json([
                 'success' => false,
-                'message' => 'Tidak ada antrian yang menunggu.',
+                'message' => 'Tidak ada antrean yang menunggu.',
             ]);
         }
 
-        $antrian->markAsServing();
-        $this->broadcastQueueStatusUpdate($antrian);
+        $antrean->markAsServing();
+        $this->broadcastQueueStatusUpdate($antrean);
         $this->broadcastQueueListUpdate();
 
         return response()->json([
             'success' => true,
-            'message' => 'Antrian ' . $antrian->nomor_antrian . ' sedang dilayani.',
+            'message' => 'Antrean ' . $antrean->nomor_antrean . ' sedang dilayani.',
         ]);
     }
 
@@ -44,24 +44,24 @@ class AntrianController extends Controller
             'status' => 'required|in:selesai,batal',
         ]);
 
-        $antrian = Antrian::findOrFail($id);
-        
+        $antrean = Antrean::findOrFail($id);
+
         if ($request->status === 'selesai') {
-            $antrian->markAsComplete();
+            $antrean->markAsComplete();
         } else {
-            $antrian->cancelQueue();
+            $antrean->cancelQueue();
         }
 
-        $this->broadcastQueueStatusUpdate($antrian);
+        $this->broadcastQueueStatusUpdate($antrean);
         $this->broadcastQueueListUpdate();
 
         return response()->json([
             'success' => true,
-            'message' => 'Status antrian ' . $antrian->nomor_antrian . ' diubah menjadi ' . $request->status . '.',
+            'message' => 'Status antrean ' . $antrean->nomor_antrean . ' diubah menjadi ' . $request->status . '.',
         ]);
     }
 
-    public function updateStatus(Request $request, Antrian $antrean)
+    public function updateStatus(Request $request, Antrean $antrean)
     {
         $antrean->update(['status' => $request->status]);
         $this->broadcastQueueStatusUpdate($antrean);
@@ -71,14 +71,14 @@ class AntrianController extends Controller
 
     // ============ PRIVATE HELPERS ============
 
-    private function broadcastQueueStatusUpdate(Antrian $antrian): void
+    private function broadcastQueueStatusUpdate(Antrean $antrean): void
     {
-        broadcast(new AntreanUpadate($antrian));
+        broadcast(new AntreanUpadate($antrean));
     }
 
     private function broadcastQueueListUpdate(): void
     {
-        $antrianList = Antrian::getTodayWaitingQueues();
-        event(new AntreanListUpdate($antrianList));
+        $antreanList = Antrean::getTodayWaitingQueues();
+        event(new AntreanListUpdate($antreanList));
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Antrian;
+use App\Models\Antrean;
 
 class Pelanggan extends Model
 {
@@ -25,18 +25,18 @@ class Pelanggan extends Model
         return true;
     }
 
-    public function buatAntrian(array $data): Antrian
+    public function buatAntrean(array $data): Antrean
     {
-        return Antrian::create($data);
+        return Antrean::create($data);
     }
 
-    public function lihatStatusAntrian(): string
+    public function lihatStatusAntrean(): string
     {
-        return $this->antrians()->latest()->first()?->status ?? 'Belum ada antrian';
+        return $this->antreans()->latest()->first()?->status ?? 'Belum ada antrean';
     }
 
-    public function antrians()
+    public function antreans()
     {
-        return $this->hasMany(Antrian::class);
+        return $this->hasMany(Antrean::class);
     }
 }

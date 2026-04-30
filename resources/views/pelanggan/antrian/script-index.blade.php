@@ -1,5 +1,4 @@
 <script type="module">
-
     function formatJam(datetime) {
         const date = new Date(datetime);
         return date.toLocaleTimeString('id-ID', {
@@ -19,14 +18,14 @@
         button.style.pointerEvents = disabled ? 'none' : '';
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const queueAppCard = document.querySelector('.app-card');
         const loggedInUsername = queueAppCard?.dataset.loggedInUsername || null;
 
         const layananSelect1 = document.getElementById('layanan_id1');
         const layananSelect2 = document.getElementById('layanan_id2');
         const layananHelp = document.getElementById('layanan-help-pelanggan');
-        const formTambahPelanggan = document.getElementById('formTambahAntrianPelanggan');
+        const formTambahPelanggan = document.getElementById('formTambahAntreanPelanggan');
         const queueListContainer = document.querySelector('.queue-list-container');
         const myQueueCard = document.getElementById('my-queue-card');
         const myQueueNumber = document.getElementById('my-queue-number');
@@ -40,23 +39,23 @@
             return String(status || '').toLowerCase();
         }
 
-        function isCurrentUserQueue(antrian) {
-            return !!loggedInUsername && String(antrian?.nama_pelanggan || '') === String(loggedInUsername);
+        function isCurrentUserQueue(antrean) {
+            return !!loggedInUsername && String(antrean?.nama_pelanggan || '') === String(loggedInUsername);
         }
 
-        function updateMyQueueCard(antrian) {
-            if (!myQueueCard || !isCurrentUserQueue(antrian)) {
+        function updateMyQueueCard(antrean) {
+            if (!myQueueCard || !isCurrentUserQueue(antrean)) {
                 return;
             }
 
-            const status = normalizeStatus(antrian.status);
+            const status = normalizeStatus(antrean.status);
 
             if (cancelQueueAction) {
                 cancelQueueAction.hidden = status !== 'menunggu';
             }
 
-            if (myQueueNumber && antrian.nomor_antrian) {
-                myQueueNumber.textContent = antrian.nomor_antrian;
+            if (myQueueNumber && antrean.nomor_antrean) {
+                myQueueNumber.textContent = antrean.nomor_antrean;
             }
 
             if (myQueuePosition && status !== 'menunggu') {
@@ -98,9 +97,9 @@
             }
 
             if (layananHelp) {
-                layananHelp.textContent = layananSelect2.value
-                    ? 'Dua layanan dipilih.'
-                    : 'Layanan 2 opsional dan tidak boleh sama dengan layanan 1.';
+                layananHelp.textContent = layananSelect2.value ?
+                    'Dua layanan dipilih.' :
+                    'Layanan 2 opsional dan tidak boleh sama dengan layanan 1.';
             }
         }
 
@@ -111,7 +110,7 @@
         }
 
         if (formTambahPelanggan) {
-            formTambahPelanggan.addEventListener('submit', function (event) {
+            formTambahPelanggan.addEventListener('submit', function(event) {
                 if (!layananSelect1 || !layananSelect2) {
                     return;
                 }
@@ -134,7 +133,7 @@
         }
 
         try {
-            window.Echo.channel('AntrianList-channel').listen('AntreanListUpdate', (e) => {
+            window.Echo.channel('AntreanList-channel').listen('AntreanListUpdate', (e) => {
                 const antreanList = (e.antreanList || []).filter(item =>
                     normalizeStatus(item.status) === 'menunggu'
                 );
@@ -150,7 +149,7 @@
                         const isMyQueue = isCurrentUserQueue(item);
                         queueListContainer.insertAdjacentHTML('beforeend', `
                             <div class="queue-card ${isMyQueue ? 'my-queue-highlight' : ''}">
-                                <div class="queue-number-box">${item.nomor_antrian}</div>
+                                <div class="queue-number-box">${item.nomor_antrean}</div>
                                 <div class="queue-info">
                                     <p class="queue-name">${item.nama_pelanggan}</p>
                                     <p class="queue-time">(${formatJam(item.created_at)})</p>
@@ -161,7 +160,7 @@
                     });
                 } else {
                     queueListContainer.innerHTML = `
-                        <div class="text-center mt-4 mb-4 text-muted">Tidak ada antrian</div>
+                        <div class="text-center mt-4 mb-4 text-muted">Tidak ada antrean</div>
                     `;
                 }
             });
@@ -169,25 +168,25 @@
             return;
         }
 
-        window.Echo.channel('Antrian-channel').listen('AntreanUpadate', (e) => {
-            const antrian = e.antrean;
+        window.Echo.channel('Antrean-channel').listen('AntreanUpadate', (e) => {
+            const antrean = e.antrean;
 
-            const nomorEl = document.getElementById('antrian-nomor');
+            const nomorEl = document.getElementById('antrean-nomor');
             if (nomorEl) {
-                nomorEl.textContent = antrian.nomor_antrian;
+                nomorEl.textContent = antrean.nomor_antrean;
             }
 
-            const statusEl = document.getElementById('antrian-status');
+            const statusEl = document.getElementById('antrean-status');
             if (statusEl) {
-                statusEl.textContent = String(antrian.status || '').toUpperCase();
+                statusEl.textContent = String(antrean.status || '').toUpperCase();
             }
 
-            const namaEl = document.getElementById('antrian-nama');
+            const namaEl = document.getElementById('antrean-nama');
             if (namaEl) {
-                namaEl.textContent = antrian.nama_pelanggan;
+                namaEl.textContent = antrean.nama_pelanggan;
             }
 
-            updateMyQueueCard(antrian);
+            updateMyQueueCard(antrean);
         });
 
 
