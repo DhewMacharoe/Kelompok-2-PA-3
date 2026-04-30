@@ -154,10 +154,14 @@
                 </div>
                 <div class="mb-4">
                     <label for="layanan_id1" class="form-label text-muted">Layanan 1 (wajib)</label>
-                    <select id="layanan_id1" name="layanan_id1" class="form-control form-control-lg" required>
+                    <select id="layanan_id1" name="layanan_id1" class="form-control" required
+                        oninvalid="this.setCustomValidity('Harap pilih minimal 1 layanan')"
+                        oninput="this.setCustomValidity('')">
                         <option value="">Pilih layanan 1</option>
                         @foreach ($layananAktif as $layanan)
-                            <option value="{{ $layanan->id }}" @selected((string) $layanan->id === (string) old('layanan_id1'))>{{ $layanan->nama }}</option>
+                            <option value="{{ $layanan->id }}" @selected((string) $layanan->id === (string) old('layanan_id1'))>
+                                {{ $layanan->nama }}
+                            </option>
                         @endforeach
                     </select>
                     @error('layanan_id1')
@@ -192,4 +196,3 @@
 @push('scripts')
     @include('pelanggan.antrean.script-index')
 @endpush
-

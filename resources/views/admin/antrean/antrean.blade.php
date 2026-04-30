@@ -142,12 +142,13 @@
                 </div>
             @endif
 
-            <form id="formTambahAntrean" action="{{ route('admin.simpan-pelanggan') }}" method="POST">
+            <form id="formTambahAntrean" action="{{ route('admin.simpan-pelanggan') }}" method="POST" novalidate>
                 @csrf
                 <div class="form-group">
-                    <label for="nama_pelanggan">Nama Pelanggan</label>
                     <input type="text" id="nama_pelanggan" name="nama_pelanggan" class="form-control"
-                        placeholder="Masukkan nama..." value="{{ old('nama_pelanggan') }}" required>
+                        placeholder="Masukkan nama..." value="{{ old('nama_pelanggan') }}" required
+                        oninvalid="this.setCustomValidity('Harap isi nama terlebih dahulu')"
+                        oninput="this.setCustomValidity('')">
                     @error('nama_pelanggan')
                         <div class="form-error">{{ $message }}</div>
                     @enderror
@@ -155,7 +156,9 @@
 
                 <div class="form-group">
                     <label for="layanan_id1">Layanan 1 (wajib)</label>
-                    <select id="layanan_id1" name="layanan_id1" class="form-control" required>
+                    <select id="layanan_id1" name="layanan_id1" class="form-control" required
+                        oninvalid="this.setCustomValidity('Harap pilih minimal 1 layanan')"
+                        oninput="this.setCustomValidity('')">
                         <option value="">Pilih layanan 1</option>
                         @foreach ($layananAktif as $layanan)
                             <option value="{{ $layanan->id }}" @selected((string) $layanan->id === (string) old('layanan_id1'))>
@@ -201,4 +204,3 @@
 @push('scripts')
     @include('admin.antrean.script-index')
 @endpush
-
