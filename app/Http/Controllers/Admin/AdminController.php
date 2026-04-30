@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\AntreanListUpdate;
-use App\Events\AntreanUpadate;
+use App\Events\AntreanUpdate;
 use App\Http\Controllers\Controller;
 use App\Models\Antrean;
 use App\Models\Layanan;
@@ -46,7 +46,7 @@ class AdminController extends Controller
             'waktu_selesai' => now()
         ]);
 
-        event(new AntreanUpadate($antrean));
+        event(new AntreanUpdate($antrean));
 
         return redirect()->back()->with('success', 'Layanan selesai.');
     }
@@ -60,7 +60,7 @@ class AdminController extends Controller
             'waktu_selesai' => now()
         ]);
 
-        event(new AntreanUpadate($antrean));
+        event(new AntreanUpdate($antrean));
 
         return redirect()->back()->with('success', 'Antrean ' . $antrean->nomor_antrean . ' dibatalkan.');
     }
@@ -170,19 +170,8 @@ class AdminController extends Controller
             ],
         ]);
 
-        // Cari nomor antrean terakhir di hari yang sama
-        $antreanTerakhir = Antrean::whereDate('created_at', Carbon::today())
-            ->orderBy('id', 'desc')
-            ->first();
-
-        // Generate nomor baru
-        $nomorBaru = 1;
-        if ($antreanTerakhir) {
-            $nomorBaru = (int)$antreanTerakhir->nomor_antrean + 1;
-        }
-
-
-        $nomorFormat = str_pad($nomorBaru, 2, '0', STR_PAD_LEFT);
+        // Generate nomor antrean dengan format 2-digit yang auto-reset per hari
+        $nomorFormat = Antrean::generateDailyQueueNumber();
 
         // Simpan ke database
         $layananId1 = $request->input('layanan_id1');

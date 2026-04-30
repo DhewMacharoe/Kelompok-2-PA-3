@@ -321,7 +321,7 @@
 
         if (window.Echo) {
             window.Echo.channel('Antrean-channel')
-                .listen('AntreanUpadate', (e) => {
+                .listen('AntreanUpdate', (e) => {
                     const antrean = e.antrean;
 
                     // Update cepat untuk elemen utama, lalu sinkronkan penuh melalui reload.

@@ -20,6 +20,13 @@ class Antrean extends Model
         'waktu_selesai',
     ];
 
+    protected $dates = [
+        'waktu_masuk',
+        'waktu_selesai',
+        'created_at',
+        'updated_at',
+    ];
+
     public static function generateNomorAntrean(): string
     {
         return 'A' . now()->format('YmdHis') . rand(10, 99);
@@ -167,6 +174,7 @@ class Antrean extends Model
 
     /**
      * Dapatkan nomor antrean terakhir hari ini
+     * Return: integer (0 jika tidak ada, atau nomor terakhir)
      */
     public static function getLastQueueNumberToday(): int
     {
@@ -174,11 +182,32 @@ class Antrean extends Model
             ->orderBy('id', 'desc')
             ->first();
 
-        if (!$lastAntrean) {
+        if (!$lastAntrean || !$lastAntrean->nomor_antrean) {
             return 0;
         }
 
-        return (int)$lastAntrean->nomor_antrean;
+        // Ekstrak angka dari nomor_antrean (bisa format '01', '02', atau pure number)
+        $nomorStr = (string)$lastAntrean->nomor_antrean;
+        $nomor = (int)$nomorStr;
+
+        return $nomor >= 0 ? $nomor : 0;
+    }
+
+    /**
+     * Generate nomor antrean dengan format 2-digit (01, 02, ..., 99)
+     * Reset otomatis setiap hari
+     */
+    public static function generateDailyQueueNumber(): string
+    {
+        $lastNumber = static::getLastQueueNumberToday();
+        $nextNumber = $lastNumber + 1;
+
+        // Jika sudah mencapai 99, warn (tapi tetap simpan)
+        if ($nextNumber > 99) {
+            \Log::warning('Queue number exceeded 99 on ' . Carbon::today());
+        }
+
+        return str_pad((string)$nextNumber, 2, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -207,6 +236,11 @@ class Antrean extends Model
      */
     public function cancelQueue(): bool
     {
+        // Validasi: hanya bisa batalkan jika menunggu atau sedang dilayani
+        if (!in_array($this->status, ['menunggu', 'sedang dilayani'])) {
+            return false;
+        }
+
         return $this->update([
             'status' => 'batal',
             'waktu_selesai' => now(),
@@ -218,6 +252,11 @@ class Antrean extends Model
      */
     public function markAsServing(): bool
     {
+        // Validasi: hanya bisa mulai dilayani jika masih menunggu
+        if ($this->status !== 'menunggu') {
+            return false;
+        }
+
         return $this->update(['status' => 'sedang dilayani']);
     }
 
@@ -226,6 +265,11 @@ class Antrean extends Model
      */
     public function markAsComplete(): bool
     {
+        // Validasi: hanya bisa selesai jika sedang dilayani
+        if ($this->status !== 'sedang dilayani') {
+            return false;
+        }
+
         return $this->update([
             'status' => 'selesai',
             'waktu_selesai' => now(),

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\AntreanListUpdate;
-use App\Events\AntreanUpadate;
+use App\Events\AntreanUpdate;
 use App\Http\Controllers\Controller;
 use App\Models\Antrean;
 use Illuminate\Http\Request;
@@ -28,13 +28,30 @@ class AntreanController extends Controller
             ]);
         }
 
-        $antrean->markAsServing();
-        $this->broadcastQueueStatusUpdate($antrean);
-        $this->broadcastQueueListUpdate();
+        // Validasi: tidak boleh ada antrean yang sedang dilayani
+        $sedangDilayani = Antrean::where('status', 'sedang dilayani')
+            ->whereDate('created_at', \Carbon\Carbon::today())
+            ->first();
+
+        if ($sedangDilayani) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Antrean ' . $sedangDilayani->nomor_antrean . ' masih sedang dilayani. Selesaikan atau batalkan dulu sebelum memanggil antrean berikutnya.',
+            ]);
+        }
+
+        $success = $antrean->markAsServing();
+
+        if ($success) {
+            $this->broadcastQueueStatusUpdate($antrean);
+            $this->broadcastQueueListUpdate();
+        }
 
         return response()->json([
-            'success' => true,
-            'message' => 'Antrean ' . $antrean->nomor_antrean . ' sedang dilayani.',
+            'success' => $success,
+            'message' => $success 
+                ? 'Antrean ' . $antrean->nomor_antrean . ' sedang dilayani.'
+                : 'Gagal memanggil antrean.',
         ]);
     }
 
@@ -46,18 +63,34 @@ class AntreanController extends Controller
 
         $antrean = Antrean::findOrFail($id);
 
-        if ($request->status === 'selesai') {
-            $antrean->markAsComplete();
+        $statusBaru = $request->status;
+        $success = false;
+        $message = 'Status tidak dapat diubah';
+
+        if ($statusBaru === 'selesai') {
+            $success = $antrean->markAsComplete();
+            if (!$success) {
+                $message = 'Antrean hanya bisa diselesaikan jika sedang dilayani.';
+            } else {
+                $message = 'Status antrean ' . $antrean->nomor_antrean . ' berhasil diubah menjadi selesai.';
+            }
         } else {
-            $antrean->cancelQueue();
+            $success = $antrean->cancelQueue();
+            if (!$success) {
+                $message = 'Antrean hanya bisa dibatalkan jika menunggu atau sedang dilayani.';
+            } else {
+                $message = 'Status antrean ' . $antrean->nomor_antrean . ' berhasil diubah menjadi batal.';
+            }
         }
 
-        $this->broadcastQueueStatusUpdate($antrean);
-        $this->broadcastQueueListUpdate();
+        if ($success) {
+            $this->broadcastQueueStatusUpdate($antrean);
+            $this->broadcastQueueListUpdate();
+        }
 
         return response()->json([
-            'success' => true,
-            'message' => 'Status antrean ' . $antrean->nomor_antrean . ' diubah menjadi ' . $request->status . '.',
+            'success' => $success,
+            'message' => $message,
         ]);
     }
 
@@ -73,7 +106,7 @@ class AntreanController extends Controller
 
     private function broadcastQueueStatusUpdate(Antrean $antrean): void
     {
-        broadcast(new AntreanUpadate($antrean));
+        broadcast(new AntreanUpdate($antrean));
     }
 
     private function broadcastQueueListUpdate(): void

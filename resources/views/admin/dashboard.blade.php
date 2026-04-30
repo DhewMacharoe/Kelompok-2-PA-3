@@ -103,7 +103,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             if (window.Echo) {
-                window.Echo.channel('Antrean-channel').listen('AntreanUpadate', () => {
+                window.Echo.channel('Antrean-channel').listen('AntreanUpdate', () => {
                     window.location.reload();
                 });
 
