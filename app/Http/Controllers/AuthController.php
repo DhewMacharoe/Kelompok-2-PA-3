@@ -82,6 +82,10 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
+        ], [
+            'email.required' => 'Harap isi email anda terlebih dahulu',
+            'email.email' => 'Format email tidak valid',
+            'password.required' => 'Harap isi password terlebih dahulu',
         ]);
 
         if (Auth::attempt($credentials)) {
@@ -89,7 +93,10 @@ class AuthController extends Controller
             return redirect()->intended('admin/dashboard'); // Arahkan ke dashboard jika sukses
         }
 
-        return back()->with('error', 'Email atau password salah.');
+        // Ditambahkan ->withInput() agar email yang sudah diketik tidak hilang saat password salah
+        return back()
+            ->with('error', 'Email atau password salah.')
+            ->withInput($request->only('email'));
     }
 
     // Memproses login Google via Firebase
@@ -106,7 +113,6 @@ class AuthController extends Controller
 
         try {
             $auth = $this->createFirebaseFactory()->createAuth();
-
             $verifiedToken = $auth->verifyIdToken($request->input('idToken'));
         } catch (\Throwable $exception) {
             return back()->with('error', 'Verifikasi token Firebase gagal: ' . $exception->getMessage());
@@ -261,8 +267,5 @@ class AuthController extends Controller
     }
 
     // Test Firebase connection
-    public function testFirebase()
-    {
-       
-    }
+    public function testFirebase() {}
 }

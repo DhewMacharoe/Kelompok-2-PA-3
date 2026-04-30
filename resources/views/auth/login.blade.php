@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* Kustomisasi CSS untuk mencocokkan desain gambar */
         body {
             background-color: #2C3E50;
             height: 100vh;
@@ -70,20 +70,35 @@
 
     <div class="login-card text-center">
         <h2 class="login-title">Login Admin</h2>
-        <form action="{{ route('login.post') }}" method="POST" class="form-section">
+        <form action="{{ route('login.post') }}" method="POST" class="form-section" novalidate>
             @csrf
+
             @if (session('error'))
-                <div class="error-banner" style="display:flex;">
-                     {{ session('error') }}
+                <div class="alert alert-danger text-start p-2 mb-3" role="alert" style="font-size: 14px;">
+                    {{ session('error') }}
                 </div>
             @endif
-            <div class="mb-3">
-                <input type="email" name="email" class="form-control" id="username" placeholder="Email" required>
-            </div>
-            <div class="mb-3">
-                <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+            <div class="mb-3 text-start">
+                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                    id="email" placeholder="Email" value="{{ old('email') }}">
 
+                @error('email')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
+
+            <div class="mb-3 text-start">
+                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                    id="password" placeholder="Password">
+                @error('password')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
             <button type="submit" class="btn btn-primary w-100 btn-login">Login</button>
         </form>
     </div>

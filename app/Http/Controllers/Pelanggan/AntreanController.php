@@ -129,6 +129,9 @@ class AntreanController extends Controller
                     $query->where('is_active', true);
                 }),
             ],
+        ], [
+            'layanan_id1.required' => 'Harap pilih minimal 1 layanan',
+            'layanan_id2.different' => 'Layanan 2 tidak boleh sama dengan layanan 1',
         ]);
     }
 
@@ -139,4 +142,3 @@ class AntreanController extends Controller
         // broadcast(new AntreanListUpdate($antreanList))->toOthers();
     }
 }
-
