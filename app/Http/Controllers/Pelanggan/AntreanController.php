@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class AntrianController extends Controller
+class AntreanController extends Controller
 {
     public function index()
     {
@@ -38,7 +38,7 @@ class AntrianController extends Controller
             }
         }
 
-        return view('pelanggan.antrian.antrian', compact(
+        return view('pelanggan.antrean.antrean', compact(
             'data_antrean',
             'dipanggil',
             'punyaAntreanAktif',
@@ -139,3 +139,4 @@ class AntrianController extends Controller
         // broadcast(new AntreanListUpdate($antreanList))->toOthers();
     }
 }
+

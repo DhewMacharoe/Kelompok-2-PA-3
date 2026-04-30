@@ -74,7 +74,7 @@ class AdminController extends Controller
 
         $antreans = Antrean::orderBy('created_at', 'asc')->get();
 
-        return view('admin.antrian.antrian', compact('antreans', 'layananAktif'));
+        return view('admin.antrean.antrean', compact('antreans', 'layananAktif'));
     }
 
     public function rekapPemasukan(Request $request)
@@ -209,3 +209,4 @@ class AdminController extends Controller
         return redirect()->route('admin.antrean')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrean.');
     }
 }
+
