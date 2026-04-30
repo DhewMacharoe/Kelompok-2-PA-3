@@ -19,11 +19,11 @@
         </div>
 
         <div class="card-body text-center py-4">
-            @if ($antrean)
+            @if ($antrian)
             <div class="text-uppercase small text-muted mb-2 font-weight-bold">Sekarang Melayani</div>
 
             <h2 class="mb-2 fw-bold text-dark" id="antrean-nomor" style="letter-spacing: 3px; font-size: 2.5rem;">
-                {{ $antrean->nomor_antrean }}
+                {{ $antrian->nomor_antrean }}
             </h2>
 
             <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill bg-light text-dark fw-semibold mb-3 border"
@@ -32,7 +32,7 @@
                 {{ $antrian->status === 'sedang dilayani' ? 'Sedang Dilayani' : ucfirst($antrian->status) }}
             </div>
 
-            <p class="mb-0 text-muted fw-bold">{{ $antrean->nama_pelanggan }}</p>
+            <p class="mb-0 text-muted fw-bold">{{ $antrian->nama_pelanggan }}</p>
             @else
             <div class="py-3">
                 <i class="fas fa-user-circle text-muted fs-2 mb-2"></i>

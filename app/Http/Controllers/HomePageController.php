@@ -12,7 +12,7 @@ class HomePageController extends Controller
 {
     public function index()
     {
-        $antrean = Antrean::get()->where('status', 'sedang dilayani')->first();
+        $antrian = Antrean::get()->where('status', 'sedang dilayani')->first();
 
 
         $jumlahAntrean = Antrean::where('status', 'menunggu')
@@ -22,6 +22,6 @@ class HomePageController extends Controller
         $layanans = Layanan::where('is_active', true)->get();
         $menus = Menu::where('is_available', true)->get();
 
-        return view('pelanggan.homepage.homepage', compact('antrean', 'jumlahAntrean', 'layanans', 'menus'));
+        return view('pelanggan.homepage.homepage', compact('antrian', 'jumlahAntrean', 'layanans', 'menus'));
     }
 }
