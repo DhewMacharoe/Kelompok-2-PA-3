@@ -71,7 +71,7 @@
         <div class="col-6 col-md-3">
             <a href="{{ route('menu') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
                 <div class="icon-circle shadow-sm"><i class="fas fa-coffee"></i></div>
-                Café
+                Menu Café
             </a>
         </div>
     </div>

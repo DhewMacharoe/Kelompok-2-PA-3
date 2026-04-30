@@ -52,6 +52,7 @@ class AntreanController extends Controller
             'message' => $success 
                 ? 'Antrean ' . $antrean->nomor_antrean . ' sedang dilayani.'
                 : 'Gagal memanggil antrean.',
+            'antrean' => $antrean
         ]);
     }
 

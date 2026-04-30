@@ -79,11 +79,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @php
-        use App\Models\Antrean;
-        use Carbon\Carbon;
-
-        $hariIni = Carbon::today();
-        $dataStatus = Antrean::whereDate('created_at', $hariIni)
+        $hariIni = \Carbon\Carbon::today();
+        $dataStatus = \App\Models\Antrean::whereDate('created_at', $hariIni)
             ->selectRaw('status, count(*) as total')
             ->groupBy('status')
             ->pluck('total', 'status')
@@ -94,9 +91,9 @@
         $trendLabels = [];
         $trendData = [];
         for ($i = 6; $i >= 0; $i--) {
-            $tanggal = Carbon::today()->subDays($i);
+            $tanggal = \Carbon\Carbon::today()->subDays($i);
             $trendLabels[] = $tanggal->translatedFormat('l');
-            $trendData[] = Antrean::whereDate('created_at', $tanggal)->count();
+            $trendData[] = \App\Models\Antrean::whereDate('created_at', $tanggal)->count();
         }
     @endphp
 

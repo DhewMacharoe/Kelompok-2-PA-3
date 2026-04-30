@@ -1,4 +1,6 @@
 <script>
+    window.isActionInProgress = false;
+
     // === LOGIKA FILTER ===
     function filterAntrean(status, button) {
         const rows = document.querySelectorAll('#antreanTableBody tr[data-status]');
@@ -47,11 +49,15 @@
     document.addEventListener('DOMContentLoaded', function() {
         if (window.Echo) {
             window.Echo.channel('Antrean-channel').listen('AntreanUpdate', () => {
-                window.location.reload();
+                if (!window.isActionInProgress) {
+                    window.location.reload();
+                }
             });
 
             window.Echo.channel('AntreanList-channel').listen('AntreanListUpdate', () => {
-                window.location.reload();
+                if (!window.isActionInProgress) {
+                    window.location.reload();
+                }
             });
         }
 
@@ -179,6 +185,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
+                window.isActionInProgress = true;
                 // Tampilkan loading saat fetch berjalan
                 Swal.fire({
                     title: 'Memproses...',
@@ -197,18 +204,46 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        Swal.fire({
-                            if: data.success,
-                            icon: data.success ? 'success' : 'info',
-                            title: data.success ? 'Berhasil!' : 'Info',
-                            text: data.message,
-                            showConfirmButton: true,
-                        }).then(() => {
-                            window.location.reload();
-                        });
+                        const showSuccessAlertAndReload = () => {
+                            Swal.fire({
+                                icon: data.success ? 'success' : 'info',
+                                title: data.success ? 'Berhasil!' : 'Info',
+                                text: data.message,
+                                showConfirmButton: true,
+                            }).then(() => {
+                                window.isActionInProgress = false;
+                                window.location.reload();
+                            });
+                        };
+
+                        if (data.success && data.antrean && 'speechSynthesis' in window) {
+                            const antrean = data.antrean;
+                            const nomorantrean = antrean.nomor_antrean || '-';
+                            const namaPelanggan = antrean.nama_pelanggan || '-';
+                            
+                            const text = `Nomor antrean ${nomorantrean}, atas nama ${namaPelanggan}`;
+                            
+                            const speech = new SpeechSynthesisUtterance(text);
+                            speech.lang = 'id-ID';
+                            speech.rate = 1;
+                            speech.pitch = 1;
+                            
+                            speech.onend = () => {
+                                showSuccessAlertAndReload();
+                            };
+                            speech.onerror = () => {
+                                showSuccessAlertAndReload();
+                            };
+                            
+                            window.speechSynthesis.cancel();
+                            window.speechSynthesis.speak(speech);
+                        } else {
+                            showSuccessAlertAndReload();
+                        }
                     })
                     .catch(error => {
                         console.error('Error:', error);
+                        window.isActionInProgress = false;
                         Swal.fire('Gagal', 'Terjadi kesalahan saat memanggil antrean berikutnya.', 'error');
                     });
             }
@@ -231,6 +266,7 @@
 
         Swal.fire(swalConfig).then((result) => {
             if (result.isConfirmed) {
+                window.isActionInProgress = true;
                 let originalText = button.innerHTML;
                 button.innerHTML = 'Memproses...';
                 button.disabled = true;
@@ -259,11 +295,13 @@
                             showConfirmButton: false,
                             timer: 1500
                         }).then(() => {
+                            window.isActionInProgress = false;
                             window.location.reload();
                         });
                     })
                     .catch(error => {
                         console.error('Error:', error);
+                        window.isActionInProgress = false;
                         Swal.fire('Gagal', 'Terjadi kesalahan saat mengubah status.', 'error');
                         button.innerHTML = originalText;
                         button.disabled = false;
