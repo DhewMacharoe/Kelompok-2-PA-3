@@ -1,7 +1,22 @@
 <style>
+    .pelanggan-navbar .navbar-brand img {
+        height: 32px;
+        width: auto;
+        display: block;
+    }
+
+    .pelanggan-navbar .navbar-toggler {
+        padding: 0;
+        line-height: 1;
+    }
+
+    .pelanggan-navbar .navbar-toggler i {
+        font-size: 1.35rem;
+    }
+
     @media (max-width: 991.98px) {
         .pelanggan-navbar .navbar-brand {
-            font-size: 1.1rem !important;
+            font-size: 1rem !important;
             max-width: calc(100% - 70px);
             white-space: nowrap;
             overflow: hidden;
@@ -31,7 +46,7 @@
         }
 
         .pelanggan-navbar .navbar-toggler i {
-            font-size: 1.5rem !important;
+            font-size: 1.2rem !important;
         }
     }
 </style>
@@ -39,15 +54,17 @@
 <nav class="navbar navbar-expand-lg pelanggan-navbar"
     style="background-color: #1a1a1a; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
     <div class="container">
-        <div class="text-center mt-2 mb-2">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="Arga Home's Logo"
-                class="img-fluid border border-white border-2 p-1 rounded" style="max-height: 50px;">
-        </div>
+        <div class="d-flex align-items-center justify-content-between w-100 py-2">
+            <a href="{{ route('home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center">
+            <img src="{{ asset('assets/images/favicon.png') }}" alt="Arga Home's Logo"
+                class="img-fluid " style="max-height: 40px;">
+            </a>
 
-        <button class="navbar-toggler text-white border-0 mb-5" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars fs-1"></i>
-        </button>
+            <button class="navbar-toggler text-white border-0 shadow-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav gap-lg-4 text-center mt-3 mt-lg-0">

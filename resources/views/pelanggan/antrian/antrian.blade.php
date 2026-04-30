@@ -89,7 +89,7 @@
                                     <div class="queue-number-box">{{ $antrian->nomor_antrian }}</div>
                                     <div class="queue-info">
                                         <p class="queue-name">{{ $antrian->nama_pelanggan }}</p>
-                                        <p class="queue-time">(({{ $antrian->created_at->format('H:i') }}))</p>
+                                        <p class="queue-time">{{ $antrian->created_at->format('H:i') }}</p>
                                     </div>
                                     <div>
                                         @if($antrianSayaAktif && $antrianSayaAktif->id === $antrian->id)

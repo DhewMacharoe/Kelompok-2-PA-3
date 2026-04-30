@@ -63,7 +63,7 @@
                         <label class="form-label">Preview Gambar Saat Ini</label>
                         <br>
                         <img id="previewGambar"
-                             src="{{ asset('storage/' . $galeri->gambar) }}"
+                                src="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
                              alt="{{ $galeri->judul }}"
                              style="width: 180px; height: 120px; object-fit: cover; border-radius: 8px;">
                     </div>

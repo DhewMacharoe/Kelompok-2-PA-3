@@ -29,7 +29,7 @@
             @foreach($galeris as $galeri)
                 <div class="galeri-card">
                     <div class="galeri-card-image">
-                        <img src="{{ asset('storage/' . $galeri->gambar) }}" 
+                            <img src="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}" 
                              alt="{{ $galeri->judul }}">
                     </div>
 

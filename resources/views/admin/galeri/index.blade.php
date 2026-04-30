@@ -44,7 +44,7 @@
                         <td>{{ $loop->iteration }}</td>
 
                         <td>
-                            <img src="{{ asset('storage/' . $galeri->gambar) }}"
+                               <img src="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
                                  alt="{{ $galeri->judul }}"
                                  style="width: 120px; height: 80px; object-fit: cover; border-radius: 8px;">
                         </td>

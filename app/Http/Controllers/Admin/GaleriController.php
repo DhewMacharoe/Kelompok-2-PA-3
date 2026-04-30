@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Concerns\HandlesPublicImageUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Galeri;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class GaleriController extends Controller
 {
+    use HandlesPublicImageUploads;
+
     public function index()
     {
         $galeris = Galeri::latest()->get();
@@ -30,7 +32,8 @@ class GaleriController extends Controller
             'is_active' => 'required|boolean',
         ]);
 
-        $gambarPath = $request->file('gambar')->store('galeri', 'public');
+        $folder = 'galeri';
+        $gambarPath = $this->storeImageToPublic($request->file('gambar'), $folder);
 
         Galeri::create([
             'judul' => $request->judul,
@@ -64,11 +67,9 @@ class GaleriController extends Controller
         ];
 
         if ($request->hasFile('gambar')) {
-            if ($galeri->gambar && Storage::disk('public')->exists($galeri->gambar)) {
-                Storage::disk('public')->delete($galeri->gambar);
-            }
-
-            $data['gambar'] = $request->file('gambar')->store('galeri', 'public');
+            $folder = 'galeri';
+            $this->deleteImageFromPublic($galeri->gambar);
+            $data['gambar'] = $this->storeImageToPublic($request->file('gambar'), $folder);
         }
 
         $galeri->update($data);
@@ -89,9 +90,7 @@ class GaleriController extends Controller
 
     public function destroy(Galeri $galeri)
     {
-        if ($galeri->gambar && Storage::disk('public')->exists($galeri->gambar)) {
-            Storage::disk('public')->delete($galeri->gambar);
-        }
+        $this->deleteImageFromPublic($galeri->gambar);
 
         $galeri->delete();
 

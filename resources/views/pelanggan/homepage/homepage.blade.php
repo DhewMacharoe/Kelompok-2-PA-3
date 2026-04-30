@@ -3,290 +3,294 @@
 @section('title', 'Dashboard - Arga Home\'s')
 
 @push('styles')
-    @include('pelanggan.homepage.style-index')
+@include('pelanggan.homepage.style-index')
 @endpush
 
 
 @section('content')
-    <section class="hero d-flex justify-content-center align-items-center px-3">
-        <div class="card queue-card shadow-lg border-0">
-            <div class="bg-gold text-white p-3 d-flex align-items-center justify-content-center gap-3">
-                <i class="fas fa-users fs-1"></i>
-                <div>
-                    <h5 class="mb-0 fs-6">Status Antrian</h5>
-                    <p class="mb-0 small opacity-75">Total Antrian {{ $jumlahAntrian }}</p>
-                </div>
-            </div>
-
-            <div class="card-body text-center py-4">
-                @if ($antrian)
-                    <div class="text-uppercase small text-muted mb-2 font-weight-bold">Sekarang Melayani</div>
-
-                    <h2 class="mb-2 fw-bold text-dark" id="antrian-nomor" style="letter-spacing: 3px; font-size: 2.5rem;">
-                        {{ $antrian->nomor_antrian }}
-                    </h2>
-
-                    <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill bg-light text-dark fw-semibold mb-3 border"
-                        id="antrian-status">
-                        <span class="dot bg-success rounded-circle me-2" style="width: 10px; height: 10px;"></span>
-                        {{ $antrian->status === 'sedang dilayani' ? 'Dalam Proses' : ucfirst($antrian->status) }}
-                    </div>
-
-                    <p class="mb-0 text-muted fw-bold">{{ $antrian->nama_pelanggan }}</p>
-                @else
-                    <div class="py-3">
-                        <i class="fas fa-user-circle text-muted fs-2 mb-2"></i>
-                        <p class="mb-0 text-muted">Tidak antrian yang sedang dilayani</p>
-                    </div>
-                @endif
-            </div>
-        </div>
-    </section>
-    <div class="container py-5">
-
-        <div class="text-center mb-5">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="Arga Home's Logo" class="img-fluid"
-                style="max-height: 380px;">
-        </div>
-
-        <div class="row text-center mb-5 g-4">
-            <div class="col-6 col-md-3">
-                <a href="{{ route('antrian') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
-                    <div class="icon-circle shadow-sm"><i class="fas fa-id-card"></i></div>
-                    Antrian
-                </a>
-            </div>
-            <div class="col-6 col-md-3">
-                <a href="{{ route('galeri') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
-                    <div class="icon-circle shadow-sm"><i class="fas fa-images"></i></div>
-                    Galeri
-                </a>
-            </div>
-            <div class="col-6 col-md-3">
-                <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
-                    <div class="icon-circle shadow-sm"><i class="fas fa-cut"></i></div>
-                    Layanan
-                </a>
-            </div>
-            <div class="col-6 col-md-3">
-                <a href="{{ route('menu') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
-                    <div class="icon-circle shadow-sm"><i class="fas fa-coffee"></i></div>
-                    Café
-                </a>
+<section class="hero d-flex justify-content-center align-items-center px-3">
+    <div class="card queue-card shadow-lg border-0">
+        <div class="bg-gold text-white p-3 d-flex align-items-center justify-content-center gap-3">
+            <i class="fas fa-users fs-1"></i>
+            <div>
+                <h5 class="mb-0 fs-6">Status Antrian</h5>
+                <p class="mb-0 small opacity-75">Total Antrian {{ $jumlahAntrian }}</p>
             </div>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="border-gold-left ps-2 mb-0 fw-bold">Layanan Yang Ditawarkan</h4>
-            <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none text-gold fw-semibold small">
-                Lihat Semua <i class="fas fa-arrow-right ms-1"></i>
+        <div class="card-body text-center py-4">
+            @if ($antrian)
+            <div class="text-uppercase small text-muted mb-2 font-weight-bold">Sekarang Melayani</div>
+
+            <h2 class="mb-2 fw-bold text-dark" id="antrian-nomor" style="letter-spacing: 3px; font-size: 2.5rem;">
+                {{ $antrian->nomor_antrian }}
+            </h2>
+
+            <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill bg-light text-dark fw-semibold mb-3 border"
+                id="antrian-status">
+                <span class="dot bg-success rounded-circle me-2" style="width: 10px; height: 10px;"></span>
+                {{ $antrian->status === 'sedang dilayani' ? 'Dalam Proses' : ucfirst($antrian->status) }}
+            </div>
+
+            <p class="mb-0 text-muted fw-bold">{{ $antrian->nama_pelanggan }}</p>
+            @else
+            <div class="py-3">
+                <i class="fas fa-user-circle text-muted fs-2 mb-2"></i>
+                <p class="mb-0 text-muted">Tidak antrian yang sedang dilayani</p>
+            </div>
+            @endif
+        </div>
+    </div>
+</section>
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <img src="{{ asset('assets/images/logo.png') }}" alt="Arga Home's Logo" class="img-fluid"
+            style="max-height: 380px;">
+    </div>
+
+    <div class="row text-center mb-5 g-4">
+        <div class="col-6 col-md-3">
+            <a href="{{ route('antrian') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
+                <div class="icon-circle shadow-sm"><i class="fas fa-id-card"></i></div>
+                Antrian
             </a>
         </div>
+        <div class="col-6 col-md-3">
+            <a href="{{ route('galeri') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
+                <div class="icon-circle shadow-sm"><i class="fas fa-images"></i></div>
+                Galeri
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
+                <div class="icon-circle shadow-sm"><i class="fas fa-cut"></i></div>
+                Layanan
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{{ route('menu') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
+                <div class="icon-circle shadow-sm"><i class="fas fa-coffee"></i></div>
+                Café
+            </a>
+        </div>
+    </div>
 
-        @php
-            $count = $layanans->count();
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="border-gold-left ps-2 mb-0 fw-bold">Layanan Yang Ditawarkan</h4>
+        <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none text-gold fw-semibold small">
+            Lihat Semua <i class="fas fa-arrow-right ms-1"></i>
+        </a>
+    </div>
 
-            if ($count <= 4) {
-                $selectedLayanans = $layanans;
-            } else {
-                $first = $layanans->first();
-                $last = $layanans->last();
-                
-                $midIndex = (int) floor($count / 2) - 1;
-                $middle = $layanans->slice($midIndex, 2);
+    @php
+    $count = $layanans->count();
 
-                $selectedLayanans = collect([$first])
-                    ->merge($middle)
-                    ->push($last);
-            }
+    if ($count <= 4) {
+        $selectedLayanans=$layanans;
+        } else {
+        $first=$layanans->first();
+        $last = $layanans->last();
+
+        $midIndex = (int) floor($count / 2) - 1;
+        $middle = $layanans->slice($midIndex, 2);
+
+        $selectedLayanans = collect([$first])
+        ->merge($middle)
+        ->push($last);
+        }
         @endphp
 
         <div class="row g-3 mb-5">
             @foreach ($selectedLayanans as $layanan)
-                <div class="col-12 col-md-6">
-                    <a href="{{ route('pelanggan.layanan', ['id' => $layanan->id]) }}"
-                        class="text-decoration-none d-block h-100">
-                        <div
-                            class="bg-white p-3 rounded shadow-sm border transition-hover h-100 d-flex justify-content-between align-items-center">
+            <div class="col-12 col-md-6">
+                <a href="{{ route('pelanggan.layanan', ['id' => $layanan->id]) }}"
+                    class="text-decoration-none d-block h-100">
+                    <div
+                        class="bg-white p-3 rounded shadow-sm border transition-hover h-100 d-flex justify-content-between align-items-center">
 
-                            <div class="d-flex align-items-center gap-3 overflow-hidden">
-                                <div class="bg-light rounded-circle d-flex flex-shrink-0 align-items-center justify-content-center"
-                                    style="width: 45px; height: 45px;">
-                                    <i class="fas fa-cut text-gold fs-5"></i>
-                                </div>
-                                <div class="text-start text-truncate">
-                                    <h6 class="mb-1 fw-bold text-dark text-truncate">{{ $layanan->nama }}</h6>
-                                    <div class="text-muted small d-flex align-items-center gap-2 text-truncate">
-                                        <span><i class="far fa-clock text-gold"></i> {{ $layanan->estimasi_waktu ?? '-' }}
-                                            mnt</span>
-                                        @if ($layanan->deskripsi)
-                                            <span>•</span>
-                                            <span class="text-truncate opacity-75">{{ $layanan->deskripsi }}</span>
-                                        @endif
-                                    </div>
+                        <div class="d-flex align-items-center gap-3 overflow-hidden">
+                            <div class="bg-light rounded-circle d-flex flex-shrink-0 align-items-center justify-content-center"
+                                style="width: 45px; height: 45px;">
+                                <i class="fas fa-cut text-gold fs-5"></i>
+                            </div>
+                            <div class="text-start text-truncate">
+                                <h6 class="mb-1 fw-bold text-dark text-truncate">{{ $layanan->nama }}</h6>
+                                <div class="text-muted small d-flex align-items-center gap-2 text-truncate">
+                                    <span><i class="far fa-clock text-gold"></i> {{ $layanan->estimasi_waktu ?? '-' }}
+                                        mnt</span>
+                                    @if ($layanan->deskripsi)
+                                    <span>•</span>
+                                    <span class="text-truncate opacity-75">{{ $layanan->deskripsi }}</span>
+                                    @endif
                                 </div>
                             </div>
-
-                            <div class="text-end ms-3 flex-shrink-0">
-                                <div class="fw-bold text-dark" style="font-size: 1.1rem;">
-                                    Rp{{ number_format($layanan->harga, 0, ',', '.') }}
-                                </div>
-                                <div class="text-gold small fw-semibold mt-1">
-                                    Lihat <i class="fas fa-chevron-right ms-1" style="font-size: 0.7rem;"></i>
-                                </div>
-                            </div>
-
                         </div>
-                    </a>
-                </div>
+
+                        <div class="text-end ms-3 flex-shrink-0">
+                            <div class="fw-bold text-dark" style="font-size: 1.1rem;">
+                                Rp{{ number_format($layanan->harga, 0, ',', '.') }}
+                            </div>
+                            <div class="text-gold small fw-semibold mt-1">
+                                Lihat <i class="fas fa-chevron-right ms-1" style="font-size: 0.7rem;"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </a>
+            </div>
             @endforeach
         </div>
-
-        <h4 class="border-gold-left ps-2 mb-4 mt-5 fw-bold">Menu Café</h4>
+<div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="border-gold-left ps-2 mb-0 fw-bold">Menu Café</h4>
+        <a href="{{ route('menu') }}" class="text-decoration-none text-gold fw-semibold small">
+            Lihat Semua <i class="fas fa-arrow-right ms-1"></i>
+        </a>
+    </div>
 
         <div class="row g-3">
             @forelse ($menus as $menu)
-                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                    @php
-                        $fotoMenu = null;
-                        if (!empty($menu->foto)) {
-                            $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
-                                ? $menu->foto
-                                : asset('images/' . $menu->foto);
-                        }
-                    @endphp
-                    <div role="button" tabindex="0" class="detail-card-button" data-bs-toggle="modal"
-                        data-bs-target="#detailModal" data-type="menu" data-title="{{ $menu->nama }}"
-                        data-image="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
-                        data-price="Rp{{ number_format($menu->harga, 0, ',', '.') }}"
-                        data-description="{{ e($menu->deskripsi ?? 'Tidak ada deskripsi.') }}"
-                        data-category="{{ $menu->kategori ?? '-' }}"
-                        data-availability="{{ $menu->is_available ? 'Tersedia' : 'Habis' }}" data-extra="Menu Cafe"
-                        data-show-meta="0">
-                        <div class="card haircut-card shadow-sm border-0 h-100">
-                            <img src="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
-                                class="card-img-top haircut-img" alt="{{ $menu->nama }}">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="card-title text-muted mb-1" style="font-size: 0.9rem;">{{ $menu->nama }}</h6>
-                                <p class="card-text fw-bold text-dark mb-0">
-                                    Rp{{ number_format($menu->harga, 0, ',', '.') }}</p>
-                                <div class="detail-card-meta">
-                                    <span class="detail-card-badge"><i class="fas fa-mug-hot"></i> Detail</span>
-                                    <span>{{ $menu->kategori ?? 'Coffee' }}</span>
-                                </div>
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                @php
+                $fotoMenu = null;
+                if (!empty($menu->foto)) {
+                $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
+                ? $menu->foto
+                : asset('images/' . $menu->foto);
+                }
+                @endphp
+                <div role="button" tabindex="0" class="detail-card-button" data-bs-toggle="modal"
+                    data-bs-target="#detailModal" data-type="menu" data-title="{{ $menu->nama }}"
+                    data-image="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
+                    data-price="Rp{{ number_format($menu->harga, 0, ',', '.') }}"
+                    data-description="{{ e($menu->deskripsi ?? 'Tidak ada deskripsi.') }}"
+                    data-category="{{ $menu->kategori ?? '-' }}"
+                    data-availability="{{ $menu->is_available ? 'Tersedia' : 'Habis' }}" data-extra="Menu Cafe"
+                    data-show-meta="0">
+                    <div class="card haircut-card shadow-sm border-0 h-100">
+                        <img src="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
+                            class="card-img-top haircut-img" alt="{{ $menu->nama }}">
+                        <div class="card-body p-2 text-center">
+                            <h6 class="card-title text-muted mb-1" style="font-size: 0.9rem;">{{ $menu->nama }}</h6>
+                            <p class="card-text fw-bold text-dark mb-0">
+                                Rp{{ number_format($menu->harga, 0, ',', '.') }}</p>
+                            <div class="detail-card-meta">
+                                <span class="detail-card-badge"><i class="fas fa-mug-hot"></i> Detail</span>
+                                <span>{{ $menu->kategori ?? 'Coffee' }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             @empty
-                <div class="col-12">
-                    <div class="alert alert-light border text-center mb-0">
-                        Menu cafe belum tersedia saat ini.
-                    </div>
+            <div class="col-12">
+                <div class="alert alert-light border text-center mb-0">
+                    Menu cafe belum tersedia saat ini.
                 </div>
+            </div>
             @endforelse
         </div>
-    </div>
+</div>
 @endsection
 @push('scripts')
-    <script type="module">
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.detail-card-button').forEach((element) => {
-                element.addEventListener('keydown', function(event) {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
-                        this.click();
-                    }
-                });
+<script type="module">
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.detail-card-button').forEach((element) => {
+            element.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    this.click();
+                }
             });
+        });
 
-            const detailModal = document.getElementById('detailModal');
-            if (detailModal) {
-                detailModal.addEventListener('show.bs.modal', function(event) {
-                    const button = event.relatedTarget;
-                    if (!button) {
-                        return;
-                    }
+        const detailModal = document.getElementById('detailModal');
+        if (detailModal) {
+            detailModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                if (!button) {
+                    return;
+                }
 
-                    const type = button.dataset.type || '-';
-                    const title = button.dataset.title || '-';
-                    const image = button.dataset.image || '';
-                    const price = button.dataset.price || '-';
-                    const description = button.dataset.description || '-';
-                    const extra = button.dataset.extra || '-';
-                    const estimation = button.dataset.estimation || '-';
-                    const category = button.dataset.category || '-';
-                    const availability = button.dataset.availability || '-';
-                    const showMeta = button.dataset.showMeta === '1';
-                    const metaRow = document.getElementById('detailModalMetaRow');
-                    const metaLabel = metaRow ? metaRow.querySelector('span') : null;
+                const type = button.dataset.type || '-';
+                const title = button.dataset.title || '-';
+                const image = button.dataset.image || '';
+                const price = button.dataset.price || '-';
+                const description = button.dataset.description || '-';
+                const extra = button.dataset.extra || '-';
+                const estimation = button.dataset.estimation || '-';
+                const category = button.dataset.category || '-';
+                const availability = button.dataset.availability || '-';
+                const showMeta = button.dataset.showMeta === '1';
+                const metaRow = document.getElementById('detailModalMetaRow');
+                const metaLabel = metaRow ? metaRow.querySelector('span') : null;
 
-                    document.getElementById('detailModalTitle').textContent = title;
-                    document.getElementById('detailModalImage').src = image;
-                    document.getElementById('detailModalPrice').textContent = price;
-                    document.getElementById('detailModalDescription').textContent = description;
-                    document.getElementById('detailModalExtra').textContent = extra;
-                    document.getElementById('detailModalType').textContent = type === 'layanan' ?
-                        'Layanan Barber' : 'Menu Cafe';
-                    document.getElementById('detailModalMeta').textContent = type === 'layanan' ?
-                        estimation : category;
-                    document.getElementById('detailModalStatus').textContent = type === 'layanan' ?
-                        'Tersedia' : availability;
+                document.getElementById('detailModalTitle').textContent = title;
+                document.getElementById('detailModalImage').src = image;
+                document.getElementById('detailModalPrice').textContent = price;
+                document.getElementById('detailModalDescription').textContent = description;
+                document.getElementById('detailModalExtra').textContent = extra;
+                document.getElementById('detailModalType').textContent = type === 'layanan' ?
+                    'Layanan Barber' : 'Menu Cafe';
+                document.getElementById('detailModalMeta').textContent = type === 'layanan' ?
+                    estimation : category;
+                document.getElementById('detailModalStatus').textContent = type === 'layanan' ?
+                    'Tersedia' : availability;
 
-                    if (metaRow) {
-                        if (showMeta) {
-                            metaRow.classList.remove('d-none');
-                            metaRow.style.display = 'flex';
-                            if (metaLabel) {
-                                metaLabel.textContent = 'Estimasi';
-                            }
-                        } else {
-                            metaRow.classList.add('d-none');
-                            metaRow.style.display = 'none';
-                        }
-                    }
-                });
-
-                detailModal.addEventListener('hidden.bs.modal', function() {
-                    const metaRow = document.getElementById('detailModalMetaRow');
-                    const metaLabel = metaRow ? metaRow.querySelector('span') : null;
-
-                    if (metaRow) {
+                if (metaRow) {
+                    if (showMeta) {
                         metaRow.classList.remove('d-none');
                         metaRow.style.display = 'flex';
+                        if (metaLabel) {
+                            metaLabel.textContent = 'Estimasi';
+                        }
+                    } else {
+                        metaRow.classList.add('d-none');
+                        metaRow.style.display = 'none';
+                    }
+                }
+            });
+
+            detailModal.addEventListener('hidden.bs.modal', function() {
+                const metaRow = document.getElementById('detailModalMetaRow');
+                const metaLabel = metaRow ? metaRow.querySelector('span') : null;
+
+                if (metaRow) {
+                    metaRow.classList.remove('d-none');
+                    metaRow.style.display = 'flex';
+                }
+
+                if (metaLabel) {
+                    metaLabel.textContent = 'Kategori / Estimasi';
+                }
+            });
+        }
+
+        if (window.Echo) {
+            window.Echo.channel('Antrian-channel')
+                .listen('AntreanUpadate', (e) => {
+                    const antrian = e.antrean;
+
+                    // Update cepat untuk elemen utama, lalu sinkronkan penuh melalui reload.
+                    const nomorEl = document.getElementById('antrian-nomor');
+                    if (nomorEl && antrian?.nomor_antrian) {
+                        nomorEl.textContent = antrian.nomor_antrian;
                     }
 
-                    if (metaLabel) {
-                        metaLabel.textContent = 'Kategori / Estimasi';
+                    const statusEl = document.getElementById('antrian-status');
+                    if (statusEl && antrian?.status) {
+                        statusEl.textContent = antrian.status.toUpperCase();
                     }
+
+                    window.location.reload();
                 });
-            }
 
-            if (window.Echo) {
-                window.Echo.channel('Antrian-channel')
-                    .listen('AntreanUpadate', (e) => {
-                        const antrian = e.antrean;
-
-                        // Update cepat untuk elemen utama, lalu sinkronkan penuh melalui reload.
-                        const nomorEl = document.getElementById('antrian-nomor');
-                        if (nomorEl && antrian?.nomor_antrian) {
-                            nomorEl.textContent = antrian.nomor_antrian;
-                        }
-
-                        const statusEl = document.getElementById('antrian-status');
-                        if (statusEl && antrian?.status) {
-                            statusEl.textContent = antrian.status.toUpperCase();
-                        }
-
-                        window.location.reload();
-                    });
-
-                // Saat daftar menunggu berubah (tambah/batal/dipanggil), sinkronkan seluruh dashboard.
-                window.Echo.channel('AntrianList-channel')
-                    .listen('AntreanListUpdate', () => {
-                        window.location.reload();
-                    });
-            }
-        });
-    </script>
+            // Saat daftar menunggu berubah (tambah/batal/dipanggil), sinkronkan seluruh dashboard.
+            window.Echo.channel('AntrianList-channel')
+                .listen('AntreanListUpdate', () => {
+                    window.location.reload();
+                });
+        }
+    });
+</script>
 @endpush
