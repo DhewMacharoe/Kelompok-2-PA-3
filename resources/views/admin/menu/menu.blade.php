@@ -527,7 +527,8 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const filterButtons = document.querySelectorAll('.filter-btn');
+        const menuStatusFilter = document.getElementById('menuStatusFilter');
+        const menuSearchInput = document.getElementById('menuSearch');
         const menuRows = document.querySelectorAll('.menu-row');
         const hargaMasks = document.querySelectorAll('.harga-mask');
         const confirmButtons = document.querySelectorAll('.btn-open-confirm');
@@ -536,42 +537,34 @@
         const confirmModalElement = document.getElementById('modalKonfirmasiAksi');
         const confirmModal = confirmModalElement ? new bootstrap.Modal(confirmModalElement) : null;
         let activeConfirmForm = null;
-
-        const statusButtons = document.querySelectorAll('[data-filter-type="status"]');
-        const categoryButtons = document.querySelectorAll('[data-filter-type="category"]');
         let selectedStatus = 'all';
-        let selectedCategory = 'all';
+        let searchQuery = '';
 
         function updateMenuVisibility() {
+            const query = searchQuery.trim().toLowerCase();
             menuRows.forEach((row) => {
                 const rowStatus = row.dataset.status;
-                const rowCategory = row.dataset.category;
                 const statusMatch = selectedStatus === 'all' || selectedStatus === rowStatus;
-                const categoryMatch = selectedCategory === 'all' || selectedCategory === rowCategory;
-                row.style.display = statusMatch && categoryMatch ? '' : 'none';
+                const rowName = row.querySelector('.menu-title')?.textContent.toLowerCase() || '';
+                const rowDesc = row.querySelector('.menu-desc')?.textContent.toLowerCase() || '';
+                const searchMatch = !query || rowName.includes(query) || rowDesc.includes(query);
+                row.style.display = statusMatch && searchMatch ? '' : 'none';
             });
         }
 
-        function setActiveButton(buttons, clickedButton) {
-            buttons.forEach((btn) => btn.classList.remove('active'));
-            clickedButton.classList.add('active');
+        if (menuStatusFilter) {
+            menuStatusFilter.addEventListener('change', function() {
+                selectedStatus = this.value;
+                updateMenuVisibility();
+            });
         }
 
-        statusButtons.forEach((button) => {
-            button.addEventListener('click', function() {
-                selectedStatus = this.dataset.filter;
-                setActiveButton(statusButtons, this);
+        if (menuSearchInput) {
+            menuSearchInput.addEventListener('input', function() {
+                searchQuery = this.value;
                 updateMenuVisibility();
             });
-        });
-
-        categoryButtons.forEach((button) => {
-            button.addEventListener('click', function() {
-                selectedCategory = this.dataset.filter;
-                setActiveButton(categoryButtons, this);
-                updateMenuVisibility();
-            });
-        });
+        }
 
         function formatRupiah(angka) {
             const numberString = angka.replace(/[^\d]/g, '');
