@@ -22,6 +22,8 @@
         flex-wrap: wrap;
         gap: 12px;
         align-items: center;
+         margin-bottom: 24px;
+
     }
 
     .filter-group {
@@ -29,29 +31,32 @@
         flex-wrap: wrap;
         gap: 10px;
         align-items: center;
+
     }
 
     .filter-group-label {
         font-size: 12px;
         color: #6c757d;
-        text-transform: uppercase;
+        /* text-transform: uppercase; */ 
         letter-spacing: 0.08em;
         font-weight: 700;
     }
 
     .filter-btn {
-        padding: 8px 16px;
-        border-radius: 999px;
-        border: 1px solid #d6d9dd;
-        background: white;
-        font-size: 12px;
-        font-weight: bold;
-        color: #6c757d;
-        text-transform: uppercase;
+        border: 1px solid #dfe3e8;
+        background: #fff;
+        color: #2C3E50;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+
+        /* text-transform: uppercase; */
     }
 
     .filter-btn.active {
-        background-color: #337ab7;
+        background-color: #2F80ED;
         color: white;
         border-color: #337ab7;
     }
@@ -197,9 +202,9 @@
 
 <div class="main-container">
     <div class="filter-bar">
-        <button type="button" class="filter-btn active" data-filter="all">SEMUA</button>
-        <button type="button" class="filter-btn" data-filter="active">AKTIF</button>
-        <button type="button" class="filter-btn" data-filter="inactive">NONAKTIF</button>
+        <button type="button" class="filter-btn active" data-filter="all">Semua</button>
+        <button type="button" class="filter-btn" data-filter="active">Aktif</button>
+        <button type="button" class="filter-btn" data-filter="inactive">Nonaktif</button>
     </div>
 
     <div class="table-container">

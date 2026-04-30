@@ -98,14 +98,14 @@
         align-items: center;
         justify-content: center;
         padding: 8px 14px;
-        border-radius: 999px;
-        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        border: 1px solid #dfe3e8;
         background: #fff;
-        color: var(--rekap-muted);
+        color: var(--rekap-text);
         font-size: 0.82rem;
-        font-weight: 700;
+        font-weight: 600;
         text-decoration: none;
-        transition: all 0.18s ease;
+        transition: all 0.2s ease;
     }
 
     .pill:hover {
