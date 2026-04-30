@@ -3,7 +3,7 @@
 @section('title', 'Antrean')
 
 @push('styles')
-    @include('pelanggan.antrian.style-index')
+    @include('pelanggan.antrean.style-index')
 @endpush
 
 @section('content')
@@ -84,7 +84,7 @@
                         @endauth
 
                         <div class="queue-section">
-                            <div class="section-title">URUTAN ANTRIAN</div>
+                            <div class="section-title">URUTAN antrean</div>
 
 
                             <div class="queue-list-container">
@@ -190,5 +190,6 @@
 @endsection
 
 @push('scripts')
-    @include('pelanggan.antrian.script-index')
+    @include('pelanggan.antrean.script-index')
 @endpush
+

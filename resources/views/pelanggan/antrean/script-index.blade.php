@@ -187,10 +187,10 @@
             }
 
             updateMyQueueCard(antrean);
-            const nomorAntrian = antrean.nomor_antrean || antrean.nomor_antrian || '-';
+            const nomorantrean = antrean.nomor_antrean || antrean.nomor_antrean || '-';
             const namaPelanggan = antrean.nama_pelanggan || '-';
             const status = antrean.status || '-';
-            const text = `Nomor antrian ${nomorAntrian}, atas nama ${namaPelanggan}, status ${status}`;
+            const text = `Nomor antrean ${nomorantrean}, atas nama ${namaPelanggan}, status ${status}`;
 
             if ('speechSynthesis' in window) {
                 const speech = new SpeechSynthesisUtterance(text);
@@ -208,3 +208,4 @@
 
     });
 </script>
+

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Pelanggan\AntrianController;
+use App\Http\Controllers\Pelanggan\AntreanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
@@ -26,12 +26,12 @@ require __DIR__ . '/admin_route.php';
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 
 Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
-Route::get('/antrean', [AntrianController::class, 'index'])->name('antrean');
+Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
 Route::get('/rekomendasi', [PublicController::class, 'rekomendasi'])->name('rekomendasi');
 Route::get('/galeri', [PelangganGaleriController::class, 'index'])->name('galeri');
 Route::get('/menu', [PublicController::class, 'menu'])->name('menu');
-Route::post('/antrean', [AntrianController::class, 'store'])->name('antrean.store');
-Route::patch('/antrean/saya/batal', [AntrianController::class, 'cancelMyQueue'])
+Route::post('/antrean', [AntreanController::class, 'store'])->name('antrean.store');
+Route::patch('/antrean/saya/batal', [AntreanController::class, 'cancelMyQueue'])
     ->name('antrean.cancel')
     ->middleware('auth');
 
@@ -74,3 +74,4 @@ Route::get('/images/{path}', function (string $path) {
 
     return response()->file($filePath);
 })->where('path', '.*')->name('images.serve');
+

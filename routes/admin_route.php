@@ -17,7 +17,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    // --- RUTE AKSI ANTRIAN ---
+    // --- RUTE AKSI antrean ---
     // Route::post('/antrean/{id}/panggil', [AdminController::class, 'panggil'])->name('antrean.panggil');
     // Route::post('/antrean/{id}/selesai', [AdminController::class, 'selesai'])->name('antrean.selesai');
     // Route::post('/antrean/{id}/batal', [AdminController::class, 'batal'])->name('antrean.batal');
@@ -83,3 +83,4 @@ Route::prefix('test')->group(function () {
 Route::get('/dashboard', function () {
     return redirect('/admin/dashboard');
 });
+
