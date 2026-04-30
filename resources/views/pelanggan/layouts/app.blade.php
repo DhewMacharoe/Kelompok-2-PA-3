@@ -123,24 +123,6 @@
             text-align: center;
             font-size: 0.9rem;
         }
-=======
-        body {
-                /* Sesuaikan angka ini dengan tinggi navbar Anda (biasanya sekitar 70px - 80px) */
-                padding-top: 80px;
-            }
-
-            /* Jika di mobile navbar lebih tinggi, sesuaikan di media query */
-        @media (max-width: 991.98px) {
-                body {
-                    padding-top: 70px;
-                }
-            }
-
-        .navbar-custom { background-color: #1a1a1a; padding: 15px 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        .navbar-custom .logo { color: #d4af37; font-weight: bold; font-size: 1.3rem; text-decoration: none; }
-        .navbar-custom .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
-        .navbar-custom .nav-links a:hover { color: #d4af37; }
-
     </style>
 </head>
 
@@ -233,12 +215,8 @@
                     submitButtons.forEach(function(button) {
                         if (!button.closest('.navbar') && !button.closest('nav')) {
                             const originalText = button.textContent.trim();
-<<<<<<< Updated upstream
                             const loadingText = button.dataset.loadingText ||
                                 'Memproses...';
-=======
-                            const loadingText = button.dataset.loadingText || 'Memproses...';
->>>>>>> Stashed changes
 
                             button.disabled = true;
                             button.textContent = loadingText;

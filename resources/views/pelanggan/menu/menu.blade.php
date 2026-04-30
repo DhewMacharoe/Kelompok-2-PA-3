@@ -17,11 +17,6 @@
     </section>
 
     <section class="menu-content">
-        <div class="menu-section-header">
-            <h2>OUR MENU</h2>
-            <div class="menu-line"></div>
-        </div>
-
         <!-- Filter dan Search -->
         <div class="menu-filter-section">
             <input type="text" id="searchMenu" class="menu-search" placeholder="Cari menu...">
@@ -68,10 +63,6 @@
             @endforeach
         </div>
 
-        <div class="menu-note">
-            <div class="menu-note-icon">☕</div>
-            <p>Nikmati pilihan kopi ini sambil potong rambut atau menunggu giliran.</p>
-        </div>
     </section>
 
     <div class="modal-overlay" id="menuDetailModal">
@@ -83,7 +74,7 @@
             <div class="modal-content">
                 <h3 id="modalMenuName"></h3>
                 <p class="modal-category" id="modalMenuCategory"></p>
-                <p class="modal-status" id="modalMenuStatus"></p>
+                <p class="d-none" class="modal-status" id="modalMenuStatus"></p>
                 <p class="modal-description" id="modalMenuDescription"></p>
                 <div class="modal-footer">
                     <span class="modal-price" id="modalMenuPrice"></span>
@@ -119,6 +110,16 @@
                 });
             });
         });
+
+        // Check URL for category filter
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterParam = urlParams.get('kategori');
+        if (filterParam) {
+            const activeBtn = document.querySelector(`.filter-btn[data-filter="${filterParam}"]`);
+            if (activeBtn) {
+                activeBtn.click();
+            }
+        }
 
         // Search functionality
         searchInput.addEventListener('keyup', function() {

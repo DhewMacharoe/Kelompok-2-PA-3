@@ -78,7 +78,7 @@
                 </div>
             @endif
             <div class="mb-3">
-                <input type="email" name="email" class="form-control" id="username" placeholder="Username" required>
+                <input type="email" name="email" class="form-control" id="username" placeholder="Email" required>
             </div>
             <div class="mb-3">
                 <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>

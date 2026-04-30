@@ -268,12 +268,15 @@
     height: 260px;
     overflow: hidden;
     background: #f5f2ed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-image-wrapper img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .modal-content {
@@ -417,7 +420,30 @@
     }
 
     .category-items {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .menu-item-image {
+        height: 100px;
+    }
+
+    .menu-item-info {
+        padding: 8px;
+    }
+
+    .menu-item-info h4 {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+
+    .item-desc {
+        font-size: 10px;
+        margin-bottom: 8px;
+    }
+
+    .item-price {
+        font-size: 12px;
     }
 
     .menu-filter-section {

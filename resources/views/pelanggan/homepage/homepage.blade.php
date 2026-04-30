@@ -29,7 +29,7 @@
             <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill bg-light text-dark fw-semibold mb-3 border"
                 id="antrian-status">
                 <span class="dot bg-success rounded-circle me-2" style="width: 10px; height: 10px;"></span>
-                {{ $antrian->status === 'sedang dilayani' ? 'Dalam Proses' : ucfirst($antrian->status) }}
+                {{ $antrian->status === 'sedang dilayani' ? 'Sedang Dilayani' : ucfirst($antrian->status) }}
             </div>
 
             <p class="mb-0 text-muted fw-bold">{{ $antrian->nama_pelanggan }}</p>
@@ -141,55 +141,108 @@
             </div>
             @endforeach
         </div>
-<div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="border-gold-left ps-2 mb-0 fw-bold">Menu Café</h4>
-        <a href="{{ route('menu') }}" class="text-decoration-none text-gold fw-semibold small">
-            Lihat Semua <i class="fas fa-arrow-right ms-1"></i>
+    @php
+        $makanan = collect($menus)->where('kategori', 'Makanan')->take(6);
+        $minuman = collect($menus)->where('kategori', 'Minuman')->take(6);
+    @endphp
+
+    @if($makanan->isNotEmpty())
+    <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
+        <h4 class="border-gold-left ps-2 mb-0 fw-bold">Menu Makanan</h4>
+        <a href="{{ route('menu', ['kategori' => 'Makanan']) }}" class="text-decoration-none text-gold fw-semibold small">
+            Lihat Selengkapnya <i class="fas fa-arrow-right ms-1"></i>
         </a>
     </div>
 
-        <div class="row g-3">
-            @forelse ($menus as $menu)
-            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                @php
-                $fotoMenu = null;
-                if (!empty($menu->foto)) {
-                $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
-                ? $menu->foto
-                : asset('images/' . $menu->foto);
-                }
-                @endphp
-                <div role="button" tabindex="0" class="detail-card-button" data-bs-toggle="modal"
-                    data-bs-target="#detailModal" data-type="menu" data-title="{{ $menu->nama }}"
-                    data-image="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
-                    data-price="Rp{{ number_format($menu->harga, 0, ',', '.') }}"
-                    data-description="{{ e($menu->deskripsi ?? 'Tidak ada deskripsi.') }}"
-                    data-category="{{ $menu->kategori ?? '-' }}"
-                    data-availability="{{ $menu->is_available ? 'Tersedia' : 'Habis' }}" data-extra="Menu Cafe"
-                    data-show-meta="0">
-                    <div class="card haircut-card shadow-sm border-0 h-100">
-                        <img src="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
-                            class="card-img-top haircut-img" alt="{{ $menu->nama }}">
-                        <div class="card-body p-2 text-center">
-                            <h6 class="card-title text-muted mb-1" style="font-size: 0.9rem;">{{ $menu->nama }}</h6>
-                            <p class="card-text fw-bold text-dark mb-0">
-                                Rp{{ number_format($menu->harga, 0, ',', '.') }}</p>
-                            <div class="detail-card-meta">
-                                <span class="detail-card-badge"><i class="fas fa-mug-hot"></i> Detail</span>
-                                <span>{{ $menu->kategori ?? 'Coffee' }}</span>
-                            </div>
+    <div class="row g-3">
+        @foreach ($makanan as $menu)
+        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+            @php
+            $fotoMenu = null;
+            if (!empty($menu->foto)) {
+            $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
+            ? $menu->foto
+            : asset('images/' . $menu->foto);
+            }
+            @endphp
+            <div role="button" tabindex="0" class="detail-card-button" data-bs-toggle="modal"
+                data-bs-target="#detailModal" data-type="menu" data-title="{{ $menu->nama }}"
+                data-image="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
+                data-price="Rp{{ number_format($menu->harga, 0, ',', '.') }}"
+                data-description="{{ e($menu->deskripsi ?? 'Tidak ada deskripsi.') }}"
+                data-category="{{ $menu->kategori ?? '-' }}"
+                data-availability="{{ $menu->is_available ? 'Tersedia' : 'Habis' }}" data-extra="Menu Cafe"
+                data-show-meta="0">
+                <div class="card haircut-card shadow-sm border-0 h-100">
+                    <img src="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
+                        class="card-img-top haircut-img" alt="{{ $menu->nama }}">
+                    <div class="card-body p-2 text-center">
+                        <h6 class="card-title text-muted mb-1" style="font-size: 0.9rem;">{{ $menu->nama }}</h6>
+                        <p class="card-text fw-bold text-dark mb-0">
+                            Rp{{ number_format($menu->harga, 0, ',', '.') }}</p>
+                        <div class="detail-card-meta">
+                            <span class="detail-card-badge"><i class="fas fa-utensils"></i> Makanan</span>
                         </div>
                     </div>
                 </div>
             </div>
-            @empty
-            <div class="col-12">
-                <div class="alert alert-light border text-center mb-0">
-                    Menu cafe belum tersedia saat ini.
+        </div>
+        @endforeach
+    </div>
+    @endif
+
+    @if($minuman->isNotEmpty())
+    <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
+        <h4 class="border-gold-left ps-2 mb-0 fw-bold">Menu Minuman</h4>
+        <a href="{{ route('menu', ['kategori' => 'Minuman']) }}" class="text-decoration-none text-gold fw-semibold small">
+            Lihat Selengkapnya <i class="fas fa-arrow-right ms-1"></i>
+        </a>
+    </div>
+
+    <div class="row g-3">
+        @foreach ($minuman as $menu)
+        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+            @php
+            $fotoMenu = null;
+            if (!empty($menu->foto)) {
+            $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
+            ? $menu->foto
+            : asset('images/' . $menu->foto);
+            }
+            @endphp
+            <div role="button" tabindex="0" class="detail-card-button" data-bs-toggle="modal"
+                data-bs-target="#detailModal" data-type="menu" data-title="{{ $menu->nama }}"
+                data-image="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
+                data-price="Rp{{ number_format($menu->harga, 0, ',', '.') }}"
+                data-description="{{ e($menu->deskripsi ?? 'Tidak ada deskripsi.') }}"
+                data-category="{{ $menu->kategori ?? '-' }}"
+                data-availability="{{ $menu->is_available ? 'Tersedia' : 'Habis' }}" data-extra="Menu Cafe"
+                data-show-meta="0">
+                <div class="card haircut-card shadow-sm border-0 h-100">
+                    <img src="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
+                        class="card-img-top haircut-img" alt="{{ $menu->nama }}">
+                    <div class="card-body p-2 text-center">
+                        <h6 class="card-title text-muted mb-1" style="font-size: 0.9rem;">{{ $menu->nama }}</h6>
+                        <p class="card-text fw-bold text-dark mb-0">
+                            Rp{{ number_format($menu->harga, 0, ',', '.') }}</p>
+                        <div class="detail-card-meta">
+                            <span class="detail-card-badge"><i class="fas fa-mug-hot"></i> Minuman</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            @endforelse
         </div>
+        @endforeach
+    </div>
+    @endif
+
+    @if($makanan->isEmpty() && $minuman->isEmpty())
+    <div class="col-12">
+        <div class="alert alert-light border text-center mb-0 mt-4">
+            Menu cafe belum tersedia saat ini.
+        </div>
+    </div>
+    @endif
 </div>
 @endsection
 @push('scripts')
