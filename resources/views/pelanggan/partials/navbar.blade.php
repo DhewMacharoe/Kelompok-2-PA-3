@@ -51,7 +51,7 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg pelanggan-navbar"
+<nav class="navbar navbar-expand-lg pelanggan-navbar fixed-top"
     style="background-color: #1a1a1a; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
     <div class="container">
         <div class="d-flex align-items-center justify-content-between w-100 py-2">

@@ -13,6 +13,7 @@
         padding: 20px;
         background-color: #f4f4f4;
         min-height: 100vh;
+        font-family: 'Inter', sans-serif;
     }
 
     /* Filter Bar */
@@ -21,6 +22,8 @@
         flex-wrap: wrap;
         gap: 12px;
         align-items: center;
+         margin-bottom: 24px;
+
     }
 
     .filter-group {
@@ -28,32 +31,34 @@
         flex-wrap: wrap;
         gap: 10px;
         align-items: center;
+
     }
 
     .filter-group-label {
         font-size: 12px;
         color: #6c757d;
-        text-transform: uppercase;
+        /* text-transform: uppercase; */ 
         letter-spacing: 0.08em;
         font-weight: 700;
     }
 
     .filter-btn {
-        padding: 8px 16px;
-        border-radius: 999px;
-        border: 1px solid #d6d9dd;
-        background: white;
-        font-size: 12px;
-        font-weight: 700;
-        color: #444;
-        text-transform: uppercase;
+        border: 1px solid #dfe3e8;
+        background: #fff;
+        color: #2C3E50;
+        padding: 10px 16px;
+        border-radius: 8px;
         cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+
+        /* text-transform: uppercase; */
     }
 
     .filter-btn.active {
-        background-color: #203857;
+        background-color: #2F80ED;
         color: white;
-        border-color: #203857;
+        border-color: #337ab7;
     }
 
     /* Grid Menu */
@@ -104,12 +109,15 @@
         border-bottom: 2px solid #152538;
     }
 
-    .menu-table tbody tr:hover {
-        background: #f8fafc;
-    }
-
-    .cell-menu {
-        min-width: 240px;
+    /* Badge Aktif */
+    .badge-aktif {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: bold;
+        border: 1px solid #c8e6c9;
     }
 
     .menu-row-item {
@@ -193,32 +201,10 @@
 
 
 <div class="main-container">
-    @php
-        $categories = $menus->pluck('kategori')->unique();
-    @endphp
-
-    <div class="top-bar">
-        <div class="top-actions">
-            <button class="btn-tambahkan" data-bs-toggle="modal" data-bs-target="#modalCreate">
-                TAMBAHKAN +
-            </button>
-        </div>
-
-        <div class="filter-bar">
-            <div class="filter-group">
-                <span class="filter-group-label">Status</span>
-                <button type="button" class="filter-btn active" data-filter="all" data-filter-type="status">SEMUA</button>
-                <button type="button" class="filter-btn" data-filter="active" data-filter-type="status">AKTIF</button>
-                <button type="button" class="filter-btn" data-filter="inactive" data-filter-type="status">NONAKTIF</button>
-            </div>
-            <div class="filter-group">
-                <span class="filter-group-label">Kategori</span>
-                <button type="button" class="filter-btn active" data-filter="all" data-filter-type="category">SEMUA</button>
-                @foreach($categories as $category)
-                    <button type="button" class="filter-btn" data-filter="{{ $category }}" data-filter-type="category">{{ strtoupper($category) }}</button>
-                @endforeach
-            </div>
-        </div>
+    <div class="filter-bar">
+        <button type="button" class="filter-btn active" data-filter="all">Semua</button>
+        <button type="button" class="filter-btn" data-filter="active">Aktif</button>
+        <button type="button" class="filter-btn" data-filter="inactive">Nonaktif</button>
     </div>
 
     <div class="table-container">

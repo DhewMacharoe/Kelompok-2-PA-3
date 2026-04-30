@@ -62,28 +62,28 @@
 
         <div class="stat-grid">
             <div class="stat-box primary-big">
-                <div class="stat-icon">💵</div>
+
                 <div class="stat-label">Total Pemasukan</div>
                 <div class="stat-value">{{ $formatter($totalPemasukan) }}</div>
                 <div class="stat-sub">{{ $labelPeriode }}</div>
             </div>
 
             <div class="stat-box accent">
-                <div class="stat-icon">🧾</div>
+
                 <div class="stat-label">Total Transaksi</div>
                 <div class="stat-value">{{ $totalTransaksi }}</div>
                 <div class="stat-sub">Antrean selesai</div>
             </div>
 
             <div class="stat-box info">
-                <div class="stat-icon">📊</div>
+
                 <div class="stat-label">Rata-rata / Transaksi</div>
                 <div class="stat-value">{{ $formatter($rataRata) }}</div>
                 <div class="stat-sub">Per antrean selesai</div>
             </div>
 
             <div class="stat-box">
-                <div class="stat-icon">📅</div>
+
                 <div class="stat-label">Rentang Periode</div>
                 <div class="stat-value stat-value-sm">{{ ucfirst($labelPeriode) }}</div>
                 <div class="stat-sub">
