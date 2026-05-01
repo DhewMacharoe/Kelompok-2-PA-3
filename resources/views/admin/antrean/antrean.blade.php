@@ -56,7 +56,7 @@
             @else
                 <p>Tidak ada antrean yang sedang dilayani saat ini.</p>
                 <button type="button" class="btn-panggil shadow-sm" onclick="panggil()" data-loading-text="Memanggil...">
-                    panggil
+                    Panggil
                 </button>
             @endif
         </div>

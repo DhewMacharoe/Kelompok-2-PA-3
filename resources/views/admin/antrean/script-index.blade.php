@@ -1,4 +1,78 @@
 <script>
+    async function playQueueAudio(antrean) {
+        if (!antrean) return;
+
+        const status = String(antrean.status || '').toLowerCase();
+        const nomor = antrean.nomor_antrean || '-';
+        const nama = antrean.nama_pelanggan || '-';
+
+        let text = '';
+        if (status === 'sedang dilayani') {
+            text = `Panggilan kepada antrean nomor ${nomor} atas nama ${nama}`;
+        } else if (status === 'batal') {
+            text = `Antrean nomor ${nomor} atas nama ${nama} dibatalkan`;
+        } else if (status === 'selesai') {
+            text = `Antrean nomor ${nomor} atas nama ${nama} selesai`;
+        } else {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve) => {
+            try {
+                if (!('speechSynthesis' in window)) throw new Error('no-speech');
+
+                let voices = window.speechSynthesis.getVoices();
+                if (!voices.length) {
+                    const onVoices = () => {
+                        window.speechSynthesis.removeEventListener('voiceschanged', onVoices);
+                        playUtterance();
+                    };
+                    window.speechSynthesis.addEventListener('voiceschanged', onVoices);
+                    setTimeout(() => { if (window.speechSynthesis.getVoices().length === 0) playUtterance(); }, 1000);
+                } else {
+                    playUtterance();
+                }
+
+                function playUtterance() {
+                    const utter = new SpeechSynthesisUtterance(text);
+                    utter.lang = 'id-ID';
+                    utter.rate = 1;
+                    utter.pitch = 1;
+
+                    utter.onend = resolve;
+                    utter.onerror = (e) => {
+                        console.warn('[TTS] Error:', e);
+                        fallbackAudio(resolve);
+                    };
+
+                    window.speechSynthesis.cancel();
+                    window.speechSynthesis.speak(utter);
+                }
+            } catch (err) {
+                console.warn('[TTS] Failed:', err);
+                fallbackAudio(resolve);
+            }
+        });
+    }
+
+    function fallbackAudio(resolve) {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = 'sine';
+            o.frequency.value = 880;
+            g.gain.value = 0.1;
+            o.connect(g);
+            g.connect(ctx.destination);
+            o.start();
+            setTimeout(() => { o.stop(); ctx.close(); resolve(); }, 400);
+        } catch (e) {
+            console.warn('[Fallback] Audio failed', e);
+            resolve();
+        }
+    }
+
     window.isActionInProgress = false;
 
     // === LOGIKA FILTER ===
@@ -48,14 +122,20 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         if (window.Echo) {
-            window.Echo.channel('Antrean-channel').listen('AntreanUpdate', () => {
+            window.Echo.channel('Antrean-channel').listen('AntreanUpdate', async (e) => {
                 if (!window.isActionInProgress) {
+                    const antrean = e.antrean || {};
+                    await playQueueAudio(antrean);
                     window.location.reload();
                 }
             });
 
-            window.Echo.channel('AntreanList-channel').listen('AntreanListUpdate', () => {
+            window.Echo.channel('AntreanList-channel').listen('AntreanListUpdate', async (e) => {
                 if (!window.isActionInProgress) {
+                    const antreanList = e.antreanList || [];
+                    if (antreanList.length > 0) {
+                        await playQueueAudio(antreanList[0]);
+                    }
                     window.location.reload();
                 }
             });
@@ -203,7 +283,7 @@
                         },
                     })
                     .then(response => response.json())
-                    .then(data => {
+                    .then(async data => {
                         const showSuccessAlertAndReload = () => {
                             Swal.fire({
                                 icon: data.success ? 'success' : 'info',
@@ -216,30 +296,10 @@
                             });
                         };
 
-                        if (data.success && data.antrean && 'speechSynthesis' in window) {
-                            const antrean = data.antrean;
-                            const nomorantrean = antrean.nomor_antrean || '-';
-                            const namaPelanggan = antrean.nama_pelanggan || '-';
-                            
-                            const text = `Nomor antrean ${nomorantrean}, atas nama ${namaPelanggan}`;
-                            
-                            const speech = new SpeechSynthesisUtterance(text);
-                            speech.lang = 'id-ID';
-                            speech.rate = 1;
-                            speech.pitch = 1;
-                            
-                            speech.onend = () => {
-                                showSuccessAlertAndReload();
-                            };
-                            speech.onerror = () => {
-                                showSuccessAlertAndReload();
-                            };
-                            
-                            window.speechSynthesis.cancel();
-                            window.speechSynthesis.speak(speech);
-                        } else {
-                            showSuccessAlertAndReload();
+                        if (data.success && data.antrean) {
+                            await playQueueAudio(data.antrean);
                         }
+                        showSuccessAlertAndReload();
                     })
                     .catch(error => {
                         console.error('Error:', error);
