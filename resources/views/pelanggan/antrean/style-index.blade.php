@@ -327,6 +327,158 @@
              font-size: 0.95rem;
          }
      }
+
+     /* Modal Tengah Layar */
+     .modal-tambah-antrean .modal-content {
+         border-radius: 20px;
+         border: none;
+         box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+     }
+     .modal-tambah-antrean .modal-header {
+         border-bottom: 1px solid #f0f0f0;
+         padding: 20px 24px;
+     }
+     .modal-tambah-antrean .modal-title {
+         font-weight: 800;
+         color: #1a1a1a;
+     }
+     .modal-tambah-antrean .modal-body {
+         padding: 24px;
+     }
+
+     /* Grid Layanan */
+     .service-grid {
+         display: grid;
+         grid-template-columns: repeat(2, 1fr);
+         gap: 16px;
+         margin-bottom: 24px;
+     }
+     .service-card {
+         border: 2px solid #f0f0f0;
+         border-radius: 12px;
+         padding: 16px;
+         cursor: pointer;
+         transition: all 0.2s ease-in-out;
+         position: relative;
+         background: #ffffff;
+         display: flex;
+         flex-direction: column;
+         justify-content: space-between;
+         height: 100%;
+     }
+     .service-card:hover {
+         border-color: #d8bd79;
+         background: #fffdf7;
+         transform: translateY(-2px);
+     }
+     .service-card.selected {
+         border-color: #c49a45;
+         background: #fffaf0;
+         box-shadow: 0 4px 12px rgba(196, 154, 69, 0.15);
+     }
+     .service-card.selected::after {
+         content: '\f058'; /* FontAwesome Check Circle */
+         font-family: "Font Awesome 5 Free";
+         font-weight: 900;
+         color: #c49a45;
+         position: absolute;
+         top: 10px;
+         right: 12px;
+         font-size: 1.2rem;
+     }
+     .service-card.disabled {
+         opacity: 0.5;
+         cursor: not-allowed;
+         pointer-events: none;
+         background: #f9f9f9;
+     }
+     .service-name {
+         font-weight: 700;
+         color: #212529;
+         margin-bottom: 8px;
+         font-size: 0.95rem;
+         padding-right: 20px; /* space for checkmark */
+     }
+     .service-meta {
+         font-size: 0.8rem;
+         color: #6c757d;
+         display: flex;
+         flex-direction: column;
+         gap: 4px;
+     }
+     .service-price {
+         color: #c49a45;
+         font-weight: 700;
+     }
+
+     /* Review Section */
+     .review-section {
+         background: #fdfdfd;
+         border: 1px dashed #d8bd79;
+         border-radius: 12px;
+         padding: 16px;
+         margin-bottom: 24px;
+     }
+     .review-title {
+         font-size: 0.85rem;
+         font-weight: 700;
+         color: #6c757d;
+         margin-bottom: 12px;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+     }
+     .selected-item {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         background: #ffffff;
+         border: 1px solid #e0e0e0;
+         padding: 12px 16px;
+         border-radius: 8px;
+         margin-bottom: 8px;
+     }
+     .selected-item-name {
+         font-weight: 700;
+         color: #212529;
+     }
+     .btn-remove-service {
+         color: #dc3545;
+         background: none;
+         border: none;
+         padding: 0;
+         cursor: pointer;
+         font-size: 0.9rem;
+     }
+     .btn-remove-service:hover {
+         text-decoration: underline;
+     }
+     .btn-add-more {
+         border: 1px dashed #c49a45;
+         background: #fffcf5;
+         color: #c49a45;
+         width: 100%;
+         padding: 10px;
+         border-radius: 8px;
+         font-weight: 600;
+         transition: all 0.2s;
+     }
+     .btn-add-more:hover {
+         background: #fffaf0;
+         border-style: solid;
+     }
+
+     /* Step transition helper */
+     .step-container {
+         display: none;
+         animation: fadeIn 0.3s ease-in-out;
+     }
+     .step-container.active {
+         display: block;
+     }
+     @keyframes fadeIn {
+         from { opacity: 0; transform: translateY(5px); }
+         to { opacity: 1; transform: translateY(0); }
+     }
  </style>
  <style>
      /* HAPUS CSS 'body' dari sini agar tidak bertabrakan dengan layout utama dan Navbar */

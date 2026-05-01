@@ -21,13 +21,13 @@
 
                 <div class="col-md-5">
                     <div class="header-section">
-                        <div class="text-gold">SEDANG DILAYANI</div>
+                        <div class="text-gold"> {{ $dipanggil ? 'SEDANG DILAYANI' : '' }}</div>
                         <div class="active-number-box">
                             <p class="active-number" id="antrean-nomor">
                                 {{ $dipanggil ? $dipanggil->nomor_antrean : ' ‎  ' }}</p>
                         </div>
                         <div class="active-name" id = "antrean-nama">
-                            {{ $dipanggil ? $dipanggil->nama_pelanggan : 'Tidak ada antrean' }}
+                            {{ $dipanggil ? $dipanggil->nama_pelanggan : 'Kursi Pangkas Kosong' }}
                         </div>
                         <div class="active-name" id = "antrean-status">{{ $dipanggil ? $dipanggil->status : '' }}
                         </div>
@@ -84,7 +84,7 @@
                         @endauth
 
                         <div class="queue-section">
-                            <div class="section-title">URUTAN antrean</div>
+                            <div class="section-title">Urutan Antrean</div>
 
 
                             <div class="queue-list-container">
@@ -106,7 +106,7 @@
                                         </div>
                                     @endforeach
                                 @else
-                                    <div class="text-center mt-4 mb-4 text-muted">Tidak ada antrean</div>
+                                    <div class="text-center mt-4 mb-4 text-muted">Tidak Ada Antrean Saat Ini <br> Silahkan Ambil Antrean Anda</div>
                                 @endif
 
                             </div>
@@ -115,16 +115,16 @@
                         <div class="footer-section">
                             @auth
                                 @if (!$punyaAntreanAktif)
-                                    <button class="btn btn-add-queue" data-bs-toggle="offcanvas"
-                                        data-bs-target="#offcanvasTambahAntrean" aria-controls="offcanvasTambahAntrean"
+                                    <button class="btn btn-add-queue" data-bs-toggle="modal"
+                                        data-bs-target="#modalTambahAntrean"
                                         data-loading-text="Membuka form..." style="width: 100%;">
                                         Tambah Antrean
                                     </button>
                                 @endif
                             @else
                                 <div class="guest-queue-hint">
-                                    <p>Pergi ke kasir untuk mengambil antrean atau login menggunakan Google.klik <a
-                                            href="{{ route('login.user') }}">disini untuk login</a></p>
+                                    <p>Pergi ke kasir untuk mengambil antrean atau login menggunakan Google <br> <a
+                                            href="{{ route('login.user') }}">Klik disini untuk login</a></p>
                                 </div>
                             @endauth
                         </div>
@@ -135,59 +135,70 @@
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasTambahAntrean"
-        aria-labelledby="offcanvasTambahAntreanLabel"
-        style="height: auto; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -4px 10px rgba(0,0,0,0.1);">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title fw-bold" id="offcanvasTambahAntreanLabel">Tambah Antrean</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
+    <!-- Modal Tambah Antrean -->
+    <div class="modal fade modal-tambah-antrean" id="modalTambahAntrean" tabindex="-1" aria-labelledby="modalTambahAntreanLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTambahAntreanLabel">Pilih Layanan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
 
-        <div class="offcanvas-body">
-            <form id="formTambahAntreanPelanggan" action="{{ route('antrean.store') }}" method="POST">
-                @csrf
-                <div class="mb-4" style="display: none;">
-                    <label for="nama_pelanggan" class="form-label text-muted">Nama Pelanggan</label>
-                    <input type="text" class="form-control form-control-lg" id="nama_pelanggan"
-                        value="{{ auth()->user()->username ?? '' }}" readonly>
-                    <small class="text-muted">Nama otomatis diambil dari akun yang sedang login.</small>
+                <div class="modal-body">
+                    <form id="formTambahAntreanPelanggan" action="{{ route('antrean.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-3" style="display: none;">
+                            <input type="text" id="nama_pelanggan" value="{{ auth()->user()->username ?? '' }}" readonly>
+                        </div>
+
+                        <!-- Hidden Selects to keep backend working -->
+                        <select id="layanan_id1" name="layanan_id1" class="d-none" required>
+                            <option value="">Pilih layanan 1</option>
+                            @foreach ($layananAktif as $layanan)
+                                <option value="{{ $layanan->id }}" data-nama="{{ $layanan->nama }}" data-harga="{{ $layanan->harga }}" data-waktu="{{ $layanan->estimasi_waktu }}">{{ $layanan->nama }}</option>
+                            @endforeach
+                        </select>
+                        <select id="layanan_id2" name="layanan_id2" class="d-none">
+                            <option value="">Pilih layanan 2</option>
+                            @foreach ($layananAktif as $layanan)
+                                <option value="{{ $layanan->id }}" data-nama="{{ $layanan->nama }}" data-harga="{{ $layanan->harga }}" data-waktu="{{ $layanan->estimasi_waktu }}">{{ $layanan->nama }}</option>
+                            @endforeach
+                        </select>
+
+                        <!-- Step 1: Grid Layanan -->
+                        <div id="step-layanan" class="step-container active">
+                            <div class="service-grid">
+                                @foreach ($layananAktif as $layanan)
+                                    <div class="service-card" data-id="{{ $layanan->id }}" onclick="selectService({{ $layanan->id }})">
+                                        <div class="service-name">{{ $layanan->nama }}</div>
+                                        <div class="service-meta">
+                                            <span><i class="far fa-clock"></i> {{ $layanan->estimasi_waktu }}</span>
+                                            <span class="service-price">Rp{{ number_format($layanan->harga, 0, ',', '.') }}</span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Review Pilihan -->
+                        <div id="step-review" class="step-container">
+                            <div class="review-section">
+                                <div class="review-title">Layanan Terpilih</div>
+                                <div id="selected-services-container">
+                                    <!-- Diisi oleh JS -->
+                                </div>
+                                <button type="button" class="btn-add-more mt-2" id="btn-add-more-service" onclick="showServiceGrid()">
+                                    + Tambah Layanan Lain (Maks 2)
+                                </button>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-submit-bottom btn-lg" id="btn-submit-antrean" data-loading-text="Mengambil antrean...">Ambil Antrean</button>
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
-                <div class="mb-4">
-                    <label for="layanan_id1" class="form-label text-muted">Layanan 1 (wajib)</label>
-                    <select id="layanan_id1" name="layanan_id1" class="form-control" required
-                        oninvalid="this.setCustomValidity('Harap pilih minimal 1 layanan')"
-                        oninput="this.setCustomValidity('')">
-                        <option value="">Pilih layanan 1</option>
-                        @foreach ($layananAktif as $layanan)
-                            <option value="{{ $layanan->id }}" @selected((string) $layanan->id === (string) old('layanan_id1'))>
-                                {{ $layanan->nama }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('layanan_id1')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label for="layanan_id2" class="form-label text-muted">Layanan 2 (opsional)</label>
-                    <select id="layanan_id2" name="layanan_id2" class="form-control form-control-lg">
-                        <option value="">Pilih layanan 2</option>
-                        @foreach ($layananAktif as $layanan)
-                            <option value="{{ $layanan->id }}" @selected((string) $layanan->id === (string) old('layanan_id2'))>{{ $layanan->nama }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <small class="text-muted" id="layanan-help-pelanggan">Layanan 2 tidak boleh sama dengan layanan
-                        1.</small>
-                    @error('layanan_id2')
-                        <small class="text-danger d-block">{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-submit-bottom btn-lg"
-                        data-loading-text="Mengambil antrean...">Tambah</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 

@@ -36,7 +36,7 @@
             @else
             <div class="py-3">
                 <i class="fas fa-user-circle text-muted fs-2 mb-2"></i>
-                <p class="mb-0 text-muted">Tidak antrean yang sedang dilayani</p>
+                <p class="mb-0 text-muted">Kursi Pangkas Kosong</p>
             </div>
             @endif
         </div>
