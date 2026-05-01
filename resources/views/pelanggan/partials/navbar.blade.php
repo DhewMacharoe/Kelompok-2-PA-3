@@ -135,13 +135,20 @@
 
                 @auth
                     <li class="nav-item d-flex align-items-center justify-content-center">
-                        <form action="{{ route('logout') }}" method="POST" class="m-0">
-                            @csrf
-                            <button type="submit" class="btn btn-sm fw-bold px-3"
+                        @if(auth()->user()->hasRole('admin'))
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm fw-bold px-3"
                                 style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
-                                Logout
-                            </button>
-                        </form>
+                                Dashboard admin
+                            </a>
+                        @else
+                            <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                @csrf
+                                <button type="submit" class="btn btn-sm fw-bold px-3"
+                                    style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
+                                    Logout
+                                </button>
+                            </form>
+                        @endif
                     </li>
                 @endauth
             </ul>

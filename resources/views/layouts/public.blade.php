@@ -23,11 +23,16 @@
                 @auth
                     <div style="position: absolute; top: 10px; right: 10px; display: flex; align-items: center; gap: 10px;">
                         <span>Halo, {{ Auth::user()->username ?? Auth::user()->name }}</span>
-                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                            @csrf
-                            <button type="submit"
-                                style="padding: 5px 10px; background: red; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
-                        </form>
+                        @if(auth()->user()->hasRole('admin'))
+                            <a href="{{ route('admin.dashboard') }}"
+                                style="padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; text-decoration: none;">Dashboard admin</a>
+                        @else
+                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit"
+                                    style="padding: 5px 10px; background: red; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+                            </form>
+                        @endif
                     </div>
                 @endauth
             </header>

@@ -1,15 +1,15 @@
 @csrf
 
-<div class="form-group">
-    <label>Nama Layanan</label>
+<div class="mb-3">
+    <label class="form-label">Nama Layanan</label>
     <input type="text" name="nama" class="form-control" value="{{ old('nama', $layanan->nama ?? '') }}">
     @error('nama')
         <small class="text-danger">{{ $message }}</small>
     @enderror
 </div>
 
-<div class="form-group">
-    <label>Harga</label>
+<div class="mb-3">
+    <label class="form-label">Harga</label>
     <input type="text" id="harga_mask" class="form-control" 
            value="{{ old('harga') ? 'Rp.' . number_format(old('harga'), 0, ',', '.') : (isset($layanan->harga) ? 'Rp.' . number_format($layanan->harga, 0, ',', '.') : '') }}"
            placeholder="Rp.0">
@@ -21,8 +21,8 @@
     @enderror
 </div>
 
-<div class="form-group">
-    <label>Estimasi Waktu</label>
+<div class="mb-3">
+    <label class="form-label">Estimasi Waktu</label>
     <input type="text" name="estimasi_waktu" class="form-control"
         value="{{ old('estimasi_waktu', $layanan->estimasi_waktu ?? '') }}">
     @error('estimasi_waktu')
@@ -30,16 +30,16 @@
     @enderror
 </div>
 
-<div class="form-group">
-    <label>Deskripsi</label>
+<div class="mb-3">
+    <label class="form-label">Deskripsi</label>
     <textarea name="deskripsi" rows="4" class="form-control">{{ old('deskripsi', $layanan->deskripsi ?? '') }}</textarea>
     @error('deskripsi')
         <small class="text-danger">{{ $message }}</small>
     @enderror
 </div>
 
-<div class="form-group">
-    <label>Gambar Layanan</label>
+<div class="mb-3">
+    <label class="form-label">Gambar Layanan</label>
     <input type="file" name="foto" class="form-control">
     @error('foto')
         <small class="text-danger">{{ $message }}</small>
@@ -47,20 +47,20 @@
 </div>
 
 @if (!empty($layanan?->foto))
-    <div class="form-group">
-        <label>Preview Gambar</label><br>
+    <div class="mb-3">
+        <label class="form-label">Preview Gambar Saat Ini</label><br>
         @php
             $previewFoto = \Illuminate\Support\Str::startsWith($layanan->foto, ['http://', 'https://'])
                 ? $layanan->foto
                 : asset('images/' . $layanan->foto);
         @endphp
-        <img src="{{ $previewFoto }}" class="preview-img" style="max-width: 200px;">
+        <img src="{{ $previewFoto }}" class="preview-img" style="width: 180px; height: 120px; object-fit: cover; border-radius: 8px;">
     </div>
 @endif
 
-<div class="form-group">
-    <label>Status</label>
-    <select name="is_active" class="form-control">
+<div class="mb-4">
+    <label class="form-label">Status</label>
+    <select name="is_active" class="form-control" required>
         <option value="1" @selected(old('is_active', $layanan->is_active ?? 1) == 1)>Aktif</option>
         <option value="0" @selected(old('is_active', $layanan->is_active ?? 1) == 0)>Nonaktif</option>
     </select>
@@ -69,9 +69,9 @@
     @enderror
 </div>
 
-<div class="form-actions">
+<div class="d-flex justify-content-end gap-2">
     <a href="{{ route('admin.layanan.index') }}" class="btn-batal">Batal</a>
-    <button type="submit" class="btn-submit">Simpan</button>
+    <button type="submit" class="btn-submit" data-loading-text="Menyimpan...">Simpan</button>
 </div>
 
 <script>

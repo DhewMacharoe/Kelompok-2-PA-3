@@ -7,420 +7,67 @@
 @endsection
 
 @section('content')
-<style>
-    /* Layout Utama */
-    .main-container {
-        padding: 20px;
-        background-color: #f4f4f4;
-        min-height: 100vh;
-        font-family: 'Inter', sans-serif;
-    }
-
-    /* Filter Bar */
-    .filter-bar {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        align-items: center;
-         margin-bottom: 24px;
-
-    }
-
-    .filter-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        align-items: center;
-
-    }
-
-    .filter-group-label {
-        font-size: 12px;
-        color: #6c757d;
-        /* text-transform: uppercase; */
-        letter-spacing: 0.08em;
-        font-weight: 700;
-    }
-
-    .filter-btn {
-        border: 1px solid #dfe3e8;
-        background: #fff;
-        color: #2C3E50;
-        padding: 10px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        transition: all 0.2s ease;
-
-        /* text-transform: uppercase; */
-    }
-
-    .filter-btn.active {
-        background-color: #2F80ED;
-        color: white;
-        border-color: #337ab7;
-    }
-
-    /* Grid Menu */
-    .top-bar {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 20px;
-        align-items: center;
-    }
-
-    .top-left {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        align-items: flex-end;
-    }
-
-    .top-field {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-
-    .top-field label {
-        font-size: 12px;
-        font-weight: 700;
-        color: #34465d;
-    }
-
-    .top-field input,
-    .top-field select {
-        min-width: 220px;
-        max-width: 320px;
-        padding: 10px 14px;
-        border: 1px solid #dfe3e8;
-        border-radius: 12px;
-        background: #ffffff;
-        color: #2c3e50;
-        font-size: 14px;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-    }
-
-    .select-wrapper {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-    }
-
-    .select-wrapper select {
-        padding-right: 40px;
-    }
-
-    .select-icon {
-        position: absolute;
-        top: 50%;
-        right: 14px;
-        transform: translateY(-50%);
-        pointer-events: none;
-        color: #6c757d;
-        font-size: 0.95rem;
-    }
-
-    .top-field input::placeholder {
-        color: #9aa3b4;
-    }
-
-    .top-actions {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-
-    .table-container {
-        width: 100%;
-        overflow-x: auto;
-    }
-
-    .menu-table {
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-        border: 1px solid #ddd;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .menu-table th,
-    .menu-table td {
-        padding: 14px 16px;
-        text-align: left;
-        border-bottom: 1px solid #f1f1f1;
-    }
-
-    .menu-table thead th {
-        background: #203857;
-        color: #fff;
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        border-bottom: 2px solid #152538;
-    }
-
-    /* Badge Aktif */
-    .badge-aktif {
-        background-color: #e8f5e9;
-        color: #2e7d32;
-        padding: 2px 8px;
-        border-radius: 12px;
-        font-size: 10px;
-        font-weight: bold;
-        border: 1px solid #c8e6c9;
-    }
-
-    .menu-row-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .menu-row-img {
-        width: 56px;
-        height: 56px;
-        object-fit: cover;
-        border-radius: 10px;
-        border: 1px solid #e6e6e6;
-    }
-
-    .menu-desc {
-        margin: 4px 0 0;
-        color: #777;
-        font-size: 13px;
-        max-width: 320px;
-    }
-
-    .badge-nonaktif {
-        background-color: #fdecea;
-        color: #a7211c;
-        padding: 4px 10px;
-        border-radius: 999px;
-        font-size: 11px;
-        font-weight: 700;
-        border: 1px solid #f5c6cb;
-    }
-
-    .action-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .btn-edit,
-    .btn-toggle,
-    .btn-delete,
-    .btn-tambahkan,
-    .btn-view {
-        border: none;
-        border-radius: 6px;
-        padding: 8px 14px;
-        font-size: 12px;
-        cursor: pointer;
-        font-weight: 700;
-        transition: background-color 0.2s ease;
-    }
-
-    .btn-view {
-        background-color: #6c757d;
-        color: #ffffff;
-    }
-
-    .btn-toggle {
-        background-color: #f0ad4e;
-        color: #ffffff;
-    }
-
-    .btn-edit {
-        background-color: #0d6efd;
-        color: #ffffff;
-    }
-
-    .btn-delete {
-        background-color: #dc3545;
-        color: #ffffff;
-    }
-
-    .btn-tambahkan {
-        background-color: #4CC779;
-        color: #ffffff;
-    }
-
-    .btn-view:hover,
-    .btn-toggle:hover,
-    .btn-edit:hover,
-    .btn-delete:hover,
-    .btn-tambahkan:hover {
-        opacity: 0.9;
-    }
-
-    .empty-row {
-        text-align: center;
-        color: #555;
-        padding: 30px 0;
-    }
-
-    .detail-modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.45);
-        z-index: 1050;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
-
-    .detail-modal.show {
-        display: flex;
-    }
-
-    .detail-modal-card {
-        width: 100%;
-        max-width: 520px;
-        background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.16);
-        overflow: hidden;
-        position: relative;
-    }
-
-    .detail-modal-close {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        background: transparent;
-        border: none;
-        font-size: 1.6rem;
-        line-height: 1;
-        cursor: pointer;
-        color: #495057;
-    }
-
-    .detail-modal-header {
-        border-bottom: 1px solid #e9ecef;
-        padding: 24px;
-    }
-
-    .detail-modal-header h2 {
-        margin: 0;
-        font-size: 1.25rem;
-        color: #203857;
-    }
-
-    .detail-modal-body {
-        padding: 24px;
-        display: grid;
-        gap: 16px;
-        color: #36454f;
-        font-size: 14px;
-    }
-
-    .detail-modal-item {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 12px 16px;
-        background: #f8f9fa;
-        border-radius: 10px;
-    }
-
-    .detail-modal-desc {
-        background: #f8f9fa;
-        border-radius: 10px;
-        padding: 16px;
-    }
-
-
-</style>
-
-
+@push('styles')
+    @include('admin.galeri.style-index')
+@endpush
 
 <div class="main-container">
-    <div class="top-bar">
-        <div class="top-left">
-            <div class="top-field">
-                <label for="menuStatusFilter">Status</label>
-                <div class="select-wrapper">
-                    <select id="menuStatusFilter" class="form-control">
-                        <option value="all">Semua</option>
-                        <option value="active">Aktif</option>
-                        <option value="inactive">Nonaktif</option>
-                    </select>
-                    <span class="select-icon"><i class="bi bi-chevron-down"></i></span>
-                </div>
-            </div>
-            <div class="top-field search-field">
-                <label for="menuSearch">Cari Menu</label>
-                <input id="menuSearch" type="text" class="form-control" placeholder="Ketik nama menu...">
-            </div>
-        </div>
-        <div class="top-actions">
-            <button type="button" class="btn-tambahkan" data-bs-toggle="modal" data-bs-target="#modalCreate"><i class="bi bi-plus-lg me-2"></i>Tambahkan Menu</button>
-        </div>
+
+    <button type="button" class="btn-tambah shadow-sm" data-bs-toggle="modal" data-bs-target="#modalCreate">
+        + Tambah
+    </button>
+
+    <div class="filter-bar" role="tablist" aria-label="Filter status menu">
+        <button type="button" class="filter-btn" data-filter="active" onclick="filterMenu('active', this)">Aktif</button>
+        <button type="button" class="filter-btn" data-filter="inactive" onclick="filterMenu('inactive', this)">Nonaktif</button>
+        <button type="button" class="filter-btn active" data-filter="all" onclick="filterMenu('all', this)">Semua</button>
+    </div>
+
+    <div class="search-filter-wrap">
+        <label for="menuSearch">Cari Menu:</label>
+        <input type="text" id="menuSearch" class="search-filter-input" placeholder="Masukkan nama menu...">
+        <button type="button" class="btn-reset-filter" onclick="resetMenuFilter()">Reset Pencarian</button>
     </div>
 
     <div class="table-container">
-        <table class="menu-table">
+        <table class="custom-table">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Menu</th>
-                    <th>Kategori</th>
-                    <th>Harga</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
+                    <th>Nama</th>
+                    <th style="width: 120px;">Status</th>
+                    <th style="width: 300px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($menus as $index => $menu)
-                    <tr class="menu-row" data-status="{{ $menu->is_available ? 'active' : 'inactive' }}" data-category="{{ $menu->kategori }}">
-                        <td>{{ $index + 1 }}</td>
-                        <td class="cell-menu">
-                            <div class="menu-row-item">
-                                @if($menu->foto)
-                                    @php
-                                        $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
-                                            ? $menu->foto
-                                            : asset('images/' . $menu->foto);
-                                    @endphp
-                                    <img src="{{ $fotoMenu }}" class="menu-row-img">
-                                @else
-                                    <img src="https://via.placeholder.com/65" class="menu-row-img">
-                                @endif
-                                <div>
-                                    <div class="menu-title">{{ $menu->nama }}</div>
-                                    <p class="menu-desc">{{ \Illuminate\Support\Str::limit($menu->deskripsi, 60) }}</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>{{ $menu->kategori }}</td>
-                        <td class="menu-price">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
-                        <td>
-                            @if($menu->is_available == 1)
-                                <span class="badge-aktif">AKTIF</span>
-                            @else
-                                <span class="badge-nonaktif">NONAKTIF</span>
-                            @endif
-                        </td>
-                        <td class="action-buttons">
-                            <button type="button" class="btn-view"
+                <tr class="menu-row" data-name="{{ strtolower($menu->nama) }}" data-status="{{ $menu->is_available ? 'active' : 'inactive' }}" data-category="{{ $menu->kategori }}">
+                    <td data-label="Nama">
+                        <div>
+                            <strong>{{ $menu->nama }}</strong>
+                        </div>
+                    </td>
+                    <td data-label="Status">
+                        @if($menu->is_available == 1)
+                        <span class="status-badge status-aktif">Aktif</span>
+                        @else
+                        <span class="status-badge status-nonaktif">Nonaktif</span>
+                        @endif
+                    </td>
+                    <td data-label="Aksi">
+                        <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end;">
+                            <button type="button" class="btn-action btn-view shadow-sm btn-view-menu"
                                 data-nama="{{ $menu->nama }}"
                                 data-foto="{{ $menu->foto ? (\Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://']) ? $menu->foto : asset('images/' . $menu->foto)) : '' }}"
                                 data-kategori="{{ $menu->kategori }}"
                                 data-harga="Rp {{ number_format($menu->harga, 0, ',', '.') }}"
                                 data-status="{{ $menu->is_available == 1 ? 'Aktif' : 'Nonaktif' }}"
-                                data-deskripsi="{{ str_replace(["\r", "\n"], ' ', e($menu->deskripsi ?? 'Tidak ada deskripsi.')) }}">View</button>
-                            <button class="btn-edit" type="button" data-bs-toggle="modal" data-bs-target="#modalEdit{{ $menu->id }}">EDIT</button>
-                            <form action="{{ route('admin.menu.update', $menu->id) }}" method="POST">
+                                data-deskripsi="{{ str_replace(["\r", "\n"], ' ', e($menu->deskripsi ?? 'Tidak ada deskripsi.')) }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#viewMenuModal" style="margin: 0;">
+                                View
+                            </button>
+
+                            <form action="{{ route('admin.menu.update', $menu->id) }}" method="POST" style="display: inline; margin: 0;">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="nama" value="{{ $menu->nama }}">
@@ -428,19 +75,31 @@
                                 <input type="hidden" name="harga" value="{{ $menu->harga }}">
                                 <input type="hidden" name="deskripsi" value="{{ $menu->deskripsi }}">
                                 <input type="hidden" name="is_available" value="{{ $menu->is_available ? 0 : 1 }}">
-                                <button type="submit" class="btn-toggle">{{ $menu->is_available == 1 ? 'NONAKTIFKAN' : 'AKTIFKAN' }}</button>
+                                <button type="submit" class="btn-action btn-toggle-status shadow-sm menu-loading-btn" style="margin: 0;">
+                                    {{ $menu->is_available == 1 ? 'Nonaktifkan' : 'Aktifkan' }}
+                                </button>
                             </form>
-                            <form action="{{ route('admin.menu.destroy', $menu->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus menu ini?');">
+
+                            <button type="button" class="btn-action btn-edit shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEdit{{ $menu->id }}" style="margin: 0;">
+                                Edit
+                            </button>
+
+                            <form action="{{ route('admin.menu.destroy', $menu->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus menu ini?');" style="display: inline; margin: 0;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn-delete">HAPUS</button>
+                                <button type="submit" class="btn-action btn-hapus shadow-sm menu-loading-btn" style="margin: 0;">
+                                    Hapus
+                                </button>
                             </form>
-                        </td>
-                    </tr>
+                        </div>
+                    </td>
+                </tr>
                 @empty
-                    <tr>
-                        <td colspan="6" class="empty-row">Tidak ada menu tersedia.</td>
-                    </tr>
+                <tr class="empty-row-row">
+                    <td colspan="3" class="empty-row-cell" style="padding: 40px; color: #999;">
+                        Tidak ada menu tersedia.
+                    </td>
+                </tr>
                 @endforelse
             </tbody>
         </table>
@@ -477,7 +136,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success menu-loading-btn" data-loading-text="Menyimpan...">Simpan</button>
+                        <button type="submit" class="btn-submit menu-loading-btn" data-loading-text="Menyimpan...">Simpan</button>
                     </div>
                 </div>
             </form>
@@ -496,29 +155,38 @@
                     Yakin ingin melanjutkan aksi ini?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-danger menu-loading-btn" id="btnKonfirmasiAksi">Ya, Lanjutkan</button>
+                    <button type="button" class="btn-batal" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn-submit menu-loading-btn" id="btnKonfirmasiAksi">Ya, Lanjutkan</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div id="detailModal" class="detail-modal">
-    <div class="detail-modal-card">
-        <button id="detailClose" class="detail-modal-close">&times;</button>
-        <div class="detail-modal-header">
-            <div>
-                <h2 id="detailNama">Nama Menu</h2>
-                <p id="detailLabel" style="margin-top: 8px; color: #556673;">Detail lengkap menu cafe.</p>
+{{-- Modal View Menu --}}
+<div class="modal fade" id="viewMenuModal" tabindex="-1" aria-labelledby="viewMenuModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow" style="border-radius: 12px; animation: slideDown 0.3s ease-out;">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title" style="font-size: 18px; color: #2C3E50; font-weight: bold;" id="viewMenuModalLabel">
+                    Detail Menu
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
-        </div>
-        <div class="detail-modal-body">
-            <div class="detail-modal-item"><strong>Kategori</strong> <span id="detailKategori">-</span></div>
-            <div class="detail-modal-item"><strong>Harga</strong> <span id="detailHarga">-</span></div>
-            <div class="detail-modal-item"><strong>Status</strong> <span id="detailStatus">-</span></div>
-            <div class="detail-modal-desc"><strong>Deskripsi:</strong>
-                <p id="detailDeskripsi" style="margin-top: 8px;">-</p>
+
+            <div class="modal-body">
+                <img id="detailImg" src="" alt="Menu Image" style="width: 100%; border-radius: 8px; margin-bottom: 16px; object-fit: cover; display: none;">
+                <h6 id="detailNama" style="font-size: 16px; font-weight: bold; margin-bottom: 8px;"></h6>
+                <div style="margin-bottom: 8px;"><strong>Kategori:</strong> <span id="detailKategori"></span></div>
+                <div style="margin-bottom: 8px;"><strong>Harga:</strong> <span id="detailHarga"></span></div>
+                <div style="margin-bottom: 8px;"><strong>Status:</strong> <span id="detailStatus"></span></div>
+                <p id="detailDeskripsi" style="color: #6b7280; font-size: 14px; margin: 0; white-space: pre-wrap;"></p>
+            </div>
+
+            <div class="modal-footer border-0 pt-0" style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button type="button" class="btn-batal" data-bs-dismiss="modal" style="margin: 0; background-color: #6c757d;">
+                    Tutup
+                </button>
             </div>
         </div>
     </div>
@@ -542,22 +210,56 @@
 
         function updateMenuVisibility() {
             const query = searchQuery.trim().toLowerCase();
+            let visibleCount = 0;
             menuRows.forEach((row) => {
                 const rowStatus = row.dataset.status;
                 const statusMatch = selectedStatus === 'all' || selectedStatus === rowStatus;
-                const rowName = row.querySelector('.menu-title')?.textContent.toLowerCase() || '';
-                const rowDesc = row.querySelector('.menu-desc')?.textContent.toLowerCase() || '';
-                const searchMatch = !query || rowName.includes(query) || rowDesc.includes(query);
-                row.style.display = statusMatch && searchMatch ? '' : 'none';
+                
+                const titleElement = row.querySelector('td[data-label="Nama"]');
+                const rowName = titleElement ? titleElement.textContent.toLowerCase() : '';
+                
+                const searchMatch = !query || rowName.includes(query);
+                
+                if (statusMatch && searchMatch) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
             });
+
+            const emptyRow = document.querySelector('.empty-row-row');
+            if (emptyRow) {
+                if (visibleCount === 0 && menuRows.length > 0) {
+                    emptyRow.style.display = '';
+                    emptyRow.querySelector('td').innerHTML = 'Tidak ada menu yang cocok dengan filter.';
+                } else if (menuRows.length === 0) {
+                    emptyRow.style.display = '';
+                    emptyRow.querySelector('td').innerHTML = 'Tidak ada menu tersedia.';
+                } else {
+                    emptyRow.style.display = 'none';
+                }
+            }
         }
 
-        if (menuStatusFilter) {
-            menuStatusFilter.addEventListener('change', function() {
-                selectedStatus = this.value;
-                updateMenuVisibility();
+        window.filterMenu = function(status, buttonElement) {
+            selectedStatus = status;
+
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
-        }
+            buttonElement.classList.add('active');
+
+            updateMenuVisibility();
+        };
+
+        window.resetMenuFilter = function() {
+            if (menuSearchInput) {
+                menuSearchInput.value = '';
+                searchQuery = '';
+                updateMenuVisibility();
+            }
+        };
 
         if (menuSearchInput) {
             menuSearchInput.addEventListener('input', function() {
@@ -653,38 +355,29 @@
             });
         });
 
-        const detailModal = document.getElementById('detailModal');
-        const detailClose = document.getElementById('detailClose');
+        const detailImg = document.getElementById('detailImg');
         const detailNama = document.getElementById('detailNama');
         const detailKategori = document.getElementById('detailKategori');
         const detailHarga = document.getElementById('detailHarga');
         const detailStatus = document.getElementById('detailStatus');
         const detailDeskripsi = document.getElementById('detailDeskripsi');
 
-        document.querySelectorAll('.btn-view').forEach((button) => {
+        document.querySelectorAll('.btn-view-menu').forEach((button) => {
             button.addEventListener('click', function() {
                 detailNama.textContent = this.dataset.nama;
                 detailKategori.textContent = this.dataset.kategori;
                 detailHarga.textContent = this.dataset.harga;
                 detailStatus.textContent = this.dataset.status;
                 detailDeskripsi.textContent = this.dataset.deskripsi;
-                detailModal.classList.add('show');
-            });
-        });
-
-        if (detailClose) {
-            detailClose.addEventListener('click', function() {
-                detailModal.classList.remove('show');
-            });
-        }
-
-        if (detailModal) {
-            detailModal.addEventListener('click', function(event) {
-                if (event.target === detailModal) {
-                    detailModal.classList.remove('show');
+                
+                if (this.dataset.foto) {
+                    detailImg.src = this.dataset.foto;
+                    detailImg.style.display = 'block';
+                } else {
+                    detailImg.style.display = 'none';
                 }
             });
-        }
+        });
     });
 </script>
 @endpush
