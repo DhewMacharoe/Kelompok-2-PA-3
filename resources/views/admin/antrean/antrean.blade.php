@@ -65,21 +65,31 @@
             + Tambah
         </button>
 
-        <div class="filter-bar" role="tablist" aria-label="Filter status antrean">
-            <button type="button" class="filter-btn active" data-filter="menunggu"
-                onclick="filterAntrean('menunggu', this)">Menunggu</button>
-            <button type="button" class="filter-btn" data-filter="selesai"
-                onclick="filterAntrean('selesai', this)">Selesai</button>
-            <button type="button" class="filter-btn" data-filter="batal"
-                onclick="filterAntrean('batal', this)">Batal</button>
-            <button type="button" class="filter-btn" data-filter="all" onclick="filterAntrean('all', this)">Semua</button>
-        </div>
+        <form class="antrean-filter-form" method="GET" action="{{ route('admin.antrean') }}">
+            <input type="hidden" name="status" id="statusFilterInput" value="{{ $selectedStatus ?? 'all' }}">
 
-        <div class="date-filter-wrap">
-            <label for="tanggalFilter">Filter tanggal:</label>
-            <input type="date" id="tanggalFilter" class="date-filter-input">
-            <button type="button" class="btn-reset-filter" onclick="resetTanggalFilter()">Reset Tanggal</button>
-        </div>
+            <div class="filter-bar" role="tablist" aria-label="Filter status antrean">
+                <button type="button"
+                    class="filter-btn {{ ($selectedStatus ?? 'all') === 'menunggu' ? 'active' : '' }}"
+                    data-filter="menunggu" onclick="submitAntreanFilter('menunggu')">Menunggu</button>
+                <button type="button"
+                    class="filter-btn {{ ($selectedStatus ?? 'all') === 'selesai' ? 'active' : '' }}"
+                    data-filter="selesai" onclick="submitAntreanFilter('selesai')">Selesai</button>
+                <button type="button"
+                    class="filter-btn {{ ($selectedStatus ?? 'all') === 'batal' ? 'active' : '' }}"
+                    data-filter="batal" onclick="submitAntreanFilter('batal')">Batal</button>
+                <button type="button"
+                    class="filter-btn {{ ($selectedStatus ?? 'all') === 'all' ? 'active' : '' }}"
+                    data-filter="all" onclick="submitAntreanFilter('all')">Semua</button>
+            </div>
+
+            <div class="date-filter-wrap">
+                <label for="tanggalFilter">Filter tanggal:</label>
+                <input type="date" id="tanggalFilter" name="tanggal" class="date-filter-input"
+                    value="{{ $selectedTanggal ?? '' }}">
+                <button type="button" class="btn-reset-filter" onclick="resetTanggalFilter()">Reset Tanggal</button>
+            </div>
+        </form>
 
         <div class="table-container">
             <table class="custom-table">
@@ -114,8 +124,7 @@
                         </tr>
                     @empty
                         <tr class="empty-row-row">
-                            <td colspan="5" class="empty-row-cell" style="padding: 40px; color: #999;">Belum ada riwayat
-                                antrean yang tercatat.
+                            <td colspan="5" class="empty-row-cell" style="padding: 40px; color: #999;">Tidak ada antrean pada filter ini.
                             </td>
                         </tr>
                     @endforelse

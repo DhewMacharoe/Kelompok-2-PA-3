@@ -68,13 +68,49 @@ class AdminController extends Controller
     {
         Antrean::cancelExpiredWaitingQueues();
 
+        $validated = request()->validate([
+            'tanggal' => ['nullable', 'date_format:Y-m-d'],
+            'status' => ['nullable', Rule::in(['all', 'menunggu', 'selesai', 'batal'])],
+        ]);
+
+        $selectedTanggal = $validated['tanggal'] ?? null;
+        $selectedStatus = $validated['status'] ?? 'all';
+
         $layananAktif = Layanan::where('is_active', true)
             ->orderBy('nama', 'asc')
             ->get();
 
-        $antreans = Antrean::orderBy('created_at', 'asc')->get();
+        $antreans = Antrean::query()
+            ->orderBy('created_at', 'asc')
+            ->when($selectedStatus !== 'all', function ($query) use ($selectedStatus) {
+                $query->where('status', $selectedStatus);
+            })
+            ->when($selectedTanggal, function ($query) use ($selectedTanggal, $selectedStatus) {
+                $query->where(function ($dateQuery) use ($selectedTanggal, $selectedStatus) {
+                    if (in_array($selectedStatus, ['selesai', 'batal'], true)) {
+                        $dateQuery->whereDate('waktu_selesai', $selectedTanggal);
 
-        return view('admin.antrean.antrean', compact('antreans', 'layananAktif'));
+                        return;
+                    }
+
+                    if ($selectedStatus === 'all') {
+                        $dateQuery->whereDate('created_at', $selectedTanggal)
+                            ->orWhereDate('waktu_selesai', $selectedTanggal);
+
+                        return;
+                    }
+
+                    $dateQuery->whereDate('created_at', $selectedTanggal);
+                });
+            })
+            ->get();
+
+        return view('admin.antrean.antrean', compact(
+            'antreans',
+            'layananAktif',
+            'selectedTanggal',
+            'selectedStatus'
+        ));
     }
 
     public function rekapPemasukan(Request $request)

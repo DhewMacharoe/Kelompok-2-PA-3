@@ -76,48 +76,26 @@
     window.isActionInProgress = false;
 
     // === LOGIKA FILTER ===
-    function filterAntrean(status, button) {
-        const rows = document.querySelectorAll('#antreanTableBody tr[data-status]');
-        const buttons = document.querySelectorAll('.filter-btn');
-        const normalizedFilter = (status || '').toString().trim().toLowerCase();
-        const selectedDate = document.getElementById('tanggalFilter')?.value || '';
+    function submitAntreanFilter(status) {
+        const form = document.querySelector('.antrean-filter-form');
+        const statusInput = document.getElementById('statusFilterInput');
 
-        buttons.forEach((item) => item.classList.remove('active'));
-        if (button) {
-            button.classList.add('active');
+        if (!form || !statusInput) {
+            return;
         }
 
-        rows.forEach((row) => {
-            const rowStatus = (row.getAttribute('data-status') || '').toString().trim().toLowerCase();
-            const rowDate = normalizedFilter === 'selesai' || normalizedFilter === 'batal' ||
-                normalizedFilter === 'all' ?
-                (row.getAttribute('data-date-finished') || row.getAttribute('data-date-created') || '') :
-                (row.getAttribute('data-date-created') || '');
-
-            const matchesStatus = normalizedFilter === 'all' || rowStatus === normalizedFilter;
-            const matchesDate = !selectedDate || rowDate === selectedDate || rowStatus === 'menunggu';
-            const isVisible = matchesStatus && (normalizedFilter === 'menunggu' ? true : matchesDate);
-            row.style.display = isVisible ? '' : 'none';
-        });
-    }
-
-    function getTodayDateString() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        statusInput.value = status || 'all';
+        form.submit();
     }
 
     function resetTanggalFilter() {
         const tanggalInput = document.getElementById('tanggalFilter');
         if (tanggalInput) {
-            tanggalInput.value = getTodayDateString();
+            tanggalInput.value = '';
         }
 
-        const activeButton = document.querySelector('.filter-btn.active') || document.querySelector(
-            '.filter-btn[data-filter="menunggu"]');
-        filterAntrean(activeButton?.dataset?.filter || 'menunggu', activeButton);
+        const statusInput = document.getElementById('statusFilterInput');
+        submitAntreanFilter(statusInput?.value || 'all');
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -141,9 +119,6 @@
             });
         }
 
-        const defaultButton = document.querySelector('.filter-btn[data-filter="menunggu"]');
-        filterAntrean('menunggu', defaultButton);
-
         document.querySelectorAll('.queue-action-btn').forEach((button) => {
             button.addEventListener('click', function() {
                 const id = this.dataset.queueId;
@@ -156,10 +131,9 @@
 
         const tanggalFilter = document.getElementById('tanggalFilter');
         if (tanggalFilter) {
-            tanggalFilter.value = getTodayDateString();
             tanggalFilter.addEventListener('change', function() {
-                const activeButton = document.querySelector('.filter-btn.active') || defaultButton;
-                filterAntrean(activeButton?.dataset?.filter || 'menunggu', activeButton);
+                const statusInput = document.getElementById('statusFilterInput');
+                submitAntreanFilter(statusInput?.value || 'all');
             });
         }
 
