@@ -8,7 +8,7 @@
 
 @section('content')
 @push('styles')
-    @include('admin.galeri.style-index')
+    @include('admin.menu.style-index')
 @endpush
 
 <div class="main-container">
@@ -214,12 +214,12 @@
             menuRows.forEach((row) => {
                 const rowStatus = row.dataset.status;
                 const statusMatch = selectedStatus === 'all' || selectedStatus === rowStatus;
-                
+
                 const titleElement = row.querySelector('td[data-label="Nama"]');
                 const rowName = titleElement ? titleElement.textContent.toLowerCase() : '';
-                
+
                 const searchMatch = !query || rowName.includes(query);
-                
+
                 if (statusMatch && searchMatch) {
                     row.style.display = '';
                     visibleCount++;
@@ -369,7 +369,7 @@
                 detailHarga.textContent = this.dataset.harga;
                 detailStatus.textContent = this.dataset.status;
                 detailDeskripsi.textContent = this.dataset.deskripsi;
-                
+
                 if (this.dataset.foto) {
                     detailImg.src = this.dataset.foto;
                     detailImg.style.display = 'block';

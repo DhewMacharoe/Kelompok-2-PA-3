@@ -101,9 +101,8 @@
         <div class="table-card">
             <div class="table-card-header">
                 <div class="title">
-                    <span class="dot"></span>
                     Daftar Transaksi
-                    <span class="row-count" id="visibleCount">{{ $totalTransaksi }}</span>
+
                 </div>
 
                 <div class="tbl-search-wrap">
@@ -153,7 +152,6 @@
                             <tr id="emptyRow" class="rekap-empty-row">
                                 <td colspan="4" class="rekap-empty-cell">
                                     <div class="empty-state">
-                                        <div class="empty-icon">📭</div>
                                         <p>Tidak ada transaksi selesai pada periode ini.</p>
                                     </div>
                                 </td>

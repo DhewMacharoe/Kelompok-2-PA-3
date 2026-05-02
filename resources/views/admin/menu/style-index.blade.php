@@ -374,7 +374,7 @@
             .custom-table td.empty-row-cell::before {
                 content: none;
             }
-            
+
             .btn-action {
                 margin-bottom: 5px;
             }
