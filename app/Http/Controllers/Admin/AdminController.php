@@ -17,7 +17,7 @@ class AdminController extends Controller
     {
         Antrean::cancelExpiredWaitingQueues();
 
-        $dipanggil = Antrean::where('status', 'sedang dilayani')->first();
+        $dipanggil = Antrean::where('status', 'sedang dilayani')->whereDate('created_at', Carbon::today())->first();
         $jumlahMenunggu = Antrean::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->count();
         $jumlahSelesai = Antrean::where('status', 'selesai')->whereDate('updated_at', Carbon::today())->count();
         $antreanMenunggu = Antrean::whereDate('created_at', now()->today())->where('status', 'menunggu')->orderBy('created_at', 'asc')->limit(3)->get();
