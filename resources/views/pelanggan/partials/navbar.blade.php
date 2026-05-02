@@ -97,11 +97,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('rekomendasi') ? 'active' : '' }}"
-                        href="{{ route('rekomendasi') }}"
-                        style="color: {{ request()->routeIs('rekomendasi') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
+                    <a class="nav-link fw-bold {{ request()->routeIs('rekomendasi.index') ? 'active' : '' }}"
+                        href="{{ route('rekomendasi.index') }}"
+                        style="color: {{ request()->routeIs('rekomendasi.index') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
                         onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('rekomendasi') ? '#d4af37' : 'white' }}'">
+                        onmouseout="this.style.color='{{ request()->routeIs('rekomendasi.index') ? '#d4af37' : 'white' }}'">
                         Rekomendasi
                     </a>
                 </li>
@@ -135,7 +135,7 @@
 
                 @auth
                     <li class="nav-item d-flex align-items-center justify-content-center">
-                        @if(auth()->user()->hasRole('admin'))
+                        @if (auth()->user()->hasRole('admin'))
                             <a href="{{ route('admin.dashboard') }}" class="btn btn-sm fw-bold px-3"
                                 style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
                                 Dashboard admin

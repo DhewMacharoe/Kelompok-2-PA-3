@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\Pelanggan\PelangganLayananController;
 use App\Http\Controllers\Pelanggan\PelangganGaleriController;
+use App\Http\Controllers\Pelanggan\PelangganRekomendasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,8 @@ Route::patch('/antrean/saya/batal', [AntreanController::class, 'cancelMyQueue'])
     ->name('antrean.cancel')
     ->middleware('auth');
 
+Route::get('/rekomendasi', [PelangganRekomendasiController::class, 'rekomendasi'])->name('rekomendasi.index');
+Route::post('/rekomendasi/process', [PelangganRekomendasiController::class, 'process'])->name('rekomendasi.process');
 
 
 // ==========================================
@@ -58,6 +61,7 @@ Route::post('/antrean/daftar', [PublicController::class, 'daftarAntrean'])
     ->name('antrean.daftar')
     ->middleware('auth');
 
+
 // Serve image files stored in project-root /images for local/dev access.
 Route::get('/images/{path}', function (string $path) {
     $baseDirectory = realpath(base_path('images'));
@@ -74,4 +78,3 @@ Route::get('/images/{path}', function (string $path) {
 
     return response()->file($filePath);
 })->where('path', '.*')->name('images.serve');
-
