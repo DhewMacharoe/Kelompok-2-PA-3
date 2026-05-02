@@ -178,6 +178,20 @@
         }
 
         // === PERUBAHAN SWEETALERT: Validasi Form ===
+        function restoreSubmitButtons(form) {
+            if (!form) {
+                return;
+            }
+
+            form.querySelectorAll('button[type="submit"]').forEach((button) => {
+                if (button.dataset.originalText) {
+                    button.disabled = false;
+                    button.textContent = button.dataset.originalText;
+                    delete button.dataset.originalText;
+                }
+            });
+        }
+
         if (formTambah) {
             formTambah.addEventListener('submit', function(event) {
                 if (!layananSelect1 || !layananSelect2) {
@@ -186,6 +200,7 @@
 
                 if (!layananSelect1.value) {
                     event.preventDefault();
+                    restoreSubmitButtons(formTambah);
                     Swal.fire({
                         icon: 'warning',
                         title: 'Peringatan',
@@ -196,6 +211,7 @@
 
                 if (layananSelect2.value && layananSelect2.value === layananSelect1.value) {
                     event.preventDefault();
+                    restoreSubmitButtons(formTambah);
                     Swal.fire({
                         icon: 'warning',
                         title: 'Peringatan',

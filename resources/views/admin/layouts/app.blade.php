@@ -251,16 +251,20 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const forms = document.querySelectorAll('form');
-            
+
             forms.forEach(function(form) {
-                form.addEventListener('submit', function() {
+                form.addEventListener('submit', function(event) {
+                    if (event.defaultPrevented) {
+                        return;
+                    }
+
                     const submitButtons = form.querySelectorAll('button[type="submit"]');
-                    
+
                     submitButtons.forEach(function(button) {
                         if (!button.closest('.sidebar') && !button.closest('.navbar') && !button.closest('nav')) {
                             const originalText = button.textContent.trim();
                             const loadingText = button.dataset.loadingText || 'Memproses...';
-                            
+
                             button.disabled = true;
                             button.textContent = loadingText;
                             button.dataset.originalText = originalText;
