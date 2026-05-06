@@ -97,7 +97,7 @@
                                                 <p class="queue-name">{{ $antrean->nama_pelanggan }}</p>
                                                 <p class="queue-time">{{ $antrean->created_at->format('H:i') }}</p>
                                             </div>
-                                            <div>
+                                            <div class="queue-badges">
                                                 @if ($antreanSayaAktif && $antreanSayaAktif->id === $antrean->id)
                                                     <span class="badge-mine">ANTREAN SAYA</span>
                                                 @endif
@@ -170,7 +170,12 @@
                             <div class="service-grid">
                                 @foreach ($layananAktif as $layanan)
                                     <div class="service-card" data-id="{{ $layanan->id }}" onclick="selectService({{ $layanan->id }})">
-                                        <div class="service-name">{{ $layanan->nama }}</div>
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="service-name">{{ $layanan->nama }}</div>
+                                            <a href="{{ route('pelanggan.layanan') }}?id={{ $layanan->id }}&open=true" onclick="event.stopPropagation()" class="text-decoration-none" style="color: #17a2b8;" title="Lihat Detail">
+                                                <i class="fas fa-info-circle" style="font-size: 1.1rem;"></i>
+                                            </a>
+                                        </div>
                                         <div class="service-meta">
                                             <span><i class="far fa-clock"></i> {{ $layanan->estimasi_waktu }}</span>
                                             <span class="service-price">Rp{{ number_format($layanan->harga, 0, ',', '.') }}</span>

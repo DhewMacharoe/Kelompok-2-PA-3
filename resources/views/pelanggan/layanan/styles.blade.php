@@ -271,11 +271,70 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
 }
 
 .modal-price {
     color: #c9a24f;
     font-size: 20px;
     font-weight: 800;
+}
+
+.btn-buat-antrean-layanan {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #c9a24f, #b8912e);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(201, 162, 79, 0.3);
+    white-space: nowrap;
+}
+
+.btn-buat-antrean-layanan:hover {
+    background: linear-gradient(135deg, #b8912e, #a07e1e);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(201, 162, 79, 0.45);
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-buat-antrean-layanan:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(201, 162, 79, 0.3);
+}
+
+.btn-buat-antrean-layanan.disabled {
+    background: linear-gradient(135deg, #b0b0b0, #8a8a8a);
+    color: #e0e0e0;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+.btn-buat-antrean-layanan i {
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .modal-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .btn-buat-antrean-layanan {
+        justify-content: center;
+        padding: 12px 16px;
+        font-size: 14px;
+    }
 }
 </style>

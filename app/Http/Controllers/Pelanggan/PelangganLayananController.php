@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Pelanggan;
 use App\Http\Controllers\Concerns\HandlesPublicImageUploads;
 use App\Http\Controllers\Controller;
 use App\Models\Layanan;
+use App\Models\Antrean;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PelangganLayananController extends Controller
 {
@@ -15,7 +17,12 @@ class PelangganLayananController extends Controller
     {
         $layanans = Layanan::where('is_active', true)->get();
 
-        return view('pelanggan.layanan.layanan', compact('layanans'));
+        $punyaAntreanAktif = false;
+        if (Auth::check() && Auth::user()->username) {
+            $punyaAntreanAktif = Antrean::customerHasActiveQueue(Auth::user()->username);
+        }
+
+        return view('pelanggan.layanan.layanan', compact('layanans', 'punyaAntreanAktif'));
     }
 
     public function update(Request $request, Layanan $layanan)
