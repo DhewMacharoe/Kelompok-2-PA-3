@@ -75,7 +75,7 @@ class AntreanController extends Controller
         $nomorFormat = Antrean::generateDailyQueueNumber();
 
         Antrean::create([
-            'nomor_antrean' => $nomorFormat,
+            'nomor_antrean_seq' => $nomorFormat,
             'nama_pelanggan' => $user->username,
             'layanan_id1' => $request->input('layanan_id1'),
             'layanan_id2' => $request->input('layanan_id2'),
