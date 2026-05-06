@@ -78,7 +78,6 @@
                                 <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end;">
                                     <button type="button" class="btn-action btn-view shadow-sm btn-view-layanan"
                                         data-nama="{{ $item->nama }}"
-                                        data-foto="{{ $item->foto ? (\Illuminate\Support\Str::startsWith($item->foto, ['http://', 'https://']) ? $item->foto : asset('images/' . $item->foto)) : '' }}"
                                         data-harga="Rp {{ number_format($item->harga, 0, ',', '.') }}"
                                         data-estimasi="{{ $item->estimasi_waktu ?? '-' }}"
                                         data-status="{{ $item->is_active ? 'Aktif' : 'Nonaktif' }}"
@@ -143,7 +142,6 @@
                 </div>
 
                 <div class="modal-body">
-                    <img id="detailImg" src="" alt="Layanan Image" style="width: 100%; border-radius: 8px; margin-bottom: 16px; object-fit: cover; display: none;">
                     <h6 id="detailNama" style="font-size: 16px; font-weight: bold; margin-bottom: 8px;"></h6>
                     <div style="margin-bottom: 8px;"><strong>Harga:</strong> <span id="detailHarga"></span></div>
                     <div style="margin-bottom: 8px;"><strong>Estimasi Waktu:</strong> <span id="detailEstimasi"></span></div>
@@ -162,7 +160,6 @@
 
     <script>
         // === LOGIKA MODAL VIEW ===
-        const detailImg = document.getElementById('detailImg');
         const detailNama = document.getElementById('detailNama');
         const detailHarga = document.getElementById('detailHarga');
         const detailEstimasi = document.getElementById('detailEstimasi');
@@ -176,13 +173,6 @@
                 detailEstimasi.textContent = button.dataset.estimasi;
                 detailStatus.textContent = button.dataset.status;
                 detailDeskripsi.textContent = button.dataset.deskripsi;
-                
-                if (button.dataset.foto) {
-                    detailImg.src = button.dataset.foto;
-                    detailImg.style.display = 'block';
-                } else {
-                    detailImg.style.display = 'none';
-                }
             });
         });
 

@@ -19,6 +19,7 @@ class AdminController extends Controller
 
         $dipanggil = Antrean::where('status', 'sedang dilayani')->whereDate('created_at', Carbon::today())->first();
         $jumlahMenunggu = Antrean::where('status', 'menunggu')->whereDate('created_at', Carbon::today())->count();
+        $jumlahMenungguHariIni = $jumlahMenunggu;
         $jumlahSelesai = Antrean::where('status', 'selesai')->whereDate('updated_at', Carbon::today())->count();
         $antreanMenunggu = Antrean::whereDate('created_at', now()->today())->where('status', 'menunggu')->orderBy('created_at', 'asc')->limit(3)->get();
         $batal = Antrean::where('status', 'batal')->whereDate('updated_at', Carbon::today())->count();
@@ -32,7 +33,7 @@ class AdminController extends Controller
             'batal' => $batal,
         ];
 
-        return view('admin.dashboard', compact('statistikData', 'antreanMenunggu', 'dipanggil'));
+        return view('admin.dashboard', compact('statistikData', 'antreanMenunggu', 'dipanggil', 'jumlahMenungguHariIni'));
     }
 
 
@@ -80,6 +81,13 @@ class AdminController extends Controller
             ->orderBy('nama', 'asc')
             ->get();
 
+        $jumlahMenungguHariIni = Antrean::where('status', 'menunggu')
+            ->whereDate('created_at', Carbon::today())
+            ->count();
+
+        // Ambil data "sedang dilayani" tanpa filter, agar selalu ditampilkan sama
+        $currentServing = Antrean::where('status', 'sedang dilayani')->first();
+
         $antreans = Antrean::query()
             ->orderBy('created_at', 'asc')
             ->when($selectedStatus !== 'all', function ($query) use ($selectedStatus) {
@@ -109,7 +117,9 @@ class AdminController extends Controller
             'antreans',
             'layananAktif',
             'selectedTanggal',
-            'selectedStatus'
+            'selectedStatus',
+            'currentServing',
+            'jumlahMenungguHariIni'
         ));
     }
 

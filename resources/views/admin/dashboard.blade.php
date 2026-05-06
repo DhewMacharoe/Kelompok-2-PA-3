@@ -14,19 +14,28 @@
 
                 <div class="d-flex justify-content-center gap-3 mb-4">
                     @if ($dipanggil)
-                        <button type="button" class="btn btn-success px-4 fw-bold shadow-sm" style="background-color: #4CC779;"
-                            onclick="ubahStatus(this, {{ $dipanggil->id }}, 'selesai')">
+                        <button type="button" class="btn btn-success px-4 fw-bold shadow-sm btn-queue-action-dashboard"
+                            style="background-color: #4CC779;" data-queue-id="{{ $dipanggil->id }}"
+                            data-queue-status="selesai">
                             Selesai
                         </button>
-                        <button type="button" class="btn btn-danger px-4 fw-bold shadow-sm" style="background-color: #EB5757;"
-                            onclick="ubahStatus(this, {{ $dipanggil->id }}, 'batal')">
+                        <button type="button" class="btn btn-danger px-4 fw-bold shadow-sm btn-queue-action-dashboard"
+                            style="background-color: #EB5757;" data-queue-id="{{ $dipanggil->id }}"
+                            data-queue-status="batal">
                             Batalkan
                         </button>
                     @else
-                        <button type="button" class="btn btn-primary px-4 fw-bold shadow-sm"
-                            style="background-color: var(--primary-blue); border:none;" onclick="panggil()">
-                            Panggil
-                        </button>
+                        @if (($jumlahMenungguHariIni ?? 0) > 0)
+                            <button type="button" class="btn btn-primary px-4 fw-bold shadow-sm btn-call-dashboard"
+                                style="background-color: var(--primary-blue); border:none;">
+                                Panggil
+                            </button>
+                        @else
+                            <button type="button" class="btn btn-primary px-4 fw-bold shadow-sm" disabled aria-disabled="true"
+                                style="background-color: var(--primary-blue); border:none; opacity: 0.65; cursor: not-allowed;">
+                                Panggil
+                            </button>
+                        @endif
                     @endif
                 </div>
                 <div class="text-start mt-4 bg-white bg-opacity-10 p-3 rounded">
@@ -77,6 +86,10 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script type="application/json" id="statistik-data-json">@json($statistikData ?? [])</script>
+    <script type="application/json" id="trend-labels-json">@json($trendLabels ?? [])</script>
+    <script type="application/json" id="trend-data-json">@json($trendData ?? [])</script>
 
     @php
         $hariIni = \Carbon\Carbon::today();

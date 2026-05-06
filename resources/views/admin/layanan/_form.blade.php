@@ -38,7 +38,7 @@
     @enderror
 </div>
 
-<div class="mb-3">
+<div style="display: none;" class="mb-3">
     <label class="form-label">Gambar Layanan</label>
     <input type="file" name="foto" class="form-control">
     @error('foto')
@@ -47,7 +47,7 @@
 </div>
 
 @if (!empty($layanan?->foto))
-    <div class="mb-3">
+    <div style="display: none;" class="mb-3">
         <label class="form-label">Preview Gambar Saat Ini</label><br>
         @php
             $previewFoto = \Illuminate\Support\Str::startsWith($layanan->foto, ['http://', 'https://'])
@@ -69,7 +69,68 @@
     @enderror
 </div>
 
-<div class="d-flex justify-content-end gap-2">
+<style>
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 24px;
+        flex-wrap: wrap;
+    }
+
+    .btn-submit,
+    .btn-batal {
+        min-width: 120px;
+        padding: 12px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #2F80ED, #1B6AD6);
+        color: white;
+        border: none;
+        box-shadow: 0 10px 18px rgba(47, 128, 237, 0.18);
+    }
+
+    .btn-submit:hover {
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 12px 22px rgba(47, 128, 237, 0.22);
+    }
+
+    .btn-batal {
+        background-color: #EB5757;
+        color: white;
+        border: none;
+        text-decoration: none;
+        box-shadow: 0 10px 18px rgba(235, 87, 87, 0.16);
+    }
+
+    .btn-batal:hover {
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 12px 22px rgba(235, 87, 87, 0.2);
+    }
+
+    @media (max-width: 768px) {
+        .form-actions {
+            width: 100%;
+        }
+
+        .form-actions .btn-submit,
+        .form-actions .btn-batal {
+            flex: 1 1 140px;
+        }
+    }
+</style>
+
+<div class="form-actions">
     <a href="{{ route('admin.layanan.index') }}" class="btn-batal">Batal</a>
     <button type="submit" class="btn-submit" data-loading-text="Menyimpan...">Simpan</button>
 </div>

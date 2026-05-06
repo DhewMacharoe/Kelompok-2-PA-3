@@ -73,7 +73,43 @@
         }
     }
 
+    function readJsonData(elementId, fallbackValue) {
+        const element = document.getElementById(elementId);
+        if (!element) {
+            return fallbackValue;
+        }
+
+        try {
+            return JSON.parse(element.textContent || 'null') ?? fallbackValue;
+        } catch (error) {
+            console.warn('Gagal membaca data JSON dari', elementId, error);
+            return fallbackValue;
+        }
+    }
+
+    const statistikData = readJsonData('statistik-data-json', []);
+    const trendLabels = readJsonData('trend-labels-json', []);
+    const trendData = readJsonData('trend-data-json', []);
+
     document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btn-queue-action-dashboard').forEach((button) => {
+            button.addEventListener('click', function() {
+                const id = this.dataset.queueId;
+                const targetStatus = this.dataset.queueStatus;
+
+                if (id && targetStatus) {
+                    ubahStatus(this, id, targetStatus);
+                }
+            });
+        });
+
+        const callButton = document.querySelector('.btn-call-dashboard');
+        if (callButton) {
+            callButton.addEventListener('click', function() {
+                panggil();
+            });
+        }
+
         if (window.Echo) {
             window.Echo.channel('Antrean-channel').listen('AntreanUpdate', async (e) => {
                 const antrean = e.antrean || {};
@@ -101,7 +137,7 @@
                     labels: ['Menunggu', 'Selesai', 'Batal'],
                     datasets: [{
                         label: 'Jumlah Orang',
-                        data: @json($statistikData ?? []),
+                        data: statistikData,
                         backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(39, 174, 96, 0.6)',
                             'rgba(255, 99, 132, 0.6)'
                         ],
@@ -137,10 +173,10 @@
             new Chart(ctx2, {
                 type: 'line',
                 data: {
-                    labels: @json($trendLabels ?? []),
+                    labels: trendLabels,
                     datasets: [{
                         label: 'Total Pengunjung',
-                        data: @json($trendData ?? []),
+                        data: trendData,
                         borderColor: 'rgba(47, 128, 237, 1)',
                         backgroundColor: 'rgba(47, 128, 237, 0.1)',
                         borderWidth: 3,

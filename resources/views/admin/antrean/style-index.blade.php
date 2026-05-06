@@ -97,6 +97,14 @@
             color: white;
         }
 
+        .filter-btn.filter-btn-disabled,
+        .filter-btn.filter-btn-disabled:hover {
+            background: #e5e7eb;
+            border-color: #d1d5db;
+            color: #9ca3af;
+            box-shadow: none;
+        }
+
         .date-filter-wrap {
             display: flex;
             align-items: center;
@@ -454,5 +462,21 @@
             .custom-table td.empty-row-cell::before {
                 content: none;
             }
+        }
+
+        button:disabled {
+            /* Mengurangi kontras agar terlihat "redup" */
+            background-color: #cccccc;
+            color: #666666;
+            border: 1px solid #999999;
+
+            /* Mengubah kursor untuk memberi sinyal dilarang */
+            cursor: not-allowed;
+
+            /* Menghilangkan bayangan atau efek elevasi */
+            box-shadow: none;
+
+            /* Menurunkan opasitas (opsional) */
+            opacity: 0.6;
         }
     </style>
