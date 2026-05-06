@@ -131,7 +131,7 @@
                             <tr class="rekap-row">
                                 <td data-label="Pelanggan">
                                     <div class="pelanggan-name">{{ $antrean->nama_pelanggan }}</div>
-                                    <div class="pelanggan-no">{{ $antrean->nomor_antrean }}</div>
+                                    <div class="pelanggan-no">{{ $antrean->nomor_antrean_seq }}</div>
                                 </td>
                                 <td data-label="Layanan">
                                     <div class="layanan-badges">

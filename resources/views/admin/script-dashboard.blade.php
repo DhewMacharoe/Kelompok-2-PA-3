@@ -3,7 +3,7 @@
         if (!antrean) return;
 
         const status = String(antrean.status || '').toLowerCase();
-        const nomor = antrean.nomor_antrean || '-';
+        const nomor = antrean.nomor_antrean_seq || '-';
         const nama = antrean.nama_pelanggan || '-';
 
         let text = '';

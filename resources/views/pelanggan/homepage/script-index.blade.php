@@ -3,7 +3,7 @@
         if (!antrean) return;
 
         const status = String(antrean.status || '').toLowerCase();
-        const nomor = antrean.nomor_antrean || '-';
+        const nomor = antrean.nomor_antrean_seq || '-';
         const nama = antrean.nama_pelanggan || '-';
 
         let text = '';
@@ -152,8 +152,8 @@
 
                     // Update cepat untuk elemen utama
                     const nomorEl = document.getElementById('antrean-nomor');
-                    if (nomorEl && antrean?.nomor_antrean) {
-                        nomorEl.textContent = antrean.nomor_antrean;
+                    if (nomorEl && antrean?.nomor_antrean_seq) {
+                        nomorEl.textContent = antrean.nomor_antrean_seq;
                     }
 
                     const statusEl = document.getElementById('antrean-status');

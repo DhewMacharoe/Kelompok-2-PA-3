@@ -8,11 +8,13 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * Add firebase_uid and username columns to users table
      */
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('firebase_uid')->nullable()->unique()->after('email');
+            $table->string('username')->unique()->nullable()->after('name');
         });
     }
 
@@ -23,6 +25,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('firebase_uid');
+            $table->dropColumn('username');
         });
     }
 };

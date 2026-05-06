@@ -36,7 +36,7 @@
 
     <div class="serving-display">
         <p>Sedang dilayani</p>
-        <span class="queue-number-big">{{ $currentServing->nomor_antrean ?? '--' }}</span>
+        <span class="queue-number-big">{{ $currentServing->nomor_antrean_seq ?? '--' }}</span>
         <p style="font-size: 18px; font-weight: 500;">{{ $currentServing->nama_pelanggan ?? 'Tidak ada antrean' }}</p>
         @if ($currentServing)
         <div class="btn-group-serving">
@@ -114,7 +114,7 @@
                     data-status="{{ $item->status }}"
                     data-date-created="{{ \Carbon\Carbon::parse($item->created_at)->toDateString() }}"
                     data-date-finished="{{ $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai)->toDateString() : '' }}">
-                    <td data-label="Nomor Antrean">{{ $item->nomor_antrean }}</td>
+                    <td data-label="Nomor Antrean">{{ $item->nomor_antrean_seq }}</td>
                     <td data-label="Nama">{{ $item->nama_pelanggan }}</td>
                     <td data-label="Tanggal Masuk">
                         {{ \Carbon\Carbon::parse($item->waktu_masuk)->translatedFormat('d M Y') }}

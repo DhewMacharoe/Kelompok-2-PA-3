@@ -76,7 +76,7 @@ class PublicController extends Controller
 
         // Masukkan data antrean baru
         $antrean = Antrean::create([
-            'nomor_antrean' => $nomorAntreanBaru,
+            'nomor_antrean_seq' => $nomorAntreanBaru,
             'nama_pelanggan' => $user->username,
             'status' => 'menunggu',
             'waktu_masuk' => Carbon::now(),

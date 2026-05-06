@@ -63,7 +63,7 @@ class AdminController extends Controller
 
         event(new AntreanUpdate($antrean));
 
-        return redirect()->back()->with('success', 'Antrean ' . $antrean->nomor_antrean . ' dibatalkan.');
+        return redirect()->back()->with('success', 'Antrean ' . $antrean->nomor_antrean_seq . ' dibatalkan.');
     }
     public function antrean()
     {
@@ -75,7 +75,7 @@ class AdminController extends Controller
         ]);
 
         $selectedTanggal = $validated['tanggal'] ?? null;
-        $selectedStatus = $validated['status'] ?? 'all';
+        $selectedStatus = $validated['status'] ?? 'menunggu';
 
         $layananAktif = Layanan::where('is_active', true)
             ->orderBy('nama', 'asc')
@@ -224,7 +224,7 @@ class AdminController extends Controller
         $layananId2 = $request->input('layanan_id2');
 
         $antrean = Antrean::create([
-            'nomor_antrean' => $nomorFormat,
+            'nomor_antrean_seq' => $nomorFormat,
             'nama_pelanggan' => $request->nama_pelanggan,
             'layanan_id1' => $layananId1,
             'layanan_id2' => $layananId2,

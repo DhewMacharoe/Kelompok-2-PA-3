@@ -23,7 +23,7 @@
             <div class="text-uppercase small text-muted mb-2 font-weight-bold">Sekarang Melayani</div>
 
             <h2 class="mb-2 fw-bold text-dark" id="antrean-nomor" style="letter-spacing: 3px; font-size: 2.5rem;">
-                {{ $antrean->nomor_antrean }}
+                {{ $antrean->nomor_antrean_seq }}
             </h2>
 
             <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill bg-light text-dark fw-semibold mb-3 border"

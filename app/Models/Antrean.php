@@ -12,6 +12,7 @@ class Antrean extends Model
 
     protected $fillable = [
         'nomor_antrean',
+        'nomor_antrean_seq',
         'nama_pelanggan',
         'layanan_id1',
         'layanan_id2',
@@ -182,12 +183,12 @@ class Antrean extends Model
             ->orderBy('id', 'desc')
             ->first();
 
-        if (!$lastAntrean || !$lastAntrean->nomor_antrean) {
+        if (!$lastAntrean || !$lastAntrean->nomor_antrean_seq) {
             return 0;
         }
 
-        // Ekstrak angka dari nomor_antrean (bisa format '01', '02', atau pure number)
-        $nomorStr = (string)$lastAntrean->nomor_antrean;
+        // Ekstrak angka dari nomor_antrean_seq (bisa format '01', '02', atau pure number)
+        $nomorStr = (string)$lastAntrean->nomor_antrean_seq;
         $nomor = (int)$nomorStr;
 
         return $nomor >= 0 ? $nomor : 0;

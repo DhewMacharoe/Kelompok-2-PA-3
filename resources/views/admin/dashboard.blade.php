@@ -8,7 +8,7 @@
             <div class="queue-card-main shadow-sm">
                 <p class="text-uppercase small mb-1 opacity-75">Sedang Dilayani</p>
                 <div class="queue-number">
-                    {{ $dipanggil ? substr($dipanggil->nomor_antrean, -2) : '--' }}
+                    {{ $dipanggil ? $dipanggil->nomor_antrean_seq : '--' }}
                 </div>
                 <p class="mb-4 fs-5">{{ $dipanggil ? $dipanggil->nama_pelanggan : 'Tidak ada' }}</p>
 
@@ -44,7 +44,7 @@
                     @foreach ($antreanMenunggu as $item)
                         <div class="d-flex justify-content-between align-items-center mb-2 px-2 border border-white border-1 rounded"
                             style="height: 62px;">
-                            <span>{{ substr($item->nomor_antrean, -2) }}</span>
+                            <span>{{ str_pad($item->nomor_antrean_seq, 2, '0', STR_PAD_LEFT) }}</span>
                             <span>{{ $item->nama_pelanggan }}</span>
                         </div>
                     @endforeach

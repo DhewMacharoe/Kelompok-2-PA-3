@@ -36,7 +36,7 @@ class AntreanController extends Controller
         if ($sedangDilayani) {
             return response()->json([
                 'success' => false,
-                'message' => 'Antrean ' . $sedangDilayani->nomor_antrean . ' masih sedang dilayani. Selesaikan atau batalkan dulu sebelum memanggil antrean berikutnya.',
+                'message' => 'Antrean ' . $sedangDilayani->nomor_antrean_seq . ' masih sedang dilayani. Selesaikan atau batalkan dulu sebelum memanggil antrean berikutnya.',
             ]);
         }
 
@@ -50,7 +50,7 @@ class AntreanController extends Controller
         return response()->json([
             'success' => $success,
             'message' => $success 
-                ? 'Antrean ' . $antrean->nomor_antrean . ' sedang dilayani.'
+                ? 'Antrean ' . $antrean->nomor_antrean_seq . ' sedang dilayani.'
                 : 'Gagal memanggil antrean.',
             'antrean' => $antrean
         ]);
@@ -73,14 +73,14 @@ class AntreanController extends Controller
             if (!$success) {
                 $message = 'Antrean hanya bisa diselesaikan jika sedang dilayani.';
             } else {
-                $message = 'Status antrean ' . $antrean->nomor_antrean . ' berhasil diubah menjadi selesai.';
+                $message = 'Status antrean ' . $antrean->nomor_antrean_seq . ' berhasil diubah menjadi selesai.';
             }
         } else {
             $success = $antrean->cancelQueue();
             if (!$success) {
                 $message = 'Antrean hanya bisa dibatalkan jika menunggu atau sedang dilayani.';
             } else {
-                $message = 'Status antrean ' . $antrean->nomor_antrean . ' berhasil diubah menjadi batal.';
+                $message = 'Status antrean ' . $antrean->nomor_antrean_seq . ' berhasil diubah menjadi batal.';
             }
         }
 
@@ -133,7 +133,7 @@ class AntreanController extends Controller
 
         // 3. Simpan Data ke Database
         $antrean = Antrean::create([
-            'nomor_antrean'  => $nomorFormat,
+            'nomor_antrean_seq'  => $nomorFormat,
             'nama_pelanggan' => $request->nama_pelanggan,
             'layanan_id1'    => $request->layanan_id1,
             'layanan_id2'    => $request->layanan_id2,

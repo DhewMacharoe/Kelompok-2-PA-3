@@ -55,8 +55,8 @@
                 cancelQueueAction.hidden = status !== 'menunggu';
             }
 
-            if (myQueueNumber && antrean.nomor_antrean) {
-                myQueueNumber.textContent = antrean.nomor_antrean;
+            if (myQueueNumber && antrean.nomor_antrean_seq) {
+                myQueueNumber.textContent = antrean.nomor_antrean_seq;
             }
 
             if (myQueuePosition && status !== 'menunggu') {
@@ -203,7 +203,7 @@
                         const isMyQueue = isCurrentUserQueue(item);
                         queueListContainer.insertAdjacentHTML('beforeend', `
                             <div class="queue-card ${isMyQueue ? 'my-queue-highlight' : ''}">
-                                <div class="queue-number-box">${item.nomor_antrean}</div>
+                                <div class="queue-number-box">${item.nomor_antrean_seq}</div>
                                 <div class="queue-info">
                                     <p class="queue-name">${item.nama_pelanggan}</p>
                                     <p class="queue-time">(${formatJam(item.created_at)})</p>
@@ -226,7 +226,7 @@
             if (!antrean) return;
 
             const status = String(antrean.status || '').toLowerCase();
-            const nomor = antrean.nomor_antrean || '-';
+            const nomor = antrean.nomor_antrean_seq || '-';
             const nama = antrean.nama_pelanggan || '-';
 
             let text = '';
@@ -301,7 +301,7 @@
 
             const nomorEl = document.getElementById('antrean-nomor');
             if (nomorEl) {
-                nomorEl.textContent = antrean.nomor_antrean;
+                nomorEl.textContent = antrean.nomor_antrean_seq;
             }
 
             const statusEl = document.getElementById('antrean-status');

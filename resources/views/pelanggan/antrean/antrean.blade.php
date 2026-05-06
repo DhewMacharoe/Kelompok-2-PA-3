@@ -24,7 +24,7 @@
                         <div class="text-gold"> {{ $dipanggil ? 'SEDANG DILAYANI' : '' }}</div>
                         <div class="active-number-box">
                             <p class="active-number" id="antrean-nomor">
-                                {{ $dipanggil ? $dipanggil->nomor_antrean : ' ‎  ' }}</p>
+                                {{ $dipanggil ? $dipanggil->nomor_antrean_seq : ' ‎  ' }}</p>
                         </div>
                         <div class="active-name" id = "antrean-nama">
                             {{ $dipanggil ? $dipanggil->nama_pelanggan : 'Kursi Pangkas Kosong' }}
@@ -42,7 +42,7 @@
                                 <div class="my-queue-card" id="my-queue-card">
                                     <div class="my-queue-header">
                                         <h3 class="my-queue-title">Nomor Antrean Anda</h3>
-                                        <div class="my-queue-number" id="my-queue-number">{{ $antreanSayaAktif->nomor_antrean }}
+                                        <div class="my-queue-number" id="my-queue-number">{{ $antreanSayaAktif->nomor_antrean_seq }}
                                         </div>
                                     </div>
 
@@ -92,7 +92,7 @@
                                     @foreach ($data_antrean as $antrean)
                                         <div
                                             class="queue-card {{ $antreanSayaAktif && $antreanSayaAktif->id === $antrean->id ? 'my-queue-highlight' : '' }}">
-                                            <div class="queue-number-box">{{ $antrean->nomor_antrean }}</div>
+                                            <div class="queue-number-box">{{ $antrean->nomor_antrean_seq }}</div>
                                             <div class="queue-info">
                                                 <p class="queue-name">{{ $antrean->nama_pelanggan }}</p>
                                                 <p class="queue-time">{{ $antrean->created_at->format('H:i') }}</p>
