@@ -34,7 +34,7 @@
                             <label for="username" class="auth-label">Username</label>
                             <input type="text" id="username" name="username" required class="auth-input"
                                 placeholder="Masukkan username" value="{{ old('username') }}" minlength="3" maxlength="20"
-                                pattern="[A-Za-z0-9_-]+" title="Gunakan huruf, angka, strip (-), atau underscore (_).">
+                                pattern="[A-Za-z ]+" title="Hanya menggunakan huruf dan spasi Maksimal 20 karakter.">
                         </div>
 
                         <button type="submit" class="auth-button auth-button--google">Simpan Username</button>

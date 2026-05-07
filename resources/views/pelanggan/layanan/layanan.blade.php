@@ -23,6 +23,7 @@
         <div class="layanan-grid">
             @forelse($layanans as $layanan)
                 <div class="layanan-card" id="layanan-{{ $layanan->id }}" style="cursor: pointer;"
+                     data-id="{{ $layanan->id }}"
                      data-name="{{ $layanan->nama }}"
                      data-description="{{ e($layanan->deskripsi ?? 'Tidak ada deskripsi.') }}"
                      data-time="{{ $layanan->estimasi_waktu }}"
@@ -59,6 +60,21 @@
                 <p class="modal-description" id="modalLayananDescription"></p>
                 <div class="modal-footer">
                     <span class="modal-price" id="modalLayananPrice"></span>
+                    @auth
+                        @if ($punyaAntreanAktif)
+                            <span class="btn-buat-antrean-layanan disabled" title="Anda sudah memiliki antrean aktif">
+                                <i class="fas fa-ticket-alt"></i> Sudah Ada Antrean
+                            </span>
+                        @else
+                            <a href="#" id="btnBuatAntreanDariLayanan" class="btn-buat-antrean-layanan">
+                                <i class="fas fa-ticket-alt"></i> Buat Antrean
+                            </a>
+                        @endif
+                    @else
+                        <a href="{{ route('login.user') }}" class="btn-buat-antrean-layanan">
+                            <i class="fas fa-sign-in-alt"></i> Login untuk Antrean
+                        </a>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -76,12 +92,22 @@
             const modalDescription = document.getElementById('modalLayananDescription');
             const modalPrice = document.getElementById('modalLayananPrice');
 
+            const btnBuatAntrean = document.getElementById('btnBuatAntreanDariLayanan');
+            const antreanBaseUrl = "{{ route('antrean') }}";
+
             document.querySelectorAll('.layanan-card').forEach(item => {
                 item.addEventListener('click', function() {
+                    const layananId = this.dataset.id;
                     modalName.textContent = this.dataset.name;
                     modalTime.innerHTML = '<i class="far fa-clock"></i> ' + this.dataset.time;
                     modalDescription.textContent = this.dataset.description;
                     modalPrice.textContent = 'Rp ' + this.dataset.price;
+
+                    // Update href tombol Buat Antrean
+                    if (btnBuatAntrean) {
+                        btnBuatAntrean.href = antreanBaseUrl + '?layanan_id=' + layananId;
+                    }
+
                     modalOverlay.classList.add('active');
                 });
             });
@@ -107,26 +133,35 @@
                 const targetElement = document.getElementById('layanan-' + targetId);
 
                 if (targetElement) {
-                    // Beri sedikit jeda agar browser selesai merender layout
-                    setTimeout(() => {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'center'
-                        });
-
-                        // Efek highlight
-                        targetElement.style.transition = 'all 0.5s ease';
-                        targetElement.style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.8)';
-                        targetElement.style.transform = 'scale(1.05)';
-                        targetElement.style.zIndex = '10';
-
-                        // Kembalikan ke normal setelah 3 detik
+                    const openModal = urlParams.get('open');
+                    
+                    if (openModal === 'true') {
+                        // Langsung buka modal
                         setTimeout(() => {
-                            targetElement.style.boxShadow = '';
-                            targetElement.style.transform = '';
-                            targetElement.style.zIndex = '';
-                        }, 3000);
-                    }, 300);
+                            targetElement.click();
+                        }, 100);
+                    } else {
+                        // Beri sedikit jeda agar browser selesai merender layout
+                        setTimeout(() => {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+
+                            // Efek highlight
+                            targetElement.style.transition = 'all 0.5s ease';
+                            targetElement.style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.8)';
+                            targetElement.style.transform = 'scale(1.05)';
+                            targetElement.style.zIndex = '10';
+
+                            // Kembalikan ke normal setelah 3 detik
+                            setTimeout(() => {
+                                targetElement.style.boxShadow = '';
+                                targetElement.style.transform = '';
+                                targetElement.style.zIndex = '';
+                            }, 3000);
+                        }, 300);
+                    }
                 }
             }
         });

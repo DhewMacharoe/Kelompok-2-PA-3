@@ -180,6 +180,32 @@
                 window.selectedServices = [];
                 updateUI();
             });
+
+            // Auto-open modal dan pilih layanan jika ada query parameter layanan_id
+            const urlParams = new URLSearchParams(window.location.search);
+            const autoLayananId = urlParams.get('layanan_id');
+
+            if (autoLayananId) {
+                // Bersihkan URL query parameter tanpa reload
+                const cleanUrl = window.location.pathname;
+                window.history.replaceState({}, document.title, cleanUrl);
+
+                // Tunggu sedikit agar DOM dan Bootstrap selesai inisialisasi
+                setTimeout(() => {
+                    const btnAddQueue = document.querySelector('.btn-add-queue');
+                    if (btnAddQueue) {
+                        // Buka modal
+                        const bsModal = new bootstrap.Modal(modalTambah);
+                        bsModal.show();
+
+                        // Pilih layanan secara otomatis setelah modal terbuka
+                        modalTambah.addEventListener('shown.bs.modal', function autoSelect() {
+                            selectService(parseInt(autoLayananId));
+                            modalTambah.removeEventListener('shown.bs.modal', autoSelect);
+                        }, { once: true });
+                    }
+                }, 300);
+            }
         }
 
         if (typeof window.Echo === 'undefined') {
@@ -208,7 +234,7 @@
                                     <p class="queue-name">${item.nama_pelanggan}</p>
                                     <p class="queue-time">(${formatJam(item.created_at)})</p>
                                 </div>
-                                <div>${isMyQueue ? '<span class="badge-mine">ANTREAN SAYA</span>' : ''}<span class="badge-waiting">MENUNGGU</span></div>
+                                <div class="queue-badges">${isMyQueue ? '<span class="badge-mine">ANTREAN SAYA</span>' : ''}<span class="badge-waiting">MENUNGGU</span></div>
                             </div>
                         `);
                     });

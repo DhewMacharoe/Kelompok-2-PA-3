@@ -157,7 +157,6 @@
          border-radius: 20px;
          font-weight: 700;
          letter-spacing: 0.4px;
-         margin-right: 6px;
      }
 
      .guest-queue-hint {
@@ -247,9 +246,9 @@
          }
 
          .queue-card {
-             flex-wrap: wrap;
-             gap: 10px;
-             align-items: flex-start;
+             flex-wrap: nowrap;
+             gap: 8px;
+             align-items: center;
          }
 
          .queue-number-box {
@@ -259,14 +258,22 @@
          }
 
          .queue-info {
-             margin-left: 10px;
+             margin-left: 8px;
              min-width: 0;
              flex: 1 1 auto;
          }
 
          .queue-name {
              font-size: 0.95rem;
-             overflow-wrap: anywhere;
+             white-space: nowrap;
+             overflow: hidden;
+             text-overflow: ellipsis;
+         }
+         
+         .queue-badges {
+             flex-direction: column;
+             align-items: flex-end;
+             gap: 4px;
          }
 
          .queue-time {
@@ -601,6 +608,7 @@
      .queue-info {
          margin-left: 15px;
          flex-grow: 1;
+         min-width: 0;
      }
 
      .queue-name {
@@ -608,6 +616,19 @@
          font-size: 1rem;
          margin: 0;
          color: #212529;
+         white-space: nowrap;
+         overflow: hidden;
+         text-overflow: ellipsis;
+     }
+     
+     .queue-badges {
+         flex-shrink: 0;
+         display: flex;
+         align-items: center;
+         justify-content: flex-end;
+         flex-wrap: wrap;
+         gap: 5px;
+         margin-left: 10px;
      }
 
      .queue-time {
