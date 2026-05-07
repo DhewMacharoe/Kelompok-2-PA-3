@@ -141,13 +141,19 @@
                                 Dashboard admin
                             </a>
                         @else
-                            <form action="{{ route('logout') }}" method="POST" class="m-0">
-                                @csrf
-                                <button type="submit" class="btn btn-sm fw-bold px-3"
+                            <div class="d-flex gap-2 align-items-center">
+                                <a href="{{ route('profile.edit') }}" class="btn btn-sm fw-bold px-3"
                                     style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
-                                    Logout
-                                </button>
-                            </form>
+                                    Profil Saya
+                                </a>
+                                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm fw-bold px-3"
+                                        style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
                         @endif
                     </li>
                 @endauth

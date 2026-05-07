@@ -1,77 +1,4 @@
 <script type="module">
-    async function playQueueAudio(antrean) {
-        if (!antrean) return;
-
-        const status = String(antrean.status || '').toLowerCase();
-        const nomor = antrean.nomor_antrean_seq || '-';
-        const nama = antrean.nama_pelanggan || '-';
-
-        let text = '';
-        if (status === 'sedang dilayani') {
-            text = `Panggilan kepada antrean nomor ${nomor} atas nama ${nama}`;
-        } else if (status === 'batal') {
-            text = `Antrean nomor ${nomor} atas nama ${nama} dibatalkan`;
-        } else if (status === 'selesai') {
-            text = `Antrean nomor ${nomor} atas nama ${nama} selesai`;
-        } else {
-            return Promise.resolve();
-        }
-
-        return new Promise((resolve) => {
-            try {
-                if (!('speechSynthesis' in window)) throw new Error('no-speech');
-
-                let voices = window.speechSynthesis.getVoices();
-                if (!voices.length) {
-                    const onVoices = () => {
-                        window.speechSynthesis.removeEventListener('voiceschanged', onVoices);
-                        playUtterance();
-                    };
-                    window.speechSynthesis.addEventListener('voiceschanged', onVoices);
-                    setTimeout(() => { if (window.speechSynthesis.getVoices().length === 0) playUtterance(); }, 1000);
-                } else {
-                    playUtterance();
-                }
-
-                function playUtterance() {
-                    const utter = new SpeechSynthesisUtterance(text);
-                    utter.lang = 'id-ID';
-                    utter.rate = 1;
-                    utter.pitch = 1;
-
-                    utter.onend = resolve;
-                    utter.onerror = (e) => {
-                        console.warn('[TTS] Error:', e);
-                        fallbackAudio(resolve);
-                    };
-
-                    window.speechSynthesis.cancel();
-                    window.speechSynthesis.speak(utter);
-                }
-            } catch (err) {
-                console.warn('[TTS] Failed:', err);
-                fallbackAudio(resolve);
-            }
-        });
-    }
-
-    function fallbackAudio(resolve) {
-        try {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const o = ctx.createOscillator();
-            const g = ctx.createGain();
-            o.type = 'sine';
-            o.frequency.value = 880;
-            g.gain.value = 0.1;
-            o.connect(g);
-            g.connect(ctx.destination);
-            o.start();
-            setTimeout(() => { o.stop(); ctx.close(); resolve(); }, 400);
-        } catch (e) {
-            console.warn('[Fallback] Audio failed', e);
-            resolve();
-        }
-    }
 
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.detail-card-button').forEach((element) => {
@@ -147,7 +74,7 @@
 
         if (window.Echo) {
             window.Echo.channel('Antrean-channel')
-                .listen('AntreanUpdate', async (e) => {
+                .listen('AntreanUpdate', (e) => {
                     const antrean = e.antrean;
 
                     // Update cepat untuk elemen utama
@@ -161,12 +88,10 @@
                         statusEl.textContent = antrean.status.toUpperCase();
                     }
 
-                    await playQueueAudio(antrean);
                     window.location.reload();
                 })
-                .listen('AntreanUpadate', async (e) => {
+                .listen('AntreanUpadate', (e) => {
                     const antrean = e.antrean;
-                    await playQueueAudio(antrean);
                     window.location.reload();
                 });
 

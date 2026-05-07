@@ -21,12 +21,25 @@
     document.addEventListener('DOMContentLoaded', function() {
         const queueAppCard = document.querySelector('.app-card');
         const loggedInUsername = queueAppCard?.dataset.loggedInUsername || null;
+        const queueLocation = {
+            latitude: parseFloat(queueAppCard?.dataset.queueLatitude || '0'),
+            longitude: parseFloat(queueAppCard?.dataset.queueLongitude || '0'),
+            radiusMeters: parseInt(queueAppCard?.dataset.queueRadius || '100', 10),
+        };
 
 
         const layananSelect1 = document.getElementById('layanan_id1');
         const layananSelect2 = document.getElementById('layanan_id2');
         const layananHelp = document.getElementById('layanan-help-pelanggan');
         const formTambahPelanggan = document.getElementById('formTambahAntreanPelanggan');
+        const lokasiFeedback = document.getElementById('lokasi-feedback');
+        const userLatitudeInput = document.getElementById('user_latitude');
+        const userLongitudeInput = document.getElementById('user_longitude');
+        const queueLocationStatus = document.getElementById('queue-location-status');
+        const queueLocationDistance = document.getElementById('queue-location-distance');
+        const queueLocationHelper = document.getElementById('queue-location-helper');
+        const queueLocationMap = document.getElementById('queue-location-map');
+        const queueLocationMapEmpty = document.getElementById('queue-location-map-empty');
         const queueListContainer = document.querySelector('.queue-list-container');
         const myQueueCard = document.getElementById('my-queue-card');
         const myQueueNumber = document.getElementById('my-queue-number');
@@ -35,6 +48,369 @@
         const myQueueStatusChip = document.getElementById('my-queue-status-chip');
         const cancelQueueAction = document.getElementById('my-queue-cancel-action');
         const cancelQueueButton = document.getElementById('btn-cancel-my-queue');
+        let queueLocationVerified = false;
+        let queueLocationRequestInProgress = false;
+        let queueLocationHasReading = false;
+        let queueLocationWatchId = null;
+        let leafletMap = null;
+        let queueTargetMarker = null;
+        let queueUserMarker = null;
+        let queueRadiusCircle = null;
+        let queueDistanceLine = null;
+
+        function showLocationError(message) {
+            if (!lokasiFeedback) {
+                alert(message);
+                return;
+            }
+
+            lokasiFeedback.textContent = message;
+            lokasiFeedback.classList.remove('d-none');
+        }
+
+        function clearLocationError() {
+            if (!lokasiFeedback) {
+                return;
+            }
+
+            lokasiFeedback.textContent = '';
+            lokasiFeedback.classList.add('d-none');
+        }
+
+        function toRadians(value) {
+            return value * Math.PI / 180;
+        }
+
+        function calculateDistanceMeters(fromLatitude, fromLongitude, toLatitude, toLongitude) {
+            const earthRadius = 6371000;
+            const latitudeDifference = toRadians(toLatitude - fromLatitude);
+            const longitudeDifference = toRadians(toLongitude - fromLongitude);
+            const a = Math.sin(latitudeDifference / 2) * Math.sin(latitudeDifference / 2)
+                + Math.cos(toRadians(fromLatitude)) * Math.cos(toRadians(toLatitude))
+                * Math.sin(longitudeDifference / 2) * Math.sin(longitudeDifference / 2);
+
+            return earthRadius * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+        }
+
+        function hasQueueLocationConfig() {
+            return Number.isFinite(queueLocation.latitude)
+                && Number.isFinite(queueLocation.longitude)
+                && queueLocation.latitude !== 0
+                && queueLocation.longitude !== 0;
+        }
+
+        function initializeLeafletMap() {
+            if (!queueLocationMap) {
+                return;
+            }
+
+            if (!hasQueueLocationConfig()) {
+                if (queueLocationMapEmpty) {
+                    queueLocationMapEmpty.textContent = 'Lokasi antrean belum dikonfigurasi.';
+                    queueLocationMapEmpty.classList.remove('d-none');
+                }
+                return;
+            }
+
+            if (typeof window.L === 'undefined') {
+                if (queueLocationMapEmpty) {
+                    queueLocationMapEmpty.textContent = 'Leaflet gagal dimuat. Coba refresh halaman.';
+                    queueLocationMapEmpty.classList.remove('d-none');
+                }
+                return;
+            }
+
+            if (leafletMap) {
+                return;
+            }
+
+            leafletMap = window.L.map(queueLocationMap, {
+                zoomControl: true,
+                attributionControl: true,
+            }).setView([queueLocation.latitude, queueLocation.longitude], 18);
+
+            window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 20,
+                attribution: '&copy; OpenStreetMap contributors',
+            }).addTo(leafletMap);
+
+            queueTargetMarker = window.L.circleMarker([queueLocation.latitude, queueLocation.longitude], {
+                radius: 8,
+                color: '#0d4620',
+                weight: 2,
+                fillColor: '#1f6f43',
+                fillOpacity: 1,
+            }).addTo(leafletMap).bindPopup('Lokasi antrean');
+
+            queueRadiusCircle = window.L.circle([queueLocation.latitude, queueLocation.longitude], {
+                radius: queueLocation.radiusMeters,
+                color: '#1f6f43',
+                weight: 2,
+                fillColor: '#2f9e5f',
+                fillOpacity: 0.2,
+            }).addTo(leafletMap);
+
+            if (queueLocationMapEmpty) {
+                queueLocationMapEmpty.classList.add('d-none');
+            }
+        }
+
+        function updateLeafletMapMarkers(latitude, longitude) {
+            if (!leafletMap || typeof window.L === 'undefined') {
+                return;
+            }
+
+            const userLatLng = [latitude, longitude];
+            const targetLatLng = [queueLocation.latitude, queueLocation.longitude];
+
+            if (!queueUserMarker) {
+                queueUserMarker = window.L.circleMarker(userLatLng, {
+                    radius: 7,
+                    color: '#0a58ca',
+                    weight: 2,
+                    fillColor: '#0d6efd',
+                    fillOpacity: 1,
+                }).addTo(leafletMap).bindPopup('Lokasi Anda');
+            } else {
+                queueUserMarker.setLatLng(userLatLng);
+            }
+
+            if (queueDistanceLine) {
+                leafletMap.removeLayer(queueDistanceLine);
+            }
+
+            queueDistanceLine = window.L.polyline([targetLatLng, userLatLng], {
+                color: '#f59f00',
+                weight: 2,
+                dashArray: '5, 5',
+                opacity: 0.9,
+            }).addTo(leafletMap);
+
+            const bounds = window.L.latLngBounds([targetLatLng, userLatLng]);
+            leafletMap.fitBounds(bounds.pad(0.25), {
+                maxZoom: 18,
+                animate: true,
+            });
+        }
+
+        function clearLeafletUserMarker() {
+            if (!leafletMap) {
+                return;
+            }
+
+            if (queueUserMarker) {
+                leafletMap.removeLayer(queueUserMarker);
+                queueUserMarker = null;
+            }
+
+            if (queueDistanceLine) {
+                leafletMap.removeLayer(queueDistanceLine);
+                queueDistanceLine = null;
+            }
+        }
+
+        function resetLeafletMap() {
+            if (!leafletMap) {
+                return;
+            }
+
+            leafletMap.remove();
+            leafletMap = null;
+            queueTargetMarker = null;
+            queueUserMarker = null;
+            queueRadiusCircle = null;
+            queueDistanceLine = null;
+
+            if (queueLocationMapEmpty) {
+                queueLocationMapEmpty.textContent = 'Memuat peta lokasi...';
+                queueLocationMapEmpty.classList.remove('d-none');
+            }
+        }
+
+        function startQueueLocationWatch() {
+            if (!navigator.geolocation || queueLocationWatchId !== null || !hasQueueLocationConfig()) {
+                return;
+            }
+
+            queueLocationWatchId = navigator.geolocation.watchPosition((position) => {
+                updateQueueLocationPreview(position.coords.latitude, position.coords.longitude);
+            }, () => {
+                // Keep existing state when watch fails; one-time request handles user feedback.
+            }, {
+                enableHighAccuracy: true,
+                maximumAge: 0,
+                timeout: 10000,
+            });
+        }
+
+        function stopQueueLocationWatch() {
+            if (queueLocationWatchId === null || !navigator.geolocation) {
+                return;
+            }
+
+            navigator.geolocation.clearWatch(queueLocationWatchId);
+            queueLocationWatchId = null;
+        }
+
+        function updateQueueLocationPreview(latitude, longitude) {
+            if (!queueLocation.latitude || !queueLocation.longitude) {
+                return;
+            }
+
+            const distance = calculateDistanceMeters(latitude, longitude, queueLocation.latitude, queueLocation.longitude);
+            const withinRadius = distance <= queueLocation.radiusMeters;
+
+            if (queueLocationDistance) {
+                queueLocationDistance.textContent = `${Math.round(distance)} m`;
+                queueLocationDistance.style.color = withinRadius ? '#1f6f43' : '#b42318';
+            }
+
+            if (queueLocationStatus) {
+                queueLocationStatus.textContent = withinRadius ? 'Di dalam area' : 'Di luar area';
+                queueLocationStatus.style.background = withinRadius ? '#e8f7ef' : '#fdecec';
+                queueLocationStatus.style.color = withinRadius ? '#1f6f43' : '#b42318';
+                queueLocationStatus.style.borderColor = withinRadius ? '#bfe8ce' : '#f5c1c1';
+            }
+
+            if (queueLocationHelper) {
+                queueLocationHelper.textContent = withinRadius
+                    ? 'Anda sudah berada di dalam area yang diizinkan. Silakan lanjutkan mengambil antrean.'
+                    : 'Anda masih di luar area. Dekatkan lokasi Anda ke titik antrean sebelum menekan Ambil Antrean.';
+                queueLocationHelper.style.color = withinRadius ? '#1f6f43' : '#b42318';
+            }
+
+            if (userLatitudeInput) {
+                userLatitudeInput.value = String(latitude);
+            }
+
+            if (userLongitudeInput) {
+                userLongitudeInput.value = String(longitude);
+            }
+
+            updateLeafletMapMarkers(latitude, longitude);
+
+            queueLocationHasReading = true;
+            queueLocationVerified = withinRadius;
+        }
+
+        function requestQueueLocationPreview() {
+            if (!navigator.geolocation) {
+                showLocationError('Browser/perangkat Anda tidak mendukung akses lokasi. Aktifkan GPS lalu coba lagi.');
+                return;
+            }
+
+            if (queueLocationRequestInProgress) {
+                return;
+            }
+
+            queueLocationRequestInProgress = true;
+            clearLocationError();
+
+            if (queueLocationStatus) {
+                queueLocationStatus.textContent = 'Meminta GPS...';
+            }
+
+            navigator.geolocation.getCurrentPosition((position) => {
+                queueLocationRequestInProgress = false;
+                updateQueueLocationPreview(position.coords.latitude, position.coords.longitude);
+            }, (error) => {
+                queueLocationRequestInProgress = false;
+                queueLocationVerified = false;
+                queueLocationHasReading = false;
+                clearLeafletUserMarker();
+
+                if (queueLocationStatus) {
+                    queueLocationStatus.textContent = 'GPS gagal';
+                    queueLocationStatus.style.background = '#fdecec';
+                    queueLocationStatus.style.color = '#b42318';
+                    queueLocationStatus.style.borderColor = '#f5c1c1';
+                }
+
+                if (queueLocationHelper) {
+                    queueLocationHelper.textContent = 'Izinkan akses lokasi agar kami bisa menampilkan posisi Anda terhadap titik antrean.';
+                    queueLocationHelper.style.color = '#6f6552';
+                }
+
+                if (error.code === error.PERMISSION_DENIED) {
+                    showLocationError('Akses lokasi ditolak. Izinkan GPS/location agar Anda bisa melihat posisi dan mengambil antrean.');
+                    return;
+                }
+
+                if (error.code === error.POSITION_UNAVAILABLE) {
+                    showLocationError('Lokasi tidak dapat dideteksi. Pastikan GPS aktif lalu coba lagi.');
+                    return;
+                }
+
+                if (error.code === error.TIMEOUT) {
+                    showLocationError('Permintaan lokasi melebihi batas waktu. Coba lagi.');
+                    return;
+                }
+
+                showLocationError('Gagal mengakses lokasi perangkat. Coba lagi.');
+            }, {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0,
+            });
+        }
+
+        function requestUserLocationAndSubmit() {
+            if (!navigator.geolocation) {
+                showLocationError('Browser/perangkat Anda tidak mendukung akses lokasi. Aktifkan GPS lalu coba lagi.');
+                return;
+            }
+
+            if (queueLocationRequestInProgress) {
+                return;
+            }
+
+            queueLocationRequestInProgress = true;
+            clearLocationError();
+
+            navigator.geolocation.getCurrentPosition((position) => {
+                queueLocationRequestInProgress = false;
+
+                if (userLatitudeInput) {
+                    userLatitudeInput.value = String(position.coords.latitude);
+                }
+
+                if (userLongitudeInput) {
+                    userLongitudeInput.value = String(position.coords.longitude);
+                }
+
+                queueLocationVerified = true;
+
+                if (typeof formTambahPelanggan.requestSubmit === 'function') {
+                    formTambahPelanggan.requestSubmit();
+                    return;
+                }
+
+                formTambahPelanggan.submit();
+            }, (error) => {
+                queueLocationRequestInProgress = false;
+
+                if (error.code === error.PERMISSION_DENIED) {
+                    showLocationError('Akses lokasi ditolak. Izinkan GPS/location agar Anda bisa mengambil antrean.');
+                    return;
+                }
+
+                if (error.code === error.POSITION_UNAVAILABLE) {
+                    showLocationError('Lokasi tidak dapat dideteksi. Pastikan GPS aktif lalu coba lagi.');
+                    return;
+                }
+
+                if (error.code === error.TIMEOUT) {
+                    showLocationError('Permintaan lokasi melebihi batas waktu. Coba lagi.');
+                    return;
+                }
+
+                showLocationError('Gagal mengakses lokasi perangkat. Coba lagi.');
+            }, {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0,
+            });
+        }
 
         function normalizeStatus(status) {
             return String(status || '').toLowerCase();
@@ -170,7 +546,28 @@
                     event.preventDefault();
                     alert('Harap pilih minimal 1 layanan.');
                     showServiceGrid();
+                    return;
                 }
+
+                if (queueLocationHasReading && !queueLocationVerified) {
+                    event.preventDefault();
+                    showLocationError('Anda masih di luar area antrean. Dekatkan lokasi Anda ke titik antrean sebelum menekan Ambil Antrean.');
+                    return;
+                }
+
+                if (queueLocationRequestInProgress) {
+                    event.preventDefault();
+                    showLocationError('Sedang mengambil lokasi perangkat. Tunggu sebentar lalu coba lagi.');
+                    return;
+                }
+
+                if (queueLocationVerified) {
+                    clearLocationError();
+                    return;
+                }
+
+                event.preventDefault();
+                requestUserLocationAndSubmit();
             });
         }
 
@@ -178,7 +575,46 @@
         if (modalTambah) {
             modalTambah.addEventListener('hidden.bs.modal', function () {
                 window.selectedServices = [];
+                queueLocationVerified = false;
+                queueLocationRequestInProgress = false;
+                queueLocationHasReading = false;
+                if (userLatitudeInput) {
+                    userLatitudeInput.value = '';
+                }
+
+                if (userLongitudeInput) {
+                    userLongitudeInput.value = '';
+                }
+
+                clearLocationError();
+                if (queueLocationStatus) {
+                    queueLocationStatus.textContent = 'Menunggu GPS';
+                    queueLocationStatus.style.background = '#fff3d2';
+                    queueLocationStatus.style.color = '#7a5b1c';
+                    queueLocationStatus.style.borderColor = '#e2c57f';
+                }
+
+                if (queueLocationDistance) {
+                    queueLocationDistance.textContent = '-';
+                    queueLocationDistance.style.color = '#1d1b17';
+                }
+
+                if (queueLocationHelper) {
+                    queueLocationHelper.textContent = 'Aktifkan GPS untuk melihat posisi Anda terhadap titik antrean.';
+                    queueLocationHelper.style.color = '#6f6552';
+                }
+
+                clearLeafletUserMarker();
+
+                stopQueueLocationWatch();
+                resetLeafletMap();
                 updateUI();
+            });
+
+            modalTambah.addEventListener('shown.bs.modal', function () {
+                initializeLeafletMap();
+                requestQueueLocationPreview();
+                startQueueLocationWatch();
             });
 
             // Auto-open modal dan pilih layanan jika ada query parameter layanan_id
@@ -248,81 +684,7 @@
             return;
         }
 
-        async function playQueueAudio(antrean) {
-            if (!antrean) return;
-
-            const status = String(antrean.status || '').toLowerCase();
-            const nomor = antrean.nomor_antrean_seq || '-';
-            const nama = antrean.nama_pelanggan || '-';
-
-            let text = '';
-            if (status === 'sedang dilayani') {
-                text = `Panggilan kepada antrean nomor ${nomor} atas nama ${nama}`;
-            } else if (status === 'batal') {
-                text = `Antrean nomor ${nomor} atas nama ${nama} dibatalkan`;
-            } else if (status === 'selesai') {
-                text = `Antrean nomor ${nomor} atas nama ${nama} selesai`;
-            } else {
-                return Promise.resolve();
-            }
-
-            return new Promise((resolve) => {
-                try {
-                    if (!('speechSynthesis' in window)) throw new Error('no-speech');
-
-                    let voices = window.speechSynthesis.getVoices();
-                    if (!voices.length) {
-                        const onVoices = () => {
-                            window.speechSynthesis.removeEventListener('voiceschanged', onVoices);
-                            playUtterance();
-                        };
-                        window.speechSynthesis.addEventListener('voiceschanged', onVoices);
-                        setTimeout(() => { if (window.speechSynthesis.getVoices().length === 0) playUtterance(); }, 1000);
-                    } else {
-                        playUtterance();
-                    }
-
-                    function playUtterance() {
-                        const utter = new SpeechSynthesisUtterance(text);
-                        utter.lang = 'id-ID';
-                        utter.rate = 1;
-                        utter.pitch = 1;
-
-                        utter.onend = resolve;
-                        utter.onerror = (e) => {
-                            console.warn('[TTS] Error:', e);
-                            fallbackAudio(resolve);
-                        };
-
-                        window.speechSynthesis.cancel();
-                        window.speechSynthesis.speak(utter);
-                    }
-                } catch (err) {
-                    console.warn('[TTS] Failed:', err);
-                    fallbackAudio(resolve);
-                }
-            });
-        }
-
-        function fallbackAudio(resolve) {
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const o = ctx.createOscillator();
-                const g = ctx.createGain();
-                o.type = 'sine';
-                o.frequency.value = 880;
-                g.gain.value = 0.1;
-                o.connect(g);
-                g.connect(ctx.destination);
-                o.start();
-                setTimeout(() => { o.stop(); ctx.close(); resolve(); }, 400);
-            } catch (e) {
-                console.warn('[Fallback] Audio failed', e);
-                resolve();
-            }
-        }
-
-        const handleQueueStatusUpdate = async (e) => {
+        const handleQueueStatusUpdate = (e) => {
             const antrean = e.antrean;
 
             const nomorEl = document.getElementById('antrean-nomor');
@@ -341,8 +703,6 @@
             }
 
             updateMyQueueCard(antrean);
-
-            await playQueueAudio(antrean);
         };
 
         // Kompatibilitas: dengarkan nama event baru dan lama.

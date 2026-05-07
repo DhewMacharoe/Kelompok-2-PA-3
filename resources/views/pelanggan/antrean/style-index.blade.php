@@ -353,6 +353,141 @@
          padding: 24px;
      }
 
+     .queue-location-preview {
+         background: linear-gradient(180deg, #fffaf0 0%, #fffdf9 100%);
+         border: 1px solid #ead9b1;
+         border-radius: 16px;
+         padding: 16px;
+         margin-bottom: 20px;
+     }
+
+     .queue-location-preview-header {
+         display: flex;
+         justify-content: space-between;
+         align-items: flex-start;
+         gap: 12px;
+         margin-bottom: 14px;
+     }
+
+     .queue-location-kicker {
+         font-size: 0.72rem;
+         font-weight: 800;
+         letter-spacing: 1px;
+         text-transform: uppercase;
+         color: #9d7b32;
+         margin-bottom: 4px;
+     }
+
+     .queue-location-title {
+         font-size: 1rem;
+         font-weight: 800;
+         color: #1d1b17;
+     }
+
+     .queue-location-status {
+         flex: 0 0 auto;
+         border-radius: 999px;
+         padding: 6px 12px;
+         font-size: 0.72rem;
+         font-weight: 800;
+         letter-spacing: 0.4px;
+         text-transform: uppercase;
+         color: #7a5b1c;
+         background: #fff3d2;
+         border: 1px solid #e2c57f;
+     }
+
+     .queue-location-map {
+         position: relative;
+         width: 100%;
+         min-height: 280px;
+         border-radius: 18px;
+         overflow: hidden;
+         border: 1px solid rgba(157, 123, 50, 0.2);
+         background: linear-gradient(160deg, #f8f3e3 0%, #f3ede0 100%);
+     }
+
+     .queue-location-map-empty {
+         position: absolute;
+         inset: 0;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         text-align: center;
+         padding: 12px;
+         font-size: 0.9rem;
+         font-weight: 700;
+         color: #6f6552;
+         background: repeating-linear-gradient(
+             45deg,
+             rgba(157, 123, 50, 0.07),
+             rgba(157, 123, 50, 0.07) 10px,
+             rgba(255, 255, 255, 0.7) 10px,
+             rgba(255, 255, 255, 0.7) 20px
+         );
+     }
+
+     .queue-location-map .leaflet-container {
+         width: 100%;
+         height: 100%;
+         min-height: 280px;
+         border-radius: 18px;
+         font-family: inherit;
+         background: #f3ede0;
+     }
+
+     .queue-location-map .leaflet-popup-content-wrapper {
+         border-radius: 10px;
+     }
+
+     .queue-location-map .leaflet-control-attribution {
+         font-size: 0.62rem;
+         background: rgba(255, 255, 255, 0.85);
+     }
+
+     .queue-location-footer {
+         display: grid;
+         grid-template-columns: repeat(2, minmax(0, 1fr));
+         gap: 10px;
+         margin-top: 14px;
+         margin-bottom: 10px;
+     }
+
+     .queue-location-stat {
+         background: #fff;
+         border: 1px solid #f1e6c7;
+         border-radius: 12px;
+         padding: 10px 12px;
+     }
+
+     .queue-location-stat-label {
+         display: block;
+         font-size: 0.72rem;
+         font-weight: 700;
+         color: #7d745f;
+         margin-bottom: 4px;
+         text-transform: uppercase;
+         letter-spacing: 0.6px;
+     }
+
+     .queue-location-stat-value {
+         color: #1d1b17;
+         font-size: 0.95rem;
+     }
+
+     .queue-location-helper {
+         font-size: 0.82rem;
+         color: #6f6552;
+         line-height: 1.45;
+     }
+
+     @media (max-width: 767.98px) {
+         .queue-location-map,
+         .queue-location-map .leaflet-container {
+             min-height: 240px;
+         }
+     }
+
      /* Grid Layanan */
      .service-grid {
          display: grid;

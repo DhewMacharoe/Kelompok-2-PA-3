@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\ValidatesQueueLocation;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Layanan;
@@ -13,6 +14,8 @@ use App\Events\AntreanUpdate;
 
 class PublicController extends Controller
 {
+    use ValidatesQueueLocation;
+
     public function index()
     {
         $dipanggil = Antrean::where('status', 'sedang dilayani')->first();
@@ -68,6 +71,36 @@ class PublicController extends Controller
 
         if ($antreanAktif) {
             return back()->with('error', 'Anda sudah berada di dalam daftar antrean saat ini.');
+        }
+
+        $locationValidation = $request->validate([
+            'user_latitude' => 'required|numeric|between:-90,90',
+            'user_longitude' => 'required|numeric|between:-180,180',
+        ], [
+            'user_latitude.required' => 'Akses lokasi gagal. Silakan aktifkan GPS/location dan coba lagi.',
+            'user_longitude.required' => 'Akses lokasi gagal. Silakan aktifkan GPS/location dan coba lagi.',
+            'user_latitude.numeric' => 'Data lokasi tidak valid.',
+            'user_longitude.numeric' => 'Data lokasi tidak valid.',
+        ]);
+
+        $queueLocation = $this->queueLocationConfig();
+        $targetLatitude = (float) ($queueLocation['latitude'] ?? 0);
+        $targetLongitude = (float) ($queueLocation['longitude'] ?? 0);
+        $radiusMeters = (int) ($queueLocation['radius_meters'] ?? 200);
+
+        if ($targetLatitude === 0.0 && $targetLongitude === 0.0) {
+            return back()->with('error', 'Konfigurasi lokasi antrean belum tersedia.')->withInput();
+        }
+
+        $distanceMeters = $this->distanceInMeters(
+            (float) $locationValidation['user_latitude'],
+            (float) $locationValidation['user_longitude'],
+            $targetLatitude,
+            $targetLongitude
+        );
+
+        if ($distanceMeters > $radiusMeters) {
+            return back()->with('error', 'Anda harus berada dalam radius maksimal ' . $radiusMeters . ' meter dari lokasi antrean untuk mengambil antrean.')->withInput();
         }
 
         // Generate nomor antrean (Sesuaikan formatnya jika ada aturan khusus dari database Anda)

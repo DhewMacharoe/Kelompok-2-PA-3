@@ -9,6 +9,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Leaflet CSS untuk Queue Location Map -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 
     @vite(['resources/js/app.js'])
 
@@ -227,6 +229,9 @@
             });
         });
     </script>
+
+    <!-- Leaflet JS untuk Queue Location Map (must load before module scripts) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
     @stack('scripts')
 </body>
