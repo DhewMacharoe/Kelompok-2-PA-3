@@ -208,12 +208,11 @@ class AuthController extends Controller
         ]);
 
         $validated = $request->validate([
-            'username' => 'required|string|min:3|max:20|alpha_dash|unique:users,username',
+            'username' => 'required|string|min:3|max:20|unique:users,username',
         ], [
             'username.required' => 'Username wajib diisi.',
             'username.min' => 'Username minimal 3 karakter.',
             'username.max' => 'Username maksimal 20 karakter.',
-            'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, strip, dan underscore.',
             'username.unique' => 'Username sudah digunakan, silakan pilih yang lain.',
         ]);
 
