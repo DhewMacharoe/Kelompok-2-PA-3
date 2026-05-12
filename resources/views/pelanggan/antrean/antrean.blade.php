@@ -2,6 +2,10 @@
 
 @section('title', 'Antrean')
 
+@php
+    $queueLocation = config('queue_location.location', []);
+@endphp
+
 @push('styles')
     @include('pelanggan.antrean.style-index')
 @endpush
@@ -16,7 +20,11 @@
             <div class="alert alert-danger mt-3">{{ session('error') }}</div>
         @endif
 
-        <div class="app-card" data-logged-in-username="{{ auth()->check() ? auth()->user()->username : '' }}">
+        <div class="app-card"
+            data-logged-in-username="{{ auth()->check() ? auth()->user()->username : '' }}"
+            data-queue-latitude="{{ $queueLocation['latitude'] ?? '' }}"
+            data-queue-longitude="{{ $queueLocation['longitude'] ?? '' }}"
+            data-queue-radius="{{ $queueLocation['radius_meters'] ?? 100 }}">
             <div class="row g-0">
 
                 <div class="col-md-5">
@@ -147,8 +155,39 @@
                 <div class="modal-body">
                     <form id="formTambahAntreanPelanggan" action="{{ route('antrean.store') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="user_latitude" id="user_latitude">
+                        <input type="hidden" name="user_longitude" id="user_longitude">
                         <div class="mb-3" style="display: none;">
                             <input type="text" id="nama_pelanggan" value="{{ auth()->user()->username ?? '' }}" readonly>
+                        </div>
+
+                        <div class="queue-location-preview">
+                            <div class="queue-location-preview-header">
+                                <div>
+                                    <div class="queue-location-kicker">Visual posisi antrean</div>
+                                    <div class="queue-location-title">Anda harus berada di dalam area ini</div>
+                                </div>
+                                <span class="queue-location-status" id="queue-location-status">Menunggu GPS</span>
+                            </div>
+
+                            <div class="queue-location-map" id="queue-location-map" role="img" aria-label="Peta posisi antrean">
+                                <div class="queue-location-map-empty" id="queue-location-map-empty">Memuat peta lokasi...</div>
+                            </div>
+
+                            <div class="queue-location-footer">
+                                <div class="queue-location-stat">
+                                    <span class="queue-location-stat-label">Jarak Anda</span>
+                                    <strong class="queue-location-stat-value" id="queue-location-distance">-</strong>
+                                </div>
+                                <div class="queue-location-stat">
+                                    <span class="queue-location-stat-label">Radius izin</span>
+                                    <strong class="queue-location-stat-value">{{ number_format((int) ($queueLocation['radius_meters'] ?? 100), 0, ',', '.') }} m</strong>
+                                </div>
+                            </div>
+
+                            <div class="queue-location-helper" id="queue-location-helper">
+                                Aktifkan GPS untuk melihat posisi Anda terhadap titik antrean.
+                            </div>
                         </div>
 
                         <!-- Hidden Selects to keep backend working -->
@@ -196,6 +235,7 @@
                                     + Tambah Layanan Lain (Maks 2)
                                 </button>
                             </div>
+                            <div id="lokasi-feedback" class="alert alert-danger d-none" role="alert"></div>
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-submit-bottom btn-lg" id="btn-submit-antrean" data-loading-text="Mengambil antrean...">Ambil Antrean</button>
                             </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\Pelanggan\PelangganLayananController;
 use App\Http\Controllers\Pelanggan\PelangganGaleriController;
 use App\Http\Controllers\Pelanggan\PelangganRekomendasiController;
+use App\Http\Controllers\Pelanggan\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,12 @@ Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('tes
 Route::post('/antrean/daftar', [PublicController::class, 'daftarAntrean'])
     ->name('antrean.daftar')
     ->middleware('auth');
+
+// Rute untuk profil pelanggan
+Route::middleware('auth')->group(function () {
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
 
 
 // Serve image files stored in project-root /images for local/dev access.
