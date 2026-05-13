@@ -29,16 +29,15 @@ Route::get('/', [HomePageController::class, 'index'])->name('home');
 
 Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
 Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
-Route::get('/rekomendasi', [PublicController::class, 'rekomendasi'])->name('rekomendasi');
+Route::get('/rekomendasi', [PelangganRekomendasiController::class, 'rekomendasi'])->name('rekomendasi.index');
+Route::post('/rekomendasi/process', [PelangganRekomendasiController::class, 'process'])->name('rekomendasi.process');
+Route::post('/rekomendasi/generate', [PelangganRekomendasiController::class, 'generate'])->name('rekomendasi.generate');
 Route::get('/galeri', [PelangganGaleriController::class, 'index'])->name('galeri');
 Route::get('/menu', [PublicController::class, 'menu'])->name('menu');
 Route::post('/antrean', [AntreanController::class, 'store'])->name('antrean.store');
 Route::patch('/antrean/saya/batal', [AntreanController::class, 'cancelMyQueue'])
     ->name('antrean.cancel')
     ->middleware('auth');
-
-Route::get('/rekomendasi', [PelangganRekomendasiController::class, 'rekomendasi'])->name('rekomendasi.index');
-Route::post('/rekomendasi/process', [PelangganRekomendasiController::class, 'process'])->name('rekomendasi.process');
 
 
 // ==========================================
