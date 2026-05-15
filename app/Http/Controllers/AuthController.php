@@ -155,12 +155,12 @@ class AuthController extends Controller
 
         // If user doesn't have username, redirect to set username
         if (!$user->username) {
-            Auth::login($user, true);
+            Auth::login($user);
             $request->session()->regenerate();
             return redirect()->route('set.username');
         }
 
-        Auth::login($user, true);
+        Auth::login($user);
         $request->session()->regenerate();
 
         return redirect()->intended('/');
