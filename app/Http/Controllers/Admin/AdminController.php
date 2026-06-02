@@ -243,5 +243,31 @@ class AdminController extends Controller
 
         return redirect()->route('admin.antrean')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrean.');
     }
+
+    public function lokasi()
+    {
+        $defaultConfig = config('queue_location.location', []);
+
+        $latitude = \App\Models\Setting::get('queue_latitude', $defaultConfig['latitude'] ?? 2.33758);
+        $longitude = \App\Models\Setting::get('queue_longitude', $defaultConfig['longitude'] ?? 99.079255);
+        $radius = \App\Models\Setting::get('queue_radius_meters', $defaultConfig['radius_meters'] ?? 100);
+
+        return view('admin.lokasi.index', compact('latitude', 'longitude', 'radius'));
+    }
+
+    public function simpanLokasi(Request $request)
+    {
+        $request->validate([
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
+            'radius_meters' => 'required|integer|min:1',
+        ]);
+
+        \App\Models\Setting::set('queue_latitude', $request->input('latitude'));
+        \App\Models\Setting::set('queue_longitude', $request->input('longitude'));
+        \App\Models\Setting::set('queue_radius_meters', $request->input('radius_meters'));
+
+        return redirect()->back()->with('success', 'Lokasi antrean berhasil diperbarui.');
+    }
 }
 

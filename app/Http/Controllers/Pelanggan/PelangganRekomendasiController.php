@@ -106,15 +106,32 @@ class PelangganRekomendasiController extends Controller
             ]
         ];
 
-        // Tambahkan URL gambar front/side/back untuk setiap rekomendasi berdasarkan slug nama
+        // Tambahkan URL gambar front/side/back untuk setiap rekomendasi berdasarkan file di folder images
         foreach ($faceProfile['rekomendasi'] as &$rek) {
             $name = is_array($rek) && isset($rek['name']) ? $rek['name'] : (string) $rek;
-            $slug = Str::slug($name);
-            $rek['images'] = [
-                'front' => asset('images/hairstyles/' . $slug . '-front.jpg'),
-                'side' => asset('images/hairstyles/' . $slug . '-side.jpg'),
-                'back' => asset('images/hairstyles/' . $slug . '-back.jpg'),
+            
+            $views = [
+                'front' => 'Depan',
+                'side' => 'Samping',
+                'back' => 'Belakang',
             ];
+            
+            $rek['images'] = [];
+            foreach ($views as $key => $suffix) {
+                // Check if there is an exact filename or override
+                $fileName = $name . ' ' . $suffix . '.png';
+                if ($name === 'Undercut' && $key === 'back') {
+                    $fileName = 'Undecut Belakang.png';
+                }
+                
+                $fullPath = base_path('images/Gaya Rambut/' . $fileName);
+                if (file_exists($fullPath)) {
+                    $rek['images'][$key] = asset('images/Gaya Rambut/' . rawurlencode($fileName));
+                } else {
+                    // Fallback to default image
+                    $rek['images'][$key] = asset('assets/images/rambut/buzz_cut.png');
+                }
+            }
         }
 
         // Kembalikan langsung ke frontend tanpa me-reload halaman

@@ -32,6 +32,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/tambah-pelanggan', [AdminController::class, 'tambahPelanggan'])->name('tambah-pelanggan');
     Route::post('/tambah-pelanggan', [AdminController::class, 'simpanPelanggan'])->name('simpan-pelanggan');
 
+    // Kelola Lokasi Antrean
+    Route::get('/lokasi', [AdminController::class, 'lokasi'])->name('lokasi.index');
+    Route::post('/lokasi', [AdminController::class, 'simpanLokasi'])->name('lokasi.store');
+
     // Kelola Layanan (CRUD)
     Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
     Route::get('/layanan/create', [LayananController::class, 'create'])->name('layanan.create');

@@ -235,17 +235,7 @@
 
 @section('content')
     <div class="container py-5 rekomendasi-shell">
-        <section class="rekomendasi-hero mb-4">
-            <div class="row align-items-center g-4">
-                <div class="col-lg-7">
-                    <h2 class="mb-3 fw-bold">Cari gaya rambut cocok untuk wajah Anda</h2>
-                    <p class="mb-0 text-white-50 fs-5">Ambil foto wajah, dapat rekomendasi & preview gaya.</p>
-                </div>
-                <div class="col-lg-5 text-center d-none d-lg-block">
-                    <div class="hero-icon"><i class="fas fa-sparkles"></i></div>
-                </div>
-            </div>
-        </section>
+
 
         <div class="row justify-content-center g-4">
             <!-- Bagian Input Kamera / Foto -->
@@ -259,6 +249,16 @@
 
                         <div class="mb-4 d-flex justify-content-center">
                             <div class="preview-shell">
+                                <!-- AI Loading Overlay inside preview box -->
+                                <div id="ai-loading-overlay" class="position-absolute d-flex flex-column align-items-center justify-content-center" 
+                                     style="top:0; left:0; width:100%; height:100%; background: rgba(255, 255, 255, 0.96); z-index: 100; transition: opacity 0.5s ease, visibility 0.5s;">
+                                    <div class="spinner-border text-warning mb-2" role="status" style="width: 2rem; height: 2rem;">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="fw-bold small text-dark mb-1">Menyiapkan AI Wajah</div>
+                                    <div class="text-muted text-center" style="font-size: 0.72rem; padding: 0 15px;">Sedang memuat modul cerdas...</div>
+                                </div>
+
                                 <div id="preview-container" class="d-flex align-items-center justify-content-center">
                                     <video id="webcam" width="300" height="300" autoplay playsinline
                                         style="display:none; object-fit: cover; transform: scaleX(-1);"></video>
@@ -349,6 +349,7 @@
 
     <script>
         const CLASS_NAMES = ['Heart', 'Oblong', 'Oval', 'Round', 'Square'];
+        const fallbackImageUrl = "{{ asset('assets/images/rambut/buzz_cut.png') }}";
         let aiModel = null,
             faceDetector = null;
         let currentBentukWajah = '',
@@ -381,10 +382,39 @@
             document.getElementById('label-akurasi-hasil').innerText = '0%';
         }
 
+        let pendingImageSrc = null;
+
         // Load Lokal Model
         async function loadModels() {
-            aiModel = await tf.loadGraphModel("{{ asset('ai_model/model.json') }}");
-            faceDetector = await blazeface.load();
+            try {
+                aiModel = await tf.loadGraphModel("{{ asset('ai_model/model.json') }}");
+                faceDetector = await blazeface.load();
+                
+                // Hide loading overlay smoothly
+                const overlay = document.getElementById('ai-loading-overlay');
+                if (overlay) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                    }, 500);
+                }
+
+                // Run pending image if any
+                if (pendingImageSrc) {
+                    processImage(pendingImageSrc);
+                    pendingImageSrc = null;
+                }
+            } catch (error) {
+                console.error('Gagal memuat model AI:', error);
+                const overlay = document.getElementById('ai-loading-overlay');
+                if (overlay) {
+                    overlay.innerHTML = `
+                        <div class="text-danger fs-3 mb-2"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="fw-bold small text-dark mb-1">AI Gagal Dimuat</div>
+                        <div class="text-muted text-center" style="font-size: 0.65rem; padding: 0 10px;">Gagal mengunduh modul AI. Harap refresh halaman.</div>
+                    `;
+                }
+            }
         }
         loadModels();
 
@@ -432,7 +462,6 @@
             imgPreview.style.display = 'block';
             document.getElementById('placeholder-text').style.display = 'none';
             document.getElementById('status-analisis').classList.remove('d-none');
-            document.getElementById('analysis-caption').innerText = 'Wajah sedang dianalisis untuk membaca proporsi terbaik.';
             document.getElementById('live-bentuk-wajah').innerText = 'Menganalisis...';
             document.getElementById('live-akurasi').innerText = 'Akurasi: 0%';
             if (analysisProgressBar) {
@@ -440,6 +469,14 @@
                 analysisProgressBar.setAttribute('aria-valuenow', '0');
             }
             resetResultView();
+
+            if (!aiModel || !faceDetector) {
+                document.getElementById('analysis-caption').innerText = 'Menunggu modul AI selesai dimuat di latar belakang...';
+                pendingImageSrc = src;
+                return;
+            }
+
+            document.getElementById('analysis-caption').innerText = 'Wajah sedang dianalisis untuk membaca proporsi terbaik.';
 
             imgPreview.onload = async () => {
                 const faces = await faceDetector.estimateFaces(imgPreview, false);
@@ -555,9 +592,9 @@
                 const alasan = escapeHtml(rek.reason || 'Rekomendasi ini dipilih berdasarkan proporsi wajah Anda.');
                 const catatan = escapeHtml(rek.barber_note || 'Diskusikan detailnya dengan kapster agar hasil lebih presisi.');
                 const prioritas = escapeHtml(rek.priority || 'Disarankan');
-                const frontUrl = escapeHtml((rek.images && rek.images.front) || '/images/placeholder-front.jpg');
-                const sideUrl = escapeHtml((rek.images && rek.images.side) || '/images/placeholder-side.jpg');
-                const backUrl = escapeHtml((rek.images && rek.images.back) || '/images/placeholder-back.jpg');
+                const frontUrl = escapeHtml((rek.images && rek.images.front) || fallbackImageUrl);
+                const sideUrl = escapeHtml((rek.images && rek.images.side) || fallbackImageUrl);
+                const backUrl = escapeHtml((rek.images && rek.images.back) || fallbackImageUrl);
 
                 const cardHtml = `
                     <div class="col-12 col-md-6">
@@ -614,9 +651,9 @@
             const sideImg = document.getElementById('modal-img-side');
             const backImg = document.getElementById('modal-img-back');
 
-            frontImg.src = front || '/images/placeholder-front.jpg';
-            sideImg.src = side || '/images/placeholder-side.jpg';
-            backImg.src = back || '/images/placeholder-back.jpg';
+            frontImg.src = front || fallbackImageUrl;
+            sideImg.src = side || fallbackImageUrl;
+            backImg.src = back || fallbackImageUrl;
 
             const modalEl = document.getElementById('galleryModal');
             const bsModal = new bootstrap.Modal(modalEl);
@@ -636,15 +673,15 @@
                     <div class="row g-3">
                         <div class="col-md-4 text-center">
                             <div class="mb-2 small text-muted">Depan</div>
-                            <img id="modal-img-front" src="/images/placeholder-front.jpg" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
+                            <img id="modal-img-front" src="{{ asset('assets/images/rambut/buzz_cut.png') }}" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
                         </div>
                         <div class="col-md-4 text-center">
                             <div class="mb-2 small text-muted">Samping</div>
-                            <img id="modal-img-side" src="/images/placeholder-side.jpg" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
+                            <img id="modal-img-side" src="{{ asset('assets/images/rambut/buzz_cut.png') }}" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
                         </div>
                         <div class="col-md-4 text-center">
                             <div class="mb-2 small text-muted">Belakang</div>
-                            <img id="modal-img-back" src="/images/placeholder-back.jpg" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
+                            <img id="modal-img-back" src="{{ asset('assets/images/rambut/buzz_cut.png') }}" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
                         </div>
                     </div>
                 </div>

@@ -39,5 +39,10 @@
                 <i class="bi bi-receipt"></i> Rekap Pemasukan
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {{ request()->is('admin/lokasi*') ? 'active' : '' }}" href="{{ route('admin.lokasi.index') }}">
+                <i class="bi bi-geo-alt"></i> Tentukan Lokasi
+            </a>
+        </li>
     </ul>
 </nav>
