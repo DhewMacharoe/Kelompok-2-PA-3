@@ -143,12 +143,11 @@ class Antrean extends Model
     }
 
     /**
-     * Ambil antrean yang sedang dilayani hari ini
+     * Ambil antrean yang sedang dilayani
      */
     public static function getQueueBeingServed()
     {
         return static::where('status', 'sedang dilayani')
-            ->whereDate('created_at', Carbon::today())
             ->first();
     }
 

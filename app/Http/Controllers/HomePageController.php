@@ -12,7 +12,7 @@ class HomePageController extends Controller
 {
     public function index()
     {
-        $antrean = Antrean::get()->where('status', 'sedang dilayani')->first();
+        $antrean = Antrean::getQueueBeingServed();
 
 
         $jumlahAntrean = Antrean::where('status', 'menunggu')

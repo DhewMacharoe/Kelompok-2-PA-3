@@ -18,14 +18,14 @@ class PublicController extends Controller
 
     public function index()
     {
-        $dipanggil = Antrean::where('status', 'sedang dilayani')->first();
+        $dipanggil = Antrean::getQueueBeingServed();
         $jumlahMenunggu = Antrean::where('status', 'menunggu')->count();
         return view('index', compact('dipanggil', 'jumlahMenunggu'));
     }
 
     public function antrean()
     {
-        $dipanggil = Antrean::where('status', 'sedang dilayani')->first();
+        $dipanggil = Antrean::getQueueBeingServed();
         $menunggu = Antrean::where('status', 'menunggu')->orderBy('waktu_masuk', 'asc')->get();
         $jumlahMenunggu = $menunggu->count();
         return view('antrean', compact('dipanggil', 'menunggu', 'jumlahMenunggu'));

@@ -29,9 +29,7 @@ class AntreanController extends Controller
         }
 
         // Validasi: tidak boleh ada antrean yang sedang dilayani
-        $sedangDilayani = Antrean::where('status', 'sedang dilayani')
-            ->whereDate('created_at', \Carbon\Carbon::today())
-            ->first();
+        $sedangDilayani = Antrean::getQueueBeingServed();
 
         if ($sedangDilayani) {
             return response()->json([
