@@ -1,0 +1,138 @@
+# MOBILE AUDIT PROGRESS
+
+## Completed Pages
+
+- Home
+- Queue
+- Services
+- Gallery
+- Menu
+- Profile
+- Admin Dashboard
+
+## Fixed Issues
+
+### Home
+
+- fixed small text under 14px on menu shortcuts and badges
+- fixed mobile navbar touch target (brand link and toggler now 44x44)
+- fixed CTA touch target size in section headers
+- fixed footer links and social icons touch targets to 44x44
+- fixed missing detail modal markup on homepage cards
+- improved mobile spacing for section headers and modal dialog
+- verified no horizontal overflow on required viewports
+
+Files:
+
+- resources/views/pelanggan/homepage/homepage.blade.php
+- resources/views/pelanggan/homepage/style-index.blade.php
+- resources/views/pelanggan/shared/style-common.blade.php
+- resources/views/pelanggan/layouts/app.blade.php
+
+### Queue
+
+- fixed small text under 14px on queue section labels and queue status badges
+- fixed small text in modal queue-location and review labels
+- fixed guest helper links touch target to minimum 44x44
+- fixed navbar mobile login button text size consistency
+- fixed queue modal close button and service info icon links touch target
+- verified queue modal responsive across required viewports
+
+Files:
+
+- resources/views/pelanggan/antrean/antrean.blade.php
+- resources/views/pelanggan/antrean/style-index.blade.php
+- resources/views/pelanggan/shared/style-common.blade.php
+
+### Services
+
+- fixed mobile card text under 14px on service description and duration
+- fixed modal metadata text under 14px
+- fixed modal close button touch target to minimum 44x44
+- verified service cards and modal responsive on required viewports
+
+Files:
+
+- resources/views/pelanggan/layanan/styles.blade.php
+
+### Gallery
+
+- verified no horizontal overflow on required viewports
+- verified minimum font 14px on rendered gallery page
+- verified touch targets meet minimum 44x44 on rendered gallery page
+- no CSS or Blade fix required for current gallery state
+
+Files:
+
+- tidak ada perubahan file UI (audit only)
+
+### Menu
+
+- fixed mobile tiny text on filter buttons, card title, card description, and price
+- fixed modal category tiny text under 14px
+- fixed filter button touch targets to minimum 44x44
+- fixed modal close button touch target to minimum 44x44
+- reduced mobile layout density by switching extra-small grid to single column
+- verified menu cards and modal responsive on required viewports
+
+Files:
+
+- resources/views/pelanggan/menu/styles.blade.php
+
+### Profile
+
+- fixed card padding to be responsive (p-3 p-sm-4 p-md-5) to optimize input area on mobile viewports
+- fixed alert close button touch target to minimum 44x44
+- enforced helper text size to be at least 14px on mobile viewports
+- verified save, cancel, and edit buttons touch target meet minimum 44x44
+- verified no horizontal overflow on required viewports
+
+Files:
+
+- resources/views/pelanggan/profile/edit.blade.php
+
+### Admin Dashboard
+
+- fixed Logout button font-size to >= 14px and touch target to >= 44px
+- fixed mobile sidebar toggle (#mobileSidebarToggle) touch target to >= 44x44px
+- fixed mobile sidebar close button (#mobileSidebarClose) touch target to >= 44x44px
+- fixed small texts on dashboard to be at least 14px on mobile viewports using a targeted fix
+- fixed button cluster layout (Panggil, Selesai, Batal) to stack vertically on mobile to prevent overflow
+- verified no horizontal overflow on required viewports (320px - 768px)
+
+Files:
+
+- resources/views/admin/layouts/header.blade.php
+- resources/views/admin/layouts/sidebar.blade.php
+- resources/views/admin/dashboard.blade.php
+
+## Remaining Issues
+
+### Queue
+
+- tidak ada blocker kritis tersisa pada state guest
+- validasi state login user masih direkomendasikan untuk data antrean aktif real-time
+
+### Services
+
+- tidak ada blocker kritis tersisa pada state yang diuji
+
+### Gallery
+
+- tidak ada blocker kritis pada state data yang diuji
+
+### Menu
+
+- tidak ada blocker kritis tersisa pada state yang diuji
+
+### Profile
+
+- tidak ada blocker kritis tersisa
+
+### Admin Dashboard
+
+- tidak ada blocker kritis tersisa
+
+## Next Step
+
+Semua halaman utama selesai diaudit dan diselaraskan untuk kebutuhan Mobile First.

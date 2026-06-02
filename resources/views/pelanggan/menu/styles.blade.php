@@ -98,6 +98,7 @@
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    min-height: 44px;
     transition: all 0.3s ease;
 }
 
@@ -189,7 +190,7 @@
     color: white;
     padding: 6px 12px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
 }
 
@@ -206,10 +207,11 @@
 
 .item-desc {
     color: #666;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.4;
     margin: 0 0 12px;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -261,6 +263,12 @@
     line-height: 1;
     cursor: pointer;
     color: #333;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
 }
 
 .modal-image-wrapper {
@@ -293,7 +301,7 @@
 .modal-status {
     display: inline-block;
     margin: 0 10px 10px 0;
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
 }
 
@@ -381,7 +389,8 @@
 
     .filter-btn {
         padding: 8px 16px;
-        font-size: 12px;
+        font-size: 14px;
+        min-height: 44px;
     }
 
     .category-title {
@@ -420,7 +429,7 @@
     }
 
     .category-items {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
         gap: 12px;
     }
 
@@ -433,17 +442,17 @@
     }
 
     .menu-item-info h4 {
-        font-size: 12px;
+        font-size: 14px;
         margin-bottom: 4px;
     }
 
     .item-desc {
-        font-size: 10px;
+        font-size: 14px;
         margin-bottom: 8px;
     }
 
     .item-price {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     .menu-filter-section {

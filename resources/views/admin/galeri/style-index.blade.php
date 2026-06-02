@@ -1,3 +1,5 @@
+@include('admin.shared.style-common')
+
     <style>
         .main-container {
             padding: 20px;

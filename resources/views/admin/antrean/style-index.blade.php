@@ -1,3 +1,5 @@
+@include('admin.shared.style-common')
+
     <style>
         /* CSS Khusus Halaman Ini (Tetap sama seperti aslinya) */
         .main-container {

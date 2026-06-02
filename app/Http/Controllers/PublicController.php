@@ -54,6 +54,37 @@ class PublicController extends Controller
         $menus = Menu::where('is_available', true)->get();
         return view('pelanggan.menu.menu', compact('menus'));
     }
+
+    public function bantuan()
+    {
+        return view('bantuan.index');
+    }
+
+    public function bantuanFaq()
+    {
+        return view('bantuan.faq');
+    }
+
+    public function bantuanAntrean()
+    {
+        return view('bantuan.antrean');
+    }
+
+    public function bantuanLoginGoogle()
+    {
+        return view('bantuan.login-google');
+    }
+
+    public function bantuanGps()
+    {
+        return view('bantuan.gps');
+    }
+
+    public function bantuanPembatalanAntrean()
+    {
+        return view('bantuan.pembatalan-antrean');
+    }
+
     public function daftarAntrean(Request $request)
     {
         $user = Auth::user();

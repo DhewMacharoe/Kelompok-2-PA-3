@@ -131,8 +131,14 @@
                                 @endif
                             @else
                                 <div class="guest-queue-hint">
-                                    <p>Pergi ke kasir untuk mengambil antrean atau login menggunakan Google <br> <a
-                                            href="{{ route('login.user') }}">Klik disini untuk login</a></p>
+                                    <p>
+                                        Pergi ke kasir untuk mengambil antrean atau masuk menggunakan Google
+                                    </p>
+                                    <div class="guest-queue-links">
+                                        <a href="{{ route('login.user') }}">Klik di sini untuk masuk</a>
+                                        <a href="{{ route('bantuan.antrean') }}">Panduan antrean</a>
+                                        <a href="{{ route('bantuan.gps') }}">Panduan GPS</a>
+                                    </div>
                                 </div>
                             @endauth
                         </div>
@@ -211,8 +217,8 @@
                                     <div class="service-card" data-id="{{ $layanan->id }}" onclick="selectService({{ $layanan->id }})">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div class="service-name">{{ $layanan->nama }}</div>
-                                            <a href="{{ route('pelanggan.layanan') }}?id={{ $layanan->id }}&open=true" onclick="event.stopPropagation()" class="text-decoration-none" style="color: #17a2b8;" title="Lihat Detail">
-                                                <i class="fas fa-info-circle" style="font-size: 1.1rem;"></i>
+                                            <a href="{{ route('pelanggan.layanan') }}?id={{ $layanan->id }}&open=true" onclick="event.stopPropagation()" class="text-decoration-none service-info-link" title="Lihat Detail">
+                                                <i class="fas fa-info-circle service-info-icon"></i>
                                             </a>
                                         </div>
                                         <div class="service-meta">

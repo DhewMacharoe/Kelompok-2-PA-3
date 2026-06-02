@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Arga Barbershop')</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="stylesheet" href="{{ asset('css/design-tokens.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app-theme.css') }}">
     @yield('head')
 </head>
 
@@ -24,13 +26,11 @@
                     <div style="position: absolute; top: 10px; right: 10px; display: flex; align-items: center; gap: 10px;">
                         <span>Halo, {{ Auth::user()->username ?? Auth::user()->name }}</span>
                         @if(auth()->user()->hasRole('admin'))
-                            <a href="{{ route('admin.dashboard') }}"
-                                style="padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; text-decoration: none;">Dashboard admin</a>
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-primary">Dashboard Admin</a>
                         @else
-                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf
-                                <button type="submit"
-                                    style="padding: 5px 10px; background: red; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Keluar</button>
                             </form>
                         @endif
                     </div>
@@ -45,7 +45,8 @@
                     <li><a href="{{ url('rekomendasi') }}" class="{{ Request::is('rekomendasi') ? 'active' : '' }}">Gaya
                             Rambut</a></li>
                     <li><a href="{{ url('galeri') }}" class="{{ Request::is('galeri') ? 'active' : '' }}">Galeri</a></li>
-                    <li><a href="{{ url('menu') }}" class="{{ Request::is('menu') ? 'active' : '' }}">Café</a></li>
+                    <li><a href="{{ url('menu') }}" class="{{ Request::is('menu') ? 'active' : '' }}">Kafe</a></li>
+                    <li><a href="{{ route('bantuan.index') }}" class="{{ Request::is('bantuan*') ? 'active' : '' }}">Bantuan</a></li>
                 </ul>
             </nav>
         @endunless

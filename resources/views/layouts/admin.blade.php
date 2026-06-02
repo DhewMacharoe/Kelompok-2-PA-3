@@ -4,16 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin Barbershop')</title>
+    <title>@yield('title', 'Dashboard Admin')</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="stylesheet" href="{{ asset('css/design-tokens.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app-theme.css') }}">
 </head>
 
 <body>
     <div class="page-wrapper">
 
         <header class="header">
-            <button class="header-back" onclick="window.location='{{ url('/') }}'">← Dashboard</button>
+            <button class="header-back" onclick="window.location='{{ url('/') }}'">← Dashboard Admin</button>
             <div class="header-title">@yield('header_title', 'Kelola Barbershop')</div>
             <div style="width:80px;"></div>
             @yield('header_right')
@@ -22,7 +24,7 @@
         <nav class="admin-nav">
             <ul class="admin-nav-list">
                 <li><a href="{{ url('dashboard') }}"
-                        class="{{ Request::is('dashboard') ? 'active' : '' }}">Dashboard</a></li>
+                    class="{{ Request::is('dashboard') ? 'active' : '' }}">Dashboard Admin</a></li>
                 <li><a href="{{ url('admin/antrean') }}"
                         class="{{ Request::is('admin/antrean') ? 'active' : '' }}">Antrean</a></li>
                 <li><a href="{{ url('admin/layanan') }}"

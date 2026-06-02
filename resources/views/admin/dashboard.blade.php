@@ -1,6 +1,36 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Dashboard Admin')
+
+@push('styles')
+    <style>
+        @media (max-width: 767.98px) {
+            /* Memastikan teks kecil minimal 14px di mobile */
+            .queue-card-main .small {
+                font-size: 14px !important;
+            }
+            
+            /* Memastikan link "Lihat Semua Antrean" memiliki target sentuh minimal 44px */
+            .queue-card-main a.small {
+                display: inline-block;
+                min-height: 44px;
+                padding: 10px 16px;
+                line-height: 24px;
+            }
+
+            /* Menyusun tombol agar bertumpuk secara vertikal pada layar mobile agar tidak overflow */
+            .queue-card-main .d-flex.justify-content-center.gap-3 {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+            }
+            
+            .queue-card-main .d-flex.justify-content-center.gap-3 .btn {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+        }
+    </style>
+@endpush
 
 @section('content')
     <div class="row g-4">

@@ -645,44 +645,69 @@ textarea {
     transition: var(--transition);
     border: 2px solid var(--border);
 }
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.btn-success,
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
 .btn-primary {
     background: var(--hero-bg);
     color: #ffffff;
     border-color: var(--hero-bg);
     box-shadow: var(--shadow);
 }
-.btn-primary:hover {
-    transform: translate(-1px, -1px);
-    box-shadow: var(--shadow-md);
-}
-.btn-primary:active {
-    transform: translate(1px, 1px);
-    box-shadow: none;
-}
-.btn-secondary {
+.btn-primary:hover { transform: translate(-1px, -1px); box-shadow: var(--shadow-md); }
+.btn-primary:active { transform: translate(1px, 1px); box-shadow: none; }
+
+.btn-secondary,
+.btn-outline {
     background: var(--surface);
     color: var(--text-primary);
     border-color: var(--border);
 }
-.btn-secondary:hover {
-    background: var(--bg);
-}
+.btn-secondary:hover,
+.btn-outline:hover { background: var(--bg); }
+
 .btn-danger {
     background: var(--surface);
     color: var(--error-text);
     border-color: var(--error-text);
 }
-.btn-danger:hover {
-    background: var(--error-bg);
+.btn-danger:hover { background: var(--error-bg); }
+
+.btn-success {
+    background: var(--green);
+    color: #ffffff;
+    border-color: var(--green);
 }
+.btn-success:hover { filter: brightness(0.96); }
+
 .btn-gold {
     background: var(--accent-gold);
     color: var(--hero-bg);
     border-color: var(--accent-gold);
     box-shadow: var(--shadow);
 }
+
 .btn-sm {
     width: auto;
+    min-height: 36px;
     padding: 7px 14px;
     font-size: 11px;
 }

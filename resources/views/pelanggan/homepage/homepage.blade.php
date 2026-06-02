@@ -71,14 +71,14 @@
         <div class="col-6 col-md-3">
             <a href="{{ route('menu') }}" class="text-decoration-none text-dark fw-bold menu-item d-block">
                 <div class="icon-circle shadow-sm"><i class="fas fa-coffee"></i></div>
-                Menu Café
+                Menu Kafe
             </a>
         </div>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 section-header">
         <h4 class="border-gold-left ps-2 mb-0 fw-bold">Layanan Yang Ditawarkan</h4>
-        <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none text-gold fw-semibold small">
+        <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none text-gold fw-semibold small section-cta-link">
             Lihat Semua <i class="fas fa-arrow-right ms-1"></i>
         </a>
     </div>
@@ -147,9 +147,9 @@
     @endphp
 
     @if($makanan->isNotEmpty())
-    <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 mt-5 section-header">
         <h4 class="border-gold-left ps-2 mb-0 fw-bold">Menu Makanan</h4>
-        <a href="{{ route('menu', ['kategori' => 'Makanan']) }}" class="text-decoration-none text-gold fw-semibold small">
+        <a href="{{ route('menu', ['kategori' => 'Makanan']) }}" class="text-decoration-none text-gold fw-semibold small section-cta-link">
             Lihat Selengkapnya <i class="fas fa-arrow-right ms-1"></i>
         </a>
     </div>
@@ -171,7 +171,7 @@
                 data-price="Rp{{ number_format($menu->harga, 0, ',', '.') }}"
                 data-description="{{ e($menu->deskripsi ?? 'Tidak ada deskripsi.') }}"
                 data-category="{{ $menu->kategori ?? '-' }}"
-                data-availability="{{ $menu->is_available ? 'Tersedia' : 'Habis' }}" data-extra="Menu Cafe"
+                data-availability="{{ $menu->is_available ? 'Tersedia' : 'Habis' }}" data-extra="Menu Kafe"
                 data-show-meta="0">
                 <div class="card haircut-card shadow-sm border-0 h-100">
                     <img src="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
@@ -192,9 +192,9 @@
     @endif
 
     @if($minuman->isNotEmpty())
-    <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 mt-5 section-header">
         <h4 class="border-gold-left ps-2 mb-0 fw-bold">Menu Minuman</h4>
-        <a href="{{ route('menu', ['kategori' => 'Minuman']) }}" class="text-decoration-none text-gold fw-semibold small">
+        <a href="{{ route('menu', ['kategori' => 'Minuman']) }}" class="text-decoration-none text-gold fw-semibold small section-cta-link">
             Lihat Selengkapnya <i class="fas fa-arrow-right ms-1"></i>
         </a>
     </div>
@@ -216,7 +216,7 @@
                 data-price="Rp{{ number_format($menu->harga, 0, ',', '.') }}"
                 data-description="{{ e($menu->deskripsi ?? 'Tidak ada deskripsi.') }}"
                 data-category="{{ $menu->kategori ?? '-' }}"
-                data-availability="{{ $menu->is_available ? 'Tersedia' : 'Habis' }}" data-extra="Menu Cafe"
+                data-availability="{{ $menu->is_available ? 'Tersedia' : 'Habis' }}" data-extra="Menu Kafe"
                 data-show-meta="0">
                 <div class="card haircut-card shadow-sm border-0 h-100">
                     <img src="{{ $fotoMenu ?? 'https://via.placeholder.com/600x400?text=No+Image' }}"
@@ -239,10 +239,47 @@
     @if($makanan->isEmpty() && $minuman->isEmpty())
     <div class="col-12">
         <div class="alert alert-light border text-center mb-0 mt-4">
-            Menu cafe belum tersedia saat ini.
+            Menu Kafe belum tersedia saat ini.
         </div>
     </div>
     @endif
+</div>
+
+<div class="modal fade detail-modal" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="detailModalLabel">Detail</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img id="detailModalImage" class="detail-modal-img mb-3" src="" alt="Detail item">
+                <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                    <h5 id="detailModalTitle" class="mb-0 fw-bold text-dark">-</h5>
+                    <span id="detailModalPrice" class="detail-modal-price">-</span>
+                </div>
+
+                <div class="mb-2 text-muted">
+                    <strong>Tipe:</strong> <span id="detailModalType">-</span>
+                </div>
+
+                <div class="mb-2 text-muted d-flex align-items-center gap-2" id="detailModalMetaRow">
+                    <strong>Kategori / Estimasi:</strong>
+                    <span id="detailModalMeta">-</span>
+                </div>
+
+                <div class="mb-3 text-muted">
+                    <strong>Status:</strong> <span id="detailModalStatus">-</span>
+                </div>
+
+                <div class="mb-3 detail-modal-text" id="detailModalDescription">-</div>
+
+                <div class="text-muted small">
+                    <strong>Info Tambahan:</strong> <span id="detailModalExtra">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 @push('scripts')

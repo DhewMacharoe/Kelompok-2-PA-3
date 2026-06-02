@@ -12,9 +12,7 @@ class AntreanController extends Controller
 {
     public function index()
     {
-        $antrean = Antrean::getQueueBeingServed();
-
-        return view('admin.antrean.test', compact('antrean'));
+        return redirect()->route('admin.antrean');
     }
 
     public function panggil(Request $request)

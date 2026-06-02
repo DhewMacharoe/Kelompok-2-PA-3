@@ -17,9 +17,9 @@
     <meta name="theme-color" content="#fdfbf8ff"> <!-- Sesuaikan dengan warna brand Anda -->
     <link rel="apple-touch-icon" href="{{ asset('assets/images/logo.png') }}">
 
-    @vite(['resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/design-tokens.css') }}">
 
-    @stack('styles')
+    @vite(['resources/js/app.js'])
 
     <style>
         /* =========================================
@@ -103,6 +103,12 @@
             color: #d1d1d1;
             text-decoration: none;
             transition: color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-width: 44px;
+            min-height: 44px;
+            padding: 0.2rem 0;
         }
 
         .footer-custom a:hover {
@@ -130,7 +136,26 @@
             text-align: center;
             font-size: 0.9rem;
         }
+
+        @media (max-width: 575.98px) {
+            .footer-custom {
+                padding-top: 36px;
+            }
+
+            .footer-custom h5 {
+                font-size: 1rem;
+                margin-bottom: 12px;
+            }
+
+            .footer-list li {
+                font-size: 0.875rem;
+                line-height: 1.5;
+            }
+        }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/app-theme.css') }}">
+
+    @stack('styles')
 </head>
 
 <body class="bg-light">
@@ -194,6 +219,17 @@
                     </div>
                 </div>
 
+                <div class="col-lg-3 col-md-6">
+                    <h5>Bantuan</h5>
+                    <ul class="list-unstyled footer-list">
+                        <li><a href="{{ route('bantuan.faq') }}">FAQ</a></li>
+                        <li><a href="{{ route('bantuan.antrean') }}">Panduan Antrean</a></li>
+                        <li><a href="{{ route('bantuan.login-google') }}">Panduan Login Google</a></li>
+                        <li><a href="{{ route('bantuan.gps') }}">Panduan GPS</a></li>
+                        <li><a href="{{ route('bantuan.pembatalan-antrean') }}">Pembatalan Antrean</a></li>
+                    </ul>
+                </div>
+
             </div>
         </div>
 
@@ -201,7 +237,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-12">
-                        <p class="mb-0">&copy; {{ date('Y') }} Arga Home's Barbershop & Cafe. All rights reserved.
+                        <p class="mb-0">&copy; {{ date('Y') }} Arga Home's Barbershop & Kafe. Hak cipta dilindungi.
                         </p>
                     </div>
                 </div>

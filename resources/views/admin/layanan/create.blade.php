@@ -7,12 +7,16 @@
 @endsection
 
 @section('content')
+@push('styles')
+    @include('admin.shared.style-common')
+@endpush
+
 <div class="content-header">
-    <h2 style="margin-left: 20px; margin-top: 20px;">Tambah Layanan</h2>
+    <h2 class="section-title-offset">Tambah Layanan</h2>
 </div>
 
 <div class="content-body">
-    <div class="card shadow-sm mx-auto" style="max-width: 720px;">
+    <div class="card shadow-sm mx-auto form-card-wide">
         <div class="card-body">
             <form action="{{ route('admin.layanan.store') }}" method="POST" enctype="multipart/form-data">
                 @include('admin.layanan._form')

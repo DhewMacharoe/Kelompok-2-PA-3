@@ -264,7 +264,4 @@ class AuthController extends Controller
 
         throw new \RuntimeException('Firebase service account configuration is missing.');
     }
-
-    // Test Firebase connection
-    public function testFirebase() {}
 }

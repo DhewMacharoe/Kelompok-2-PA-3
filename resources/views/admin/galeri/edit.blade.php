@@ -3,87 +3,70 @@
 @section('title', 'Edit Galeri')
 
 @section('content')
+@push('styles')
+    @include('admin.shared.style-common')
+@endpush
+
 <div class="content-header">
     <h2>Edit Galeri</h2>
 </div>
 
 <div class="content-body">
-    <div class="card shadow-sm mx-auto" style="max-width: 720px;">
+    <div class="card shadow-sm mx-auto form-card-wide">
         <div class="card-body">
 
             <form action="{{ route('admin.galeri.update', $galeri) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
-                <div class="mb-3">
-                    <label class="form-label">Judul Galeri</label>
-                    <input type="text"
-                           name="judul"
-                           class="form-control"
-                           value="{{ old('judul', $galeri->judul) }}"
-                           placeholder="Contoh: Suasana Arga Home's"
-                           required>
+                <x-form.field
+                    label="Judul Galeri"
+                    name="judul"
+                    :value="$galeri->judul"
+                    placeholder="Contoh: Suasana Arga Home's"
+                    help="Gunakan judul yang singkat dan mudah dikenali."
+                    required
+                />
 
-                    @error('judul')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
+                <x-form.field
+                    label="Deskripsi"
+                    name="deskripsi"
+                    type="textarea"
+                    :value="$galeri->deskripsi"
+                    :rows="4"
+                    placeholder="Contoh: Dokumentasi suasana barbershop dan coffee."
+                    help="Deskripsi singkat membantu pengguna memahami isi galeri."
+                />
 
-                <div class="mb-3">
-                    <label class="form-label">Deskripsi</label>
-                    <textarea name="deskripsi"
-                              class="form-control"
-                              rows="4"
-                              placeholder="Contoh: Dokumentasi suasana barbershop dan coffee.">{{ old('deskripsi', $galeri->deskripsi) }}</textarea>
-
-                    @error('deskripsi')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Gambar Galeri</label>
-                    <input type="file"
-                           name="gambar"
-                           id="gambarInput"
-                           class="form-control"
-                           accept="image/*">
-
-                    <small class="text-muted">
-                        Kosongkan jika tidak ingin mengganti gambar.
-                    </small>
-
-                    @error('gambar')
-                        <small class="text-danger d-block">{{ $message }}</small>
-                    @enderror
-                </div>
+                <x-form.field
+                    label="Gambar Galeri"
+                    name="gambar"
+                    type="file"
+                    id="gambarInput"
+                    accept="image/*"
+                    help="Kosongkan jika tidak ingin mengganti gambar."
+                />
 
                 @if($galeri->gambar)
                     <div class="mb-3">
                         <label class="form-label">Preview Gambar Saat Ini</label>
                         <br>
                         <img id="previewGambar"
-                                src="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
+                            src="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
                              alt="{{ $galeri->judul }}"
-                             style="width: 180px; height: 120px; object-fit: cover; border-radius: 8px;">
+                             class="preview-image-medium">
                     </div>
                 @endif
 
-                <div class="mb-4">
-                    <label class="form-label">Status</label>
-                    <select name="is_active" class="form-control" required>
-                        <option value="1" {{ old('is_active', $galeri->is_active) == 1 ? 'selected' : '' }}>
-                            Aktif
-                        </option>
-                        <option value="0" {{ old('is_active', $galeri->is_active) == 0 ? 'selected' : '' }}>
-                            Nonaktif
-                        </option>
-                    </select>
-
-                    @error('is_active')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
+                <x-form.field
+                    label="Status"
+                    name="is_active"
+                    type="select"
+                    :options="['1' => 'Aktif', '0' => 'Nonaktif']"
+                    :value="old('is_active', $galeri->is_active)"
+                    help="Status aktif akan menampilkan galeri di halaman publik."
+                    wrapperClass="mb-4"
+                />
 
                 <div class="d-flex justify-content-end gap-2">
                     <a href="{{ route('admin.galeri.index') }}" class="btn btn-danger">

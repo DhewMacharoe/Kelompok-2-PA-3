@@ -1,7 +1,8 @@
 <nav class="sidebar shadow py-4">
     <div class="px-4 mb-4">
         <div class="d-flex justify-content-end d-md-none mb-2">
-            <button type="button" class="btn btn-sm btn-outline-light" id="mobileSidebarClose" aria-label="Tutup menu">
+            <button type="button" class="btn btn-sm btn-outline-light" id="mobileSidebarClose" aria-label="Tutup menu"
+                style="min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center;">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
@@ -10,7 +11,7 @@
     <ul class="nav flex-column">
         <li class="nav-item">
             <a class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}" href="/admin/dashboard">
-                <i class="bi bi-speedometer2"></i> Dashboard
+                <i class="bi bi-speedometer2"></i> Dashboard Admin
             </a>
         </li>
         <li class="nav-item">
@@ -31,7 +32,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link {{ request()->is('admin/menu*') ? 'active' : '' }}" href="/admin/menu">
-                <i class="bi bi-cup"></i> Menu Cafe
+                <i class="bi bi-cup"></i> Menu Kafe
             </a>
         </li>
         <li class="nav-item">

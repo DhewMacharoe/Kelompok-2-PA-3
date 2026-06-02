@@ -4,7 +4,9 @@
 @section('hide_public_chrome', '1')
 
 @section('head')
+    <link rel="stylesheet" href="{{ asset('css/design-tokens.css') }}">
     <link rel="stylesheet" href="{{ asset('css/arga-auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app-theme.css') }}">
 @endsection
 
 @section('title', "Set Username - Arga Home's")
@@ -22,20 +24,26 @@
                         </div>
                     @endif
 
-                    @if ($errors->any())
-                        <div class="auth-alert auth-alert--error small text-start">
-                            {{ $errors->first() }}
-                        </div>
-                    @endif
-
                     <form action="{{ route('set.username.post') }}" method="POST">
                         @csrf
-                        <div class="auth-input-group">
-                            <label for="username" class="auth-label">Username</label>
-                            <input type="text" id="username" name="username" required class="auth-input"
-                                placeholder="Masukkan username" value="{{ old('username') }}" minlength="3" maxlength="20"
-                                pattern="[A-Za-z ]+" title="Hanya menggunakan huruf dan spasi Maksimal 20 karakter.">
-                        </div>
+
+                        <x-form.field
+                            label="Username"
+                            name="username"
+                            type="text"
+                            id="username"
+                            :value="old('username')"
+                            placeholder="Masukkan username"
+                            help="Hanya huruf dan spasi, maksimal 20 karakter."
+                            wrapperClass="auth-input-group"
+                            labelClass="auth-label"
+                            controlClass="auth-input"
+                            minlength="3"
+                            maxlength="20"
+                            pattern="[A-Za-z ]+"
+                            title="Hanya menggunakan huruf dan spasi, maksimal 20 karakter."
+                            required
+                        />
 
                         <button type="submit" class="auth-button auth-button--google">Simpan Username</button>
                     </form>

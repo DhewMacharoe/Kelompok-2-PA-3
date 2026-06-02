@@ -37,7 +37,7 @@
     <div class="serving-display">
         <p>Sedang dilayani</p>
         <span class="queue-number-big">{{ $currentServing->nomor_antrean_seq ?? '--' }}</span>
-        <p style="font-size: 18px; font-weight: 500;">{{ $currentServing->nama_pelanggan ?? 'Tidak ada antrean' }}</p>
+        <p class="queue-serving-subtitle">{{ $currentServing->nama_pelanggan ?? 'Tidak ada antrean' }}</p>
         @if ($currentServing)
         <div class="btn-group-serving">
             <button type="button" class="btn-panggil shadow-sm queue-action-btn" data-queue-id="{{ $currentServing->id }}"
@@ -56,8 +56,8 @@
                 Panggil
             </button>
         @else
-            <button type="button" class="btn-panggil shadow-sm" disabled aria-disabled="true"
-                data-loading-text="Memanggil..." style="opacity: 0.65; cursor: not-allowed;">
+            <button type="button" class="btn-panggil shadow-sm btn-panggil-disabled" disabled aria-disabled="true"
+                data-loading-text="Memanggil...">
                 Panggil
             </button>
         @endif
@@ -139,7 +139,7 @@
                 </tr>
                 @empty
                 <tr class="empty-row-row">
-                    <td colspan="{{ ($selectedStatus ?? 'all') === 'menunggu' ? 6 : 5 }}" class="empty-row-cell" style="padding: 40px; color: #999;">Tidak ada antrean pada filter ini.
+                    <td colspan="{{ ($selectedStatus ?? 'all') === 'menunggu' ? 6 : 5 }}" class="empty-row-cell table-empty-cell">Tidak ada antrean pada filter ini.
                     </td>
                 </tr>
                 @endforelse

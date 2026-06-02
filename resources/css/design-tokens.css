@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=Fraunces:wght@600;700;800&display=swap");
+
+:root {
+    --color-primary: #1c1c1c;
+    --color-primary-strong: #111111;
+    --color-accent: #c8a24a;
+    --color-accent-soft: #f4e7c1;
+    --color-surface: #ffffff;
+    --color-surface-2: #f8f5ef;
+    --color-background: #f3efe7;
+    --color-border: #e5dccb;
+    --color-text: #1f1f1f;
+    --color-text-muted: #66615a;
+    --color-success: #1f7a4d;
+    --color-warning: #a86a00;
+    --color-danger: #c83f3f;
+    --color-info: #2b6cb0;
+    --color-shadow: rgba(15, 15, 15, 0.16);
+    --color-shadow-soft: rgba(15, 15, 15, 0.08);
+
+    --bg: var(--color-background);
+    --surface: var(--color-surface);
+    --border: var(--color-primary);
+    --border-light: var(--color-border);
+    --border-dashed: #c7baa6;
+    --text-primary: var(--color-text);
+    --text-secondary: var(--color-text-muted);
+    --text-muted: #8a8277;
+    --text-disabled: #b9b0a4;
+    --placeholder-bg: #ece5d7;
+    --placeholder-dark: #ddd4c2;
+    --accent: var(--color-primary);
+    --accent-gold: var(--color-accent);
+    --success-bg: #e8f4ec;
+    --success-text: var(--color-success);
+    --error-bg: #fdecec;
+    --error-text: var(--color-danger);
+    --warning-bg: #fff5df;
+    --warning-text: var(--color-warning);
+    --hero-bg: var(--color-primary);
+    --hero-text: #ffffff;
+
+    --auth-bg: #140f0c;
+    --auth-bg-soft: #1e1711;
+    --auth-surface: rgba(20, 17, 14, 0.78);
+    --auth-surface-strong: rgba(25, 21, 18, 0.95);
+    --auth-border: rgba(255, 255, 255, 0.1);
+    --auth-border-soft: rgba(255, 255, 255, 0.06);
+    --auth-text: #f8f3ec;
+    --auth-muted: rgba(248, 243, 236, 0.72);
+    --auth-accent: var(--color-accent);
+    --auth-accent-strong: #f6d58b;
+    --auth-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+
+    --font-body: "Manrope", sans-serif;
+    --font-heading: "Sora", sans-serif;
+    --font-display: "Fraunces", serif;
+    --font-mono: "Manrope", sans-serif;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-pill: 999px;
+
+    --shadow-xs: 0 1px 2px rgba(15, 15, 15, 0.05);
+    --shadow-sm: 0 4px 12px rgba(15, 15, 15, 0.08);
+    --shadow-md: 0 12px 24px rgba(15, 15, 15, 0.12);
+    --shadow-lg: 0 20px 40px rgba(15, 15, 15, 0.16);
+    --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    --transition-standard: 180ms ease;
+}

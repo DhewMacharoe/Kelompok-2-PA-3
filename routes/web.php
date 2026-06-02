@@ -33,6 +33,12 @@ Route::get('/rekomendasi', [PelangganRekomendasiController::class, 'rekomendasi'
 Route::post('/rekomendasi/process', [PelangganRekomendasiController::class, 'process'])->name('rekomendasi.process');
 Route::get('/galeri', [PelangganGaleriController::class, 'index'])->name('galeri');
 Route::get('/menu', [PublicController::class, 'menu'])->name('menu');
+Route::get('/bantuan', [PublicController::class, 'bantuan'])->name('bantuan.index');
+Route::get('/bantuan/faq', [PublicController::class, 'bantuanFaq'])->name('bantuan.faq');
+Route::get('/bantuan/antrean', [PublicController::class, 'bantuanAntrean'])->name('bantuan.antrean');
+Route::get('/bantuan/login-google', [PublicController::class, 'bantuanLoginGoogle'])->name('bantuan.login-google');
+Route::get('/bantuan/gps', [PublicController::class, 'bantuanGps'])->name('bantuan.gps');
+Route::get('/bantuan/pembatalan-antrean', [PublicController::class, 'bantuanPembatalanAntrean'])->name('bantuan.pembatalan-antrean');
 Route::post('/antrean', [AntreanController::class, 'store'])->name('antrean.store');
 Route::patch('/antrean/saya/batal', [AntreanController::class, 'cancelMyQueue'])
     ->name('antrean.cancel')
@@ -50,10 +56,6 @@ Route::get('/login-user', [AuthController::class, 'showUserLogin'])->name('login
 Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])->name('firebase.login');
 Route::get('/set-username', [AuthController::class, 'showSetUsername'])->name('set.username')->middleware('auth');
 Route::post('/set-username', [AuthController::class, 'doSetUsername'])->name('set.username.post')->middleware('auth');
-
-// Test Firebase connection
-Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('test.firebase');
-
 
 // Rute untuk pelanggan mengambil antrean
 Route::post('/antrean/daftar', [PublicController::class, 'daftarAntrean'])

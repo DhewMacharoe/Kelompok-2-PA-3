@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Arga Home's</title>
+    <title>Masuk - Arga Home's</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/design-tokens.css') }}">
     <link rel="stylesheet" href="{{ asset('css/arga-auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app-theme.css') }}">
 </head>
 
 <body class="auth-page auth-page--login">
@@ -63,6 +65,9 @@
                         Arga Home's.
                     </p>
                     <p class="auth-footer-copy">Atau <a href="/login" class="text-decoration-underline auth-footer-copy mb-0">Masuk Sebagai Admin</a></p>
+                    <p class="auth-footer-copy mb-0">
+                        Butuh bantuan? <a href="{{ route('bantuan.login-google') }}" class="text-decoration-underline auth-footer-copy">Lihat panduan login Google</a>
+                    </p>
 
                     <script type="module">
                         const firebaseConfig = {
@@ -108,9 +113,9 @@
                                 document.getElementById('firebaseLoginForm').submit();
                             } catch (error) {
                                 console.error('Firebase Google login failed:', error);
-                                loginStatus.textContent = 'Login gagal: ' + error.message;
+                                loginStatus.textContent = 'Masuk gagal: ' + error.message;
                                 loginButton.disabled = false;
-                                alert('Login Google gagal: ' + error.message);
+                                alert('Masuk Google gagal: ' + error.message);
                             }
                         });
                     </script>

@@ -1,63 +1,10 @@
-<style>
-    .pelanggan-navbar .navbar-brand img {
-        height: 32px;
-        width: auto;
-        display: block;
-    }
+@include('pelanggan.shared.style-common')
 
-    .pelanggan-navbar .navbar-toggler {
-        padding: 0;
-        line-height: 1;
-    }
-
-    .pelanggan-navbar .navbar-toggler i {
-        font-size: 1.35rem;
-    }
-
-    @media (max-width: 991.98px) {
-        .pelanggan-navbar .navbar-brand {
-            font-size: 1rem !important;
-            max-width: calc(100% - 70px);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .pelanggan-navbar .navbar-collapse {
-            padding-top: 8px;
-            padding-bottom: 8px;
-        }
-
-        .pelanggan-navbar .nav-link {
-            padding-top: 0.55rem;
-            padding-bottom: 0.55rem;
-        }
-
-        .pelanggan-navbar .navbar-nav .btn {
-            width: 100%;
-            margin-top: 6px;
-        }
-    }
-
-    @media (max-width: 575.98px) {
-        .pelanggan-navbar .container {
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
-        }
-
-        .pelanggan-navbar .navbar-toggler i {
-            font-size: 1.2rem !important;
-        }
-    }
-</style>
-
-<nav class="navbar navbar-expand-lg pelanggan-navbar"
-    style="background-color: #1a1a1a; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+<nav class="navbar navbar-expand-lg pelanggan-navbar">
     <div class="container">
         <div class="d-flex align-items-center justify-content-between w-100 py-2">
             <a href="{{ route('home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center">
-                <img src="{{ asset('assets/images/favicon.png') }}" alt="Arga Home's Logo" class="img-fluid "
-                    style="max-height: 40px;">
+                <img src="{{ asset('assets/images/favicon.png') }}" alt="Arga Home's Logo" class="img-fluid navbar-logo">
             </a>
 
             <button class="navbar-toggler text-white border-0 shadow-none" type="button" data-bs-toggle="collapse"
@@ -70,65 +17,46 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav gap-lg-4 text-center mt-3 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('home') ? 'active' : '' }}"
-                        href="{{ route('home') }}"
-                        style="color: {{ request()->routeIs('home') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('home') ? '#d4af37' : 'white' }}'">
+                    <a class="nav-link fw-bold nav-link-gold {{ request()->routeIs('home') ? 'is-active' : '' }}"
+                        href="{{ route('home') }}">
                         Beranda
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('antrean') ? 'active' : '' }}"
-                        href="{{ route('antrean') }}"
-                        style="color: {{ request()->routeIs('antrean') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('antrean') ? '#d4af37' : 'white' }}'">
+                    <a class="nav-link fw-bold nav-link-gold {{ request()->routeIs('antrean') ? 'is-active' : '' }}"
+                        href="{{ route('antrean') }}">
                         Antrean
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('pelanggan.layanan') ? 'active' : '' }}"
-                        href="{{ route('pelanggan.layanan') }}"
-                        style="color: {{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}'">
+                    <a class="nav-link fw-bold nav-link-gold {{ request()->routeIs('pelanggan.layanan') ? 'is-active' : '' }}"
+                        href="{{ route('pelanggan.layanan') }}">
                         Layanan
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('rekomendasi.index') ? 'active' : '' }}"
-                        href="{{ route('rekomendasi.index') }}"
-                        style="color: {{ request()->routeIs('rekomendasi.index') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('rekomendasi.index') ? '#d4af37' : 'white' }}'">
+                    <a class="nav-link fw-bold nav-link-gold {{ request()->routeIs('rekomendasi.index') ? 'is-active' : '' }}"
+                        href="{{ route('rekomendasi.index') }}">
                         Rekomendasi
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('galeri') ? 'active' : '' }}"
-                        href="{{ route('galeri') }}"
-                        style="color: {{ request()->routeIs('galeri') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('galeri') ? '#d4af37' : 'white' }}'">
+                    <a class="nav-link fw-bold nav-link-gold {{ request()->routeIs('galeri') ? 'is-active' : '' }}"
+                        href="{{ route('galeri') }}">
                         Galeri
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('menu') ? 'active' : '' }}"
-                        href="{{ route('menu') }}"
-                        style="color: {{ request()->routeIs('menu') ? '#d4af37' : 'white' }}; transition: color 0.3s ease; white-space: nowrap;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('menu') ? '#d4af37' : 'white' }}'">
-                        Menu Café
+                    <a class="nav-link fw-bold nav-link-gold {{ request()->routeIs('menu') ? 'is-active' : '' }}"
+                        href="{{ route('menu') }}">
+                        Menu Kafe
                     </a>
                 </li>
 
                 @guest
                     <li class="nav-item d-flex align-items-center justify-content-center">
-                        <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3"
-                            style="background-color: #d4af37; color: #1a1a1a; border-radius: 8px;">
-                            Login
+                        <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3 btn-gold-solid">
+                            Masuk
                         </a>
                     </li>
                 @endguest
@@ -136,21 +64,18 @@
                 @auth
                     <li class="nav-item d-flex align-items-center justify-content-center">
                         @if (auth()->user()->hasRole('admin'))
-                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm fw-bold px-3"
-                                style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
-                                Dashboard admin
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm fw-bold px-3 btn-gold-outline">
+                                Dashboard Admin
                             </a>
                         @else
                             <div class="d-flex gap-2 align-items-center">
-                                <a href="{{ route('profile.edit') }}" class="btn btn-sm fw-bold px-3"
-                                    style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
+                                <a href="{{ route('profile.edit') }}" class="btn btn-sm fw-bold px-3 btn-gold-outline">
                                     Profil Saya
                                 </a>
                                 <form action="{{ route('logout') }}" method="POST" class="m-0">
                                     @csrf
-                                    <button type="submit" class="btn btn-sm fw-bold px-3"
-                                        style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
-                                        Logout
+                                    <button type="submit" class="btn btn-sm fw-bold px-3 btn-gold-outline">
+                                        Keluar
                                     </button>
                                 </form>
                             </div>

@@ -180,10 +180,11 @@
     }
 
     .layanan-desc {
-        font-size: 11px;
+        font-size: 14px;
         color: #666;
         margin-bottom: 10px;
         line-height: 1.4;
+        line-clamp: 2;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -191,7 +192,7 @@
     }
 
     .layanan-time {
-        font-size: 11px;
+        font-size: 14px;
         color: #777;
         margin-bottom: 8px;
         background: #f9f8f3;
@@ -241,6 +242,12 @@
     line-height: 1;
     cursor: pointer;
     color: #333;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
 }
 
 .modal-content {
@@ -256,7 +263,7 @@
 .modal-category {
     display: inline-block;
     margin: 0 10px 10px 0;
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
 }
 
@@ -284,35 +291,37 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 20px;
-    background: linear-gradient(135deg, #c9a24f, #b8912e);
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.875rem 1.125rem;
+    background: var(--color-primary);
     color: #fff;
-    border: none;
-    border-radius: 12px;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-sm);
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(201, 162, 79, 0.3);
+    transition: transform var(--transition-standard), box-shadow var(--transition-standard), background-color var(--transition-standard), border-color var(--transition-standard);
+    box-shadow: var(--shadow-sm);
     white-space: nowrap;
 }
 
 .btn-buat-antrean-layanan:hover {
-    background: linear-gradient(135deg, #b8912e, #a07e1e);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(201, 162, 79, 0.45);
+    background: var(--color-primary-strong);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
     color: #fff;
     text-decoration: none;
 }
 
 .btn-buat-antrean-layanan:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(201, 162, 79, 0.3);
+    box-shadow: var(--shadow-xs);
 }
 
 .btn-buat-antrean-layanan.disabled {
-    background: linear-gradient(135deg, #b0b0b0, #8a8a8a);
+    background: #b0b0b0;
     color: #e0e0e0;
     cursor: not-allowed;
     pointer-events: none;
@@ -333,7 +342,8 @@
 
     .btn-buat-antrean-layanan {
         justify-content: center;
-        padding: 12px 16px;
+        width: 100%;
+        padding: 0.875rem 1rem;
         font-size: 14px;
     }
 }

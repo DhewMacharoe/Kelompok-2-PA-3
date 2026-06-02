@@ -1,49 +1,54 @@
 @csrf
 
-<div class="mb-3">
-    <label class="form-label">Nama Layanan</label>
-    <input type="text" name="nama" class="form-control" value="{{ old('nama', $layanan->nama ?? '') }}">
-    @error('nama')
-        <small class="text-danger">{{ $message }}</small>
-    @enderror
-</div>
+<x-form.field
+    label="Nama Layanan"
+    name="nama"
+    :value="$layanan->nama ?? ''"
+    placeholder="Contoh: Haircut Premium"
+    help="Gunakan nama layanan yang singkat dan jelas."
+/>
 
-<div class="mb-3">
-    <label class="form-label">Harga</label>
-    <input type="text" id="harga_mask" class="form-control" 
+<div class="form-field mb-3">
+    <label for="harga_mask" class="form-label form-field__label">Harga</label>
+    <input type="text" id="harga_mask" class="form-control form-field__control"
            value="{{ old('harga') ? 'Rp.' . number_format(old('harga'), 0, ',', '.') : (isset($layanan->harga) ? 'Rp.' . number_format($layanan->harga, 0, ',', '.') : '') }}"
-           placeholder="Rp.0">
-    
+           placeholder="Rp.0" aria-describedby="harga_help harga_error">
+
     <input type="hidden" name="harga" id="harga_raw" value="{{ old('harga', $layanan->harga ?? '') }}">
-    
+
+    <div id="harga_help" class="form-field__help form-text">Masukkan angka tanpa pemisah manual, format akan disesuaikan otomatis.</div>
+
     @error('harga')
-        <small class="text-danger">{{ $message }}</small>
+        <div id="harga_error" class="form-field__error invalid-feedback d-block">{{ $message }}</div>
     @enderror
 </div>
 
-<div class="mb-3">
-    <label class="form-label">Estimasi Waktu</label>
-    <input type="text" name="estimasi_waktu" class="form-control"
-        value="{{ old('estimasi_waktu', $layanan->estimasi_waktu ?? '') }}">
-    @error('estimasi_waktu')
-        <small class="text-danger">{{ $message }}</small>
-    @enderror
-</div>
+<x-form.field
+    label="Estimasi Waktu"
+    name="estimasi_waktu"
+    :value="$layanan->estimasi_waktu ?? ''"
+    placeholder="Contoh: 30 menit"
+    help="Tulis estimasi waktu yang mudah dipahami pelanggan."
+/>
 
-<div class="mb-3">
-    <label class="form-label">Deskripsi</label>
-    <textarea name="deskripsi" rows="4" class="form-control">{{ old('deskripsi', $layanan->deskripsi ?? '') }}</textarea>
-    @error('deskripsi')
-        <small class="text-danger">{{ $message }}</small>
-    @enderror
-</div>
+<x-form.field
+    label="Deskripsi"
+    name="deskripsi"
+    type="textarea"
+    :value="$layanan->deskripsi ?? ''"
+    :rows="4"
+    placeholder="Jelaskan layanan secara singkat dan informatif."
+    help="Pastikan deskripsi ringkas, jelas, dan mudah dibaca di mobile."
+/>
 
 <div style="display: none;" class="mb-3">
-    <label class="form-label">Gambar Layanan</label>
-    <input type="file" name="foto" class="form-control">
-    @error('foto')
-        <small class="text-danger">{{ $message }}</small>
-    @enderror
+    <x-form.field
+        label="Gambar Layanan"
+        name="foto"
+        type="file"
+        accept="image/*"
+        help="Gunakan gambar JPG atau PNG dengan komposisi yang rapi."
+    />
 </div>
 
 @if (!empty($layanan?->foto))
@@ -58,16 +63,15 @@
     </div>
 @endif
 
-<div class="mb-4">
-    <label class="form-label">Status</label>
-    <select name="is_active" class="form-control" required>
-        <option value="1" @selected(old('is_active', $layanan->is_active ?? 1) == 1)>Aktif</option>
-        <option value="0" @selected(old('is_active', $layanan->is_active ?? 1) == 0)>Nonaktif</option>
-    </select>
-    @error('is_active')
-        <small class="text-danger">{{ $message }}</small>
-    @enderror
-</div>
+<x-form.field
+    label="Status"
+    name="is_active"
+    type="select"
+    :options="['1' => 'Aktif', '0' => 'Nonaktif']"
+    :value="old('is_active', $layanan->is_active ?? 1)"
+    help="Status aktif akan menampilkan layanan di area publik."
+    wrapperClass="mb-4"
+/>
 
 <style>
     .form-actions {

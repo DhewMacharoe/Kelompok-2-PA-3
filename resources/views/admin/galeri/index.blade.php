@@ -38,19 +38,19 @@
         <table class="custom-table">
             <thead>
                 <tr>
-                    <th style="width: 160px;">Foto</th>
+                    <th class="table-column-photo">Foto</th>
                     <th>Judul</th>
-                    <th style="width: 120px;">Status</th>
-                    <th style="width: 300px;">Action</th>
+                    <th class="table-column-status">Status</th>
+                    <th class="table-column-action">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($galeris as $galeri)
                 <tr class="galeri-row" data-status="{{ $galeri->is_active ? 'aktif' : 'nonaktif' }}">
                     <td data-label="Foto">
-                        <img src="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
+                            <img src="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
                             alt="{{ $galeri->judul }}"
-                            style="width: 120px; height: 80px; object-fit: cover; border-radius: 8px;">
+                            class="preview-image-thumb">
                     </td>
 
                     <td data-label="Judul">
@@ -67,32 +67,32 @@
                         @endif
                     </td>
 
-                    <td data-label="Action">
-                        <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end;">
+                    <td data-label="Aksi">
+                        <div class="action-cluster-end">
                             <button type="button" class="btn-action btn-view shadow-sm btn-view-galeri"
                                 data-judul="{{ $galeri->judul }}"
                                 data-deskripsi="{{ $galeri->deskripsi }}"
                                 data-gambar="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
                                 data-bs-toggle="modal"
-                                data-bs-target="#viewGaleriModal" style="margin: 0;">
-                                View
+                                data-bs-target="#viewGaleriModal">
+                                Lihat
                             </button>
 
                             <form action="{{ route('admin.galeri.toggleStatus', $galeri) }}"
                                 method="POST"
-                                style="display: inline; margin: 0;">
+                                class="action-inline-form">
                                 @csrf
                                 @method('PATCH')
                                 <button type="submit"
-                                    class="btn-action btn-toggle-status shadow-sm"
-                                    data-loading-text="Memproses..." style="margin: 0;">
+                                    class="btn-action btn-toggle-status shadow-sm action-reset"
+                                    data-loading-text="Memproses...">
                                     {{ $galeri->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
                                 </button>
                             </form>
 
                             <a href="{{ route('admin.galeri.edit', $galeri) }}"
-                                class="btn-action btn-edit shadow-sm" style="margin: 0;">
-                                Edit
+                                class="btn-action btn-edit shadow-sm action-reset">
+                                Ubah
                             </a>
 
                             <button type="button"
@@ -100,7 +100,7 @@
                                 data-action="{{ route('admin.galeri.destroy', $galeri) }}"
                                 data-judul="{{ $galeri->judul }}"
                                 data-bs-toggle="modal"
-                                data-bs-target="#deleteGaleriModal" style="margin: 0;">
+                                data-bs-target="#deleteGaleriModal">
                                 Hapus
                             </button>
                         </div>
@@ -108,7 +108,7 @@
                 </tr>
                 @empty
                 <tr class="empty-row-row">
-                    <td colspan="4" class="empty-row-cell" style="padding: 40px; color: #999;">
+                    <td colspan="4" class="empty-row-cell table-empty-cell">
                         Belum ada foto galeri.
                     </td>
                 </tr>
@@ -121,22 +121,22 @@
 {{-- Modal View Galeri --}}
 <div class="modal fade" id="viewGaleriModal" tabindex="-1" aria-labelledby="viewGaleriModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow" style="border-radius: 12px; animation: slideDown 0.3s ease-out;">
+        <div class="modal-content border-0 shadow modal-shell-animated">
             <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title" style="font-size: 18px; color: #2C3E50; font-weight: bold;" id="viewGaleriModalLabel">
+                <h5 class="modal-title modal-title-strong" id="viewGaleriModalLabel">
                     Detail Galeri
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
 
             <div class="modal-body">
-                <img id="viewGaleriImage" src="" alt="Galeri Image" style="width: 100%; border-radius: 8px; margin-bottom: 16px; object-fit: cover;">
-                <h6 id="viewGaleriTitle" style="font-size: 16px; font-weight: bold; margin-bottom: 8px;"></h6>
-                <p id="viewGaleriDesc" style="color: #6b7280; font-size: 14px; margin: 0; white-space: pre-wrap;"></p>
+                <img id="viewGaleriImage" src="" alt="Pratinjau galeri" class="preview-image-fit mb-3">
+                <h6 id="viewGaleriTitle" class="modal-subtitle-strong"></h6>
+                <p id="viewGaleriDesc" class="modal-description-muted"></p>
             </div>
 
-            <div class="modal-footer border-0 pt-0" style="display: flex; gap: 10px; justify-content: flex-end;">
-                <button type="button" class="btn-batal" data-bs-dismiss="modal" style="margin: 0; background-color: #6c757d;">
+            <div class="modal-footer border-0 pt-0 modal-footer-end">
+                <button type="button" class="btn-batal modal-button-muted" data-bs-dismiss="modal">
                     Tutup
                 </button>
             </div>
@@ -147,33 +147,33 @@
 {{-- Modal Konfirmasi Hapus Galeri --}}
 <div class="modal fade" id="deleteGaleriModal" tabindex="-1" aria-labelledby="deleteGaleriModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow" style="border-radius: 12px; animation: slideDown 0.3s ease-out;">
+        <div class="modal-content border-0 shadow modal-shell-animated">
             <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title" style="font-size: 18px; color: #2C3E50; font-weight: bold;" id="deleteGaleriModalLabel">
+                <h5 class="modal-title modal-title-strong" id="deleteGaleriModalLabel">
                     Hapus Foto Galeri?
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
 
             <div class="modal-body">
-                <p style="margin-bottom: 8px; color: #333;">
+                <p class="detail-row modal-text-dark">
                     Foto galeri <strong id="deleteGaleriTitle">ini</strong> akan dihapus secara permanen.
                 </p>
-                <p style="color: #6b7280; font-size: 14px; margin: 0;">
+                <p class="modal-description-muted">
                     Foto yang sudah dihapus tidak akan tampil lagi di halaman pelanggan.
                 </p>
             </div>
 
-            <div class="modal-footer border-0 pt-0" style="display: flex; gap: 10px;">
-                <button type="button" class="btn-batal" data-bs-dismiss="modal" style="margin: 0;">
+            <div class="modal-footer border-0 pt-0 modal-footer-tight">
+                <button type="button" class="btn-batal action-reset" data-bs-dismiss="modal">
                     Batal
                 </button>
 
-                <form id="deleteGaleriForm" method="POST" style="margin: 0;">
+                <form id="deleteGaleriForm" method="POST" class="action-reset">
                     @csrf
                     @method('DELETE')
 
-                    <button type="submit" class="btn-submit" style="background-color: #EB5757; color: white;" data-loading-text="Menghapus...">
+                    <button type="submit" class="btn-submit modal-button-danger" data-loading-text="Menghapus...">
                         Ya, Hapus
                     </button>
                 </form>

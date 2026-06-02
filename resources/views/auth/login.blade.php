@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin</title>
+    <title>Masuk Admin</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/design-tokens.css') }}">
 
     <style>
         body {
@@ -34,42 +35,37 @@
             font-size: 32px;
         }
 
-        .form-control {
-            padding: 12px 15px;
-            border-radius: 4px;
-            border: 1px solid #dee2e6;
-            font-size: 15px;
-        }
-
-        .form-control::placeholder {
-            color: #adb5bd;
-        }
-
-        .form-control:focus {
-            box-shadow: 0 0 0 0.25rem rgba(43, 160, 255, 0.25);
-            border-color: #2ba0ff;
-        }
-
         .btn-login {
-            background-color: #0578FB;
-            border: none;
-            padding: 12px;
-            font-weight: 600;
-            border-radius: 4px;
-            font-size: 16px;
+            background-color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            color: #ffffff;
+            padding: 0.875rem 1rem;
+            min-height: 44px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
             margin-top: 10px;
+            transition: transform var(--transition-standard), box-shadow var(--transition-standard), background-color var(--transition-standard), border-color var(--transition-standard);
         }
 
         .btn-login:hover {
-            background-color: #0b66da;
+            background-color: var(--color-primary-strong);
+            border-color: var(--color-primary-strong);
+            transform: translateY(-1px);
+        }
+
+        .btn-login:focus-visible {
+            outline: 3px solid rgba(200, 162, 74, 0.35);
+            outline-offset: 2px;
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/app-theme.css') }}">
 </head>
 
 <body>
 
     <div class="login-card text-center">
-        <h2 class="login-title">Login Admin</h2>
+        <h2 class="login-title">Masuk Admin</h2>
         <form action="{{ route('login.post') }}" method="POST" class="form-section" novalidate>
             @csrf
 
@@ -78,28 +74,35 @@
                     {{ session('error') }}
                 </div>
             @endif
-            <div class="mb-3 text-start">
-                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                    id="email" placeholder="Email" value="{{ old('email') }}">
 
-                @error('email')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-            </div>
+            <x-form.field
+                label="Email"
+                name="email"
+                type="email"
+                :value="old('email')"
+                placeholder="Email admin"
+                help="Gunakan email admin yang terdaftar di sistem."
+                wrapperClass="mb-3 text-start"
+                labelClass="form-label text-start"
+                controlClass="bg-white"
+                id="email"
+                required
+            />
 
-            <div class="mb-3 text-start">
-                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                    id="password" placeholder="Password">
-                @error('password')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-            </div>
+            <x-form.field
+                label="Password"
+                name="password"
+                type="password"
+                placeholder="Password"
+                help="Password harus sesuai dengan akun admin Anda."
+                wrapperClass="mb-3 text-start"
+                labelClass="form-label text-start"
+                controlClass="bg-white"
+                id="password"
+                required
+            />
 
-            <button type="submit" class="btn btn-primary w-100 btn-login">Login</button>
+            <button type="submit" class="btn btn-primary w-100 btn-login">Masuk</button>
         </form>
     </div>
 

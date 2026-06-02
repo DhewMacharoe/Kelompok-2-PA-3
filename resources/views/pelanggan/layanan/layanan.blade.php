@@ -72,7 +72,7 @@
                         @endif
                     @else
                         <a href="{{ route('login.user') }}" class="btn-buat-antrean-layanan">
-                            <i class="fas fa-sign-in-alt"></i> Login untuk Antrean
+                            <i class="fas fa-sign-in-alt"></i> Masuk untuk Antrean
                         </a>
                     @endauth
                 </div>

@@ -37,7 +37,7 @@
                 document.getElementById('detailModalDescription').textContent = description;
                 document.getElementById('detailModalExtra').textContent = extra;
                 document.getElementById('detailModalType').textContent = type === 'layanan' ?
-                    'Layanan Barber' : 'Menu Cafe';
+                    'Layanan Barber' : 'Menu Kafe';
                 document.getElementById('detailModalMeta').textContent = type === 'layanan' ?
                     estimation : category;
                 document.getElementById('detailModalStatus').textContent = type === 'layanan' ?

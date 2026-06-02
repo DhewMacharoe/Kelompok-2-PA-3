@@ -27,12 +27,19 @@
 
      /* Modifikasi sedikit untuk tombol di offcanvas agar sesuai tema */
      .btn-submit-bottom {
-         background-color: #0d6efd;
-         /* Sesuaikan warna dengan tema Anda */
-         color: white;
-         padding: 10px;
-         font-weight: bold;
-         border-radius: 8px;
+         display: inline-flex;
+         align-items: center;
+         justify-content: center;
+         gap: 0.5rem;
+         min-height: 44px;
+         width: 100%;
+         background-color: var(--color-primary);
+         color: #ffffff;
+         padding: 0.75rem 1rem;
+         font-weight: 700;
+         border: 1px solid var(--color-primary);
+         border-radius: var(--radius-sm);
+         transition: transform var(--transition-standard), box-shadow var(--transition-standard), background-color var(--transition-standard), border-color var(--transition-standard);
      }
 
      .my-queue-card {
@@ -99,7 +106,7 @@
          display: inline-flex;
          align-items: center;
          gap: 6px;
-         font-size: 0.75rem;
+         font-size: 0.875rem;
          font-weight: 700;
          letter-spacing: 0.4px;
          padding: 4px 10px;
@@ -111,18 +118,19 @@
      }
 
      .btn-cancel-my-queue {
-         border: 1px solid #d9534f;
-         background: #d9534f;
+         border: 1px solid var(--color-danger);
+         background: var(--color-danger);
          color: #ffffff;
          width: 100%;
-         border-radius: 10px;
+         border-radius: var(--radius-sm);
          font-weight: 700;
-         padding: 9px 12px;
+         padding: 0.75rem 1rem;
+         min-height: 44px;
      }
 
      .btn-cancel-my-queue:hover {
-         background: #c6423e;
-         border-color: #c6423e;
+         background: var(--color-danger);
+         border-color: var(--color-danger);
          color: #ffffff;
      }
 
@@ -152,7 +160,7 @@
          border: 1px solid #1f6f43;
          color: #1f6f43;
          background-color: #e8f7ef;
-         font-size: 0.68rem;
+         font-size: 0.875rem;
          padding: 5px 10px;
          border-radius: 20px;
          font-weight: 700;
@@ -172,6 +180,25 @@
          color: #4a3f2b;
          font-weight: 600;
          line-height: 1.45;
+     }
+
+     .guest-queue-links {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: center;
+         gap: 0.35rem 0.5rem;
+         margin-top: 0.5rem;
+     }
+
+     .guest-queue-links a {
+         display: inline-flex;
+         align-items: center;
+         justify-content: center;
+         min-height: 44px;
+         padding: 0.25rem 0.65rem;
+         border-radius: 10px;
+         font-size: 0.875rem;
+         font-weight: 700;
      }
 
      @media (max-width: 991.98px) {
@@ -277,13 +304,13 @@
          }
 
          .queue-time {
-             font-size: 0.75rem;
+             font-size: 0.875rem;
          }
 
          .badge-waiting,
          .badge-mine {
-             font-size: 0.65rem;
-             padding: 4px 8px;
+             font-size: 0.875rem;
+             padding: 6px 10px;
          }
 
          .footer-section {
@@ -349,6 +376,14 @@
          font-weight: 800;
          color: #1a1a1a;
      }
+
+     .modal-tambah-antrean .btn-close {
+         min-width: 46px;
+         min-height: 46px;
+         padding: 0.5rem;
+         background-size: 0.95rem;
+     }
+
      .modal-tambah-antrean .modal-body {
          padding: 24px;
      }
@@ -370,7 +405,7 @@
      }
 
      .queue-location-kicker {
-         font-size: 0.72rem;
+         font-size: 0.875rem;
          font-weight: 800;
          letter-spacing: 1px;
          text-transform: uppercase;
@@ -388,7 +423,7 @@
          flex: 0 0 auto;
          border-radius: 999px;
          padding: 6px 12px;
-         font-size: 0.72rem;
+         font-size: 0.875rem;
          font-weight: 800;
          letter-spacing: 0.4px;
          text-transform: uppercase;
@@ -462,7 +497,7 @@
 
      .queue-location-stat-label {
          display: block;
-         font-size: 0.72rem;
+         font-size: 0.875rem;
          font-weight: 700;
          color: #7d745f;
          margin-bottom: 4px;
@@ -476,7 +511,7 @@
      }
 
      .queue-location-helper {
-         font-size: 0.82rem;
+         font-size: 0.875rem;
          color: #6f6552;
          line-height: 1.45;
      }
@@ -534,6 +569,20 @@
          pointer-events: none;
          background: #f9f9f9;
      }
+
+     .service-info-link {
+         min-width: 46px;
+         min-height: 46px;
+         display: inline-flex;
+         align-items: center;
+         justify-content: center;
+         border-radius: 10px;
+         color: #17a2b8;
+     }
+
+     .service-info-icon {
+         font-size: 1.1rem;
+     }
      .service-name {
          font-weight: 700;
          color: #212529;
@@ -542,7 +591,7 @@
          padding-right: 20px; /* space for checkmark */
      }
      .service-meta {
-         font-size: 0.8rem;
+         font-size: 0.875rem;
          color: #6c757d;
          display: flex;
          flex-direction: column;
@@ -562,7 +611,7 @@
          margin-bottom: 24px;
      }
      .review-title {
-         font-size: 0.85rem;
+         font-size: 0.875rem;
          font-weight: 700;
          color: #6c757d;
          margin-bottom: 12px;
@@ -584,29 +633,31 @@
          color: #212529;
      }
      .btn-remove-service {
-         color: #dc3545;
+         color: var(--color-danger);
          background: none;
          border: none;
          padding: 0;
          cursor: pointer;
-         font-size: 0.9rem;
+         font-size: 0.875rem;
+         min-height: 44px;
      }
      .btn-remove-service:hover {
          text-decoration: underline;
      }
      .btn-add-more {
-         border: 1px dashed #c49a45;
-         background: #fffcf5;
-         color: #c49a45;
+         border: 1px solid var(--border-light);
+         background: var(--surface);
+         color: var(--color-text);
          width: 100%;
-         padding: 10px;
-         border-radius: 8px;
-         font-weight: 600;
-         transition: all 0.2s;
+         padding: 0.75rem 1rem;
+         border-radius: var(--radius-sm);
+         font-weight: 700;
+         min-height: 44px;
+         transition: transform var(--transition-standard), box-shadow var(--transition-standard), background-color var(--transition-standard), border-color var(--transition-standard);
      }
      .btn-add-more:hover {
-         background: #fffaf0;
-         border-style: solid;
+         background: var(--color-surface-2);
+         border-color: var(--color-border);
      }
 
      /* Step transition helper */
@@ -653,7 +704,7 @@
      .text-gold {
          color: #c99c3e;
          letter-spacing: 2px;
-         font-size: 0.85rem;
+         font-size: 0.875rem;
          font-weight: 700;
          margin-bottom: 20px;
      }
@@ -696,7 +747,7 @@
      .section-title {
          display: flex;
          align-items: center;
-         font-size: 0.8rem;
+         font-size: 0.875rem;
          font-weight: 700;
          color: #6c757d;
          margin-bottom: 25px;
@@ -767,7 +818,7 @@
      }
 
      .queue-time {
-         font-size: 0.8rem;
+         font-size: 0.875rem;
          color: #888;
          margin: 0;
          font-weight: 600;
@@ -777,7 +828,7 @@
          border: 1px solid #c99c3e;
          color: #c99c3e;
          background-color: transparent;
-         font-size: 0.7rem;
+         font-size: 0.875rem;
          padding: 5px 12px;
          border-radius: 20px;
          font-weight: 700;
@@ -791,19 +842,21 @@
      }
 
      .btn-add-queue {
-         background-color: #c49a45;
-         color: #1a1a1a;
+         background-color: var(--color-primary);
+         color: #ffffff;
          font-weight: 700;
-         border: none;
+         border: 1px solid var(--color-primary);
          width: 100%;
-         padding: 14px;
-         border-radius: 8px;
+         padding: 0.875rem 1rem;
+         border-radius: var(--radius-sm);
          font-size: 1rem;
-         transition: background-color 0.3s;
+         min-height: 44px;
+         transition: transform var(--transition-standard), box-shadow var(--transition-standard), background-color var(--transition-standard), border-color var(--transition-standard);
      }
 
      .btn-add-queue:hover {
-         background-color: #b0893a;
-         color: #1a1a1a;
+         background-color: var(--color-primary-strong);
+         border-color: var(--color-primary-strong);
+         color: #ffffff;
      }
  </style>

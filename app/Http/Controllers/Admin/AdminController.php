@@ -85,8 +85,7 @@ class AdminController extends Controller
             ->whereDate('created_at', Carbon::today())
             ->count();
 
-        // Ambil data "sedang dilayani" tanpa filter, agar selalu ditampilkan sama
-        $currentServing = Antrean::where('status', 'sedang dilayani')->first();
+        $currentServing = Antrean::getQueueBeingServed();
 
         $antreans = Antrean::query()
             ->orderBy('created_at', 'asc')

@@ -259,13 +259,14 @@ body.auth-page a:hover {
 
 .auth-button {
     width: 100%;
-    border: 0;
-    border-radius: 16px;
-    padding: 14px 18px;
-    font-family: "Manrope", sans-serif;
+    border: 1px solid var(--auth-border);
+    border-radius: var(--radius-sm);
+    padding: 0.875rem 1.125rem;
+    font-family: var(--font-body);
     font-weight: 800;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    min-height: 44px;
+    box-shadow: var(--auth-shadow);
+    transition: transform var(--transition-standard), box-shadow var(--transition-standard), filter var(--transition-standard), background-color var(--transition-standard), border-color var(--transition-standard);
 }
 
 .auth-button:hover {
@@ -276,11 +277,25 @@ body.auth-page a:hover {
 
 .auth-button:disabled {
     opacity: 0.78;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .auth-button--google {
-    background: linear-gradient(135deg, #ffffff, #f2e7d8);
-    color: #1c160f;
+    background: var(--auth-surface-strong);
+    color: var(--auth-text);
+    border-color: var(--auth-border);
+}
+
+.auth-button--google:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--auth-text);
+}
+
+.auth-button:focus-visible {
+    outline: 3px solid rgba(246, 213, 139, 0.38);
+    outline-offset: 2px;
 }
 
 .auth-input-group {
@@ -293,6 +308,22 @@ body.auth-page a:hover {
     font-size: 0.92rem;
     font-weight: 700;
     color: rgba(248, 243, 236, 0.88);
+}
+
+.auth-help,
+.auth-error {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.86rem;
+    line-height: 1.45;
+}
+
+.auth-help {
+    color: var(--auth-muted);
+}
+
+.auth-error {
+    color: #ffd1d6;
 }
 
 .auth-input {
@@ -315,6 +346,18 @@ body.auth-page a:hover {
 
 .auth-input::placeholder {
     color: rgba(248, 243, 236, 0.48);
+}
+
+.auth-input:disabled,
+.auth-input[readonly] {
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.07);
+    opacity: 0.92;
+}
+
+.auth-input.is-invalid {
+    border-color: rgba(255, 126, 138, 0.95);
+    box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.16);
 }
 
 .auth-status {
@@ -376,6 +419,20 @@ body.auth-page a:hover {
 
     .auth-stats {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .auth-card {
+        padding: 18px;
+    }
+
+    .auth-card--compact {
+        padding: 18px 16px;
+    }
+
+    .auth-button {
+        width: 100%;
     }
 }
 

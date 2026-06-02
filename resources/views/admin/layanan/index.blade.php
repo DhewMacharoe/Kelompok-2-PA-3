@@ -53,8 +53,8 @@
                 <thead>
                     <tr>
                         <th>Nama</th>
-                        <th style="width: 120px;">Status</th>
-                        <th style="width: 300px;">Action</th>
+                        <th class="table-column-status">Status</th>
+                        <th class="table-column-action">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,8 +74,8 @@
                                     <span class="status-badge status-nonaktif">Nonaktif</span>
                                 @endif
                             </td>
-                            <td data-label="Action">
-                                <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end;">
+                            <td data-label="Aksi">
+                                <div class="action-cluster-end">
                                     <button type="button" class="btn-action btn-view shadow-sm btn-view-layanan"
                                         data-nama="{{ $item->nama }}"
                                         data-harga="Rp {{ number_format($item->harga, 0, ',', '.') }}"
@@ -83,35 +83,34 @@
                                         data-status="{{ $item->is_active ? 'Aktif' : 'Nonaktif' }}"
                                         data-deskripsi="{{ str_replace(["\r", "\n"], ' ', e($item->deskripsi ?? 'Tidak ada deskripsi tambahan.')) }}"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#viewLayananModal" style="margin: 0;">
-                                        View
+                                        data-bs-target="#viewLayananModal">
+                                        Lihat
                                     </button>
 
                                     <form action="{{ route('admin.layanan.toggleStatus', $item->id) }}" method="POST"
-                                        class="form-toggle" data-nama="{{ $item->nama }}"
-                                        data-status="{{ $item->is_active ? 'nonaktifkan' : 'aktifkan' }}"
-                                        style="display: inline; margin: 0;">
+                                        class="form-toggle action-inline-form" data-nama="{{ $item->nama }}"
+                                        data-status="{{ $item->is_active ? 'nonaktifkan' : 'aktifkan' }}">
                                         @csrf
                                         @method('PATCH')
                                         <button type="button"
-                                            class="btn-action btn-toggle-status shadow-sm btn-toggle-alert" style="margin: 0;">
+                                            class="btn-action btn-toggle-status shadow-sm btn-toggle-alert action-reset">
                                             {{ $item->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
                                         </button>
                                     </form>
 
                                     <a href="{{ route('admin.layanan.edit', $item->id) }}"
-                                        class="btn-action btn-edit shadow-sm" style="margin: 0;">
-                                        Edit
+                                        class="btn-action btn-edit shadow-sm action-reset">
+                                        Ubah
                                     </a>
 
-                                    <button type="button" class="btn-action btn-hapus shadow-sm btn-delete-alert"
-                                        data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" style="margin: 0;">
+                                    <button type="button" class="btn-action btn-hapus shadow-sm btn-delete-alert action-reset"
+                                        data-id="{{ $item->id }}" data-nama="{{ $item->nama }}">
                                         Hapus
                                     </button>
 
                                     <form id="delete-form-{{ $item->id }}"
                                         action="{{ route('admin.layanan.destroy', $item->id) }}" method="POST"
-                                        style="display: none;">
+                                        class="d-none">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -120,7 +119,7 @@
                         </tr>
                     @empty
                         <tr class="empty-row-row">
-                            <td colspan="3" class="empty-row-cell" style="padding: 40px; color: #999;">
+                            <td colspan="3" class="empty-row-cell table-empty-cell">
                                 Belum ada data layanan.
                             </td>
                         </tr>
@@ -133,24 +132,24 @@
     {{-- Modal View Layanan --}}
     <div class="modal fade" id="viewLayananModal" tabindex="-1" aria-labelledby="viewLayananModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow" style="border-radius: 12px; animation: slideDown 0.3s ease-out;">
+            <div class="modal-content border-0 shadow modal-shell-animated">
                 <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title" style="font-size: 18px; color: #2C3E50; font-weight: bold;" id="viewLayananModalLabel">
+                    <h5 class="modal-title modal-title-strong" id="viewLayananModalLabel">
                         Detail Layanan
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
 
                 <div class="modal-body">
-                    <h6 id="detailNama" style="font-size: 16px; font-weight: bold; margin-bottom: 8px;"></h6>
-                    <div style="margin-bottom: 8px;"><strong>Harga:</strong> <span id="detailHarga"></span></div>
-                    <div style="margin-bottom: 8px;"><strong>Estimasi Waktu:</strong> <span id="detailEstimasi"></span></div>
-                    <div style="margin-bottom: 8px;"><strong>Status:</strong> <span id="detailStatus"></span></div>
-                    <p id="detailDeskripsi" style="color: #6b7280; font-size: 14px; margin: 0; white-space: pre-wrap;"></p>
+                    <h6 id="detailNama" class="modal-subtitle-strong"></h6>
+                    <div class="detail-row"><strong>Harga:</strong> <span id="detailHarga"></span></div>
+                    <div class="detail-row"><strong>Estimasi Waktu:</strong> <span id="detailEstimasi"></span></div>
+                    <div class="detail-row"><strong>Status:</strong> <span id="detailStatus"></span></div>
+                    <p id="detailDeskripsi" class="modal-description-muted"></p>
                 </div>
 
-                <div class="modal-footer border-0 pt-0" style="display: flex; gap: 10px; justify-content: flex-end;">
-                    <button type="button" class="btn-batal" data-bs-dismiss="modal" style="margin: 0; background-color: #6c757d;">
+                <div class="modal-footer border-0 pt-0 modal-footer-end">
+                    <button type="button" class="btn-batal modal-button-muted" data-bs-dismiss="modal">
                         Tutup
                     </button>
                 </div>

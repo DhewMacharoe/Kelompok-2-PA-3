@@ -50,7 +50,7 @@
         justify-content: space-between;
         gap: 8px;
         align-items: center;
-        font-size: 0.75rem;
+        font-size: 0.875rem;
         margin-top: 8px;
         color: #6c757d;
     }
@@ -62,8 +62,8 @@
         background: #f8f9fa;
         border: 1px solid #e9ecef;
         border-radius: 999px;
-        padding: 4px 10px;
-        font-size: 0.72rem;
+        padding: 6px 12px;
+        font-size: 0.875rem;
         font-weight: 600;
         color: #495057;
     }
@@ -116,7 +116,16 @@
     }
 
     .menu-item {
-        font-size: 0.85rem;
+        font-size: 0.875rem;
+    }
+
+    .section-cta-link {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.45rem 0.75rem;
+        border-radius: 10px;
     }
 
     .menu-item:hover .icon-circle {
@@ -162,7 +171,7 @@
         }
 
         .menu-item {
-            font-size: 0.8rem;
+            font-size: 0.875rem;
         }
 
         .haircut-img {
@@ -194,6 +203,25 @@
         .container.py-5 {
             padding-top: 2rem !important;
             padding-bottom: 2rem !important;
+        }
+
+        .section-header {
+            gap: 0.75rem;
+            align-items: flex-start !important;
+        }
+
+        .section-header h4 {
+            font-size: 1.05rem;
+            line-height: 1.4;
+        }
+
+        .detail-modal .modal-dialog {
+            margin: 0.75rem;
+        }
+
+        .detail-modal-img {
+            height: 190px;
+            border-radius: 12px;
         }
     }
 </style>

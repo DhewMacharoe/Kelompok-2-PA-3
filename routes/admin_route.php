@@ -5,22 +5,14 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\MenuCafeController;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\Admin\AntreanController;
 use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\GaleriController;
-
-Route::get('/test1', [AntreanController::class, 'index'])->name('test');
 
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-
-    // --- RUTE AKSI antrean ---
-    // Route::post('/antrean/{id}/panggil', [AdminController::class, 'panggil'])->name('antrean.panggil');
-    // Route::post('/antrean/{id}/selesai', [AdminController::class, 'selesai'])->name('antrean.selesai');
-    // Route::post('/antrean/{id}/batal', [AdminController::class, 'batal'])->name('antrean.batal');
 
     Route::patch('/antrean/{id}/ubah-status', [AntreanController::class, 'ubahStatus'])->name('antrean.ubahStatus');
 
@@ -63,19 +55,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-Route::prefix('test')->group(function () {
-
-    Route::get('/dashboard', function () {
-        return view("admin.test.dashboard");
-    });
-
-    Route::get('/antrean', function () {
-        return "Antrean";
-    });
-});
-
-
 
 // ==========================================
 // REDIRECT /dashboard KE /admin/dashboard

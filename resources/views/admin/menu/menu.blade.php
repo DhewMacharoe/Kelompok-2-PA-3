@@ -1,6 +1,6 @@
     @extends('admin.layouts.app')
 
-    @section('title', 'Menu Cafe')
+    @section('title', 'Menu Kafe')
 
     @section('header_title')
     <div class="header-title">Menu Kafe</div>
@@ -34,8 +34,8 @@
                 <thead>
                     <tr>
                         <th>Nama</th>
-                        <th style="width: 120px;">Status</th>
-                        <th style="width: 300px;">Aksi</th>
+                        <th class="table-column-status">Status</th>
+                        <th class="table-column-action">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,8 +54,8 @@
                             @endif
                         </td>
                         <td data-label="Aksi">
-                            <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end;">
-                                <button type="button" class="btn-action btn-view shadow-sm btn-view-menu"
+                            <div class="action-cluster-end">
+                                <button type="button" class="btn-action btn-view shadow-sm btn-view-menu action-reset"
                                     data-nama="{{ $menu->nama }}"
                                     data-foto="{{ $menu->foto ? (\Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://']) ? $menu->foto : asset('images/' . $menu->foto)) : '' }}"
                                     data-kategori="{{ $menu->kategori }}"
@@ -63,11 +63,11 @@
                                     data-status="{{ $menu->is_available == 1 ? 'Aktif' : 'Nonaktif' }}"
                                     data-deskripsi="{{ str_replace(["\r", "\n"], ' ', e($menu->deskripsi ?? 'Tidak ada deskripsi.')) }}"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#viewMenuModal" style="margin: 0;">
-                                    View
+                                    data-bs-target="#viewMenuModal">
+                                    Lihat
                                 </button>
 
-                                <form action="{{ route('admin.menu.update', $menu->id) }}" method="POST" style="display: inline; margin: 0;">
+                                <form action="{{ route('admin.menu.update', $menu->id) }}" method="POST" class="action-inline-form">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="nama" value="{{ $menu->nama }}">
@@ -75,19 +75,19 @@
                                     <input type="hidden" name="harga" value="{{ $menu->harga }}">
                                     <input type="hidden" name="deskripsi" value="{{ $menu->deskripsi }}">
                                     <input type="hidden" name="is_available" value="{{ $menu->is_available ? 0 : 1 }}">
-                                    <button type="submit" class="btn-action btn-toggle-status shadow-sm menu-loading-btn" style="margin: 0;">
+                                    <button type="submit" class="btn-action btn-toggle-status shadow-sm menu-loading-btn action-reset">
                                         {{ $menu->is_available == 1 ? 'Nonaktifkan' : 'Aktifkan' }}
                                     </button>
                                 </form>
 
-                                <button type="button" class="btn-action btn-edit shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEdit{{ $menu->id }}" style="margin: 0;">
-                                    Edit
+                                <button type="button" class="btn-action btn-edit shadow-sm action-reset" data-bs-toggle="modal" data-bs-target="#modalEdit{{ $menu->id }}">
+                                        Ubah
                                 </button>
 
-                                <form action="{{ route('admin.menu.destroy', $menu->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus menu ini?');" style="display: inline; margin: 0;">
+                                <form action="{{ route('admin.menu.destroy', $menu->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus menu ini?');" class="action-inline-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-action btn-hapus shadow-sm menu-loading-btn" style="margin: 0;">
+                                    <button type="submit" class="btn-action btn-hapus shadow-sm menu-loading-btn action-reset">
                                         Hapus
                                     </button>
                                 </form>
@@ -96,7 +96,7 @@
                     </tr>
                     @empty
                     <tr class="empty-row-row">
-                        <td colspan="3" class="empty-row-cell" style="padding: 40px; color: #999;">
+                        <td colspan="3" class="empty-row-cell table-empty-cell">
                             Tidak ada menu tersedia.
                         </td>
                     </tr>
@@ -113,7 +113,7 @@
 
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5>Tambah Menu</h5>
+                                <h5>Tambah Menu</h5>
                         </div>
 
                         <div class="modal-body">
@@ -152,8 +152,8 @@
 
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5>Edit Menu</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5>Ubah Menu</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                         </div>
 
                         <div class="modal-body">
@@ -207,7 +207,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Konfirmasi</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                     </div>
                     <div class="modal-body" id="konfirmasiAksiMessage">
                         Yakin ingin melanjutkan aksi ini?
@@ -224,25 +224,25 @@
     {{-- Modal View Menu --}}
     <div class="modal fade" id="viewMenuModal" tabindex="-1" aria-labelledby="viewMenuModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow" style="border-radius: 12px; animation: slideDown 0.3s ease-out;">
+            <div class="modal-content border-0 shadow modal-shell-animated">
                 <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title" style="font-size: 18px; color: #2C3E50; font-weight: bold;" id="viewMenuModalLabel">
+                    <h5 class="modal-title modal-title-strong" id="viewMenuModalLabel">
                         Detail Menu
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
 
                 <div class="modal-body">
-                    <img id="detailImg" src="" alt="Menu Image" style="width: 100%; border-radius: 8px; margin-bottom: 16px; object-fit: cover; display: none;">
-                    <h6 id="detailNama" style="font-size: 16px; font-weight: bold; margin-bottom: 8px;"></h6>
-                    <div style="margin-bottom: 8px;"><strong>Kategori:</strong> <span id="detailKategori"></span></div>
-                    <div style="margin-bottom: 8px;"><strong>Harga:</strong> <span id="detailHarga"></span></div>
-                    <div style="margin-bottom: 8px;"><strong>Status:</strong> <span id="detailStatus"></span></div>
-                    <p id="detailDeskripsi" style="color: #6b7280; font-size: 14px; margin: 0; white-space: pre-wrap;"></p>
+                    <img id="detailImg" src="" alt="Menu Image" class="preview-image-fit preview-image-compact d-none">
+                    <h6 id="detailNama" class="modal-subtitle-strong"></h6>
+                    <div class="detail-row"><strong>Kategori:</strong> <span id="detailKategori"></span></div>
+                    <div class="detail-row"><strong>Harga:</strong> <span id="detailHarga"></span></div>
+                    <div class="detail-row"><strong>Status:</strong> <span id="detailStatus"></span></div>
+                    <p id="detailDeskripsi" class="modal-description-muted"></p>
                 </div>
 
-                <div class="modal-footer border-0 pt-0" style="display: flex; gap: 10px; justify-content: flex-end;">
-                    <button type="button" class="btn-batal" data-bs-dismiss="modal" style="margin: 0; background-color: #6c757d;">
+                <div class="modal-footer border-0 pt-0 modal-footer-end">
+                    <button type="button" class="btn-batal modal-button-muted" data-bs-dismiss="modal">
                         Tutup
                     </button>
                 </div>
