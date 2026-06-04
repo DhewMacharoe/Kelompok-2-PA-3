@@ -37,169 +37,117 @@
             data-queue-latitude="{{ $queueLocation['latitude'] ?? '' }}"
             data-queue-longitude="{{ $queueLocation['longitude'] ?? '' }}"
             data-queue-radius="{{ $queueLocation['radius_meters'] ?? 100 }}">
-            
-            <!-- Banner Sedang Dilayani (Full Width at Top) -->
-            <div class="header-section text-center position-relative overflow-hidden py-5 px-3">
-                <div class="header-overlay"></div>
-                <div class="header-content z-index-2 w-100">
-                    <!-- Icon Microphone in Gold circle -->
-                    <div class="active-icon-wrapper mx-auto mb-3 rounded-circle d-flex align-items-center justify-content-center text-white bg-dark shadow-sm">
-                        <i class="fas fa-microphone-alt" style="font-size: 1.8rem; color: #cc7c1b;"></i>
-                    </div>
-                    
-                    <!-- Main status text -->
-                    <h2 class="active-title text-white fw-bold mb-1" id="antrean-nama">
-                        {{ $dipanggil ? $dipanggil->nama_pelanggan : 'Belum Ada yang Dilayani' }}
-                    </h2>
-                    <p class="active-subtitle text-secondary small mb-4" id="antrean-status-sub">
-                        {{ $dipanggil ? 'Sedang berada di kursi pangkas.' : 'Menunggu pemilik barbershop memanggil antrean' }}
-                    </p>
-                    
-                    <!-- Echo hidden status field -->
-                    <span id="antrean-status" class="d-none">{{ $dipanggil ? $dipanggil->status : '' }}</span>
-                    
-                    <div class="header-divider-container mb-4 d-flex align-items-center justify-content-center gap-3">
-                        <span class="header-divider-line"></span>
-                    </div>
-                    
-                    <!-- 3 Stats Columns -->
-                    <div class="row g-3 justify-content-center text-center">
-                        <div class="col-4">
-                            <span class="stat-label text-muted d-block small mb-1">Total Antrean</span>
-                            <strong class="stat-val text-gold-accent fs-3 d-block" id="total-antrean-val">{{ count($data_antrean) }}</strong>
+            <div class="row g-0">
+
+                <div class="col-md-5">
+                    <div class="header-section">
+                        <div class="text-gold"> {{ $dipanggil ? 'SEDANG DILAYANI' : '' }}</div>
+                        <div class="active-number-box">
+                            <p class="active-number" id="antrean-nomor">
+                                {{ $dipanggil ? $dipanggil->nomor_antrean_seq : ' ‎  ' }}</p>
                         </div>
-                        <div class="col-4 border-start border-secondary">
-                            <span class="stat-label text-muted d-block small mb-1">Status Saat Ini</span>
-                            <strong class="stat-val text-gold-accent fs-5 d-block" id="status-antrean-val">
-                                @auth
-                                    {{ $antreanSayaAktif ? ucfirst($antreanSayaAktif->status) : 'Tidak Mengantre' }}
-                                @else
-                                    Belum Login
-                                @endauth
-                            </strong>
+                        <div class="active-name" id = "antrean-nama">
+                            {{ $dipanggil ? $dipanggil->nama_pelanggan : 'Kursi Pangkas Kosong' }}
                         </div>
-                        <div class="col-4 border-start border-secondary">
-                            <span class="stat-label text-muted d-block small mb-1">Sedang Dilayani</span>
-                            <strong class="stat-val text-gold-accent fs-5 d-block" id="antrean-nomor">
-                                {{ $dipanggil ? $dipanggil->nomor_antrean_seq : 'Belum Ada' }}
-                            </strong>
+                        <div class="active-name" id = "antrean-status">{{ $dipanggil ? $dipanggil->status : '' }}
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Body Panel -->
-            <div class="right-panel">
-                <div class="queue-section">
-                    
-                    @guest
-                        <!-- Guest Login Card -->
-                        <div class="guest-login-card p-4 rounded shadow-sm border bg-white mb-4 d-flex gap-3 align-items-start">
-                            <div class="guest-user-icon rounded-circle bg-light d-flex align-items-center justify-content-center border" style="width: 54px; height: 54px; flex-shrink: 0; border-color: #eef1f5 !important;">
-                                <i class="far fa-user" style="font-size: 1.4rem; color: #cc7c1b;"></i>
-                            </div>
-                            <div class="w-100 text-start">
-                                <h5 class="fw-bold text-dark mb-1" style="font-size: 1.1rem;">Anda belum login</h5>
-                                <p class="text-secondary small mb-3" style="line-height: 1.45;">
-                                    Silakan login terlebih dahulu untuk mengambil dan melihat detail antrean pribadi Anda. Jika belum memiliki akun, antrean juga dapat ditambahkan melalui pemilik barber.
-                                </p>
-                                <div class="d-flex flex-column gap-2">
-                                    <a href="{{ route('login.user') }}" class="btn btn-gold-accent text-white fw-bold py-2.5" style="border-radius: 8px; font-size: 0.88rem; letter-spacing: 0.2px;">
-                                        Login Sekarang
-                                    </a>
-                                    <button class="btn btn-outline-gold fw-bold py-2.5" data-bs-toggle="modal" data-bs-target="#modalTambahAntrean" style="border-radius: 8px; font-size: 0.88rem; border-color: #cc7c1b; color: #cc7c1b; background: transparent; transition: all 0.25s ease;">
-                                        Tambah lewat Pemilik Barber
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    @endguest
+                <div class="col-md-7">
+                    <div class="right-panel">
 
-                    @auth
-                        @if ($antreanSayaAktif)
-                            <div class="my-queue-card mb-4" id="my-queue-card">
-                                <div class="my-queue-header">
-                                    <h3 class="my-queue-title">Nomor Antrean Anda</h3>
-                                    <div class="my-queue-number" id="my-queue-number">{{ $antreanSayaAktif->nomor_antrean_seq }}</div>
-                                </div>
-
-                                <div class="my-queue-meta">
-                                    <div class="my-queue-meta-row">
-                                        <span class="my-queue-meta-label">Posisi</span>
-                                        <span class="my-queue-meta-value" id="my-queue-position">
-                                            {{ $antreanSayaAktif->status === 'menunggu' ? str_pad((string) ($posisiAntreanSaya ?? 0), 2, '0', STR_PAD_LEFT) : '-' }}
-                                        </span>
-                                    </div>
-                                    <div class="my-queue-meta-row">
-                                        <span class="my-queue-meta-label">Layanan</span>
-                                        <span class="my-queue-meta-value" id="my-queue-services">
-                                            {{ $antreanSayaAktif->layanan1?->nama ?? '-' }}{{ $antreanSayaAktif->layanan2 ? ' + ' . $antreanSayaAktif->layanan2->nama : '' }}
-                                        </span>
-                                    </div>
-                                    <div class="my-queue-meta-row">
-                                        <span class="my-queue-meta-label">Status</span>
-                                        <span class="my-queue-status-chip" id="my-queue-status-chip">{{ strtoupper($antreanSayaAktif->status) }}</span>
-                                    </div>
-                                </div>
-
-                                @if ($antreanSayaAktif->status === 'menunggu')
-                                    <div id="my-queue-cancel-action">
-                                        <form action="{{ route('antrean.cancel') }}" method="POST" onsubmit="return confirm('Batalkan antrean Anda?');">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" id="btn-cancel-my-queue" class="btn-cancel-my-queue" data-loading-text="Membatalkan..." @disabled($antreanSayaAktif->status === 'sedang dilayani')>
-                                                Batalkan Antrean Saya
-                                            </button>
-                                        </form>
-                                    </div>
-                                @endif
-                            </div>
-                        @endif
-                    @endauth
-
-                    <div class="queue-section-header d-flex align-items-center gap-2 mb-3">
-                        <i class="far fa-clipboard text-gold-accent" style="font-size: 1.15rem;"></i>
-                        <div class="fw-bold text-dark" style="font-size: 1.05rem;">Urutan Antrean</div>
-                    </div>
-                    <p class="text-secondary small mb-3">Lihat daftar pelanggan yang sedang menunggu</p>
-
-                    <div class="queue-list-container">
-                        @if ($data_antrean && count($data_antrean) > 0)
-                            @foreach ($data_antrean as $antrean)
-                                <div class="queue-card {{ $antreanSayaAktif && $antreanSayaAktif->id === $antrean->id ? 'my-queue-highlight' : '' }} d-flex justify-content-between align-items-center p-3 mb-2 rounded border bg-white shadow-sm">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="queue-number-box d-flex align-items-center justify-content-center fw-bold text-white bg-dark rounded" style="width: 44px; height: 44px; font-size: 1.1rem;">
-                                            {{ $antrean->nomor_antrean_seq }}
-                                        </div>
-                                        <div class="queue-info text-start">
-                                            <p class="queue-name fw-bold text-dark mb-0">{{ $antrean->nama_pelanggan }}</p>
-                                            <p class="queue-time text-secondary small mb-0">{{ $antrean->created_at->format('H:i') }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="queue-badges">
-                                        @if ($antreanSayaAktif && $antreanSayaAktif->id === $antrean->id)
-                                            <span class="badge-mine me-2">ANTREAN SAYA</span>
-                                        @endif
-                                        <span class="badge-waiting">MENUNGGU</span>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="text-center mt-4 mb-4 text-muted">
-                                Tidak Ada Antrean Saat Ini <br> Silahkan Ambil Antrean Anda
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="footer-section px-0 pt-3">
                         @auth
-                            @if (!$punyaAntreanAktif)
-                                <button class="btn btn-gold-accent text-white fw-bold py-2.5 w-100" data-bs-toggle="modal" data-bs-target="#modalTambahAntrean" data-loading-text="Membuka form..." style="border-radius: 8px; font-size: 0.9rem;">
-                                    Tambah Antrean
-                                </button>
+                            @if ($antreanSayaAktif)
+                                <div class="my-queue-card" id="my-queue-card">
+                                    <div class="my-queue-header">
+                                        <h3 class="my-queue-title">Nomor Antrean Anda</h3>
+                                        <div class="my-queue-number" id="my-queue-number">{{ $antreanSayaAktif->nomor_antrean_seq }}
+                                        </div>
+                                    </div>
+
+                                    <div class="my-queue-meta">
+                                        <div class="my-queue-meta-row">
+                                            <span class="my-queue-meta-label">Posisi</span>
+                                            <span class="my-queue-meta-value" id="my-queue-position">
+                                                {{ $antreanSayaAktif->status === 'menunggu' ? str_pad((string) ($posisiAntreanSaya ?? 0), 2, '0', STR_PAD_LEFT) : '-' }}
+                                            </span>
+                                        </div>
+                                        <div class="my-queue-meta-row">
+                                            <span class="my-queue-meta-label">Layanan</span>
+                                            <span class="my-queue-meta-value" id="my-queue-services">
+                                                {{ $antreanSayaAktif->layanan1?->nama ?? '-' }}{{ $antreanSayaAktif->layanan2 ? ' + ' . $antreanSayaAktif->layanan2->nama : '' }}
+                                            </span>
+                                        </div>
+                                        <div class="my-queue-meta-row">
+                                            <span class="my-queue-meta-label">Status</span>
+                                            <span class="my-queue-status-chip"
+                                                id="my-queue-status-chip">{{ strtoupper($antreanSayaAktif->status) }}</span>
+                                        </div>
+                                    </div>
+
+                                    @if ($antreanSayaAktif->status === 'menunggu')
+                                        <div id="my-queue-cancel-action">
+                                            <form action="{{ route('antrean.cancel') }}" method="POST"
+                                                onsubmit="return confirm('Batalkan antrean Anda?');">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" id="btn-cancel-my-queue" class="btn-cancel-my-queue"
+                                                    data-loading-text="Membatalkan..." @disabled($antreanSayaAktif->status === 'sedang dilayani')>
+                                                    Batalkan Antrean Saya
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                </div>
                             @endif
                         @endauth
-                    </div>
+
+                        <div class="queue-section">
+                            <div class="section-title">Urutan Antrean</div>
+
+
+                            <div class="queue-list-container">
+                                @if ($data_antrean && count($data_antrean) > 0)
+                                    @foreach ($data_antrean as $antrean)
+                                        <div
+                                            class="queue-card {{ $antreanSayaAktif && $antreanSayaAktif->id === $antrean->id ? 'my-queue-highlight' : '' }}">
+                                            <div class="queue-number-box">{{ $antrean->nomor_antrean_seq }}</div>
+                                            <div class="queue-info">
+                                                <p class="queue-name">{{ $antrean->nama_pelanggan }}</p>
+                                                <p class="queue-time">{{ $antrean->created_at->format('H:i') }}</p>
+                                            </div>
+                                            <div class="queue-badges">
+                                                @if ($antreanSayaAktif && $antreanSayaAktif->id === $antrean->id)
+                                                    <span class="badge-mine">ANTREAN SAYA</span>
+                                                @endif
+                                                <span class="badge-waiting">MENUNGGU</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="text-center mt-4 mb-4 text-muted">Tidak Ada Antrean Saat Ini <br> Silahkan Ambil Antrean Anda</div>
+                                @endif
+
+                            </div>
+                        </div>
+
+                        <div class="footer-section">
+                            @auth
+                                @if (!$punyaAntreanAktif)
+                                    <button class="btn btn-add-queue" data-bs-toggle="modal"
+                                        data-bs-target="#modalTambahAntrean"
+                                        data-loading-text="Membuka form..." style="width: 100%;">
+                                        Tambah Antrean
+                                    </button>
+                                @endif
+                            @else
+                                <div class="guest-queue-hint">
+                                    <p>Pergi ke kasir untuk mengambil antrean atau login menggunakan Google <br> <a
+                                            href="{{ route('login.user') }}">Klik disini untuk login</a></p>
+                                </div>
+                            @endauth
+                        </div>
 
                     </div>
                 </div>
