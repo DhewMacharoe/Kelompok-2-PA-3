@@ -19,7 +19,7 @@
             <span class="hero-divider-line"></span>
         </div>
         <p class="hero-desc mx-auto mb-4">
-            Tempat pangkas rambut premium dengan layanan walk-in queue terbaik.
+            Tempat pangkas rambut premium dengan layanan walk-in queue terbaiksdd.
         </p>
         <a href="{{ route('antrean') }}" class="btn hero-cta-btn px-4 py-2.5 fw-semibold shadow-sm">
             <i class="fas fa-users me-2"></i>Ambil Antrean
@@ -152,13 +152,13 @@
         @foreach ($selectedLayanans as $layanan)
         <div class="col-12 col-md-6 col-lg-4">
             <div role="button" tabindex="0" class="detail-card-button text-decoration-none d-block h-100"
-                data-bs-toggle="modal" data-bs-target="#detailModal" 
+                data-bs-toggle="modal" data-bs-target="#detailModal"
                 data-type="layanan" data-title="{{ $layanan->nama }}"
                 data-image="{{ 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=600&auto=format&fit=crop' }}"
                 data-price="Rp{{ number_format($layanan->harga, 0, ',', '.') }}"
                 data-description="{{ e($layanan->deskripsi ?? 'Layanan barbershop premium.') }}"
                 data-category="Barber"
-                data-availability="Tersedia" 
+                data-availability="Tersedia"
                 data-extra="Layanan Barber"
                 data-estimation="{{ $layanan->estimasi_waktu ?? '-' }} mnt"
                 data-show-meta="1">
@@ -259,7 +259,7 @@
             </div>
             <div class="modal-body pt-3 text-center">
                 <img id="detailModalImage" src="" alt="Detail Image" class="detail-modal-img mb-3 shadow-sm">
-                
+
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <span id="detailModalPrice" class="detail-modal-price">-</span>
                     <span id="detailModalType" class="badge bg-dark px-3 py-2 rounded-pill">-</span>

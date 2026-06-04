@@ -1,17 +1,77 @@
 <style>
+    .pelanggan-navbar {
+        background-color: #ffffff !important;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        transition: all 0.3s ease;
+    }
+
     .pelanggan-navbar .navbar-brand img {
-        height: 32px;
-        width: auto;
+        max-height: 44px !important;
+        height: 44px !important;
+        width: auto !important;
         display: block;
+    }
+
+    .pelanggan-navbar .nav-link {
+        color: #2b2b2b !important;
+        font-weight: 600 !important;
+        font-size: 0.92rem;
+        padding: 0.5rem 1rem !important;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+    .pelanggan-navbar .nav-link:hover,
+    .pelanggan-navbar .nav-link.active {
+        color: #cc7c1b !important;
+        background-color: rgba(204, 124, 27, 0.08);
     }
 
     .pelanggan-navbar .navbar-toggler {
         padding: 0;
         line-height: 1;
+        color: #1a1a1a !important;
+        background: transparent !important;
     }
 
     .pelanggan-navbar .navbar-toggler i {
-        font-size: 1.35rem;
+        font-size: 1.35rem !important;
+        color: #1a1a1a !important;
+    }
+
+    /* Auth buttons */
+    .pelanggan-navbar .navbar-nav .btn {
+        border-radius: 8px !important;
+        font-size: 0.85rem !important;
+        padding: 6px 16px !important;
+        transition: all 0.25s ease;
+    }
+
+    .pelanggan-navbar .navbar-nav a[href*="login"] {
+        background-color: #d5913e !important;
+        color: #ffffff !important;
+        border: 1px solid #d5913e !important;
+    }
+
+    .pelanggan-navbar .navbar-nav a[href*="login"]:hover {
+        background-color: #b37e33 !important;
+        border-color: #b37e33 !important;
+    }
+
+    .pelanggan-navbar .navbar-nav a[href*="profile"],
+    .pelanggan-navbar .navbar-nav button[type="submit"] {
+        color: #cc7c1b !important;
+        border: 1px solid #cc7c1b !important;
+        background: transparent !important;
+    }
+
+    .pelanggan-navbar .navbar-nav a[href*="profile"]:hover,
+    .pelanggan-navbar .navbar-nav button[type="submit"]:hover {
+        background-color: #cc7c1b !important;
+        color: #ffffff !important;
     }
 
     @media (max-width: 991.98px) {
