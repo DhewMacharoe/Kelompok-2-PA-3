@@ -5,6 +5,7 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomePageController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +23,20 @@ require __DIR__.'/admin_route.php';
 
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 
+<<<<<<< Updated upstream
+=======
+Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
+Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
+Route::get('/rekomendasi', [PelangganRekomendasiController::class, 'rekomendasi'])->name('rekomendasi.index');
+Route::post('/rekomendasi/process', [PelangganRekomendasiController::class, 'process'])->name('rekomendasi.process');
+Route::post('/rekomendasi/generate', [App\Http\Controllers\Pelanggan\PelangganRekomendasiController::class, 'generate'])->name('rekomendasi.generate');
+Route::get('/galeri', [PelangganGaleriController::class, 'index'])->name('galeri');
+Route::get('/menu', [PublicController::class, 'menu'])->name('menu');
+Route::post('/antrean', [AntreanController::class, 'store'])->name('antrean.store');
+Route::patch('/antrean/saya/batal', [AntreanController::class, 'cancelMyQueue'])
+    ->name('antrean.cancel')
+    ->middleware('auth');
+>>>>>>> Stashed changes
 
 Route::get('/layanan', [PublicController::class, 'layanan'])->name('layanan');
 Route::get('/antrian', [PublicController::class, 'antrian'])->name('antrian');
