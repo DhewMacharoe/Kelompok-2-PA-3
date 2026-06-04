@@ -1,6 +1,17 @@
 <script type="module">
 
     document.addEventListener('DOMContentLoaded', function() {
+        // Swap Logo dynamically to full brand logo on homepage
+        const logoImg = document.querySelector('.pelanggan-navbar .navbar-brand img');
+        if (logoImg) {
+            logoImg.src = "{{ asset('assets/images/logo.png') }}";
+            logoImg.style.maxHeight = '48px';
+            logoImg.style.height = 'auto';
+        }
+
+
+
+        // Accessibility triggers for cards acting as buttons
         document.querySelectorAll('.detail-card-button').forEach((element) => {
             element.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter' || event.key === ' ') {
@@ -10,6 +21,7 @@
             });
         });
 
+        // Detail Modal wiring
         const detailModal = document.getElementById('detailModal');
         if (detailModal) {
             detailModal.addEventListener('show.bs.modal', function(event) {
@@ -28,8 +40,9 @@
                 const category = button.dataset.category || '-';
                 const availability = button.dataset.availability || '-';
                 const showMeta = button.dataset.showMeta === '1';
+                
                 const metaRow = document.getElementById('detailModalMetaRow');
-                const metaLabel = metaRow ? metaRow.querySelector('span') : null;
+                const metaLabel = document.getElementById('detailModalMetaLabel');
 
                 document.getElementById('detailModalTitle').textContent = title;
                 document.getElementById('detailModalImage').src = image;
@@ -46,7 +59,7 @@
                 if (metaRow) {
                     if (showMeta) {
                         metaRow.classList.remove('d-none');
-                        metaRow.style.display = 'flex';
+                        metaRow.style.display = 'block';
                         if (metaLabel) {
                             metaLabel.textContent = 'Estimasi';
                         }
@@ -59,11 +72,11 @@
 
             detailModal.addEventListener('hidden.bs.modal', function() {
                 const metaRow = document.getElementById('detailModalMetaRow');
-                const metaLabel = metaRow ? metaRow.querySelector('span') : null;
+                const metaLabel = document.getElementById('detailModalMetaLabel');
 
                 if (metaRow) {
                     metaRow.classList.remove('d-none');
-                    metaRow.style.display = 'flex';
+                    metaRow.style.display = 'block';
                 }
 
                 if (metaLabel) {
@@ -72,12 +85,13 @@
             });
         }
 
+        // Echo Channel queue listeners
         if (window.Echo) {
             window.Echo.channel('Antrean-channel')
                 .listen('AntreanUpdate', (e) => {
                     const antrean = e.antrean;
 
-                    // Update cepat untuk elemen utama
+                    // Quick elements updates
                     const nomorEl = document.getElementById('antrean-nomor');
                     if (nomorEl && antrean?.nomor_antrean_seq) {
                         nomorEl.textContent = antrean.nomor_antrean_seq;
@@ -95,7 +109,7 @@
                     window.location.reload();
                 });
 
-            // Saat daftar menunggu berubah (tambah/batal/dipanggil), sinkronkan seluruh dashboard.
+            // Synchronize on queue changes
             window.Echo.channel('AntreanList-channel')
                 .listen('AntreanListUpdate', () => {
                     window.location.reload();

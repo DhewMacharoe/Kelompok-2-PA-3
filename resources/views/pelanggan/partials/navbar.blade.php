@@ -1,17 +1,76 @@
 <style>
+    /* Global White Navbar Styling */
+    .pelanggan-navbar {
+        background-color: #ffffff !important;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        transition: all 0.3s ease;
+    }
+
     .pelanggan-navbar .navbar-brand img {
-        height: 32px;
-        width: auto;
+        max-height: 44px !important;
+        height: auto !important;
+        width: auto !important;
         display: block;
     }
 
+    .pelanggan-navbar .nav-link {
+        color: #2b2b2b !important;
+        font-weight: 600 !important;
+        font-size: 0.92rem;
+        padding: 0.5rem 1rem !important;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+    .pelanggan-navbar .nav-link:hover,
+    .pelanggan-navbar .nav-link.active {
+        color: #cc7c1b !important;
+        background-color: rgba(204, 124, 27, 0.08) !important;
+    }
+
     .pelanggan-navbar .navbar-toggler {
-        padding: 0;
-        line-height: 1;
+        color: #1a1a1a !important;
+        background: transparent !important;
     }
 
     .pelanggan-navbar .navbar-toggler i {
-        font-size: 1.35rem;
+        color: #1a1a1a !important;
+        font-size: 1.35rem !important;
+    }
+
+    /* Auth buttons */
+    .pelanggan-navbar .navbar-nav .btn {
+        border-radius: 8px !important;
+        font-size: 0.85rem !important;
+        padding: 6px 16px !important;
+        transition: all 0.25s ease;
+    }
+
+    .pelanggan-navbar .navbar-nav a[href*="login"] {
+        background-color: #d5913e !important;
+        color: #ffffff !important;
+        border: 1px solid #d5913e !important;
+    }
+
+    .pelanggan-navbar .navbar-nav a[href*="login"]:hover {
+        background-color: #b37e33 !important;
+        border-color: #b37e33 !important;
+    }
+
+    .pelanggan-navbar .navbar-nav a[href*="profile"],
+    .pelanggan-navbar .navbar-nav button[type="submit"] {
+        color: #cc7c1b !important;
+        border: 1px solid #cc7c1b !important;
+        background: transparent !important;
+    }
+
+    .pelanggan-navbar .navbar-nav a[href*="profile"]:hover,
+    .pelanggan-navbar .navbar-nav button[type="submit"]:hover {
+        background-color: #cc7c1b !important;
+        color: #ffffff !important;
     }
 
     @media (max-width: 991.98px) {
@@ -51,16 +110,14 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg pelanggan-navbar"
-    style="background-color: #1a1a1a; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+<nav class="navbar navbar-expand-lg pelanggan-navbar">
     <div class="container">
         <div class="d-flex align-items-center justify-content-between w-100 py-2">
             <a href="{{ route('home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center">
-                <img src="{{ asset('assets/images/favicon.png') }}" alt="Arga Home's Logo" class="img-fluid "
-                    style="max-height: 40px;">
+                <img src="{{ asset('assets/images/logo.png') }}" alt="Arga Home's Logo" class="img-fluid">
             </a>
 
-            <button class="navbar-toggler text-white border-0 shadow-none" type="button" data-bs-toggle="collapse"
+            <button class="navbar-toggler text-dark border-0 shadow-none" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
@@ -71,63 +128,44 @@
             <ul class="navbar-nav gap-lg-4 text-center mt-3 mt-lg-0">
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('home') ? 'active' : '' }}"
-                        href="{{ route('home') }}"
-                        style="color: {{ request()->routeIs('home') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('home') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('home') }}">
                         Beranda
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('antrean') ? 'active' : '' }}"
-                        href="{{ route('antrean') }}"
-                        style="color: {{ request()->routeIs('antrean') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('antrean') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('antrean') }}">
                         Antrean
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('pelanggan.layanan') ? 'active' : '' }}"
-                        href="{{ route('pelanggan.layanan') }}"
-                        style="color: {{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('pelanggan.layanan') }}">
                         Layanan
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('rekomendasi.index') ? 'active' : '' }}"
-                        href="{{ route('rekomendasi.index') }}"
-                        style="color: {{ request()->routeIs('rekomendasi.index') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('rekomendasi.index') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('rekomendasi.index') }}">
                         Rekomendasi
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('galeri') ? 'active' : '' }}"
-                        href="{{ route('galeri') }}"
-                        style="color: {{ request()->routeIs('galeri') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('galeri') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('galeri') }}">
                         Galeri
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('menu') ? 'active' : '' }}"
-                        href="{{ route('menu') }}"
-                        style="color: {{ request()->routeIs('menu') ? '#d4af37' : 'white' }}; transition: color 0.3s ease; white-space: nowrap;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('menu') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('menu') }}">
                         Menu Café
                     </a>
                 </li>
 
                 @guest
                     <li class="nav-item d-flex align-items-center justify-content-center">
-                        <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3"
-                            style="background-color: #d4af37; color: #1a1a1a; border-radius: 8px;">
+                        <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3">
                             Login
                         </a>
                     </li>
@@ -136,20 +174,17 @@
                 @auth
                     <li class="nav-item d-flex align-items-center justify-content-center">
                         @if (auth()->user()->hasRole('admin'))
-                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm fw-bold px-3"
-                                style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm fw-bold px-3">
                                 Dashboard admin
                             </a>
                         @else
                             <div class="d-flex gap-2 align-items-center">
-                                <a href="{{ route('profile.edit') }}" class="btn btn-sm fw-bold px-3"
-                                    style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
+                                <a href="{{ route('profile.edit') }}" class="btn btn-sm fw-bold px-3">
                                     Profil Saya
                                 </a>
                                 <form action="{{ route('logout') }}" method="POST" class="m-0">
                                     @csrf
-                                    <button type="submit" class="btn btn-sm fw-bold px-3"
-                                        style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
+                                    <button type="submit" class="btn btn-sm fw-bold px-3">
                                         Logout
                                     </button>
                                 </form>

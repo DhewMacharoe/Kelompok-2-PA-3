@@ -640,45 +640,63 @@
 
      /* Bagian Header (Sedang Dilayani) */
      .header-section {
-         background-color: #1a1a1a;
-         padding: 60px 20px;
+         background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.88)), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=1474&auto=format&fit=crop');
+         background-size: cover;
+         background-position: center;
+         padding: 40px 20px !important;
          text-align: center;
-         height: 100%;
          display: flex;
          flex-direction: column;
          justify-content: center;
          align-items: center;
+         color: #ffffff;
+         position: relative;
      }
 
-     .text-gold {
-         color: #c99c3e;
-         letter-spacing: 2px;
-         font-size: 0.85rem;
-         font-weight: 700;
-         margin-bottom: 20px;
+     .active-icon-wrapper {
+         width: 58px;
+         height: 58px;
+         border: 2px solid #cc7c1b;
+         border-radius: 50%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: rgba(0, 0, 0, 0.4);
      }
 
-     .active-number-box {
-         border: 2px solid #c99c3e;
-         padding: 15px 60px;
-         margin: 20px 0;
-         border-radius: 8px;
-     }
-
-     .active-number {
-         font-size: 5rem;
+     .active-title {
+         font-size: 1.5rem;
          font-weight: 800;
          color: #ffffff;
-         line-height: 1;
-         margin: 0;
+         letter-spacing: 0.5px;
      }
 
-     .active-name {
-         color: #a0a0a0;
-         font-family: monospace;
-         font-size: 1.1rem;
-         letter-spacing: 2px;
-         margin-top: 20px;
+     .active-subtitle {
+         color: #b0b0b0;
+         font-size: 0.85rem;
+         font-weight: 400;
+     }
+
+     .header-divider-line {
+         height: 1px;
+         width: 60px;
+         background-color: rgba(204, 124, 27, 0.4);
+     }
+
+     .stat-label {
+         color: #9c9c9c;
+         font-size: 0.72rem;
+         text-transform: uppercase;
+         letter-spacing: 0.6px;
+         font-weight: 600;
+     }
+
+     .stat-val {
+         font-weight: 800;
+     }
+
+     .text-gold-accent {
+         color: #cc7c1b !important;
      }
 
      /* Bagian Daftar Antrean (Kanan/Bawah) */
@@ -689,53 +707,34 @@
      }
 
      .queue-section {
-         padding: 30px;
+         padding: 24px;
          flex-grow: 1;
      }
 
-     .section-title {
-         display: flex;
-         align-items: center;
-         font-size: 0.8rem;
-         font-weight: 700;
-         color: #6c757d;
-         margin-bottom: 25px;
-         letter-spacing: 1px;
-     }
-
-     .section-title::after {
-         content: "";
-         flex: 1;
-         margin-left: 15px;
-         height: 1px;
-         background-color: #e0e0e0;
-     }
-
      .queue-card {
-         border: 1px solid #e0e0e0;
-         border-radius: 8px;
-         margin-bottom: 12px;
-         padding: 10px;
-         display: flex;
-         align-items: center;
+         border: 1px solid #eef1f5 !important;
+         border-radius: 10px;
+         margin-bottom: 10px;
+         background: #ffffff;
+         box-shadow: 0 2px 8px rgba(0,0,0,0.02);
          transition: transform 0.2s, box-shadow 0.2s;
      }
 
      .queue-card:hover {
          transform: translateY(-2px);
-         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
      }
 
      .queue-number-box {
          background-color: #1a1a1a;
          color: white;
-         width: 50px;
-         height: 50px;
+         width: 44px;
+         height: 44px;
          display: flex;
          align-items: center;
          justify-content: center;
          font-weight: bold;
-         font-size: 1.2rem;
+         font-size: 1.1rem;
          border-radius: 6px;
          flex-shrink: 0;
      }
@@ -748,14 +747,14 @@
 
      .queue-name {
          font-weight: 700;
-         font-size: 1rem;
+         font-size: 0.95rem;
          margin: 0;
          color: #212529;
          white-space: nowrap;
          overflow: hidden;
          text-overflow: ellipsis;
      }
-     
+
      .queue-badges {
          flex-shrink: 0;
          display: flex;
@@ -767,16 +766,16 @@
      }
 
      .queue-time {
-         font-size: 0.8rem;
+         font-size: 0.78rem;
          color: #888;
          margin: 0;
          font-weight: 600;
      }
 
      .badge-waiting {
-         border: 1px solid #c99c3e;
-         color: #c99c3e;
-         background-color: transparent;
+         border: 1px solid #cc7c1b;
+         color: #cc7c1b;
+         background-color: rgba(204, 124, 27, 0.05);
          font-size: 0.7rem;
          padding: 5px 12px;
          border-radius: 20px;
@@ -784,26 +783,31 @@
          letter-spacing: 0.5px;
      }
 
+     .btn-gold-accent {
+         background-color: #d5913e !important;
+         border: 1px solid #d5913e !important;
+         color: #ffffff !important;
+         transition: all 0.25s ease;
+     }
+
+     .btn-gold-accent:hover {
+         background-color: #b37e33 !important;
+         border-color: #b37e33 !important;
+     }
+
+     .btn-outline-gold {
+         border: 1px solid #cc7c1b !important;
+         color: #cc7c1b !important;
+         background: transparent !important;
+         transition: all 0.25s ease;
+     }
+
+     .btn-outline-gold:hover {
+         background-color: rgba(204, 124, 27, 0.08) !important;
+     }
+
      /* Bagian Tombol */
      .footer-section {
-         padding: 20px 30px 30px 30px;
-         margin-top: auto;
-     }
-
-     .btn-add-queue {
-         background-color: #c49a45;
-         color: #1a1a1a;
-         font-weight: 700;
-         border: none;
-         width: 100%;
-         padding: 14px;
-         border-radius: 8px;
-         font-size: 1rem;
-         transition: background-color 0.3s;
-     }
-
-     .btn-add-queue:hover {
-         background-color: #b0893a;
-         color: #1a1a1a;
+         padding: 16px 0 0 0;
      }
  </style>

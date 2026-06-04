@@ -177,21 +177,20 @@
                 <div class="col-lg-3 col-md-6">
                     <h5>Hubungi Kami</h5>
                     <ul class="list-unstyled footer-list">
-                        <li><i class="fas fa-map-marker-alt icon-gold"></i> Jl P.Siantar Km 2 Tampubolon,Sibolahotangsas Kec. Balige, Toba, Sumatera Utara</li>
+                        <li><i class="fas fa-map-marker-alt icon-gold"></i> Jl.P.Siantar Km 2 Tampubolon,Siodeli-otangs Kec. Balige - Toba, Sumatera Utara</li>
                         <li><i class="fas fa-phone-alt icon-gold"></i> 0821-6789-3019</li>
-                        <li><i class="fas fa-envelope icon-gold"></i> jtobabarber@gmail.com</li>
+                        <li><i class="fas fa-envelope icon-gold"></i> argabarber@gmail.com</li>
                     </ul>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
                     <h5>Lokasi Kami</h5>
                     <div class="map-container">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3986.498167979275!2d99.0793!3d2.3376!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x302e05f7e7bdbf51%3A0xfb263b04d75d4b75!2sARGA%20home&#39;s!5e0!3m2!1sid!2sid!4v1777469578899!5m2!1sid!2sid"
-                            width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
+                        <img src="{{ asset('assets/images/map_screenshot.png') }}" alt="Lokasi ARGA home's" class="w-100 h-100" style="object-fit: cover;">
                     </div>
+                    <a id="footer-maps-btn" href="https://www.google.com/maps/search/?api=1&query=ARGA+home%27s+Balige" target="_blank" class="btn btn-outline-light btn-sm w-100 mt-2 d-flex align-items-center justify-content-center gap-2" style="border-color: #444; font-size: 0.82rem; border-radius: 6px; transition: all 0.25s ease;">
+                        Lihat di Maps <i class="fas fa-external-link-alt" style="font-size: 0.75rem; color: #cc7c1b;"></i>
+                    </a>
                 </div>
 
             </div>
