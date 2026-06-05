@@ -4,7 +4,7 @@
         // Swap Logo dynamically to full brand logo on homepage
         const logoImg = document.querySelector('.pelanggan-navbar .navbar-brand img');
         if (logoImg) {
-            logoImg.src = "{{ asset('assets/images/logo.png') }}";
+            logoImg.src = "{{ asset('assets/images/favicon.png') }}";
             logoImg.style.maxHeight = '48px';
             logoImg.style.height = 'auto';
         }
@@ -40,7 +40,7 @@
                 const category = button.dataset.category || '-';
                 const availability = button.dataset.availability || '-';
                 const showMeta = button.dataset.showMeta === '1';
-                
+
                 const metaRow = document.getElementById('detailModalMetaRow');
                 const metaLabel = document.getElementById('detailModalMetaLabel');
 
