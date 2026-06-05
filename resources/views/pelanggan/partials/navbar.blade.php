@@ -116,7 +116,7 @@
     <div class="container">
         <div class="d-flex align-items-center justify-content-between w-100 py-2">
             <a href="{{ route('home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center">
-                <img src="{{ asset('assets/images/favicon.png') }}" alt="Arga Home's Logo" class="img-fluid "
+                <img src="{{ asset('assets/images/logo.png') }}" alt="Arga Home's Logo" class="img-fluid "
                     style="max-height: 40px;">
             </a>
 
