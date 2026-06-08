@@ -88,11 +88,10 @@
 
                                     @if ($antreanSayaAktif->status === 'menunggu')
                                         <div id="my-queue-cancel-action">
-                                            <form action="{{ route('antrean.cancel') }}" method="POST"
-                                                onsubmit="return confirm('Batalkan antrean Anda?');">
+                                            <form action="{{ route('antrean.cancel') }}" method="POST">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button type="submit" id="btn-cancel-my-queue" class="btn-cancel-my-queue"
+                                                <button type="button" id="btn-cancel-my-queue" class="btn-cancel-my-queue"
                                                     data-loading-text="Membatalkan..." @disabled($antreanSayaAktif->status === 'sedang dilayani')>
                                                     Batalkan Antrean Saya
                                                 </button>

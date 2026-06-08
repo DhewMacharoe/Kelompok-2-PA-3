@@ -23,17 +23,37 @@ class AdminController extends Controller
         $jumlahSelesai = Antrean::where('status', 'selesai')->whereDate('updated_at', Carbon::today())->count();
         $antreanMenunggu = Antrean::whereDate('created_at', now()->today())->where('status', 'menunggu')->orderBy('created_at', 'asc')->limit(3)->get();
         $batal = Antrean::where('status', 'batal')->whereDate('updated_at', Carbon::today())->count();
-        $jumlahPengunjung = Antrean::whereDate('created_at', Carbon::today())->count();
 
+        // Query status antrean hari ini untuk statistik chart
+        $dataStatus = Antrean::whereDate('created_at', Carbon::today())
+            ->selectRaw('status, count(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status')
+            ->toArray();
 
         $statistikData = [
-            'pengunjung' => $jumlahPengunjung,
-            'menunggu' => $jumlahMenunggu,
-            'selesai' => $jumlahSelesai,
-            'batal' => $batal,
+            $dataStatus['menunggu'] ?? 0,
+            $dataStatus['selesai'] ?? 0,
+            $dataStatus['batal'] ?? 0,
         ];
 
-        return view('admin.dashboard', compact('statistikData', 'antreanMenunggu', 'dipanggil', 'jumlahMenungguHariIni'));
+        // Tren Pengunjung 7 Hari Terakhir
+        $trendLabels = [];
+        $trendData = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $tanggal = Carbon::today()->subDays($i);
+            $trendLabels[] = $tanggal->translatedFormat('l');
+            $trendData[] = Antrean::whereDate('created_at', $tanggal)->count();
+        }
+
+        return view('admin.dashboard', compact(
+            'statistikData',
+            'trendLabels',
+            'trendData',
+            'antreanMenunggu',
+            'dipanggil',
+            'jumlahMenungguHariIni'
+        ));
     }
 
 

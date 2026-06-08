@@ -12,10 +12,21 @@
 
 @section('content')
 <div class="main-container">
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
+    @if (session('success'))
+        <div id="flash-success" data-message="{{ session('success') }}" hidden></div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const flashSuccess = document.getElementById('flash-success');
+                if (flashSuccess && flashSuccess.dataset.message) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: flashSuccess.dataset.message,
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        </script>
     @endif
 
     <a href="{{ route('admin.galeri.create') }}" class="btn-tambah shadow-sm">
@@ -80,12 +91,15 @@
 
                             <form action="{{ route('admin.galeri.toggleStatus', $galeri) }}"
                                 method="POST"
+                                class="form-toggle-galeri"
+                                data-judul="{{ $galeri->judul }}"
+                                data-status="{{ $galeri->is_active ? 'nonaktifkan' : 'aktifkan' }}"
                                 style="display: inline; margin: 0;">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit"
-                                    class="btn-action btn-toggle-status shadow-sm"
-                                    data-loading-text="Memproses..." style="margin: 0;">
+                                <button type="button"
+                                    class="btn-action btn-toggle-status shadow-sm btn-toggle-galeri-alert"
+                                    style="margin: 0;">
                                     {{ $galeri->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
                                 </button>
                             </form>
@@ -96,11 +110,9 @@
                             </a>
 
                             <button type="button"
-                                class="btn-action btn-hapus shadow-sm btn-delete-galeri"
+                                class="btn-action btn-hapus shadow-sm btn-delete-galeri-alert"
                                 data-action="{{ route('admin.galeri.destroy', $galeri) }}"
-                                data-judul="{{ $galeri->judul }}"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteGaleriModal" style="margin: 0;">
+                                data-judul="{{ $galeri->judul }}" style="margin: 0;">
                                 Hapus
                             </button>
                         </div>
@@ -144,58 +156,72 @@
     </div>
 </div>
 
-{{-- Modal Konfirmasi Hapus Galeri --}}
-<div class="modal fade" id="deleteGaleriModal" tabindex="-1" aria-labelledby="deleteGaleriModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow" style="border-radius: 12px; animation: slideDown 0.3s ease-out;">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title" style="font-size: 18px; color: #2C3E50; font-weight: bold;" id="deleteGaleriModalLabel">
-                    Hapus Foto Galeri?
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-            </div>
 
-            <div class="modal-body">
-                <p style="margin-bottom: 8px; color: #333;">
-                    Foto galeri <strong id="deleteGaleriTitle">ini</strong> akan dihapus secara permanen.
-                </p>
-                <p style="color: #6b7280; font-size: 14px; margin: 0;">
-                    Foto yang sudah dihapus tidak akan tampil lagi di halaman pelanggan.
-                </p>
-            </div>
-
-            <div class="modal-footer border-0 pt-0" style="display: flex; gap: 10px;">
-                <button type="button" class="btn-batal" data-bs-dismiss="modal" style="margin: 0;">
-                    Batal
-                </button>
-
-                <form id="deleteGaleriForm" method="POST" style="margin: 0;">
-                    @csrf
-                    @method('DELETE')
-
-                    <button type="submit" class="btn-submit" style="background-color: #EB5757; color: white;" data-loading-text="Menghapus...">
-                        Ya, Hapus
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Delete Modal Logic
-        const deleteButtons = document.querySelectorAll('.btn-delete-galeri');
-        const deleteForm = document.getElementById('deleteGaleriForm');
-        const deleteTitle = document.getElementById('deleteGaleriTitle');
+        // 1. Konfirmasi Ubah Status Galeri
+        document.querySelectorAll('.btn-toggle-galeri-alert').forEach(button => {
+            button.addEventListener('click', function() {
+                const form = this.closest('form');
+                const judul = form.dataset.judul;
+                const statusAction = form.dataset.status; // "aktifkan" atau "nonaktifkan"
 
-        deleteButtons.forEach(function(button) {
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: `Apakah Anda yakin ingin ${statusAction} foto galeri "${judul}"?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: statusAction === 'aktifkan' ? '#198754' : '#f39c12',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Lanjutkan',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        // 2. Konfirmasi Hapus Galeri
+        document.querySelectorAll('.btn-delete-galeri-alert').forEach(button => {
             button.addEventListener('click', function() {
                 const action = this.getAttribute('data-action');
                 const judul = this.getAttribute('data-judul');
 
-                deleteForm.setAttribute('action', action);
-                deleteTitle.textContent = judul;
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: `Apakah Anda yakin ingin menghapus foto galeri "${judul}"? Data yang dihapus tidak dapat dikembalikan.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Lanjutkan',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Buat form dinamis untuk submit delete
+                        const form = document.createElement('form');
+                        form.setAttribute('method', 'POST');
+                        form.setAttribute('action', action);
+                        
+                        const csrfInput = document.createElement('input');
+                        csrfInput.setAttribute('type', 'hidden');
+                        csrfInput.setAttribute('name', '_token');
+                        csrfInput.setAttribute('value', '{{ csrf_token() }}');
+                        
+                        const methodInput = document.createElement('input');
+                        methodInput.setAttribute('type', 'hidden');
+                        methodInput.setAttribute('name', '_method');
+                        methodInput.setAttribute('value', 'DELETE');
+                        
+                        form.appendChild(csrfInput);
+                        form.appendChild(methodInput);
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
             });
         });
 

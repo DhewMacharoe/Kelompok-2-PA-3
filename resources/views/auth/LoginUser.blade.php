@@ -7,6 +7,7 @@
     <title>Login - Arga Home's</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/arga-auth.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="auth-page auth-page--login">
@@ -110,7 +111,12 @@
                                 console.error('Firebase Google login failed:', error);
                                 loginStatus.textContent = 'Login gagal: ' + error.message;
                                 loginButton.disabled = false;
-                                alert('Login Google gagal: ' + error.message);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal',
+                                    text: 'Login Google gagal: ' + error.message,
+                                    confirmButtonText: 'OK'
+                                });
                             }
                         });
                     </script>

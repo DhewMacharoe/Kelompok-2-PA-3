@@ -1,4 +1,6 @@
 <script>
+    let isSpeaking = false;
+
     async function playQueueAudio(antrean) {
         if (!antrean) return;
 
@@ -17,7 +19,14 @@
             return Promise.resolve();
         }
 
+        isSpeaking = true;
+
         return new Promise((resolve) => {
+            const handleFinish = () => {
+                isSpeaking = false;
+                resolve();
+            };
+
             try {
                 if (!('speechSynthesis' in window)) throw new Error('no-speech');
 
@@ -39,10 +48,17 @@
                     utter.rate = 1;
                     utter.pitch = 1;
 
-                    utter.onend = resolve;
+                    // Keep a global reference to prevent garbage collection
+                    window.currentUtterance = utter;
+
+                    utter.onend = () => {
+                        window.currentUtterance = null;
+                        handleFinish();
+                    };
                     utter.onerror = (e) => {
+                        window.currentUtterance = null;
                         console.warn('[TTS] Error:', e);
-                        fallbackAudio(resolve);
+                        fallbackAudio(handleFinish);
                     };
 
                     window.speechSynthesis.cancel();
@@ -50,7 +66,7 @@
                 }
             } catch (err) {
                 console.warn('[TTS] Failed:', err);
-                fallbackAudio(resolve);
+                fallbackAudio(handleFinish);
             }
         });
     }
@@ -136,11 +152,25 @@
             });
 
             window.Echo.channel('AntreanList-channel').listen('AntreanListUpdate', async (e) => {
+                // Wait briefly to allow any simultaneous AntreanUpdate event to trigger and set isSpeaking
+                await new Promise(r => setTimeout(r, 100));
+
+                if (isSpeaking) {
+                    console.log('Skipping reload in AntreanListUpdate because TTS is speaking.');
+                    return;
+                }
+
                 const antreanList = e.antreanList || [];
                 if (antreanList.length > 0) {
                     const item = antreanList[0];
                     await playQueueAudio(item);
                 }
+
+                if (isSpeaking) {
+                    console.log('Skipping reload in AntreanListUpdate because TTS started speaking.');
+                    return;
+                }
+
                 window.location.reload();
             });
         });
@@ -224,13 +254,13 @@
 
     function panggil() {
         Swal.fire({
-            title: 'Panggil Antrean?',
+            title: 'Konfirmasi',
             text: "Sistem akan memanggil pelanggan selanjutnya ke kursi pangkas.",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#0d6efd',
             cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Ya, Panggil',
+            confirmButtonText: 'Ya, Lanjutkan',
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
@@ -254,7 +284,12 @@
                         // Tidak ada notifikasi sukses di sini, tunggu event websocket merespons suara lalu page reload
                     })
                     .catch(error => {
-                        Swal.fire('Gagal', 'Terjadi kesalahan saat memanggil antrean.', 'error');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: 'Terjadi kesalahan saat memanggil antrean.',
+                            confirmButtonText: 'OK'
+                        });
                     });
             }
         });
@@ -283,34 +318,39 @@
                 .catch(error => {
                     button.innerHTML = originalText;
                     button.disabled = false;
-                    Swal.fire('Gagal', 'Gagal mengubah status antrean.', 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Gagal mengubah status antrean.',
+                        confirmButtonText: 'OK'
+                    });
                 });
         };
 
         // Dialog Konfirmasi Khusus Pembatalan
         if (targetStatus === 'batal') {
             Swal.fire({
-                title: 'Batalkan Antrean?',
+                title: 'Konfirmasi',
                 text: "Apakah Anda yakin ingin membatalkan antrean ini?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Ya, Batalkan!',
-                cancelButtonText: 'Kembali'
+                confirmButtonText: 'Ya, Lanjutkan',
+                cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) executeUpdate();
             });
         } else if (targetStatus === 'selesai') {
             Swal.fire({
-                title: 'Selesaikan Antrean?',
+                title: 'Konfirmasi',
                 text: "Pelanggan sudah selesai dilayani?",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#198754',
                 cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Ya, Selesai',
-                cancelButtonText: 'Belum'
+                confirmButtonText: 'Ya, Lanjutkan',
+                cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) executeUpdate();
             });

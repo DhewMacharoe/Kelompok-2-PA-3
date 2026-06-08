@@ -1,4 +1,6 @@
 <script>
+    let isSpeaking = false;
+
     async function playQueueAudio(antrean) {
         if (!antrean) return;
 
@@ -17,7 +19,14 @@
             return Promise.resolve();
         }
 
+        isSpeaking = true;
+
         return new Promise((resolve) => {
+            const handleFinish = () => {
+                isSpeaking = false;
+                resolve();
+            };
+
             try {
                 if (!('speechSynthesis' in window)) throw new Error('no-speech');
 
@@ -39,10 +48,17 @@
                     utter.rate = 1;
                     utter.pitch = 1;
 
-                    utter.onend = resolve;
+                    // Keep a global reference to prevent garbage collection
+                    window.currentUtterance = utter;
+
+                    utter.onend = () => {
+                        window.currentUtterance = null;
+                        handleFinish();
+                    };
                     utter.onerror = (e) => {
+                        window.currentUtterance = null;
                         console.warn('[TTS] Error:', e);
-                        fallbackAudio(resolve);
+                        fallbackAudio(handleFinish);
                     };
 
                     window.speechSynthesis.cancel();
@@ -50,7 +66,7 @@
                 }
             } catch (err) {
                 console.warn('[TTS] Failed:', err);
-                fallbackAudio(resolve);
+                fallbackAudio(handleFinish);
             }
         });
     }
@@ -128,10 +144,24 @@
 
             window.Echo.channel('AntreanList-channel').listen('AntreanListUpdate', async (e) => {
                 if (!window.isActionInProgress) {
+                    // Wait briefly to allow any simultaneous AntreanUpdate event to trigger and set isSpeaking
+                    await new Promise(r => setTimeout(r, 100));
+
+                    if (isSpeaking) {
+                        console.log('Skipping reload in AntreanListUpdate because TTS is speaking.');
+                        return;
+                    }
+
                     const antreanList = e.antreanList || [];
                     if (antreanList.length > 0) {
                         await playQueueAudio(antreanList[0]);
                     }
+
+                    if (isSpeaking) {
+                        console.log('Skipping reload in AntreanListUpdate because TTS started speaking.');
+                        return;
+                    }
+
                     window.location.reload();
                 }
             });
@@ -263,13 +293,13 @@
     // === PERUBAHAN SWEETALERT: Fungsi Panggil ===
     function panggil() {
         Swal.fire({
-            title: 'Panggil Antrean?',
+            title: 'Konfirmasi',
             text: "Sistem akan memanggil pelanggan selanjutnya.",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#2F80ED',
             cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Ya, Panggil',
+            confirmButtonText: 'Ya, Lanjutkan',
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
@@ -295,8 +325,9 @@
                         const showSuccessAlertAndReload = () => {
                             Swal.fire({
                                 icon: data.success ? 'success' : 'info',
-                                title: data.success ? 'Berhasil!' : 'Info',
+                                title: data.success ? 'Berhasil' : 'Info',
                                 text: data.message,
+                                confirmButtonText: 'OK',
                                 showConfirmButton: true,
                             }).then(() => {
                                 window.isActionInProgress = false;
@@ -312,7 +343,12 @@
                     .catch(error => {
                         console.error('Error:', error);
                         window.isActionInProgress = false;
-                        Swal.fire('Gagal', 'Terjadi kesalahan saat memanggil antrean berikutnya.', 'error');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: 'Terjadi kesalahan saat memanggil antrean berikutnya.',
+                            confirmButtonText: 'OK'
+                        });
                     });
             }
         });
@@ -321,15 +357,15 @@
     // === PERUBAHAN SWEETALERT: Fungsi Ubah Status ===
     function ubahStatus(button, id, targetStatus) {
         let swalConfig = {
-            title: targetStatus === 'selesai' ? 'Selesaikan Antrean?' : 'Batalkan Antrean?',
+            title: 'Konfirmasi',
             text: targetStatus === 'selesai' ? 'Tandai antrean ini sebagai selesai?' :
                 'Apakah Anda yakin ingin membatalkan antrean ini?',
             icon: targetStatus === 'selesai' ? 'question' : 'warning',
             showCancelButton: true,
             confirmButtonColor: targetStatus === 'selesai' ? '#4CC779' : '#EB5757',
             cancelButtonColor: '#6c757d',
-            confirmButtonText: targetStatus === 'selesai' ? 'Ya, Selesai' : 'Ya, Batalkan',
-            cancelButtonText: 'Kembali'
+            confirmButtonText: 'Ya, Lanjutkan',
+            cancelButtonText: 'Batal'
         };
 
         Swal.fire(swalConfig).then((result) => {
@@ -355,14 +391,20 @@
                         }
                         return response.json();
                     })
-                    .then(data => {
+                    .then(async data => {
+                        let audioPromise = Promise.resolve();
+                        if (data.success && data.antrean) {
+                            audioPromise = playQueueAudio(data.antrean);
+                        }
+
                         Swal.fire({
                             icon: 'success',
                             title: 'Berhasil',
                             text: 'Status berhasil diubah menjadi: ' + targetStatus,
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
+                            confirmButtonText: 'OK',
+                            showConfirmButton: true
+                        }).then(async () => {
+                            await audioPromise;
                             window.isActionInProgress = false;
                             window.location.reload();
                         });
@@ -370,7 +412,12 @@
                     .catch(error => {
                         console.error('Error:', error);
                         window.isActionInProgress = false;
-                        Swal.fire('Gagal', 'Terjadi kesalahan saat mengubah status.', 'error');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: 'Terjadi kesalahan saat mengubah status.',
+                            confirmButtonText: 'OK'
+                        });
                         button.innerHTML = originalText;
                         button.disabled = false;
                     });

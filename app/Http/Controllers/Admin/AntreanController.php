@@ -90,6 +90,7 @@ class AntreanController extends Controller
         return response()->json([
             'success' => $success,
             'message' => $message,
+            'antrean' => $antrean,
         ]);
     }
 

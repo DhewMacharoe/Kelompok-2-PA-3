@@ -60,7 +60,12 @@
 
         function showLocationError(message) {
             if (!lokasiFeedback) {
-                alert(message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: message,
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
 
@@ -544,7 +549,12 @@
             formTambahPelanggan.addEventListener('submit', function(event) {
                 if (window.selectedServices.length === 0) {
                     event.preventDefault();
-                    alert('Harap pilih minimal 1 layanan.');
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Validasi Data',
+                        text: 'Harap pilih minimal 1 layanan.',
+                        confirmButtonText: 'OK'
+                    });
                     showServiceGrid();
                     return;
                 }
@@ -568,6 +578,30 @@
 
                 event.preventDefault();
                 requestUserLocationAndSubmit();
+            });
+        }
+
+        if (cancelQueueButton) {
+            cancelQueueButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                const form = this.closest('form');
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Apakah Anda yakin ingin membatalkan antrean Anda?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Lanjutkan',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const loadingText = this.getAttribute('data-loading-text') || 'Membatalkan...';
+                        this.textContent = loadingText;
+                        this.disabled = true;
+                        form.submit();
+                    }
+                });
             });
         }
 

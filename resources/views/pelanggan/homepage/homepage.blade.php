@@ -19,7 +19,7 @@
             <span class="hero-divider-line"></span>
         </div>
         <p class="hero-desc mx-auto mb-4">
-            Tempat pangkas rambut premium dengan layanan walk-in queue terbaiksdd.
+            Tempat pangkas rambut premium dengan layanan walk-in queue terbaiks.
         </p>
         <a href="{{ route('antrean') }}" class="btn hero-cta-btn px-4 py-2.5 fw-semibold shadow-sm">
             <i class="fas fa-users me-2"></i>Ambil Antrean
@@ -72,79 +72,86 @@
                         <div class="d-flex align-items-start gap-2 mt-2 pt-1">
                             <i class="far fa-clock text-success mt-1" style="font-size: 0.95rem;"></i>
                             <div>
+                                @if ($antrean)
+                                <h6 class="mb-0 fw-bold text-dark" style="font-size: 0.82rem;">Sedang Melayani Nomor<strong> {{ $antrean->nomor_antrean_seq }}</strong></h6>
+                                <p class="mb-0 text-muted" style="font-size: 0.72rem; line-height: 1.3;">
+                                    Antrean berikutnya akan dipanggil<strong></strong> setelah layanan selesai
+                                </p>
+                                @else
                                 <h6 class="mb-0 fw-bold text-dark" style="font-size: 0.82rem;">Menunggu Panggilan Antrean</h6>
                                 <p class="mb-0 text-muted" style="font-size: 0.72rem; line-height: 1.3;">
                                     Pelanggan akan dipanggil sesuai urutan antrean.
                                 </p>
+                                @endif
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Navigation Menu Grid -->
-    <div class="row g-3 mb-5 text-center justify-content-center">
-        <div class="col-6 col-md-3">
-            <a href="{{ route('antrean') }}" class="text-decoration-none menu-grid-item d-block h-100">
-                <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
-                    <i class="far fa-address-card menu-grid-icon"></i>
-                    <div class="menu-grid-text">Antrean</div>
-                </div>
-            </a>
-        </div>
-        <div class="col-6 col-md-3">
-            <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none menu-grid-item d-block h-100">
-                <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
-                    <i class="fas fa-cut menu-grid-icon"></i>
-                    <div class="menu-grid-text">Layanan</div>
-                </div>
-            </a>
-        </div>
-        <div class="col-6 col-md-3">
-            <a href="{{ route('galeri') }}" class="text-decoration-none menu-grid-item d-block h-100">
-                <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
-                    <i class="far fa-image menu-grid-icon"></i>
-                    <div class="menu-grid-text">Galeri</div>
-                </div>
-            </a>
-        </div>
-        <div class="col-6 col-md-3">
-            <a href="{{ route('menu') }}" class="text-decoration-none menu-grid-item d-block h-100">
-                <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
-                    <i class="fas fa-coffee menu-grid-icon"></i>
-                    <div class="menu-grid-text">Menu Café</div>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <!-- Layanan yang Ditawarkan Section -->
-    <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
-        <h4 class="section-title ps-1 mb-0 fw-bold d-flex align-items-center gap-2">
-            <i class="fas fa-star text-gold-accent"></i> Layanan yang Ditawarkan
-        </h4>
-        <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none text-gold-accent fw-bold small link-hover-effect">
-            Lihat Semua Layanan <i class="fas fa-arrow-right ms-1"></i>
+<!-- Navigation Menu Grid -->
+<div class="row g-3 mb-5 text-center justify-content-center">
+    <div class="col-6 col-md-3">
+        <a href="{{ route('antrean') }}" class="text-decoration-none menu-grid-item d-block h-100">
+            <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
+                <i class="far fa-address-card menu-grid-icon"></i>
+                <div class="menu-grid-text">Antrean</div>
+            </div>
         </a>
     </div>
+    <div class="col-6 col-md-3">
+        <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none menu-grid-item d-block h-100">
+            <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
+                <i class="fas fa-cut menu-grid-icon"></i>
+                <div class="menu-grid-text">Layanan</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-3">
+        <a href="{{ route('galeri') }}" class="text-decoration-none menu-grid-item d-block h-100">
+            <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
+                <i class="far fa-image menu-grid-icon"></i>
+                <div class="menu-grid-text">Galeri</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-3">
+        <a href="{{ route('menu') }}" class="text-decoration-none menu-grid-item d-block h-100">
+            <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
+                <i class="fas fa-coffee menu-grid-icon"></i>
+                <div class="menu-grid-text">Menu Café</div>
+            </div>
+        </a>
+    </div>
+</div>
 
-    @php
-    $count = $layanans->count();
+<!-- Layanan yang Ditawarkan Section -->
+<div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+    <h4 class="section-title ps-1 mb-0 fw-bold d-flex align-items-center gap-2">
+        <i class="fas fa-star text-gold-accent"></i> Layanan yang Ditawarkan
+    </h4>
+    <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none text-gold-accent fw-bold small link-hover-effect">
+        Lihat Semua Layanan <i class="fas fa-arrow-right ms-1"></i>
+    </a>
+</div>
 
-    if ($count <= 4) {
-        $selectedLayanans = $layanans;
+@php
+$count = $layanans->count();
+
+if ($count <= 4) {
+    $selectedLayanans=$layanans;
     } else {
-        $first = $layanans->first();
-        $last = $layanans->last();
+    $first=$layanans->first();
+    $last = $layanans->last();
 
-        $midIndex = (int) floor($count / 2) - 1;
-        $middle = $layanans->slice($midIndex, 2);
+    $midIndex = (int) floor($count / 2) - 1;
+    $middle = $layanans->slice($midIndex, 2);
 
-        $selectedLayanans = collect([$first])
-            ->merge($middle)
-            ->push($last);
+    $selectedLayanans = collect([$first])
+    ->merge($middle)
+    ->push($last);
     }
     @endphp
 
@@ -190,9 +197,9 @@
 
     <!-- Menu Café Favorit Section -->
     @php
-        $makanan = collect($menus)->where('kategori', 'Makanan')->take(2);
-        $minuman = collect($menus)->where('kategori', 'Minuman')->take(2);
-        $combinedMenus = $makanan->merge($minuman)->take(4);
+    $makanan = collect($menus)->where('kategori', 'Makanan')->take(2);
+    $minuman = collect($menus)->where('kategori', 'Minuman')->take(2);
+    $combinedMenus = $makanan->merge($minuman)->take(4);
     @endphp
 
     @if($combinedMenus->isNotEmpty())
@@ -211,9 +218,9 @@
             @php
             $fotoMenu = null;
             if (!empty($menu->foto)) {
-                $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
-                    ? $menu->foto
-                    : asset('images/' . $menu->foto);
+            $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
+            ? $menu->foto
+            : asset('images/' . $menu->foto);
             }
             @endphp
             <div role="button" tabindex="0" class="detail-card-button text-decoration-none d-block h-100" data-bs-toggle="modal"
@@ -247,51 +254,51 @@
         </div>
     </div>
     @endif
-</div>
+    </div>
 
-<!-- Beautiful Bootstrap Detail Modal -->
-<div class="modal fade detail-modal" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content shadow-lg border-0 bg-white" style="border-radius: 16px; overflow: hidden;">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold text-dark" id="detailModalTitle">-</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body pt-3 text-center">
-                <img id="detailModalImage" src="" alt="Detail Image" class="detail-modal-img mb-3 shadow-sm">
-
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span id="detailModalPrice" class="detail-modal-price">-</span>
-                    <span id="detailModalType" class="badge bg-dark px-3 py-2 rounded-pill">-</span>
+    <!-- Beautiful Bootstrap Detail Modal -->
+    <div class="modal fade detail-modal" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0 bg-white" style="border-radius: 16px; overflow: hidden;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-dark" id="detailModalTitle">-</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body pt-3 text-center">
+                    <img id="detailModalImage" src="" alt="Detail Image" class="detail-modal-img mb-3 shadow-sm">
 
-                <div class="detail-modal-card p-3 rounded mb-3 bg-light border">
-                    <div class="row g-2 text-start">
-                        <div class="col-6">
-                            <span class="text-secondary small d-block">Status</span>
-                            <strong id="detailModalStatus" class="text-success">-</strong>
-                        </div>
-                        <div class="col-6" id="detailModalMetaRow">
-                            <span class="text-secondary small d-block" id="detailModalMetaLabel">Detail</span>
-                            <strong id="detailModalMeta">-</strong>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span id="detailModalPrice" class="detail-modal-price">-</span>
+                        <span id="detailModalType" class="badge bg-dark px-3 py-2 rounded-pill">-</span>
+                    </div>
+
+                    <div class="detail-modal-card p-3 rounded mb-3 bg-light border">
+                        <div class="row g-2 text-start">
+                            <div class="col-6">
+                                <span class="text-secondary small d-block">Status</span>
+                                <strong id="detailModalStatus" class="text-success">-</strong>
+                            </div>
+                            <div class="col-6" id="detailModalMetaRow">
+                                <span class="text-secondary small d-block" id="detailModalMetaLabel">Detail</span>
+                                <strong id="detailModalMeta">-</strong>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="text-start">
-                    <h6 class="fw-bold text-dark mb-2">Deskripsi</h6>
-                    <p id="detailModalDescription" class="detail-modal-text text-secondary mb-0">-</p>
+                    <div class="text-start">
+                        <h6 class="fw-bold text-dark mb-2">Deskripsi</h6>
+                        <p id="detailModalDescription" class="detail-modal-text text-secondary mb-0">-</p>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer border-0 pt-0">
-                <span id="detailModalExtra" class="d-none">-</span>
-                <button type="button" class="btn btn-secondary w-100 py-2 fw-semibold" data-bs-dismiss="modal" style="border-radius: 8px;">Tutup</button>
+                <div class="modal-footer border-0 pt-0">
+                    <span id="detailModalExtra" class="d-none">-</span>
+                    <button type="button" class="btn btn-secondary w-100 py-2 fw-semibold" data-bs-dismiss="modal" style="border-radius: 8px;">Tutup</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+    @endsection
 
-@push('scripts')
-@include('pelanggan.homepage.script-index')
-@endpush
+    @push('scripts')
+    @include('pelanggan.homepage.script-index')
+    @endpush

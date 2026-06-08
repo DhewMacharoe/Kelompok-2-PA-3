@@ -91,24 +91,5 @@
     <script type="application/json" id="trend-labels-json">@json($trendLabels ?? [])</script>
     <script type="application/json" id="trend-data-json">@json($trendData ?? [])</script>
 
-    @php
-        $hariIni = \Carbon\Carbon::today();
-        $dataStatus = \App\Models\Antrean::whereDate('created_at', $hariIni)
-            ->selectRaw('status, count(*) as total')
-            ->groupBy('status')
-            ->pluck('total', 'status')
-            ->toArray();
-
-        $statistikData = [$dataStatus['menunggu'] ?? 0, $dataStatus['selesai'] ?? 0, $dataStatus['batal'] ?? 0];
-
-        $trendLabels = [];
-        $trendData = [];
-        for ($i = 6; $i >= 0; $i--) {
-            $tanggal = \Carbon\Carbon::today()->subDays($i);
-            $trendLabels[] = $tanggal->translatedFormat('l');
-            $trendData[] = \App\Models\Antrean::whereDate('created_at', $tanggal)->count();
-        }
-    @endphp
-
     @include('admin.script-dashboard')
 @endpush

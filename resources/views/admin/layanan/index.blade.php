@@ -7,7 +7,6 @@
 @endsection
 
 @section('content')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 @push('styles')
     @include('admin.galeri.style-index')
@@ -22,10 +21,9 @@
                     if (flashSuccess && flashSuccess.dataset.message) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Berhasil!',
+                            title: 'Berhasil',
                             text: flashSuccess.dataset.message,
-                            showConfirmButton: false,
-                            timer: 2000
+                            confirmButtonText: 'OK'
                         });
                     }
                 });
@@ -187,13 +185,13 @@
                 const statusAction = form.dataset.status; // "aktifkan" atau "nonaktifkan"
 
                 Swal.fire({
-                    title: 'Konfirmasi Perubahan',
+                    title: 'Konfirmasi',
                     text: `Apakah Anda yakin ingin ${statusAction} layanan "${nama}"?`,
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: statusAction === 'aktifkan' ? '#198754' : '#f39c12',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: `Ya, ${statusAction}`,
+                    confirmButtonText: 'Ya, Lanjutkan',
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -210,13 +208,13 @@
                 const nama = this.dataset.nama;
 
                 Swal.fire({
-                    title: 'Hapus Layanan?',
+                    title: 'Konfirmasi',
                     text: `Apakah Anda yakin ingin menghapus layanan "${nama}"? Data yang dihapus tidak dapat dikembalikan.`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#dc3545',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, Hapus!',
+                    confirmButtonText: 'Ya, Lanjutkan',
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {

@@ -42,7 +42,7 @@ class MenuCafeController extends Controller
 
         Menu::create($data);
 
-        return redirect()->route('admin.menu.index');
+        return redirect()->route('admin.menu.index')->with('success', 'Menu berhasil ditambahkan.');
     }
 
     public function edit(Menu $menu)
@@ -73,7 +73,7 @@ class MenuCafeController extends Controller
 
         $menu->update($data);
 
-        return redirect()->route('admin.menu.index');
+        return redirect()->route('admin.menu.index')->with('success', 'Menu berhasil diperbarui.');
     }
 
     public function destroy(Menu $menu)
@@ -82,6 +82,6 @@ class MenuCafeController extends Controller
 
         $menu->delete();
 
-        return redirect()->route('admin.menu.index');
+        return redirect()->route('admin.menu.index')->with('success', 'Menu berhasil dihapus.');
     }
 }

@@ -33,6 +33,10 @@ return new class extends Migration
 
         // Drop kolom nomor_antrean lama
         Schema::table('antreans', function (Blueprint $table) {
+            $table->dropUnique('antreans_nomor_antrean_unique');
+        });
+
+        Schema::table('antreans', function (Blueprint $table) {
             $table->dropColumn('nomor_antrean');
         });
     }

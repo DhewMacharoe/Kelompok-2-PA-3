@@ -12,6 +12,22 @@
     @endpush
 
     <div class="main-container">
+        @if (session('success'))
+            <div id="flash-success" data-message="{{ session('success') }}" hidden></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const flashSuccess = document.getElementById('flash-success');
+                    if (flashSuccess && flashSuccess.dataset.message) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: flashSuccess.dataset.message,
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            </script>
+        @endif
 
         <button type="button" class="btn-tambah shadow-sm" data-bs-toggle="modal" data-bs-target="#modalCreate">
             + Tambah
@@ -67,7 +83,11 @@
                                     View
                                 </button>
 
-                                <form action="{{ route('admin.menu.update', $menu->id) }}" method="POST" style="display: inline; margin: 0;">
+                                <form action="{{ route('admin.menu.update', $menu->id) }}" method="POST"
+                                    class="form-toggle-menu"
+                                    data-nama="{{ $menu->nama }}"
+                                    data-status="{{ $menu->is_available ? 'nonaktifkan' : 'aktifkan' }}"
+                                    style="display: inline; margin: 0;">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="nama" value="{{ $menu->nama }}">
@@ -75,7 +95,7 @@
                                     <input type="hidden" name="harga" value="{{ $menu->harga }}">
                                     <input type="hidden" name="deskripsi" value="{{ $menu->deskripsi }}">
                                     <input type="hidden" name="is_available" value="{{ $menu->is_available ? 0 : 1 }}">
-                                    <button type="submit" class="btn-action btn-toggle-status shadow-sm menu-loading-btn" style="margin: 0;">
+                                    <button type="button" class="btn-action btn-toggle-status shadow-sm btn-toggle-menu-alert" style="margin: 0;">
                                         {{ $menu->is_available == 1 ? 'Nonaktifkan' : 'Aktifkan' }}
                                     </button>
                                 </form>
@@ -84,10 +104,13 @@
                                     Edit
                                 </button>
 
-                                <form action="{{ route('admin.menu.destroy', $menu->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus menu ini?');" style="display: inline; margin: 0;">
+                                <form action="{{ route('admin.menu.destroy', $menu->id) }}" method="POST"
+                                    class="form-delete-menu"
+                                    data-nama="{{ $menu->nama }}"
+                                    style="display: inline; margin: 0;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-action btn-hapus shadow-sm menu-loading-btn" style="margin: 0;">
+                                    <button type="button" class="btn-action btn-hapus shadow-sm btn-delete-menu-alert" style="margin: 0;">
                                         Hapus
                                     </button>
                                 </form>
@@ -201,24 +224,7 @@
         </div>
         @endforeach
 
-        <!-- Modal Konfirmasi Aksi -->
-        <div class="modal fade" id="modalKonfirmasiAksi" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Konfirmasi</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="konfirmasiAksiMessage">
-                        Yakin ingin melanjutkan aksi ini?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn-batal" data-bs-dismiss="modal">Batal</button>
-                        <button type="button" class="btn-submit menu-loading-btn" id="btnKonfirmasiAksi">Ya, Lanjutkan</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 
     {{-- Modal View Menu --}}
@@ -257,12 +263,6 @@
             const menuSearchInput = document.getElementById('menuSearch');
             const menuRows = document.querySelectorAll('.menu-row');
             const hargaMasks = document.querySelectorAll('.harga-mask');
-            const confirmButtons = document.querySelectorAll('.btn-open-confirm');
-            const confirmMessageEl = document.getElementById('konfirmasiAksiMessage');
-            const confirmSubmitBtn = document.getElementById('btnKonfirmasiAksi');
-            const confirmModalElement = document.getElementById('modalKonfirmasiAksi');
-            const confirmModal = confirmModalElement ? new bootstrap.Modal(confirmModalElement) : null;
-            let activeConfirmForm = null;
             let selectedStatus = 'all';
             let searchQuery = '';
 
@@ -363,43 +363,52 @@
                 });
             });
 
-            confirmButtons.forEach((button) => {
+            // 1. Konfirmasi Ubah Status Menu
+            document.querySelectorAll('.btn-toggle-menu-alert').forEach(button => {
                 button.addEventListener('click', function() {
-                    const formId = this.dataset.confirmForm;
-                    const message = this.dataset.confirmMessage || 'Yakin ingin melanjutkan aksi ini?';
-                    const targetForm = formId ? document.getElementById(formId) : null;
+                    const form = this.closest('form');
+                    const nama = form.dataset.nama;
+                    const statusAction = form.dataset.status; // "aktifkan" atau "nonaktifkan"
 
-                    if (!targetForm || !confirmModal) {
-                        return;
-                    }
-
-                    activeConfirmForm = targetForm;
-                    confirmMessageEl.textContent = message;
-                    confirmModal.show();
+                    Swal.fire({
+                        title: 'Konfirmasi',
+                        text: `Apakah Anda yakin ingin ${statusAction} menu "${nama}"?`,
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: statusAction === 'aktifkan' ? '#198754' : '#f39c12',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, Lanjutkan',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
                 });
             });
 
-            if (confirmSubmitBtn) {
-                confirmSubmitBtn.addEventListener('click', function() {
-                    if (!activeConfirmForm) {
-                        return;
-                    }
+            // 2. Konfirmasi Hapus Menu
+            document.querySelectorAll('.btn-delete-menu-alert').forEach(button => {
+                button.addEventListener('click', function() {
+                    const form = this.closest('form');
+                    const nama = form.dataset.nama;
 
-                    this.classList.add('is-loading');
-                    this.disabled = true;
-                    activeConfirmForm.submit();
+                    Swal.fire({
+                        title: 'Konfirmasi',
+                        text: `Apakah Anda yakin ingin menghapus menu "${nama}"? Data yang dihapus tidak dapat dikembalikan.`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3545',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, Lanjutkan',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
                 });
-            }
-
-            if (confirmModalElement) {
-                confirmModalElement.addEventListener('hidden.bs.modal', function() {
-                    activeConfirmForm = null;
-                    if (confirmSubmitBtn) {
-                        confirmSubmitBtn.classList.remove('is-loading');
-                        confirmSubmitBtn.disabled = false;
-                    }
-                });
-            }
+            });
 
             const menuForms = document.querySelectorAll('.main-container form');
             menuForms.forEach((form) => {

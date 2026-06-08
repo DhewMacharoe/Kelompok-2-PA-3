@@ -14,11 +14,15 @@ return new class extends Migration
             ->where('kategori', 'Makanan Ringan')
             ->update(['kategori' => 'Makanan']);
 
-        DB::statement("ALTER TABLE `menus` MODIFY `kategori` ENUM('Minuman','Makanan') NOT NULL");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE `menus` MODIFY `kategori` ENUM('Minuman','Makanan') NOT NULL");
+        }
     }
 
     public function down()
     {
-        DB::statement("ALTER TABLE `menus` MODIFY `kategori` ENUM('Minuman','Makanan Ringan') NOT NULL");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE `menus` MODIFY `kategori` ENUM('Minuman','Makanan Ringan') NOT NULL");
+        }
     }
 };

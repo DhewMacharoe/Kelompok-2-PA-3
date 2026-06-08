@@ -474,7 +474,12 @@
                     detailPesan = "Akses kamera ditolak. Silakan berikan izin akses kamera untuk website ini pada pengaturan browser Anda.";
                 }
 
-                alert("Gagal mengakses kamera:\n" + detailPesan + "\n\nCatatan: Akses kamera pada perangkat HP memerlukan koneksi HTTPS (Secure Context) jika tidak diakses via localhost.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: "Gagal mengakses kamera:\n" + detailPesan + "\n\nCatatan: Akses kamera pada perangkat HP memerlukan koneksi HTTPS (Secure Context) jika tidak diakses via localhost.",
+                    confirmButtonText: 'OK'
+                });
             }
         };
 
@@ -559,7 +564,12 @@
                     }
                     btnKirim.disabled = false;
                 } else {
-                    alert("Wajah tidak terdeteksi. Gunakan foto yang lebih jelas.");
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Validasi Data',
+                        text: "Wajah tidak terdeteksi. Gunakan foto yang lebih jelas.",
+                        confirmButtonText: 'OK'
+                    });
                     document.getElementById('analysis-caption').innerText = 'Pastikan wajah terlihat jelas, menghadap ke kamera, dan pencahayaan cukup.';
                 }
             };
@@ -586,7 +596,12 @@
                     if (data.status === 'success') {
                         tampilkanRekomendasi(data.data);
                     } else {
-                        alert(data.message || 'Gagal menampilkan rekomendasi.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: data.message || 'Gagal menampilkan rekomendasi.',
+                            confirmButtonText: 'OK'
+                        });
                     }
                     btnKirim.disabled = false;
                     btnKirim.innerText = "Tampilkan Rekomendasi";
@@ -594,7 +609,12 @@
                 .catch(() => {
                     btnKirim.disabled = false;
                     btnKirim.innerText = "Tampilkan Rekomendasi";
-                    alert('Terjadi kesalahan server.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Terjadi kesalahan server.',
+                        confirmButtonText: 'OK'
+                    });
                 });
         }
 

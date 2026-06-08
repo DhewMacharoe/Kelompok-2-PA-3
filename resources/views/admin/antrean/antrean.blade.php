@@ -11,7 +11,6 @@
 @endpush
 
 @section('content')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="main-container">
     @if (session('success'))
     <div id="flash-success" data-message="{{ session('success') }}" hidden></div>
@@ -24,10 +23,9 @@
             if (flashSuccess && flashSuccess.dataset.message) {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Berhasil!',
+                    title: 'Berhasil',
                     text: flashSuccess.dataset.message,
-                    showConfirmButton: false,
-                    timer: 2000
+                    confirmButtonText: 'OK'
                 });
             }
         });
