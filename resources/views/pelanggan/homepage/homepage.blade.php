@@ -36,8 +36,8 @@
             <div class="row g-0 align-items-stretch">
                 <!-- Col 1: Antrean Menunggu -->
                 <div class="col-6 col-md-4 p-4 d-flex align-items-center gap-3 queue-info-section">
-                    <div class="queue-icon-circle bg-gold-accent flex-shrink-0 text-white shadow-sm">
-                        <i class="fas fa-users"></i>
+                    <div class="queue-icon-circle flex-shrink-0 shadow-sm" style="background-color: #fffcf5; border: 1px solid #e8a53a;">
+                        <i class="fas fa-users" style="color: #e8a53a;"></i>
                     </div>
                     <div class="queue-info-details">
                         <h6 class="mb-1 text-dark fw-bold" style="font-size: 0.8rem; letter-spacing: 0.5px;">Antrean Menunggu</h6>
@@ -48,8 +48,8 @@
 
                 <!-- Col 2: Sedang Dilayani -->
                 <div class="col-6 col-md-3 p-4 d-flex align-items-center gap-3 queue-info-section border-start-md">
-                    <div class="queue-icon-circle border-gold-accent flex-shrink-0 bg-white text-gold-accent shadow-sm">
-                        <i class="fas fa-microphone-alt"></i>
+                    <div class="queue-icon-circle flex-shrink-0 shadow-sm" style="background-color: #fffcf5; border: 1px solid #e8a53a;">
+                        <i class="fas fa-chair" style="color: #e8a53a;"></i>
                     </div>
                     <div class="queue-info-details">
                         <h6 class="mb-1 text-dark fw-bold" style="font-size: 0.8rem; letter-spacing: 0.5px;">Sedang Dilayani</h6>

@@ -17,6 +17,11 @@
     <meta name="theme-color" content="#fdfbf8ff"> <!-- Sesuaikan dengan warna brand Anda -->
     <link rel="apple-touch-icon" href="{{ asset('assets/images/logo.png') }}">
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     @vite(['resources/js/app.js'])
 
     @stack('styles')
@@ -29,46 +34,20 @@
         body {
             display: flex;
             flex-direction: column;
+            font-family: 'Outfit', sans-serif;
+            background-color: #fcfcfc !important; /* Latar belakang abu-abu sangat terang mirip putih */
+            color: #1a1a1a;
         }
 
         main {
             flex: 1;
-            /* Mendorong footer agar selalu di bawah */
         }
 
-        /* Wrapper Sticky untuk Navbar */
         .sticky-header-wrapper {
             position: sticky;
             top: 0;
             z-index: 1030;
             width: 100%;
-        }
-
-        /* =========================================
-           NAVBAR STYLES
-           ========================================= */
-        .navbar-custom {
-            background-color: #1a1a1a;
-            padding: 15px 5%;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .navbar-custom .logo {
-            color: #d4af37;
-            font-weight: bold;
-            font-size: 1.3rem;
-            text-decoration: none;
-        }
-
-        .navbar-custom .nav-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-weight: 500;
-        }
-
-        .navbar-custom .nav-links a:hover {
-            color: #d4af37;
         }
 
         /* =========================================
@@ -78,11 +57,11 @@
             background-color: #1a1a1a;
             color: #d1d1d1;
             padding: 50px 0 20px;
-            border-top: 3px solid #d4af37;
+            border-top: 3px solid #e8a53a;
         }
 
         .footer-custom h5 {
-            color: #d4af37;
+            color: #e8a53a;
             font-weight: 700;
             margin-bottom: 20px;
             text-transform: uppercase;
@@ -106,11 +85,11 @@
         }
 
         .footer-custom a:hover {
-            color: #d4af37;
+            color: #e8a53a;
         }
 
         .footer-custom .icon-gold {
-            color: #d4af37;
+            color: #e8a53a;
             margin-right: 10px;
             width: 20px;
             text-align: center;
@@ -124,16 +103,17 @@
         }
 
         .footer-bottom {
-            background-color: #1a1a1a;
+            background-color: #151515;
             padding: 15px 0;
             margin-top: 40px;
             text-align: center;
             font-size: 0.9rem;
+            color: #888;
         }
     </style>
 </head>
 
-<body class="bg-light">
+<body>
 
     <div class="sticky-header-wrapper">
         @include('pelanggan.partials.navbar')
@@ -148,15 +128,14 @@
             <div class="row gy-4">
 
                 <div class="col-lg-3 col-md-6">
-                    <h5 class="mb-3">
-                        <i class="fas fa-cut me-2"></i>Arga Home's
+                    <h5 class="mb-3 d-flex align-items-center">
+                        <i class="fas fa-cut me-2" style="color:#e8a53a;"></i> ARGA HOME'S
                     </h5>
                     <p style="font-size: 0.95rem; line-height: 1.6;">
-                        Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming
-                        terbaik!
+                        Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!
                     </p>
                     <div class="mt-3">
-                        <a href="" class="me-3 fs-5"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="me-3 fs-5"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="me-3 fs-5"><i class="fab fa-facebook"></i></a>
                         <a href="#" class="fs-5"><i class="fab fa-whatsapp"></i></a>
                     </div>
@@ -165,31 +144,42 @@
                 <div class="col-lg-3 col-md-6">
                     <h5>Jam Buka</h5>
                     <ul class="list-unstyled footer-list">
-                        <li><i class="fas fa-clock icon-gold"></i> <strong>Senin - Jumat:</strong><br> 10:00 - 21:00
+                        <li>
+                            <i class="fas fa-clock icon-gold"></i> 
+                            <strong>Senin - Jumat:</strong><br>
+                            <span style="margin-left: 30px; display:inline-block;">10:00 - 21:00</span>
                         </li>
-                        <li><i class="fas fa-clock icon-gold"></i> <strong>Sabtu - Minggu:</strong><br> 09:00 - 22:00
+                        <li>
+                            <i class="fas fa-clock icon-gold"></i> 
+                            <strong>Sabtu - Minggu:</strong><br>
+                            <span style="margin-left: 30px; display:inline-block;">09:00 - 22:00</span>
                         </li>
-                        <li class="text-danger mt-2"><i class="fas fa-info-circle icon-gold text-danger"></i> Libur pada
-                            Hari Raya</li>
+                        <li class="text-danger mt-2">
+                            <i class="fas fa-info-circle text-danger icon-gold"></i> 
+                            Libur pada Hari Raya
+                        </li>
                     </ul>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
                     <h5>Hubungi Kami</h5>
                     <ul class="list-unstyled footer-list">
-                        <li><i class="fas fa-map-marker-alt icon-gold"></i> Jl.P.Siantar Km 2 Tampubolon,Siodeli-otangs Kec. Balige - Toba, Sumatera Utara</li>
+                        <li class="d-flex align-items-start">
+                            <i class="fas fa-map-marker-alt icon-gold mt-1"></i> 
+                            <span>Jl.P.Siantar Km 2, Tampubolon, Sibolahotangaso Kec. Balige, Tobasa, Sumatera Utara</span>
+                        </li>
                         <li><i class="fas fa-phone-alt icon-gold"></i> 0821-6789-3019</li>
-                        <li><i class="fas fa-envelope icon-gold"></i> argabarber@gmail.com</li>
+                        <li><i class="fas fa-envelope icon-gold"></i> joebarberid@gmail.com</li>
                     </ul>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
                     <h5>Lokasi Kami</h5>
-                    <div class="map-container">
+                    <div class="map-container mb-2">
                         <img src="{{ asset('assets/images/map_screenshot.png') }}" alt="Lokasi ARGA home's" class="w-100 h-100" style="object-fit: cover;">
                     </div>
-                    <a id="footer-maps-btn" href="https://www.google.com/maps/search/?api=1&query=ARGA+home%27s+Balige" target="_blank" class="btn btn-outline-light btn-sm w-100 mt-2 d-flex align-items-center justify-content-center gap-2" style="border-color: #444; font-size: 0.82rem; border-radius: 6px; transition: all 0.25s ease;">
-                        Lihat di Maps <i class="fas fa-external-link-alt" style="font-size: 0.75rem; color: #cc7c1b;"></i>
+                    <a id="footer-maps-btn" href="https://www.google.com/maps/search/?api=1&query=ARGA+home%27s+Balige" target="_blank" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2" style="border-color: #444; font-size: 0.85rem; border-radius: 6px;">
+                        Lihat di Maps <i class="fas fa-external-link-alt" style="color: #e8a53a;"></i>
                     </a>
                 </div>
 
@@ -198,12 +188,7 @@
 
         <div class="footer-bottom">
             <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-12">
-                        <p class="mb-0">&copy; {{ date('Y') }} Arga Home's Barbershop & Cafe. All rights reserved.
-                        </p>
-                    </div>
-                </div>
+                <p class="mb-0">&copy; {{ date('Y') }} Arga Home's Barbershop & Cafe. All rights reserved.</p>
             </div>
         </div>
     </footer>
