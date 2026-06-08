@@ -355,6 +355,7 @@
         let currentBentukWajah = '',
             currentAkurasi = 0;
         let base64Image = ''; // Menyimpan gambar untuk dikirim ke AI Generatif
+        let isCameraActive = false;
 
         const video = document.getElementById('webcam');
         const imgPreview = document.getElementById('image-preview');
@@ -392,6 +393,11 @@
             }
             video.style.display = 'none';
             btnCapture.style.display = 'none';
+
+            isCameraActive = false;
+            btnCamera.innerHTML = '<i class="fas fa-camera me-2"></i>Aktifkan Kamera';
+            btnCamera.classList.remove('btn-danger');
+            btnCamera.classList.add('btn-outline-dark');
         }
 
         // Load Lokal Model
@@ -436,6 +442,14 @@
 
         // Kamera Logic
         btnCamera.onclick = async () => {
+            if (isCameraActive) {
+                stopCameraStream();
+                if (imgPreview.style.display === 'none' || imgPreview.src === '') {
+                    document.getElementById('placeholder-text').style.display = 'block';
+                }
+                return;
+            }
+
             try {
                 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                     throw new Error("Browser Anda tidak mendukung akses kamera di konteks ini. Pastikan Anda menggunakan HTTPS.");
@@ -464,6 +478,11 @@
                 imgPreview.style.display = 'none';
                 btnCapture.style.display = 'block';
                 document.getElementById('placeholder-text').style.display = 'none';
+
+                isCameraActive = true;
+                btnCamera.innerHTML = '<i class="fas fa-times me-2"></i>Nonaktifkan Kamera';
+                btnCamera.classList.remove('btn-outline-dark');
+                btnCamera.classList.add('btn-danger');
             } catch (error) {
                 console.error('Gagal mengakses kamera:', error);
                 

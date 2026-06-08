@@ -125,7 +125,11 @@
                                         </div>
                                     @endforeach
                                 @else
-                                    <div class="text-center mt-4 mb-4 text-muted">Tidak Ada Antrean Saat Ini <br> Silahkan Ambil Antrean Anda</div>
+                                    @if (\App\Models\Antrean::isOperationalHour())
+                                        <div class="text-center mt-4 mb-4 text-muted">Tidak Ada Antrean Saat Ini <br> Silahkan Ambil Antrean Anda</div>
+                                    @else
+                                        <div class="text-center mt-4 mb-4 text-muted fw-bold text-danger">Maaf, kami sedang tutup</div>
+                                    @endif
                                 @endif
 
                             </div>

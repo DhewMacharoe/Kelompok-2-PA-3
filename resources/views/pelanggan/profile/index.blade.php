@@ -186,6 +186,33 @@
         margin-bottom: 0.25rem;
         display: block;
     }
+
+    /* Custom Tabs Styling */
+    .custom-tabs {
+        border-bottom: 2px solid #f3f4f6;
+        gap: 0.5rem;
+    }
+    
+    .custom-tabs .nav-link {
+        color: #6b7280;
+        font-weight: 600;
+        border: none;
+        border-bottom: 3px solid transparent;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.2s ease;
+        background: transparent;
+    }
+    
+    .custom-tabs .nav-link:hover {
+        color: #374151;
+        border-color: transparent;
+    }
+    
+    .custom-tabs .nav-link.active {
+        color: #1f2937;
+        border-bottom-color: #d4af37;
+        background: transparent;
+    }
 </style>
 @endpush
 
@@ -205,53 +232,119 @@
         <i class="bi bi-clock-history"></i> Riwayat Antrean & Layanan
     </h2>
 
-    @forelse($riwayatAntrean as $antrean)
-        <div class="history-card">
-            <div class="history-header">
-                <div>
-                    <div class="history-date">
-                        <i class="bi bi-calendar3 me-1"></i>
-                        {{ \Carbon\Carbon::parse($antrean->created_at)->translatedFormat('l, d F Y') }}
-                    </div>
-                    <div class="text-muted mt-1" style="font-size: 0.8rem;">
-                        No. Antrean: <strong>{{ $antrean->nomor_antrean_seq }}</strong>
-                    </div>
-                </div>
-                <span class="history-status status-{{ $antrean->status }}">
-                    {{ $antrean->status }}
-                </span>
-            </div>
+    @php
+        $riwayatSelesai = $riwayatAntrean->where('status', 'selesai');
+        $riwayatBatal = $riwayatAntrean->where('status', 'batal');
+    @endphp
 
-            <div class="service-list">
-                @if($antrean->layanan1)
-                <div class="service-item">
-                    <div class="service-icon"><i class="bi bi-scissors"></i></div>
-                    <span class="service-name">{{ $antrean->layanan1->nama }}</span>
-                </div>
-                @endif
-                
-                @if($antrean->layanan2)
-                <div class="service-item">
-                    <div class="service-icon"><i class="bi bi-droplet"></i></div>
-                    <span class="service-name">{{ $antrean->layanan2->nama }}</span>
-                </div>
-                @endif
-            </div>
+    <ul class="nav nav-tabs custom-tabs mb-4" id="historyTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="selesai-tab" data-bs-toggle="tab" data-bs-target="#selesai" type="button" role="tab" aria-controls="selesai" aria-selected="true">
+                <i class="bi bi-check-circle me-1"></i> Selesai ({{ $riwayatSelesai->count() }})
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="batal-tab" data-bs-toggle="tab" data-bs-target="#batal" type="button" role="tab" aria-controls="batal" aria-selected="false">
+                <i class="bi bi-x-circle me-1"></i> Batal ({{ $riwayatBatal->count() }})
+            </button>
+        </li>
+    </ul>
 
-            @if($antrean->status === 'batal' && $antrean->alasan_batal)
-            <div class="alasan-batal">
-                <span class="alasan-title">Alasan Pembatalan:</span>
-                {{ $antrean->alasan_batal }}
-            </div>
-            @endif
+    <div class="tab-content" id="historyTabContent">
+        <!-- Tab Selesai -->
+        <div class="tab-pane fade show active" id="selesai" role="tabpanel" aria-labelledby="selesai-tab">
+            @forelse($riwayatSelesai as $antrean)
+                <div class="history-card">
+                    <div class="history-header">
+                        <div>
+                            <div class="history-date">
+                                <i class="bi bi-calendar3 me-1"></i>
+                                {{ \Carbon\Carbon::parse($antrean->created_at)->translatedFormat('l, d F Y') }}
+                            </div>
+                            <div class="text-muted mt-1" style="font-size: 0.8rem;">
+                                No. Antrean: <strong>{{ $antrean->nomor_antrean_seq }}</strong>
+                            </div>
+                        </div>
+                        <span class="history-status status-{{ $antrean->status }}">
+                            {{ $antrean->status }}
+                        </span>
+                    </div>
+
+                    <div class="service-list">
+                        @if($antrean->layanan1)
+                        <div class="service-item">
+                            <div class="service-icon"><i class="bi bi-scissors"></i></div>
+                            <span class="service-name">{{ $antrean->layanan1->nama }}</span>
+                        </div>
+                        @endif
+                        
+                        @if($antrean->layanan2)
+                        <div class="service-item">
+                            <div class="service-icon"><i class="bi bi-droplet"></i></div>
+                            <span class="service-name">{{ $antrean->layanan2->nama }}</span>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            @empty
+                <div class="empty-state">
+                    <i class="bi bi-check2-circle empty-icon"></i>
+                    <h3 class="fw-bold text-dark h5 mb-2">Belum ada riwayat selesai</h3>
+                    <p class="text-muted mb-4">Layanan yang telah selesai akan muncul di sini.</p>
+                </div>
+            @endforelse
         </div>
-    @empty
-        <div class="empty-state">
-            <i class="bi bi-inbox empty-icon"></i>
-            <h3 class="fw-bold text-dark h5 mb-2">Belum ada riwayat</h3>
-            <p class="text-muted mb-4">Anda belum pernah mengambil layanan sebelumnya.</p>
-            <a href="{{ route('antrean') }}" class="btn btn-primary rounded-pill px-4">Ambil Antrean Sekarang</a>
+
+        <!-- Tab Batal -->
+        <div class="tab-pane fade" id="batal" role="tabpanel" aria-labelledby="batal-tab">
+            @forelse($riwayatBatal as $antrean)
+                <div class="history-card">
+                    <div class="history-header">
+                        <div>
+                            <div class="history-date">
+                                <i class="bi bi-calendar3 me-1"></i>
+                                {{ \Carbon\Carbon::parse($antrean->created_at)->translatedFormat('l, d F Y') }}
+                            </div>
+                            <div class="text-muted mt-1" style="font-size: 0.8rem;">
+                                No. Antrean: <strong>{{ $antrean->nomor_antrean_seq }}</strong>
+                            </div>
+                        </div>
+                        <span class="history-status status-{{ $antrean->status }}">
+                            {{ $antrean->status }}
+                        </span>
+                    </div>
+
+                    <div class="service-list">
+                        @if($antrean->layanan1)
+                        <div class="service-item">
+                            <div class="service-icon"><i class="bi bi-scissors"></i></div>
+                            <span class="service-name">{{ $antrean->layanan1->nama }}</span>
+                        </div>
+                        @endif
+                        
+                        @if($antrean->layanan2)
+                        <div class="service-item">
+                            <div class="service-icon"><i class="bi bi-droplet"></i></div>
+                            <span class="service-name">{{ $antrean->layanan2->nama }}</span>
+                        </div>
+                        @endif
+                    </div>
+
+                    @if($antrean->alasan_batal)
+                    <div class="alasan-batal">
+                        <span class="alasan-title">Alasan Pembatalan:</span>
+                        {{ $antrean->alasan_batal }}
+                    </div>
+                    @endif
+                </div>
+            @empty
+                <div class="empty-state">
+                    <i class="bi bi-x-circle empty-icon"></i>
+                    <h3 class="fw-bold text-dark h5 mb-2">Belum ada riwayat batal</h3>
+                    <p class="text-muted mb-4">Layanan yang dibatalkan akan muncul di sini.</p>
+                </div>
+            @endforelse
         </div>
-    @endforelse
+    </div>
 </div>
 @endsection
