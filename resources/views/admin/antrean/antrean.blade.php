@@ -62,9 +62,15 @@
         @endif
     </div>
 
-    <button onclick="toggleModal()" class="btn-tambah shadow-sm" data-loading-text="Membuka form...">
-        + Tambah
-    </button>
+    @if (\App\Models\Antrean::isOperationalHour())
+        <button onclick="toggleModal()" class="btn-tambah shadow-sm" data-loading-text="Membuka form...">
+            + Tambah
+        </button>
+    @else
+        <button class="btn-tambah shadow-sm" disabled style="opacity: 0.6; cursor: not-allowed;" title="Di luar jam operasional">
+            + Tambah (Tutup)
+        </button>
+    @endif
 
     <form class="antrean-filter-form" method="GET" action="{{ route('admin.antrean') }}">
         <input type="hidden" name="status" id="statusFilterInput" value="{{ $selectedStatus ?? 'all' }}">
@@ -104,6 +110,9 @@
                     @if (($selectedStatus ?? 'all') === 'menunggu')
                     <th>Aksi</th>
                     @endif
+                    @if (($selectedStatus ?? 'all') === 'batal')
+                    <th>Alasan Dibatalkan</th>
+                    @endif
                 </tr>
             </thead>
             <tbody id="antreanTableBody">
@@ -134,10 +143,21 @@
                         </button>
                     </td>
                     @endif
+                    @if (($selectedStatus ?? 'all') === 'batal')
+                    <td data-label="Alasan Dibatalkan">
+                        {{ $item->alasan_batal ?? '-' }}
+                    </td>
+                    @endif
                 </tr>
                 @empty
                 <tr class="empty-row-row">
-                    <td colspan="{{ ($selectedStatus ?? 'all') === 'menunggu' ? 6 : 5 }}" class="empty-row-cell" style="padding: 40px; color: #999;">Tidak ada antrean pada filter ini.
+                    @php
+                        $colspan = 5;
+                        if (($selectedStatus ?? 'all') === 'menunggu' || ($selectedStatus ?? 'all') === 'batal') {
+                            $colspan = 6;
+                        }
+                    @endphp
+                    <td colspan="{{ $colspan }}" class="empty-row-cell" style="padding: 40px; color: #999;">Tidak ada antrean pada filter ini.
                     </td>
                 </tr>
                 @endforelse

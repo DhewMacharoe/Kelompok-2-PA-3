@@ -134,11 +134,18 @@
                         <div class="footer-section">
                             @auth
                                 @if (!$punyaAntreanAktif)
-                                    <button class="btn btn-add-queue" data-bs-toggle="modal"
-                                        data-bs-target="#modalTambahAntrean"
-                                        data-loading-text="Membuka form..." style="width: 100%;">
-                                        Tambah Antrean
-                                    </button>
+                                    @if (\App\Models\Antrean::isOperationalHour())
+                                        <button class="btn btn-add-queue" data-bs-toggle="modal"
+                                            data-bs-target="#modalTambahAntrean"
+                                            data-loading-text="Membuka form..." style="width: 100%;">
+                                            Tambah Antrean
+                                        </button>
+                                    @else
+                                        <button class="btn btn-add-queue" disabled
+                                            style="width: 100%; opacity: 0.6; cursor: not-allowed;" title="Di luar jam operasional">
+                                            Antrean Tutup
+                                        </button>
+                                    @endif
                                 @endif
                             @else
                                 <div class="guest-queue-hint">

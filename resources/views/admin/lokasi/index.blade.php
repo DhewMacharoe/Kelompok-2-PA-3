@@ -175,6 +175,26 @@
                         </div>
 
                         <div class="mt-4 pt-3 border-top">
+                            <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Jam Operasional</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-3">
+                                    <label for="jam_buka" class="form-label fw-semibold text-muted">Jam Buka</label>
+                                    <input type="time" name="jam_buka" id="jam_buka" class="form-control form-control-premium" value="{{ $jam_buka ?? '09:00' }}" required>
+                                    @error('jam_buka')
+                                        <span class="text-danger small">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="jam_tutup" class="form-label fw-semibold text-muted">Jam Tutup</label>
+                                    <input type="time" name="jam_tutup" id="jam_tutup" class="form-control form-control-premium" value="{{ $jam_tutup ?? '21:00' }}" required>
+                                    @error('jam_tutup')
+                                        <span class="text-danger small">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-top">
                             <button type="submit" class="btn-save-premium w-100 shadow-sm" data-loading-text="Menyimpan...">
                                 <i class="bi bi-save me-2"></i> Simpan Lokasi
                             </button>

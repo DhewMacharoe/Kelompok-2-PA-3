@@ -202,7 +202,7 @@
                             </a>
                         @else
                             <div class="d-flex gap-2 align-items-center">
-                                <a href="{{ route('profile.edit') }}" class="btn btn-sm fw-bold px-3"
+                                <a href="{{ route('profile.index') }}" class="btn btn-sm fw-bold px-3"
                                     style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
                                     Profil Saya
                                 </a>

@@ -586,19 +586,35 @@
                 event.preventDefault();
                 const form = this.closest('form');
                 Swal.fire({
-                    title: 'Konfirmasi',
-                    text: 'Apakah Anda yakin ingin membatalkan antrean Anda?',
-                    icon: 'warning',
+                    title: 'Alasan Pembatalan',
+                    input: 'textarea',
+                    inputPlaceholder: 'Tuliskan alasan pembatalan di sini...',
+                    inputAttributes: {
+                        'aria-label': 'Tuliskan alasan pembatalan'
+                    },
                     showCancelButton: true,
                     confirmButtonColor: '#dc3545',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, Lanjutkan',
-                    cancelButtonText: 'Batal'
+                    confirmButtonText: 'Batalkan Antrean Saya',
+                    cancelButtonText: 'Kembali',
+                    preConfirm: (alasan) => {
+                        if (!alasan) {
+                            Swal.showValidationMessage('Alasan pembatalan wajib diisi');
+                        }
+                        return alasan;
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const loadingText = this.getAttribute('data-loading-text') || 'Membatalkan...';
                         this.textContent = loadingText;
                         this.disabled = true;
+
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'alasan_batal';
+                        input.value = result.value;
+                        form.appendChild(input);
+
                         form.submit();
                     }
                 });

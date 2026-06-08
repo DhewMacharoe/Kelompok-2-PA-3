@@ -356,72 +356,100 @@
 
     // === PERUBAHAN SWEETALERT: Fungsi Ubah Status ===
     function ubahStatus(button, id, targetStatus) {
-        let swalConfig = {
-            title: 'Konfirmasi',
-            text: targetStatus === 'selesai' ? 'Tandai antrean ini sebagai selesai?' :
-                'Apakah Anda yakin ingin membatalkan antrean ini?',
-            icon: targetStatus === 'selesai' ? 'question' : 'warning',
-            showCancelButton: true,
-            confirmButtonColor: targetStatus === 'selesai' ? '#4CC779' : '#EB5757',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Ya, Lanjutkan',
-            cancelButtonText: 'Batal'
-        };
+        if (targetStatus === 'batal') {
+            Swal.fire({
+                title: 'Alasan Pembatalan',
+                input: 'textarea',
+                inputPlaceholder: 'Tuliskan alasan pembatalan di sini...',
+                inputAttributes: {
+                    'aria-label': 'Tuliskan alasan pembatalan'
+                },
+                showCancelButton: true,
+                confirmButtonColor: '#EB5757',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Batalkan Antrean',
+                cancelButtonText: 'Kembali',
+                preConfirm: (alasan) => {
+                    if (!alasan) {
+                        Swal.showValidationMessage('Alasan pembatalan wajib diisi');
+                    }
+                    return alasan;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    processUbahStatus(button, id, targetStatus, result.value);
+                }
+            });
+        } else {
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Tandai antrean ini sebagai selesai?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#4CC779',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Lanjutkan',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    processUbahStatus(button, id, targetStatus, null);
+                }
+            });
+        }
+    }
 
-        Swal.fire(swalConfig).then((result) => {
-            if (result.isConfirmed) {
-                window.isActionInProgress = true;
-                let originalText = button.innerHTML;
-                button.innerHTML = 'Memproses...';
-                button.disabled = true;
+    function processUbahStatus(button, id, targetStatus, alasan) {
+        window.isActionInProgress = true;
+        let originalText = button.innerHTML;
+        button.innerHTML = 'Memproses...';
+        button.disabled = true;
 
-                fetch(`/admin/antrean/${id}/ubah-status`, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            status: targetStatus
-                        })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(async data => {
-                        let audioPromise = Promise.resolve();
-                        if (data.success && data.antrean) {
-                            audioPromise = playQueueAudio(data.antrean);
-                        }
+        fetch(`/admin/antrean/${id}/ubah-status`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    status: targetStatus,
+                    alasan_batal: alasan
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(async data => {
+                let audioPromise = Promise.resolve();
+                if (data.success && data.antrean) {
+                    audioPromise = playQueueAudio(data.antrean);
+                }
 
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: 'Status berhasil diubah menjadi: ' + targetStatus,
-                            confirmButtonText: 'OK',
-                            showConfirmButton: true
-                        }).then(async () => {
-                            await audioPromise;
-                            window.isActionInProgress = false;
-                            window.location.reload();
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        window.isActionInProgress = false;
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: 'Terjadi kesalahan saat mengubah status.',
-                            confirmButtonText: 'OK'
-                        });
-                        button.innerHTML = originalText;
-                        button.disabled = false;
-                    });
-            }
-        });
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Status berhasil diubah menjadi: ' + targetStatus,
+                    confirmButtonText: 'OK',
+                    showConfirmButton: true
+                }).then(async () => {
+                    await audioPromise;
+                    window.isActionInProgress = false;
+                    window.location.reload();
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.isActionInProgress = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Terjadi kesalahan saat mengubah status.',
+                    confirmButtonText: 'OK'
+                });
+                button.innerHTML = originalText;
+                button.disabled = false;
+            });
     }
 </script>

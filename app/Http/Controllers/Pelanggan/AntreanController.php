@@ -17,6 +17,8 @@ class AntreanController extends Controller
 
     public function index()
     {
+        Antrean::autoCancelIfOutsideOperationalHours();
+        
         $data_antrean = Antrean::getTodayWaitingQueues();
         $dipanggil = Antrean::getQueueBeingServed();
         $layananAktif = Layanan::where('is_active', true)
@@ -70,6 +72,12 @@ class AntreanController extends Controller
 
         $this->validateQueueRequest($request);
 
+        if (!Antrean::isOperationalHour()) {
+            $jam_buka = \App\Models\Setting::get('queue_jam_buka', '09:00');
+            $jam_tutup = \App\Models\Setting::get('queue_jam_tutup', '21:00');
+            return back()->with('error', 'Maaf, antrean ditutup. Jam operasional: '.$jam_buka.' - '.$jam_tutup);
+        }
+
         if (Antrean::customerHasActiveQueue($user->username)) {
             return back()->with('error', 'Anda sudah berada di dalam daftar antrean saat ini.');
         }
@@ -121,11 +129,17 @@ class AntreanController extends Controller
         return back()->with('success', 'Antrean anda terdaftar silahkan tunggu.');
     }
 
-    public function cancelMyQueue()
+    public function cancelMyQueue(Request $request)
     {
         if (!Auth::check()) {
             return redirect()->route('login.user')->with('error', 'Silakan login terlebih dahulu.');
         }
+
+        $request->validate([
+            'alasan_batal' => 'required|string|max:1000'
+        ], [
+            'alasan_batal.required' => 'Mohon isi form alasan pembatalan.'
+        ]);
 
         $user = Auth::user();
         if (!$user->username) {
@@ -138,7 +152,11 @@ class AntreanController extends Controller
             return back()->with('error', 'Tidak ada antrean aktif yang bisa dibatalkan.');
         }
 
-        $antreanAktif->cancelQueue();
+        $antreanAktif->update([
+            'status' => 'batal',
+            'alasan_batal' => $request->alasan_batal,
+            'waktu_selesai' => now(),
+        ]);
         $this->broadcastQueueUpdate();
 
         return back()->with('success', 'Antrean Anda berhasil dibatalkan.');

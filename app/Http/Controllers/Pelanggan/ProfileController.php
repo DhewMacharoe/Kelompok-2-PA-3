@@ -9,6 +9,25 @@ use Illuminate\Support\Facades\Auth;
 class ProfileController extends Controller
 {
     /**
+     * Menampilkan profil pelanggan beserta riwayat antrean.
+     */
+    public function index()
+    {
+        $user = Auth::user();
+        
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        $riwayatAntrean = \App\Models\Antrean::with(['layanan1', 'layanan2'])
+            ->where('nama_pelanggan', $user->username)
+            ->whereIn('status', ['selesai', 'batal'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('pelanggan.profile.index', compact('user', 'riwayatAntrean'));
+    }
+    /**
      * Menampilkan form edit profil pelanggan.
      */
     public function edit()

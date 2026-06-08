@@ -17,6 +17,7 @@ class Antrean extends Model
         'layanan_id1',
         'layanan_id2',
         'status',
+        'alasan_batal',
         'waktu_masuk',
         'waktu_selesai',
     ];
@@ -41,8 +42,40 @@ class Antrean extends Model
             ->whereDate('created_at', '<', $today)
             ->update([
                 'status' => 'batal',
+                'alasan_batal' => 'Sudah lewat hari',
                 'waktu_selesai' => now(),
             ]);
+    }
+
+    public static function isOperationalHour(): bool
+    {
+        $jam_buka = \App\Models\Setting::get('queue_jam_buka', '09:00');
+        $jam_tutup = \App\Models\Setting::get('queue_jam_tutup', '21:00');
+        $now = now()->format('H:i');
+
+        return $now >= $jam_buka && $now <= $jam_tutup;
+    }
+
+    public static function autoCancelIfOutsideOperationalHours(): void
+    {
+        if (!static::isOperationalHour()) {
+            $dibatalkan = static::where('status', 'menunggu')
+                ->whereDate('created_at', Carbon::today())
+                ->update([
+                    'status' => 'batal',
+                    'alasan_batal' => 'Sudah Tutup',
+                    'waktu_selesai' => now(),
+                ]);
+
+            if ($dibatalkan > 0) {
+                try {
+                    event(new \App\Events\AntreanUpdate(['status' => 'batal', 'nomor_antrean_seq' => '-']));
+                    event(new \App\Events\AntreanListUpdate(static::todayWaitingQueues()->get()));
+                } catch (\Exception $e) {
+                    \Log::warning('Auto-cancel broadcast failed: ' . $e->getMessage());
+                }
+            }
+        }
     }
 
     public function updateStatus(string $statusBaru): bool

@@ -38,6 +38,11 @@
                         <p class="layanan-desc">{{ $layanan->deskripsi }}</p>
                         <p class="layanan-time"><i class="far fa-clock"></i> {{ $layanan->estimasi_waktu }}</p>
                         <p class="layanan-price">Rp{{ number_format($layanan->harga, 0, ',', '.') }}</p>
+                        <div class="mt-3">
+                            <a href="{{ route('antrean') }}?layanan_id={{ $layanan->id }}" class="btn btn-sm w-100 rounded-pill" style="background-color: transparent; border: 1px solid #d4af37; color: #d4af37; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#d4af37'; this.style.color='#1a1a1a';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#d4af37';" onclick="event.stopPropagation();">
+                                <i class="fas fa-ticket-alt me-1"></i> Menuju ke Antrean
+                            </a>
+                        </div>
                     </div>
                 </div>
             @empty
