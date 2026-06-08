@@ -110,7 +110,25 @@
             });
         }
 
-        if (window.Echo) {
+        function checkEcho(callback) {
+            if (window.Echo) {
+                callback();
+            } else {
+                let attempts = 0;
+                const interval = setInterval(() => {
+                    attempts++;
+                    if (window.Echo) {
+                        clearInterval(interval);
+                        callback();
+                    } else if (attempts > 100) {
+                        clearInterval(interval);
+                        console.warn('Laravel Echo tidak terdeteksi.');
+                    }
+                }, 50);
+            }
+        }
+
+        checkEcho(() => {
             window.Echo.channel('Antrean-channel').listen('AntreanUpdate', async (e) => {
                 const antrean = e.antrean || {};
                 await playQueueAudio(antrean);
@@ -125,7 +143,7 @@
                 }
                 window.location.reload();
             });
-        }
+        });
 
         // Logik Grafik (Tetap sama)
         const canvasStatistik = document.getElementById('statistikChart');

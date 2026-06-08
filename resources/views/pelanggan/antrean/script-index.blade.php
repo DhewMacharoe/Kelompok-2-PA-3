@@ -644,71 +644,87 @@
             }
         }
 
-        if (typeof window.Echo === 'undefined') {
-            return;
+        function checkEcho(callback) {
+            if (window.Echo) {
+                callback();
+            } else {
+                let attempts = 0;
+                const interval = setInterval(() => {
+                    attempts++;
+                    if (window.Echo) {
+                        clearInterval(interval);
+                        callback();
+                    } else if (attempts > 100) {
+                        clearInterval(interval);
+                        console.warn('Laravel Echo tidak terdeteksi.');
+                    }
+                }, 50);
+            }
         }
 
-        try {
-            window.Echo.channel('AntreanList-channel').listen('AntreanListUpdate', (e) => {
-                const antreanList = (e.antreanList || []).filter(item =>
-                    normalizeStatus(item.status) === 'menunggu'
-                );
+        checkEcho(() => {
+            try {
+                window.Echo.channel('AntreanList-channel').listen('AntreanListUpdate', (e) => {
+                    const antreanList = (e.antreanList || []).filter(item =>
+                        normalizeStatus(item.status) === 'menunggu'
+                    );
 
-                if (!queueListContainer) {
-                    return;
-                }
+                    if (!queueListContainer) {
+                        return;
+                    }
 
-                queueListContainer.innerHTML = '';
+                    queueListContainer.innerHTML = '';
 
-                if (antreanList.length > 0) {
-                    antreanList.forEach(item => {
-                        const isMyQueue = isCurrentUserQueue(item);
-                        queueListContainer.insertAdjacentHTML('beforeend', `
-                            <div class="queue-card ${isMyQueue ? 'my-queue-highlight' : ''}">
-                                <div class="queue-number-box">${item.nomor_antrean_seq}</div>
-                                <div class="queue-info">
-                                    <p class="queue-name">${item.nama_pelanggan}</p>
-                                    <p class="queue-time">(${formatJam(item.created_at)})</p>
+                    if (antreanList.length > 0) {
+                        antreanList.forEach(item => {
+                            const isMyQueue = isCurrentUserQueue(item);
+                            queueListContainer.insertAdjacentHTML('beforeend', `
+                                <div class="queue-card ${isMyQueue ? 'my-queue-highlight' : ''}">
+                                    <div class="queue-number-box">${item.nomor_antrean_seq}</div>
+                                    <div class="queue-info">
+                                        <p class="queue-name">${item.nama_pelanggan}</p>
+                                        <p class="queue-time">(${formatJam(item.created_at)})</p>
+                                    </div>
+                                    <div class="queue-badges">${isMyQueue ? '<span class="badge-mine">ANTREAN SAYA</span>' : ''}<span class="badge-waiting">MENUNGGU</span></div>
                                 </div>
-                                <div class="queue-badges">${isMyQueue ? '<span class="badge-mine">ANTREAN SAYA</span>' : ''}<span class="badge-waiting">MENUNGGU</span></div>
-                            </div>
-                        `);
-                    });
-                } else {
-                    queueListContainer.innerHTML = `
-                        <div class="text-center mt-4 mb-4 text-muted">Tidak ada antrean</div>
-                    `;
+                            `);
+                        });
+                    } else {
+                        queueListContainer.innerHTML = `
+                            <div class="text-center mt-4 mb-4 text-muted">Tidak ada antrean</div>
+                        `;
+                    }
+                });
+            } catch (error) {
+                console.error(error);
+            }
+
+            const handleQueueStatusUpdate = (e) => {
+                const antrean = e.antrean;
+
+                const nomorEl = document.getElementById('antrean-nomor');
+                if (nomorEl) {
+                    nomorEl.textContent = antrean.nomor_antrean_seq;
                 }
-            });
-        } catch (error) {
-            return;
-        }
 
-        const handleQueueStatusUpdate = (e) => {
-            const antrean = e.antrean;
+                const statusEl = document.getElementById('antrean-status');
+                if (statusEl) {
+                    statusEl.textContent = String(antrean.status || '').toUpperCase();
+                }
 
-            const nomorEl = document.getElementById('antrean-nomor');
-            if (nomorEl) {
-                nomorEl.textContent = antrean.nomor_antrean_seq;
-            }
+                const namaEl = document.getElementById('antrean-nama');
+                if (namaEl) {
+                    namaEl.textContent = antrean.nama_pelanggan;
+                }
 
-            const statusEl = document.getElementById('antrean-status');
-            if (statusEl) {
-                statusEl.textContent = String(antrean.status || '').toUpperCase();
-            }
+                updateMyQueueCard(antrean);
+            };
 
-            const namaEl = document.getElementById('antrean-nama');
-            if (namaEl) {
-                namaEl.textContent = antrean.nama_pelanggan;
-            }
-
-            updateMyQueueCard(antrean);
-        };
-
-        // Kompatibilitas: dengarkan nama event baru dan lama.
-        window.Echo.channel('Antrean-channel')
-            .listen('AntreanUpdate', handleQueueStatusUpdate)
-            .listen('AntreanUpadate', handleQueueStatusUpdate);
+            // Kompatibilitas: dengarkan nama event baru dan lama.
+            window.Echo.channel('Antrean-channel')
+                .listen('AntreanUpdate', handleQueueStatusUpdate)
+                .listen('AntreanUpadate', handleQueueStatusUpdate);
+        });
 
 
 

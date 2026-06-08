@@ -116,7 +116,11 @@ class PublicController extends Controller
         ]);
 
         // (Opsional) Jika menggunakan Laravel Reverb/Pusher, uncomment baris di bawah agar admin real-time terupdate
-        event(new AntreanUpdate($antrean));
+        try {
+            event(new AntreanUpdate($antrean));
+        } catch (\Exception $e) {
+            \Log::warning('Realtime broadcast failed: ' . $e->getMessage());
+        }
 
         return back()->with('success', 'Antrean anda terdaftar silahkan tunggu');
     }

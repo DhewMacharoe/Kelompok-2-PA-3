@@ -47,7 +47,11 @@ class AdminController extends Controller
             'waktu_selesai' => now()
         ]);
 
-        event(new AntreanUpdate($antrean));
+        try {
+            event(new AntreanUpdate($antrean));
+        } catch (\Exception $e) {
+            \Log::warning('Realtime broadcast failed: ' . $e->getMessage());
+        }
 
         return redirect()->back()->with('success', 'Layanan selesai.');
     }
@@ -61,7 +65,11 @@ class AdminController extends Controller
             'waktu_selesai' => now()
         ]);
 
-        event(new AntreanUpdate($antrean));
+        try {
+            event(new AntreanUpdate($antrean));
+        } catch (\Exception $e) {
+            \Log::warning('Realtime broadcast failed: ' . $e->getMessage());
+        }
 
         return redirect()->back()->with('success', 'Antrean ' . $antrean->nomor_antrean_seq . ' dibatalkan.');
     }
@@ -239,7 +247,11 @@ class AdminController extends Controller
             ->orderBy('waktu_masuk', 'asc')
             ->get();
 
-        event(new AntreanListUpdate($antreanList));
+        try {
+            event(new AntreanListUpdate($antreanList));
+        } catch (\Exception $e) {
+            \Log::warning('Realtime broadcast failed: ' . $e->getMessage());
+        }
 
         return redirect()->route('admin.antrean')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrean.');
     }

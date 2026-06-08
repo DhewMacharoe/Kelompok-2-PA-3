@@ -170,8 +170,12 @@ class AntreanController extends Controller
 
     private function broadcastQueueUpdate(): void
     {
-        $antreanList = Antrean::getTodayWaitingQueues();
-        event(new AntreanListUpdate($antreanList));
+        try {
+            $antreanList = Antrean::getTodayWaitingQueues();
+            event(new AntreanListUpdate($antreanList));
+        } catch (\Exception $e) {
+            \Log::warning('Realtime broadcast failed: ' . $e->getMessage());
+        }
         // broadcast(new AntreanListUpdate($antreanList))->toOthers();
     }
 }

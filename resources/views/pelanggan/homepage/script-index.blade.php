@@ -85,8 +85,26 @@
             });
         }
 
+        function checkEcho(callback) {
+            if (window.Echo) {
+                callback();
+            } else {
+                let attempts = 0;
+                const interval = setInterval(() => {
+                    attempts++;
+                    if (window.Echo) {
+                        clearInterval(interval);
+                        callback();
+                    } else if (attempts > 100) {
+                        clearInterval(interval);
+                        console.warn('Laravel Echo tidak terdeteksi.');
+                    }
+                }, 50);
+            }
+        }
+
         // Echo Channel queue listeners
-        if (window.Echo) {
+        checkEcho(() => {
             window.Echo.channel('Antrean-channel')
                 .listen('AntreanUpdate', (e) => {
                     const antrean = e.antrean;
@@ -114,6 +132,6 @@
                 .listen('AntreanListUpdate', () => {
                     window.location.reload();
                 });
-        }
+        });
     });
 </script>

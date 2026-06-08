@@ -99,7 +99,25 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        if (window.Echo) {
+        function checkEcho(callback) {
+            if (window.Echo) {
+                callback();
+            } else {
+                let attempts = 0;
+                const interval = setInterval(() => {
+                    attempts++;
+                    if (window.Echo) {
+                        clearInterval(interval);
+                        callback();
+                    } else if (attempts > 100) {
+                        clearInterval(interval);
+                        console.warn('Laravel Echo tidak terdeteksi.');
+                    }
+                }, 50);
+            }
+        }
+
+        checkEcho(() => {
             window.Echo.channel('Antrean-channel').listen('AntreanUpdate', async (e) => {
                 if (!window.isActionInProgress) {
                     const antrean = e.antrean || {};
@@ -117,7 +135,7 @@
                     window.location.reload();
                 }
             });
-        }
+        });
 
         document.querySelectorAll('.queue-action-btn').forEach((button) => {
             button.addEventListener('click', function() {

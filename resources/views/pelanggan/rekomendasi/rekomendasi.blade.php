@@ -384,10 +384,22 @@
 
         let pendingImageSrc = null;
 
+        // Fungsi untuk menghentikan kamera
+        function stopCameraStream() {
+            if (video.srcObject) {
+                video.srcObject.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+            }
+            video.style.display = 'none';
+            btnCapture.style.display = 'none';
+        }
+
         // Load Lokal Model
         async function loadModels() {
             try {
-                aiModel = await tf.loadGraphModel("{{ asset('ai_model/model.json') }}");
+                // Gunakan origin saat ini agar tidak salah memanggil localhost di HP
+                const modelUrl = window.location.origin + "/ai_model/model.json";
+                aiModel = await tf.loadGraphModel(modelUrl);
                 faceDetector = await blazeface.load();
                 
                 // Hide loading overlay smoothly
@@ -411,7 +423,11 @@
                     overlay.innerHTML = `
                         <div class="text-danger fs-3 mb-2"><i class="fas fa-exclamation-triangle"></i></div>
                         <div class="fw-bold small text-dark mb-1">AI Gagal Dimuat</div>
-                        <div class="text-muted text-center" style="font-size: 0.65rem; padding: 0 10px;">Gagal mengunduh modul AI. Harap refresh halaman.</div>
+                        <div class="text-muted text-center" style="font-size: 0.75rem; padding: 0 10px; line-height: 1.4;">
+                            Gagal mengunduh modul AI.<br>
+                            <span class="text-danger small">${escapeHtml(error.message || error)}</span><br>
+                            <span class="text-warning fw-semibold mt-1 d-block">Tips: Pastikan koneksi internet stabil (ukuran model ~95MB).</span>
+                        </div>
                     `;
                 }
             }
@@ -420,16 +436,46 @@
 
         // Kamera Logic
         btnCamera.onclick = async () => {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: {
-                    facingMode: 'user'
+            try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error("Browser Anda tidak mendukung akses kamera di konteks ini. Pastikan Anda menggunakan HTTPS.");
                 }
-            });
-            video.srcObject = stream;
-            video.style.display = 'block';
-            imgPreview.style.display = 'none';
-            btnCapture.style.display = 'block';
-            document.getElementById('placeholder-text').style.display = 'none';
+                
+                stopCameraStream();
+
+                let stream;
+                try {
+                    // Coba request kamera depan terlebih dahulu (untuk HP)
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: 'user'
+                        }
+                    });
+                } catch (err) {
+                    console.warn("Gagal mengakses kamera dengan facingMode: 'user'. Mencoba fallback ke kamera default...", err);
+                    // Fallback: Coba akses kamera apa pun yang tersedia (penting untuk PC/Laptop tanpa kamera depan khusus)
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        video: true
+                    });
+                }
+
+                video.srcObject = stream;
+                video.style.display = 'block';
+                imgPreview.style.display = 'none';
+                btnCapture.style.display = 'block';
+                document.getElementById('placeholder-text').style.display = 'none';
+            } catch (error) {
+                console.error('Gagal mengakses kamera:', error);
+                
+                let detailPesan = error.message;
+                if (error.name === 'NotFoundError' || error.message.includes('device not found')) {
+                    detailPesan = "Kamera tidak ditemukan. Pastikan perangkat Anda memiliki kamera yang aktif, tersambung, dan tidak sedang digunakan oleh aplikasi lain (seperti Zoom, Meet, atau browser lain).";
+                } else if (error.name === 'NotAllowedError' || error.message.includes('Permission denied')) {
+                    detailPesan = "Akses kamera ditolak. Silakan berikan izin akses kamera untuk website ini pada pengaturan browser Anda.";
+                }
+
+                alert("Gagal mengakses kamera:\n" + detailPesan + "\n\nCatatan: Akses kamera pada perangkat HP memerlukan koneksi HTTPS (Secure Context) jika tidak diakses via localhost.");
+            }
         };
 
         btnCapture.onclick = () => {
@@ -441,19 +487,20 @@
             base64Image = canvas.toDataURL('image/jpeg');
             processImage(base64Image);
 
-            video.srcObject.getTracks().forEach(track => track.stop());
-            video.style.display = 'none';
-            btnCapture.style.display = 'none';
+            stopCameraStream();
         };
 
         // Upload Logic
         fileUpload.onchange = (e) => {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                base64Image = event.target.result;
-                processImage(base64Image);
-            };
-            reader.readAsDataURL(e.target.files[0]);
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    base64Image = event.target.result;
+                    stopCameraStream();
+                    processImage(base64Image);
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
         };
 
         // Analisis Gambar dengan Model TFJS
