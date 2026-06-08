@@ -20,6 +20,3 @@ Schedule::call(function () {
     }
 })->dailyAt('00:01')->name('antrean:auto-cancel-expired-menunggu');
 
-Schedule::call(function () {
-    Antrean::autoCancelIfOutsideOperationalHours();
-})->everyMinute()->name('antrean:auto-cancel-outside-hours');

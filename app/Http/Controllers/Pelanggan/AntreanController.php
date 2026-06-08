@@ -17,8 +17,6 @@ class AntreanController extends Controller
 
     public function index()
     {
-        Antrean::autoCancelIfOutsideOperationalHours();
-        
         $data_antrean = Antrean::getTodayWaitingQueues();
         $dipanggil = Antrean::getQueueBeingServed();
         $layananAktif = Layanan::where('is_active', true)

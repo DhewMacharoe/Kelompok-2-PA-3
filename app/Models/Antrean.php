@@ -56,27 +56,6 @@ class Antrean extends Model
         return $now >= $jam_buka && $now <= $jam_tutup;
     }
 
-    public static function autoCancelIfOutsideOperationalHours(): void
-    {
-        if (!static::isOperationalHour()) {
-            $dibatalkan = static::where('status', 'menunggu')
-                ->whereDate('created_at', Carbon::today())
-                ->update([
-                    'status' => 'batal',
-                    'alasan_batal' => 'Sudah Tutup',
-                    'waktu_selesai' => now(),
-                ]);
-
-            if ($dibatalkan > 0) {
-                try {
-                    event(new \App\Events\AntreanUpdate(['status' => 'batal', 'nomor_antrean_seq' => '-']));
-                    event(new \App\Events\AntreanListUpdate(static::todayWaitingQueues()->get()));
-                } catch (\Exception $e) {
-                    \Log::warning('Auto-cancel broadcast failed: ' . $e->getMessage());
-                }
-            }
-        }
-    }
 
     public function updateStatus(string $statusBaru): bool
     {

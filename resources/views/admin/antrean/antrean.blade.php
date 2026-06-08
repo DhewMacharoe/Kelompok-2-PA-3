@@ -99,9 +99,19 @@
     </form>
 
     <div class="table-container">
+        @if (($selectedStatus ?? 'all') === 'menunggu')
+        <div style="margin-bottom: 15px; display: flex; justify-content: flex-start;">
+            <button type="button" class="btn-batal shadow-sm" id="btnBatalMasal" style="display: none; padding: 8px 16px;">
+                Batalkan Terpilih (<span id="countTerpilih">0</span>)
+            </button>
+        </div>
+        @endif
         <table class="custom-table">
             <thead>
                 <tr>
+                    @if (($selectedStatus ?? 'all') === 'menunggu')
+                    <th style="width: 40px; text-align: center;"><input type="checkbox" id="selectAllQueues"></th>
+                    @endif
                     <th>Nomor Antrean</th>
                     <th>Nama</th>
                     <th>Tanggal Masuk</th>
@@ -121,6 +131,13 @@
                     data-status="{{ $item->status }}"
                     data-date-created="{{ \Carbon\Carbon::parse($item->created_at)->toDateString() }}"
                     data-date-finished="{{ $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai)->toDateString() : '' }}">
+                    @if (($selectedStatus ?? 'all') === 'menunggu')
+                    <td style="text-align: center;">
+                        @if ($item->status === 'menunggu')
+                        <input type="checkbox" class="queue-checkbox" value="{{ $item->id }}">
+                        @endif
+                    </td>
+                    @endif
                     <td data-label="Nomor Antrean">{{ $item->nomor_antrean_seq }}</td>
                     <td data-label="Nama">{{ $item->nama_pelanggan }}</td>
                     <td data-label="Tanggal Masuk">
@@ -153,7 +170,9 @@
                 <tr class="empty-row-row">
                     @php
                         $colspan = 5;
-                        if (($selectedStatus ?? 'all') === 'menunggu' || ($selectedStatus ?? 'all') === 'batal') {
+                        if (($selectedStatus ?? 'all') === 'menunggu') {
+                            $colspan = 7;
+                        } elseif (($selectedStatus ?? 'all') === 'batal') {
                             $colspan = 6;
                         }
                     @endphp

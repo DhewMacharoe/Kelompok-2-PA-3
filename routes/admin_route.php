@@ -23,6 +23,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Route::post('/antrean/{id}/batal', [AdminController::class, 'batal'])->name('antrean.batal');
 
     Route::patch('/antrean/{id}/ubah-status', [AntreanController::class, 'ubahStatus'])->name('antrean.ubahStatus');
+    Route::patch('/antrean/batal-masal', [AntreanController::class, 'batalMasal'])->name('antrean.batalMasal');
 
     // Kelola Antrean
     Route::get('/antrean', [AdminController::class, 'antrean'])->name('antrean');

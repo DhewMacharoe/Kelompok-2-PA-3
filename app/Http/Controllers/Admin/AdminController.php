@@ -96,7 +96,6 @@ class AdminController extends Controller
     public function antrean()
     {
         Antrean::cancelExpiredWaitingQueues();
-        Antrean::autoCancelIfOutsideOperationalHours();
 
         $validated = request()->validate([
             'tanggal' => ['nullable', 'date_format:Y-m-d'],

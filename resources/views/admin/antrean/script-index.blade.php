@@ -272,7 +272,130 @@
         if (hasFormErrors) {
             document.getElementById('modalTambah').style.display = 'flex';
         }
+
+        // === BULK CANCEL LOGIC ===
+        const selectAllCheckbox = document.getElementById('selectAllQueues');
+        const queueCheckboxes = document.querySelectorAll('.queue-checkbox');
+        const btnBatalMasal = document.getElementById('btnBatalMasal');
+        const countTerpilih = document.getElementById('countTerpilih');
+
+        function updateBatalMasalVisibility() {
+            const checkedCount = document.querySelectorAll('.queue-checkbox:checked').length;
+            if (checkedCount > 0) {
+                if (btnBatalMasal) {
+                    btnBatalMasal.style.display = 'inline-block';
+                    countTerpilih.innerText = checkedCount;
+                }
+            } else {
+                if (btnBatalMasal) {
+                    btnBatalMasal.style.display = 'none';
+                }
+                if (selectAllCheckbox) {
+                    selectAllCheckbox.checked = false;
+                }
+            }
+
+            if (selectAllCheckbox) {
+                selectAllCheckbox.checked = (checkedCount === queueCheckboxes.length && queueCheckboxes.length > 0);
+            }
+        }
+
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
+                queueCheckboxes.forEach(cb => {
+                    cb.checked = this.checked;
+                });
+                updateBatalMasalVisibility();
+            });
+        }
+
+        queueCheckboxes.forEach(cb => {
+            cb.addEventListener('change', updateBatalMasalVisibility);
+        });
+
+        if (btnBatalMasal) {
+            btnBatalMasal.addEventListener('click', function() {
+                const selectedIds = Array.from(document.querySelectorAll('.queue-checkbox:checked')).map(cb => cb.value);
+
+                if (selectedIds.length === 0) return;
+
+                Swal.fire({
+                    title: 'Batalkan ' + selectedIds.length + ' Antrean Terpilih',
+                    input: 'textarea',
+                    inputPlaceholder: 'Tuliskan alasan pembatalan untuk semua antrean ini...',
+                    inputAttributes: {
+                        'aria-label': 'Tuliskan alasan pembatalan massal'
+                    },
+                    showCancelButton: true,
+                    confirmButtonColor: '#EB5757',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Batalkan',
+                    cancelButtonText: 'Batal',
+                    preConfirm: (alasan) => {
+                        if (!alasan) {
+                            Swal.showValidationMessage('Alasan pembatalan wajib diisi');
+                        }
+                        return alasan;
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        processBatalMasal(this, selectedIds, result.value);
+                    }
+                });
+            });
+        }
+
     });
+
+    // === BULK CANCEL PROCESS ===
+    function processBatalMasal(button, ids, alasan) {
+        window.isActionInProgress = true;
+        let originalText = button.innerHTML;
+        button.innerHTML = 'Memproses...';
+        button.disabled = true;
+
+        fetch(`/admin/antrean/batal-masal`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    queue_ids: ids,
+                    alasan_batal: alasan
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: data.message,
+                    confirmButtonText: 'OK',
+                    showConfirmButton: true
+                }).then(() => {
+                    window.isActionInProgress = false;
+                    window.location.reload();
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.isActionInProgress = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Terjadi kesalahan saat membatalkan antrean.',
+                    confirmButtonText: 'OK'
+                });
+                button.innerHTML = originalText;
+                button.disabled = false;
+            });
+    }
 
     // === LOGIKA MODAL TAMBAH ===
     function toggleModal() {

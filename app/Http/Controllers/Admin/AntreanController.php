@@ -102,6 +102,36 @@ class AntreanController extends Controller
         ]);
     }
 
+    public function batalMasal(Request $request)
+    {
+        $request->validate([
+            'queue_ids' => 'required|array',
+            'queue_ids.*' => 'integer',
+            'alasan_batal' => 'required|string'
+        ]);
+
+        $ids = $request->queue_ids;
+        $alasan = $request->alasan_batal;
+
+        // Cancel the selected queues
+        $updatedCount = Antrean::whereIn('id', $ids)
+            ->whereIn('status', ['menunggu'])
+            ->update([
+                'status' => 'batal',
+                'alasan_batal' => $alasan,
+                'waktu_selesai' => now(),
+            ]);
+
+        if ($updatedCount > 0) {
+            $this->broadcastQueueListUpdate();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => $updatedCount . ' antrean berhasil dibatalkan.'
+        ]);
+    }
+
     public function updateStatus(Request $request, Antrean $antrean)
     {
         $antrean->update(['status' => $request->status]);
