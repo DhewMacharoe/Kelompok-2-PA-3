@@ -207,7 +207,7 @@
                 @if (!$punyaAntreanAktif)
                     @if (\App\Models\Antrean::isOperationalHour())
                         <div class="d-grid gap-3 mb-4">
-                            <button class="btn fw-bold text-white shadow-sm" data-bs-toggle="modal"
+                            <button class="btn btn-add-queue fw-bold text-white shadow-sm" data-bs-toggle="modal"
                                 data-bs-target="#modalTambahAntrean"
                                 data-loading-text="Membuka form..." style="background-color: #e8a53a; border-radius: 12px; padding: 14px 20px; font-size: 1rem;">
                                 Tambah Antrean
@@ -293,7 +293,7 @@
                                     <div class="service-card" data-id="{{ $layanan->id }}" onclick="selectService({{ $layanan->id }})">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div class="service-name">{{ $layanan->nama }}</div>
-                                            <a href="{{ route('pelanggan.layanan') }}?id={{ $layanan->id }}&open=true" onclick="event.stopPropagation()" class="text-decoration-none" style="color: #17a2b8;" title="Lihat Detail">
+                                            <a href="{{ route('pelanggan.layanan') }}?id={{ $layanan->id }}&open=true&from=antrean" onclick="event.stopPropagation()" class="text-decoration-none detail-layanan-link" style="color: #17a2b8;" title="Lihat Detail">
                                                 <i class="fas fa-info-circle" style="font-size: 1.1rem;"></i>
                                             </a>
                                         </div>

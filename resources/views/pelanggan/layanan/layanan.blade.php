@@ -38,11 +38,6 @@
                         <p class="layanan-desc">{{ $layanan->deskripsi }}</p>
                         <p class="layanan-time"><i class="far fa-clock"></i> {{ $layanan->estimasi_waktu }}</p>
                         <p class="layanan-price">Rp{{ number_format($layanan->harga, 0, ',', '.') }}</p>
-                        <div class="mt-3">
-                            <a href="{{ route('antrean') }}?layanan_id={{ $layanan->id }}" class="btn btn-sm w-100 rounded-pill" style="background-color: transparent; border: 1px solid #d4af37; color: #d4af37; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#d4af37'; this.style.color='#1a1a1a';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#d4af37';" onclick="event.stopPropagation();">
-                                <i class="fas fa-ticket-alt me-1"></i> Menuju ke Antrean
-                            </a>
-                        </div>
                     </div>
                 </div>
             @empty
@@ -55,6 +50,9 @@
 
     <div class="modal-overlay" id="layananDetailModal">
         <div class="modal-card">
+            <button class="modal-back" id="modalBackBtn" title="Kembali">
+                <i class="fas fa-arrow-left"></i>
+            </button>
             <button class="modal-close" id="modalCloseBtn">×</button>
             <div class="modal-image-wrapper" style="display:flex; justify-content:center; align-items:center; background:#f5f2ed; font-size:80px; color:#c9a24f; height: 260px;">
                 <i class="fas fa-cut"></i>
@@ -64,22 +62,27 @@
                 <p class="modal-category" id="modalLayananTime"></p>
                 <p class="modal-description" id="modalLayananDescription"></p>
                 <div class="modal-footer">
-                    <span class="modal-price" id="modalLayananPrice"></span>
-                    @auth
-                        @if ($punyaAntreanAktif)
-                            <span class="btn-buat-antrean-layanan disabled" title="Anda sudah memiliki antrean aktif">
-                                <i class="fas fa-ticket-alt"></i> Sudah Ada Antrean
-                            </span>
+                    <button type="button" class="btn-back-bottom" id="modalBackBottomBtn">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                    <div class="modal-footer-right">
+                        <span class="modal-price" id="modalLayananPrice"></span>
+                        @auth
+                            @if ($punyaAntreanAktif)
+                                <span class="btn-buat-antrean-layanan disabled" title="Anda sudah memiliki antrean aktif">
+                                    <i class="fas fa-ticket-alt"></i> Sudah Ada Antrean
+                                </span>
+                            @else
+                                <a href="#" id="btnBuatAntreanDariLayanan" class="btn-buat-antrean-layanan">
+                                    <i class="fas fa-ticket-alt"></i> Buat Antrean
+                                </a>
+                            @endif
                         @else
-                            <a href="#" id="btnBuatAntreanDariLayanan" class="btn-buat-antrean-layanan">
-                                <i class="fas fa-ticket-alt"></i> Buat Antrean
+                            <a href="{{ route('login.user') }}" class="btn-buat-antrean-layanan">
+                                <i class="fas fa-sign-in-alt"></i> Login untuk Antrean
                             </a>
-                        @endif
-                    @else
-                        <a href="{{ route('login.user') }}" class="btn-buat-antrean-layanan">
-                            <i class="fas fa-sign-in-alt"></i> Login untuk Antrean
-                        </a>
-                    @endauth
+                        @endauth
+                    </div>
                 </div>
             </div>
         </div>
@@ -117,16 +120,43 @@
                 });
             });
 
-            if (modalCloseBtn) {
-                modalCloseBtn.addEventListener('click', function() {
+            const modalBackBtn = document.getElementById('modalBackBtn');
+            const modalBackBottomBtn = document.getElementById('modalBackBottomBtn');
+
+            function handleBackOrClose() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const fromAntrean = urlParams.get('from') === 'antrean';
+
+                if (fromAntrean) {
+                    if (document.referrer && document.referrer.includes('/antrean')) {
+                        history.back();
+                    } else {
+                        window.location.href = "{{ route('antrean') }}";
+                    }
+                } else {
                     modalOverlay.classList.remove('active');
-                });
+                    // Bersihkan URL query parameter tanpa reload
+                    const cleanUrl = window.location.pathname;
+                    window.history.replaceState({}, document.title, cleanUrl);
+                }
+            }
+
+            if (modalBackBtn) {
+                modalBackBtn.addEventListener('click', handleBackOrClose);
+            }
+
+            if (modalBackBottomBtn) {
+                modalBackBottomBtn.addEventListener('click', handleBackOrClose);
+            }
+
+            if (modalCloseBtn) {
+                modalCloseBtn.addEventListener('click', handleBackOrClose);
             }
 
             if (modalOverlay) {
                 modalOverlay.addEventListener('click', function(event) {
                     if (event.target === modalOverlay) {
-                        modalOverlay.classList.remove('active');
+                        handleBackOrClose();
                     }
                 });
             }

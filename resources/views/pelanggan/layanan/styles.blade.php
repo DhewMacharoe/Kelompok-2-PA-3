@@ -328,12 +328,94 @@
     .modal-footer {
         flex-direction: column;
         align-items: stretch;
-        gap: 10px;
+        gap: 12px;
+    }
+
+    .modal-footer-right {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .btn-buat-antrean-layanan {
         justify-content: center;
         padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .btn-back-bottom {
+        width: 100%;
+        justify-content: center;
+        order: 2;
+    }
+}
+
+.modal-back {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ece6da;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.modal-back:hover {
+    background: #fff;
+    color: #c9a24f;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+.modal-back:active {
+    transform: translateY(0);
+}
+
+.btn-back-bottom {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid #ece6da;
+    color: #333;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-back-bottom:hover {
+    background: #fdfaf5;
+    border-color: #c9a24f;
+    color: #c9a24f;
+}
+
+.modal-footer-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+@media (max-width: 480px) {
+    .modal-back {
+        top: 12px;
+        left: 12px;
+        width: 36px;
+        height: 36px;
         font-size: 14px;
     }
 }

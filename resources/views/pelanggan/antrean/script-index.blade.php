@@ -667,10 +667,40 @@
                 startQueueLocationWatch();
             });
 
-            // Auto-open modal dan pilih layanan jika ada query parameter layanan_id
+            // Auto-open modal dan pilih layanan jika ada query parameter layanan_id atau restore state dari sessionStorage
             const urlParams = new URLSearchParams(window.location.search);
-            const autoLayananId = urlParams.get('layanan_id');
+            
+            // 1. Restore state dari sessionStorage jika ada
+            const savedStateJson = sessionStorage.getItem('antrean_page_state');
+            let hasRestoredState = false;
+            if (savedStateJson) {
+                try {
+                    const savedState = JSON.parse(savedStateJson);
+                    sessionStorage.removeItem('antrean_page_state');
 
+                    if (savedState.selectedServices && savedState.selectedServices.length > 0) {
+                        window.selectedServices = savedState.selectedServices;
+                        updateUI();
+                    }
+
+                    if (savedState.modalOpen) {
+                        const bsModal = new bootstrap.Modal(modalTambah);
+                        bsModal.show();
+                        hasRestoredState = true;
+                    }
+
+                    if (savedState.scrollPosition) {
+                        setTimeout(() => {
+                            window.scrollTo(0, savedState.scrollPosition);
+                        }, 100);
+                    }
+                } catch (e) {
+                    console.error("Gagal mengurai state antrean:", e);
+                }
+            }
+
+            // 2. Pilih layanan jika ada parameter layanan_id
+            const autoLayananId = urlParams.get('layanan_id');
             if (autoLayananId) {
                 // Bersihkan URL query parameter tanpa reload
                 const cleanUrl = window.location.pathname;
@@ -680,18 +710,45 @@
                 setTimeout(() => {
                     const btnAddQueue = document.querySelector('.btn-add-queue');
                     if (btnAddQueue) {
-                        // Buka modal
-                        const bsModal = new bootstrap.Modal(modalTambah);
-                        bsModal.show();
+                        // Buka modal jika belum terbuka dari restore state
+                        if (!hasRestoredState) {
+                            const bsModal = new bootstrap.Modal(modalTambah);
+                            bsModal.show();
+                        }
 
                         // Pilih layanan secara otomatis setelah modal terbuka
-                        modalTambah.addEventListener('shown.bs.modal', function autoSelect() {
-                            selectService(parseInt(autoLayananId));
-                            modalTambah.removeEventListener('shown.bs.modal', autoSelect);
-                        }, { once: true });
+                        const autoSelect = () => {
+                            const serviceId = parseInt(autoLayananId);
+                            const alreadySelected = window.selectedServices.some(s => s.id === serviceId);
+                            if (!alreadySelected) {
+                                selectService(serviceId);
+                            }
+                        };
+
+                        if (modalTambah.classList.contains('show')) {
+                            autoSelect();
+                        } else {
+                            modalTambah.addEventListener('shown.bs.modal', function autoSelectHandler() {
+                                autoSelect();
+                                modalTambah.removeEventListener('shown.bs.modal', autoSelectHandler);
+                            }, { once: true });
+                        }
                     }
                 }, 300);
             }
+
+            // 3. Simpan state sebelum berpindah ke halaman Detail Layanan
+            document.addEventListener('click', function(event) {
+                const detailLink = event.target.closest('.detail-layanan-link');
+                if (detailLink) {
+                    const state = {
+                        modalOpen: true,
+                        selectedServices: window.selectedServices || [],
+                        scrollPosition: window.scrollY
+                    };
+                    sessionStorage.setItem('antrean_page_state', JSON.stringify(state));
+                }
+            });
         }
 
         function checkEcho(callback) {
