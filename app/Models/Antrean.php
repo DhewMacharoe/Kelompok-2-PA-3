@@ -68,6 +68,22 @@ class Antrean extends Model
         return $this->save();
     }
 
+    public function getTotalEstimasiWaktuAttribute(): int
+    {
+        $total = 0;
+        
+        $layanans = $this->layananUntukRekap();
+        foreach ($layanans as $layanan) {
+            if ($layanan && $layanan->estimasi_waktu) {
+                // Konversi string (misal "30") ke int
+                $total += (int) $layanan->estimasi_waktu;
+            }
+        }
+
+        // Jika tidak ada estimasi dari layanan, default ke 30 menit
+        return $total > 0 ? $total : 30;
+    }
+
     public function hitungEstimasiSelesai(): ?string
     {
         if (! $this->waktu_masuk) {
@@ -75,7 +91,7 @@ class Antrean extends Model
         }
 
         return Carbon::parse($this->waktu_masuk)
-            ->addMinutes($this->layanan1?->estimasi_waktu ?? 30)
+            ->addMinutes($this->total_estimasi_waktu)
             ->toDateTimeString();
     }
 

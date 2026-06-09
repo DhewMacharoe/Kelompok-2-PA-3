@@ -43,7 +43,7 @@
                     <div class="layanan-card-body">
                         <h4>{{ $layanan->nama }}</h4>
                         <p class="layanan-desc">{{ $layanan->deskripsi }}</p>
-                        <p class="layanan-time"><i class="far fa-clock"></i> {{ $layanan->estimasi_waktu }}</p>
+                        <p class="layanan-time"><i class="far fa-clock"></i> {{ $layanan->estimasi_waktu ? $layanan->estimasi_waktu . ' Menit' : '-' }}</p>
                         <p class="layanan-price">Rp{{ number_format($layanan->harga, 0, ',', '.') }}</p>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                     const layananId = this.dataset.id;
                     const ikon = this.dataset.ikon;
                     modalName.textContent = this.dataset.name;
-                    modalTime.innerHTML = '<i class="far fa-clock"></i> ' + this.dataset.time;
+                    modalTime.innerHTML = '<i class="far fa-clock"></i> ' + (this.dataset.time ? this.dataset.time + ' Menit' : '-');
                     modalDescription.textContent = this.dataset.description;
                     modalPrice.textContent = 'Rp ' + this.dataset.price;
 

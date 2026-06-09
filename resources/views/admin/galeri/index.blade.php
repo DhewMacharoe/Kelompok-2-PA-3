@@ -52,7 +52,7 @@
                     <th style="width: 160px;">Foto</th>
                     <th>Judul</th>
                     <th style="width: 120px;">Status</th>
-                    <th style="width: 300px;">Action</th>
+                    <th style="width: 300px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -78,15 +78,15 @@
                         @endif
                     </td>
 
-                    <td data-label="Action">
-                        <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end;">
+                    <td data-label="Aksi">
+                        <div style="display: flex; gap: 5px; flex-wrap: nowrap; justify-content: center;">
                             <button type="button" class="btn-action btn-view shadow-sm btn-view-galeri"
                                 data-judul="{{ $galeri->judul }}"
                                 data-deskripsi="{{ $galeri->deskripsi }}"
                                 data-gambar="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
                                 data-bs-toggle="modal"
                                 data-bs-target="#viewGaleriModal" style="margin: 0;">
-                                View
+                                Lihat
                             </button>
 
                             <form action="{{ route('admin.galeri.toggleStatus', $galeri) }}"
@@ -106,7 +106,7 @@
 
                             <a href="{{ route('admin.galeri.edit', $galeri) }}"
                                 class="btn-action btn-edit shadow-sm" style="margin: 0;">
-                                Edit
+                                Ubah
                             </a>
 
                             <button type="button"

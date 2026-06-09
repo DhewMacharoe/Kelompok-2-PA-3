@@ -61,6 +61,10 @@
                                 <h5 class="fw-bold mb-0" style="color: #e8a53a; font-size: 0.85rem;" id="antrean-nama">{{ $dipanggil->nama_pelanggan }}</h5>
                             </div>
                         </div>
+                        <div class="mt-3 py-2 text-center" style="background: rgba(232, 165, 58, 0.1); border-radius: 8px; border: 1px dashed rgba(232, 165, 58, 0.3);">
+                            <p class="text-secondary mb-1" style="font-size: 0.75rem;">Durasi Pelayanan Berjalan</p>
+                            <h4 class="fw-bold mb-0" style="color: #e8a53a; letter-spacing: 2px;" id="stopwatch-dipanggil" data-start="{{ $dipanggil->updated_at->timestamp * 1000 }}">00:00:00</h4>
+                        </div>
                     </div>
                 </div>
             @else
@@ -155,7 +159,7 @@
                         
                         <p class="text-muted small mb-4" style="line-height: 1.5;">Silakan login terlebih dahulu untuk mengambil dan melihat detail antrean pribadi Anda. Jika belum memiliki akun, antrean juga dapat ditambahkan melalui pemilik barber.</p>
                         
-                        <a href="{{ route('login.user') }}" class="btn w-100 fw-bold mb-2 text-white" style="background-color: #e8a53a; border-radius: 10px; padding: 12px;">Login Sekarang</a>
+                        <a href="{{ route('login.user') }}" class="btn btn-gold w-100 fw-bold mb-2" style="border-radius: 10px; padding: 12px;">Login Sekarang</a>
                     </div>
                 </div>
             @endauth
@@ -178,7 +182,7 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <h6 class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;">{{ $antrean->nama_pelanggan }}</h6>
-                                    <p class="text-muted mb-0" style="font-size: 0.75rem;"><i class="far fa-clock me-1"></i> {{ $antrean->created_at->format('H:i') }}</p>
+                                    <p class="text-muted mb-0" style="font-size: 0.75rem;"><i class="far fa-clock me-1"></i> Masuk: {{ $antrean->created_at->format('H:i') }} <span class="ms-2"><i class="fas fa-hourglass-half me-1"></i> Est: {{ $antrean->total_estimasi_waktu }} mnt</span></p>
                                 </div>
                                 <div>
                                     @if ($antreanSayaAktif && $antreanSayaAktif->id === $antrean->id)
@@ -207,15 +211,15 @@
                 @if (!$punyaAntreanAktif)
                     @if (\App\Models\Antrean::isOperationalHour())
                         <div class="d-grid gap-3 mb-4">
-                            <button class="btn btn-add-queue fw-bold text-white shadow-sm" data-bs-toggle="modal"
+                            <button class="btn btn-gold w-100 btn-add-queue fw-bold shadow-sm" data-bs-toggle="modal"
                                 data-bs-target="#modalTambahAntrean"
-                                data-loading-text="Membuka form..." style="background-color: #e8a53a; border-radius: 12px; padding: 14px 20px; font-size: 1rem;">
+                                data-loading-text="Membuka form..." style="border-radius: 12px; padding: 14px 20px; font-size: 1rem;">
                                 Tambah Antrean
                             </button>
                         </div>
                     @else
-                        <button class="btn fw-bold text-white mb-4 shadow-sm w-100" disabled
-                            style="background-color: #999; border-radius: 12px; padding: 14px 20px; font-size: 1rem; cursor: not-allowed;" title="Di luar jam operasional">
+                        <button class="btn btn-disabled w-100 fw-bold mb-4 shadow-sm" disabled
+                            style="border-radius: 12px; padding: 14px 20px; font-size: 1rem;" title="Di luar jam operasional">
                             Antrean Tutup
                         </button>
                     @endif

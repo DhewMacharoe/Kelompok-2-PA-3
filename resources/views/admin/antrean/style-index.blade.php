@@ -151,7 +151,7 @@
             width: 100%;
             min-width: 760px;
             border-collapse: collapse;
-            text-align: center;
+            text-align: left; /* Berubah menjadi rata kiri agar rapi */
         }
 
         .custom-table thead {
@@ -163,6 +163,7 @@
         .custom-table td {
             padding: 15px;
             border-bottom: 1px solid #eee;
+            vertical-align: middle;
             white-space: nowrap;
         }
 

@@ -70,7 +70,7 @@
                             @endif
                         </td>
                         <td data-label="Aksi">
-                            <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end;">
+                            <div style="display: flex; gap: 5px; flex-wrap: nowrap; justify-content: center;">
                                 <button type="button" class="btn-action btn-view shadow-sm btn-view-menu"
                                     data-nama="{{ $menu->nama }}"
                                     data-foto="{{ $menu->foto ? (\Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://']) ? $menu->foto : asset('images/' . $menu->foto)) : '' }}"
@@ -80,7 +80,7 @@
                                     data-deskripsi="{{ str_replace(["\r", "\n"], ' ', e($menu->deskripsi ?? 'Tidak ada deskripsi.')) }}"
                                     data-bs-toggle="modal"
                                     data-bs-target="#viewMenuModal" style="margin: 0;">
-                                    View
+                                    Lihat
                                 </button>
 
                                 <form action="{{ route('admin.menu.update', $menu->id) }}" method="POST"
@@ -101,7 +101,7 @@
                                 </form>
 
                                 <button type="button" class="btn-action btn-edit shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEdit{{ $menu->id }}" style="margin: 0;">
-                                    Edit
+                                    Ubah
                                 </button>
 
                                 <form action="{{ route('admin.menu.destroy', $menu->id) }}" method="POST"

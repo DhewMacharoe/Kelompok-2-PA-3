@@ -274,15 +274,15 @@
                         </div>
 
                         <div class="d-grid gap-2 mb-3">
-                            <button type="button" id="btn-camera" class="btn btn-outline-dark">
+                            <button type="button" id="btn-camera" class="btn btn-secondary">
                                 <i class="fas fa-camera me-2"></i>Aktifkan Kamera
                             </button>
-                            <button type="button" id="btn-capture" class="btn btn-dark" style="display:none;">
+                            <button type="button" id="btn-capture" class="btn btn-primary" style="display:none;">
                                 <i class="fas fa-circle me-2"></i>Ambil Foto
                             </button>
                             <input type="file" id="file-upload" accept="image/*" class="d-none">
                             <button type="button" onclick="document.getElementById('file-upload').click()"
-                                class="btn btn-outline-secondary">
+                                class="btn btn-secondary">
                                 <i class="fas fa-upload me-2"></i>Unggah Foto
                             </button>
                         </div>
@@ -302,7 +302,7 @@
                             <p id="analysis-caption" class="text-muted small mb-0">Sistem sedang membaca karakter wajah Anda untuk menyesuaikan rekomendasi.</p>
                         </div>
 
-                        <button type="button" id="btn-kirim" class="btn btn-dark w-100 fw-bold py-2" disabled
+                        <button type="button" id="btn-kirim" class="btn btn-gold w-100 fw-bold py-2" disabled
                             onclick="kirimHasil()">
                             Tampilkan Rekomendasi
                         </button>
@@ -397,7 +397,7 @@
             isCameraActive = false;
             btnCamera.innerHTML = '<i class="fas fa-camera me-2"></i>Aktifkan Kamera';
             btnCamera.classList.remove('btn-danger');
-            btnCamera.classList.add('btn-outline-dark');
+            btnCamera.classList.add('btn-secondary');
         }
 
         // Load Lokal Model
@@ -481,7 +481,7 @@
 
                 isCameraActive = true;
                 btnCamera.innerHTML = '<i class="fas fa-times me-2"></i>Nonaktifkan Kamera';
-                btnCamera.classList.remove('btn-outline-dark');
+                btnCamera.classList.remove('btn-secondary');
                 btnCamera.classList.add('btn-danger');
             } catch (error) {
                 console.error('Gagal mengakses kamera:', error);
@@ -702,7 +702,7 @@
                                     <img src="${backUrl}" alt="${nama} back" class="thumb-img" onclick="openGallery({front: '${frontUrl}', side: '${sideUrl}', back: '${backUrl}'})">
                                 </div>
                                 <div class="mt-auto">
-                                    <button class="btn btn-outline-dark btn-sm w-100" data-front="${frontUrl}" data-side="${sideUrl}" data-back="${backUrl}" onclick="openGallery(this.dataset)">
+                                    <button class="btn btn-secondary btn-sm w-100" data-front="${frontUrl}" data-side="${sideUrl}" data-back="${backUrl}" onclick="openGallery(this.dataset)">
                                         <i class="fas fa-image me-1"></i> Lihat Gambar
                                     </button>
                                 </div>

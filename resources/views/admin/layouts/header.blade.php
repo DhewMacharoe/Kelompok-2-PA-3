@@ -12,7 +12,7 @@
             @csrf
             <button type="submit"
                 style="padding: 6px 10px; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; line-height: 1;">
-                Logout
+                Keluar
             </button>
         </form>
     </div>

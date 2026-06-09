@@ -808,20 +808,39 @@
 
             const handleQueueStatusUpdate = (e) => {
                 const antrean = e.antrean;
+                const status = String(antrean.status || '').toLowerCase();
+
+                // Reload the page if the queue is finished or cancelled so the UI resets
+                if (status === 'selesai' || status === 'batal') {
+                    setTimeout(() => window.location.reload(), 500);
+                    return;
+                }
 
                 const nomorEl = document.getElementById('antrean-nomor');
-                if (nomorEl) {
-                    nomorEl.textContent = antrean.nomor_antrean_seq;
+                if (!nomorEl) {
+                    // If the UI is currently in "Belum Ada" state, reload to show "Sedang Melayani"
+                    setTimeout(() => window.location.reload(), 500);
+                    return;
                 }
+
+                nomorEl.textContent = antrean.nomor_antrean_seq;
 
                 const statusEl = document.getElementById('antrean-status');
                 if (statusEl) {
-                    statusEl.textContent = String(antrean.status || '').toUpperCase();
+                    statusEl.textContent = status.toUpperCase();
                 }
 
                 const namaEl = document.getElementById('antrean-nama');
                 if (namaEl) {
                     namaEl.textContent = antrean.nama_pelanggan;
+                }
+
+                // Update stopwatch timestamp if available
+                const stopwatchEl = document.getElementById('stopwatch-dipanggil');
+                if (stopwatchEl && status === 'sedang dilayani') {
+                    // Jika antrean.updated_at tersedia dari broadcast, gunakan itu. Jika tidak, gunakan waktu sekarang.
+                    const startTimeMs = antrean.updated_at ? new Date(antrean.updated_at).getTime() : new Date().getTime();
+                    stopwatchEl.dataset.start = startTimeMs;
                 }
 
                 updateMyQueueCard(antrean);
@@ -833,8 +852,34 @@
                 .listen('AntreanUpadate', handleQueueStatusUpdate);
         });
 
+        // Stopwatch untuk Antrean Dipanggil
+        const stopwatchEl = document.getElementById('stopwatch-dipanggil');
+        let stopwatchInterval;
 
+        function updateStopwatch() {
+            if (!stopwatchEl) return;
+            const startTime = parseInt(stopwatchEl.dataset.start);
+            if (!startTime) return;
 
+            const now = new Date().getTime();
+            const diff = now - startTime;
+
+            if (diff < 0) return;
+
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            stopwatchEl.textContent = 
+                String(hours).padStart(2, '0') + ':' + 
+                String(minutes).padStart(2, '0') + ':' + 
+                String(seconds).padStart(2, '0');
+        }
+
+        if (stopwatchEl) {
+            updateStopwatch();
+            stopwatchInterval = setInterval(updateStopwatch, 1000);
+        }
 
     });
 </script>

@@ -6,9 +6,9 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
-            <div class="card shadow-sm border-0" style="border-radius: 15px; overflow: hidden;">
-                <div class="card-header text-center text-white py-4" style="background-color: #1a1a1a; border-bottom: 3px solid #d4af37;">
-                    <h4 class="mb-0 fw-bold" style="color: #d4af37;">Profil Saya</h4>
+            <div class="card overflow-hidden">
+                <div class="card-header text-center text-white py-4" style="background-color: var(--hero-bg); border-bottom: 3px solid var(--accent-gold);">
+                    <h4 class="mb-0 fw-bold" style="color: var(--accent-gold);">Profil Saya</h4>
                 </div>
                 <div class="card-body p-4 p-md-5">
 
@@ -50,13 +50,13 @@
                         </div>
 
                         <div class="d-grid gap-2 mt-5" id="action-buttons">
-                            <button type="button" id="btn-edit" class="btn btn-lg fw-bold btn-outline-secondary" style="border-radius: 8px;">
-                                <i class="fas fa-edit me-2"></i>Edit Username
+                            <button type="button" id="btn-edit" class="btn btn-secondary btn-lg fw-bold">
+                                <i class="fas fa-edit me-2"></i>Ubah Username
                             </button>
-                            <button type="submit" id="btn-save" class="btn btn-lg fw-bold d-none" style="background-color: #d4af37; color: #1a1a1a; border-radius: 8px;">
+                            <button type="submit" id="btn-save" class="btn btn-gold btn-lg fw-bold d-none">
                                 Simpan Perubahan
                             </button>
-                            <button type="button" id="btn-cancel" class="btn btn-lg fw-bold btn-outline-danger d-none" style="border-radius: 8px;">
+                            <button type="button" id="btn-cancel" class="btn btn-danger btn-lg fw-bold d-none">
                                 Batal
                             </button>
                         </div>

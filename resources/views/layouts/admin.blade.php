@@ -13,7 +13,7 @@
     <div class="page-wrapper">
 
         <header class="header">
-            <button class="header-back" onclick="window.location='{{ url('/') }}'">← Dashboard</button>
+            <button class="header-back" onclick="window.location='{{ url('/') }}'">← Dasbor</button>
             <div class="header-title">@yield('header_title', 'Kelola Barbershop')</div>
             <div style="width:80px;"></div>
             @yield('header_right')
@@ -22,7 +22,7 @@
         <nav class="admin-nav">
             <ul class="admin-nav-list">
                 <li><a href="{{ url('dashboard') }}"
-                        class="{{ Request::is('dashboard') ? 'active' : '' }}">Dashboard</a></li>
+                        class="{{ Request::is('dashboard') ? 'active' : '' }}">Dasbor</a></li>
                 <li><a href="{{ url('admin/antrean') }}"
                         class="{{ Request::is('admin/antrean') ? 'active' : '' }}">Antrean</a></li>
                 <li><a href="{{ url('admin/layanan') }}"

@@ -59,7 +59,7 @@
         <div class="col-xl-7">
             <div class="row mt-4">
                 <div class="col-12">
-                    <div class="card shadow-sm border-0">
+                    <div class="card">
                         <div class="card-body">
                             <h6 class="text-muted fw-bold mb-3">Grafik Statistik Antrean Hari Ini</h6>
                             <canvas id="statistikChart" height="120"></canvas>
@@ -70,7 +70,7 @@
 
             <div class="row mt-4">
                 <div class="col-12">
-                    <div class="card shadow-sm border-0">
+                    <div class="card">
                         <div class="card-body">
                             <h6 class="text-muted fw-bold mb-3">Tren Pengunjung 7 Hari Terakhir</h6>
                             <canvas id="trendChart" height="120"></canvas>

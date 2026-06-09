@@ -51,8 +51,9 @@
                 <thead>
                     <tr>
                         <th>Nama</th>
+                        <th style="width: 120px;">Estimasi</th>
                         <th style="width: 120px;">Status</th>
-                        <th style="width: 300px;">Action</th>
+                        <th style="width: 300px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,6 +75,9 @@
                                     <strong>{{ $item->nama }}</strong>
                                 </div>
                             </td>
+                            <td data-label="Estimasi">
+                                {{ $item->estimasi_waktu ? $item->estimasi_waktu . ' Menit' : '-' }}
+                            </td>
                             <td data-label="Status">
                                 @if ($item->is_active)
                                     <span class="status-badge status-aktif">Aktif</span>
@@ -81,8 +85,8 @@
                                     <span class="status-badge status-nonaktif">Nonaktif</span>
                                 @endif
                             </td>
-                            <td data-label="Action">
-                                <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end;">
+                            <td data-label="Aksi">
+                                <div style="display: flex; gap: 5px; flex-wrap: nowrap; justify-content: center;">
                                     <button type="button" class="btn-action btn-view shadow-sm btn-view-layanan"
                                         data-nama="{{ $item->nama }}"
                                         data-harga="Rp {{ number_format($item->harga, 0, ',', '.') }}"
@@ -92,7 +96,7 @@
                                         data-deskripsi="{{ str_replace(["\r", "\n"], ' ', e($item->deskripsi ?? 'Tidak ada deskripsi tambahan.')) }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#viewLayananModal" style="margin: 0;">
-                                        View
+                                        Lihat
                                     </button>
 
                                     <form action="{{ route('admin.layanan.toggleStatus', $item->id) }}" method="POST"
@@ -109,7 +113,7 @@
 
                                     <a href="{{ route('admin.layanan.edit', $item->id) }}"
                                         class="btn-action btn-edit shadow-sm" style="margin: 0;">
-                                        Edit
+                                        Ubah
                                     </a>
 
                                     <button type="button" class="btn-action btn-hapus shadow-sm btn-delete-alert"

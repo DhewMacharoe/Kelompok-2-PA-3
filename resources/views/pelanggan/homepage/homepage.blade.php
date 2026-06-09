@@ -1,6 +1,6 @@
 @extends('pelanggan.layouts.app')
 
-@section('title', 'Dashboard - Arga Home\'s')
+@section('title', 'Dasbor - Arga Home\'s')
 
 @push('styles')
 @include('pelanggan.homepage.style-index')

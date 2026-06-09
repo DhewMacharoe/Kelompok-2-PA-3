@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin</title>
+    <title>Masuk Admin</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -69,7 +69,7 @@
 <body>
 
     <div class="login-card text-center">
-        <h2 class="login-title">Login Admin</h2>
+        <h2 class="login-title">Masuk Admin</h2>
         <form action="{{ route('login.post') }}" method="POST" class="form-section" novalidate>
             @csrf
 
@@ -91,7 +91,7 @@
 
             <div class="mb-3 text-start">
                 <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                    id="password" placeholder="Password">
+                    id="password" placeholder="Kata Sandi">
                 @error('password')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -99,7 +99,7 @@
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 btn-login">Login</button>
+            <button type="submit" class="btn btn-primary w-100 btn-login">Masuk</button>
         </form>
     </div>
 

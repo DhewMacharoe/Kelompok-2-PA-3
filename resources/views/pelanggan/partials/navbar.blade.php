@@ -188,7 +188,7 @@
                     <li class="nav-item d-flex align-items-center justify-content-center">
                         <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3"
                             style="background-color: #d4af37; color: #1a1a1a; border-radius: 8px;">
-                            Login
+                            Masuk
                         </a>
                     </li>
                 @endguest
@@ -196,21 +196,18 @@
                 @auth
                     <li class="nav-item d-flex align-items-center justify-content-center">
                         @if (auth()->user()->hasRole('admin'))
-                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm fw-bold px-3"
-                                style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
-                                Dashboard admin
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-gold">
+                                Dasbor Admin
                             </a>
                         @else
                             <div class="d-flex gap-2 align-items-center">
-                                <a href="{{ route('profile.index') }}" class="btn btn-sm fw-bold px-3"
-                                    style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
+                                <a href="{{ route('profile.index') }}" class="btn btn-sm btn-gold">
                                     Profil
                                 </a>
                                 <form action="{{ route('logout') }}" method="POST" class="m-0">
                                     @csrf
-                                    <button type="submit" class="btn btn-sm fw-bold px-3"
-                                        style="background-color: transparent; color: #d4af37; border: 1px solid #d4af37; border-radius: 8px;">
-                                        Logout
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        Keluar
                                     </button>
                                 </form>
                             </div>

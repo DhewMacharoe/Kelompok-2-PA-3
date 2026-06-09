@@ -10,7 +10,7 @@
     <ul class="nav flex-column">
         <li class="nav-item">
             <a class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}" href="/admin/dashboard">
-                <i class="bi bi-speedometer2"></i> Dashboard
+                <i class="bi bi-speedometer2"></i> Dasbor
             </a>
         </li>
         <li class="nav-item">

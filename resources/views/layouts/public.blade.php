@@ -24,11 +24,11 @@
                     <div class="header-actions-right">
                         <span class="header-greeting">Halo, {{ Auth::user()->username ?? Auth::user()->name }}</span>
                         @if(auth()->user()->hasRole('admin'))
-                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-primary">Dashboard Admin</a>
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-primary">Dasbor Admin</a>
                         @else
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-danger">Logout</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Keluar</button>
                             </form>
                         @endif
                     </div>

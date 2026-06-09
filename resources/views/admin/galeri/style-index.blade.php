@@ -35,6 +35,7 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
+            text-decoration: none;
             transition: all 0.2s ease;
         }
 
@@ -107,17 +108,18 @@
         .custom-table td {
             padding: 15px;
             border-bottom: 1px solid #eee;
-            white-space: nowrap;
             vertical-align: middle;
+            white-space: nowrap;
         }
 
         .custom-table th:nth-child(2),
         .custom-table td:nth-child(2),
         .custom-table th:nth-child(3),
         .custom-table td:nth-child(3) {
-            text-align: left;
             white-space: normal;
         }
+
+
 
         /* Status Badge */
         .status-badge {

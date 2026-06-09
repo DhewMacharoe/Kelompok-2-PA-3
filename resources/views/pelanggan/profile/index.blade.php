@@ -224,7 +224,7 @@
             <div class="profile-email">{{ $user->email }}</div>
         </div>
         <a href="{{ route('profile.edit') }}" class="edit-profile-btn">
-            <i class="bi bi-pencil-square me-1"></i> Edit
+            <i class="bi bi-pencil-square me-1"></i> Ubah Profil
         </a>
     </div>
 

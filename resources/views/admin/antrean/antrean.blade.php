@@ -37,6 +37,7 @@
         <span class="queue-number-big">{{ $currentServing->nomor_antrean_seq ?? '--' }}</span>
         <p style="font-size: 18px; font-weight: 500;">{{ $currentServing->nama_pelanggan ?? 'Tidak ada antrean' }}</p>
         @if ($currentServing)
+        <p style="font-size: 14px; color: #e8a53a; margin-bottom: 15px;">Durasi: <span id="stopwatch-dipanggil" data-start="{{ $currentServing->updated_at->timestamp * 1000 }}" style="font-weight: bold; color: #e8a53a; font-family: monospace; font-size: 16px;">00:00:00</span></p>
         <div class="btn-group-serving">
             <button type="button" class="btn-panggil shadow-sm queue-action-btn" data-queue-id="{{ $currentServing->id }}"
                 data-queue-status="selesai" data-loading-text="Menyelesaikan...">
