@@ -21,16 +21,14 @@
             <header class="header">
                 @yield('header')
                 @auth
-                    <div style="position: absolute; top: 10px; right: 10px; display: flex; align-items: center; gap: 10px;">
-                        <span>Halo, {{ Auth::user()->username ?? Auth::user()->name }}</span>
+                    <div class="header-actions-right">
+                        <span class="header-greeting">Halo, {{ Auth::user()->username ?? Auth::user()->name }}</span>
                         @if(auth()->user()->hasRole('admin'))
-                            <a href="{{ route('admin.dashboard') }}"
-                                style="padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; text-decoration: none;">Dashboard admin</a>
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-primary">Dashboard Admin</a>
                         @else
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                 @csrf
-                                <button type="submit"
-                                    style="padding: 5px 10px; background: red; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Logout</button>
                             </form>
                         @endif
                     </div>

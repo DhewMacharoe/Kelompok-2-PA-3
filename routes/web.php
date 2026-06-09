@@ -2,12 +2,12 @@
 
 use App\Http\Controllers\Pelanggan\AntreanController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\Pelanggan\PelangganLayananController;
 use App\Http\Controllers\Pelanggan\PelangganGaleriController;
 use App\Http\Controllers\Pelanggan\PelangganRekomendasiController;
+use App\Http\Controllers\Pelanggan\PelangganMenuCafeController;
 use App\Http\Controllers\Pelanggan\ProfileController;
 
 /*
@@ -32,7 +32,7 @@ Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
 Route::get('/rekomendasi', [PelangganRekomendasiController::class, 'rekomendasi'])->name('rekomendasi.index');
 Route::post('/rekomendasi/process', [PelangganRekomendasiController::class, 'process'])->name('rekomendasi.process');
 Route::get('/galeri', [PelangganGaleriController::class, 'index'])->name('galeri');
-Route::get('/menu', [PublicController::class, 'menu'])->name('menu');
+Route::get('/menu', [PelangganMenuCafeController::class, 'index'])->name('menu');
 Route::post('/antrean', [AntreanController::class, 'store'])->name('antrean.store');
 Route::patch('/antrean/saya/batal', [AntreanController::class, 'cancelMyQueue'])
     ->name('antrean.cancel')
@@ -56,7 +56,7 @@ Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('tes
 
 
 // Rute untuk pelanggan mengambil antrean
-Route::post('/antrean/daftar', [PublicController::class, 'daftarAntrean'])
+Route::post('/antrean/daftar', [AntreanController::class, 'store'])
     ->name('antrean.daftar')
     ->middleware('auth');
 
