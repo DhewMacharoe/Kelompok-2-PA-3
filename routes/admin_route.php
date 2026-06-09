@@ -1,41 +1,32 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\MenuCafeController;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\Admin\AntreanController;
 use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\GaleriController;
-
-Route::get('/test1', [AntreanController::class, 'index'])->name('test');
-
+use App\Http\Controllers\Admin\RekapController;
+use App\Http\Controllers\Admin\SettingController;
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    // --- RUTE AKSI antrean ---
-    // Route::post('/antrean/{id}/panggil', [AdminController::class, 'panggil'])->name('antrean.panggil');
-    // Route::post('/antrean/{id}/selesai', [AdminController::class, 'selesai'])->name('antrean.selesai');
-    // Route::post('/antrean/{id}/batal', [AdminController::class, 'batal'])->name('antrean.batal');
-
+    // Kelola Antrean
+    Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
+    Route::post('/antrean/panggil', [AntreanController::class, 'panggil'])->name('antrean.panggil');
     Route::patch('/antrean/{id}/ubah-status', [AntreanController::class, 'ubahStatus'])->name('antrean.ubahStatus');
     Route::patch('/antrean/batal-masal', [AntreanController::class, 'batalMasal'])->name('antrean.batalMasal');
 
-    // Kelola Antrean
-    Route::get('/antrean', [AdminController::class, 'antrean'])->name('antrean');
+    // Tambah Pelanggan Manual
+    Route::get('/tambah-pelanggan', [AntreanController::class, 'tambahPelanggan'])->name('tambah-pelanggan');
+    Route::post('/tambah-pelanggan', [AntreanController::class, 'simpanPelanggan'])->name('simpan-pelanggan');
 
-    Route::post('/antrean/panggil', [AntreanController::class, 'panggil'])->name('antrean.panggil');
-
-    Route::get('/tambah-pelanggan', [AdminController::class, 'tambahPelanggan'])->name('tambah-pelanggan');
-    Route::post('/tambah-pelanggan', [AdminController::class, 'simpanPelanggan'])->name('simpan-pelanggan');
-
-    // Kelola Lokasi Antrean
-    Route::get('/lokasi', [AdminController::class, 'lokasi'])->name('lokasi.index');
-    Route::post('/lokasi', [AdminController::class, 'simpanLokasi'])->name('lokasi.store');
+    // Kelola Lokasi Antrean (Settings)
+    Route::get('/lokasi', [SettingController::class, 'lokasi'])->name('lokasi.index');
+    Route::post('/lokasi', [SettingController::class, 'simpanLokasi'])->name('lokasi.store');
 
     // Kelola Layanan (CRUD)
     Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
@@ -63,24 +54,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::delete('/menu/{menu}', [MenuCafeController::class, 'destroy'])->name('menu.destroy');
 
     // Rekap Laporan
-    Route::get('/rekap', [AdminController::class, 'rekapPemasukan'])->name('rekap');
+    Route::get('/rekap', [RekapController::class, 'rekapPemasukan'])->name('rekap');
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-Route::prefix('test')->group(function () {
-
-    Route::get('/dashboard', function () {
-        return view("admin.test.dashboard");
-    });
-
-    Route::get('/antrean', function () {
-        return "Antrean";
-    });
-});
-
-
 
 // ==========================================
 // REDIRECT /dashboard KE /admin/dashboard
@@ -88,4 +66,3 @@ Route::prefix('test')->group(function () {
 Route::get('/dashboard', function () {
     return redirect('/admin/dashboard');
 });
-

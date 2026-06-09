@@ -6,15 +6,67 @@ use App\Events\AntreanListUpdate;
 use App\Events\AntreanUpdate;
 use App\Http\Controllers\Controller;
 use App\Models\Antrean;
+use App\Models\Layanan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AntreanController extends Controller
 {
     public function index()
     {
-        $antrean = Antrean::getQueueBeingServed();
+        Antrean::cancelExpiredWaitingQueues();
 
-        return view('admin.antrean.test', compact('antrean'));
+        $validated = request()->validate([
+            'tanggal' => ['nullable', 'date_format:Y-m-d'],
+            'status' => ['nullable', Rule::in(['all', 'menunggu', 'selesai', 'batal'])],
+        ]);
+
+        $selectedTanggal = $validated['tanggal'] ?? null;
+        $selectedStatus = $validated['status'] ?? 'menunggu';
+
+        $layananAktif = Layanan::where('is_active', true)
+            ->orderBy('nama', 'asc')
+            ->get();
+
+        $jumlahMenungguHariIni = Antrean::where('status', 'menunggu')
+            ->whereDate('created_at', Carbon::today())
+            ->count();
+
+        // Ambil data "sedang dilayani"
+        $currentServing = Antrean::getQueueBeingServed();
+
+        $antreans = Antrean::query()
+            ->orderBy('created_at', 'asc')
+            ->when($selectedStatus !== 'all', function ($query) use ($selectedStatus) {
+                $query->where('status', $selectedStatus);
+            })
+            ->when($selectedTanggal, function ($query) use ($selectedTanggal, $selectedStatus) {
+                $query->where(function ($dateQuery) use ($selectedTanggal, $selectedStatus) {
+                    if (in_array($selectedStatus, ['selesai', 'batal'], true)) {
+                        $dateQuery->whereDate('waktu_selesai', $selectedTanggal);
+                        return;
+                    }
+
+                    if ($selectedStatus === 'all') {
+                        $dateQuery->whereDate('created_at', $selectedTanggal)
+                            ->orWhereDate('waktu_selesai', $selectedTanggal);
+                        return;
+                    }
+
+                    $dateQuery->whereDate('created_at', $selectedTanggal);
+                });
+            })
+            ->get();
+
+        return view('admin.antrean.antrean', compact(
+            'antreans',
+            'layananAktif',
+            'selectedTanggal',
+            'selectedStatus',
+            'currentServing',
+            'jumlahMenungguHariIni'
+        ));
     }
 
     public function panggil(Request $request)
@@ -140,6 +192,60 @@ class AntreanController extends Controller
         return back();
     }
 
+    public function tambahPelanggan()
+    {
+        return view('admin.tambah-pelanggan');
+    }
+
+    public function simpanPelanggan(Request $request)
+    {
+        if (!Antrean::isOperationalHour()) {
+            return redirect()->back()->withErrors(['nama_pelanggan' => 'Antrean tidak dapat ditambah di luar jam operasional.'])->withInput();
+        }
+
+        $request->validate([
+            'nama_pelanggan' => 'required|string|max:255',
+            'layanan_id1' => [
+                'required',
+                Rule::exists('layanans', 'id')->where(function ($query) {
+                    $query->where('is_active', true);
+                }),
+            ],
+            'layanan_id2' => [
+                'nullable',
+                'different:layanan_id1',
+                Rule::exists('layanans', 'id')->where(function ($query) {
+                    $query->where('is_active', true);
+                }),
+            ],
+        ], [
+            'nama_pelanggan.required' => 'Harap isi nama terlebih dahulu',
+            'layanan_id1.required'    => 'Harap pilih minimal 1 layanan',
+        ]);
+
+        // Generate nomor antrean dengan format 2-digit yang auto-reset per hari
+        $nomorFormat = Antrean::generateDailyQueueNumber();
+
+        // Simpan ke database
+        $layananId1 = $request->input('layanan_id1');
+        $layananId2 = $request->input('layanan_id2');
+
+        $antrean = Antrean::create([
+            'nomor_antrean_seq' => $nomorFormat,
+            'nama_pelanggan' => $request->nama_pelanggan,
+            'layanan_id1' => $layananId1,
+            'layanan_id2' => $layananId2,
+            'status' => 'menunggu',
+            'waktu_masuk' => now()
+        ]);
+
+        $antrean->layanans()->sync(array_values(array_filter([$layananId1, $layananId2])));
+
+        $this->broadcastQueueListUpdate();
+
+        return redirect()->route('admin.antrean')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrean.');
+    }
+
     // ============ PRIVATE HELPERS ============
 
     private function broadcastQueueStatusUpdate(Antrean $antrean): void
@@ -159,37 +265,5 @@ class AntreanController extends Controller
         } catch (\Exception $e) {
             \Log::warning('Realtime broadcast list update failed: ' . $e->getMessage());
         }
-    }
-
-    public function simpanPelanggan(Request $request)
-    {
-        // 1. Validasi Input dengan Pesan Kustom
-        $request->validate([
-            'nama_pelanggan' => 'required|string|max:255',
-            'layanan_id1'    => 'required',
-        ], [
-            'nama_pelanggan.required' => 'Harap isi nama terlebih dahulu',
-            'layanan_id1.required'    => 'Harap pilih minimal 1 layanan',
-        ]);
-
-        // 2. Buat Nomor Antrean Baru
-        $lastNumber = Antrean::getLastQueueNumberToday();
-        $nomorFormat = str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
-
-        // 3. Simpan Data ke Database
-        $antrean = Antrean::create([
-            'nomor_antrean_seq'  => $nomorFormat,
-            'nama_pelanggan' => $request->nama_pelanggan,
-            'layanan_id1'    => $request->layanan_id1,
-            'layanan_id2'    => $request->layanan_id2,
-            'status'         => 'menunggu',
-            'waktu_masuk'    => now()
-        ]);
-
-        // 4. Broadcast Update (Opsional, agar tampilan real-time terupdate)
-        $this->broadcastQueueListUpdate();
-
-        // 5. Kembali dengan pesan sukses
-        return back()->with('success', 'Antrean baru berhasil ditambahkan.');
     }
 }
