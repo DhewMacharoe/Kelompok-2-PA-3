@@ -14,4 +14,15 @@ class Menu extends Model
         'foto',
         'is_available'
     ];
+
+    protected static function booted()
+    {
+        static::saved(function () {
+            \Illuminate\Support\Facades\Cache::forget('active_menus');
+        });
+
+        static::deleted(function () {
+            \Illuminate\Support\Facades\Cache::forget('active_menus');
+        });
+    }
 }

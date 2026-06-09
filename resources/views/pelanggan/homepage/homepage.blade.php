@@ -4,6 +4,7 @@
 
 @push('styles')
 @include('pelanggan.homepage.style-index')
+@include('pelanggan.layanan.styles')
 @endpush
 
 @section('content')
@@ -140,38 +141,41 @@
 @php
 $count = $layanans->count();
 
-if ($count <= 4) {
-    $selectedLayanans=$layanans;
-    } else {
-    $first=$layanans->first();
+if ($count <= 3) {
+    $selectedLayanans = $layanans;
+} else {
+    $first = $layanans->first();
     $last = $layanans->last();
 
-    $midIndex = (int) floor($count / 2) - 1;
-    $middle = $layanans->slice($midIndex, 2);
+    $midIndex = (int) floor($count / 2);
+    $middle = $layanans->slice($midIndex, 1);
 
     $selectedLayanans = collect([$first])
-    ->merge($middle)
-    ->push($last);
-    }
-    @endphp
+        ->merge($middle)
+        ->push($last);
+}
+@endphp
 
     <div class="row g-3 mb-5">
         @foreach ($selectedLayanans as $layanan)
         <div class="col-12 col-md-6 col-lg-4">
-            <div role="button" tabindex="0" class="detail-card-button text-decoration-none d-block h-100"
-                data-bs-toggle="modal" data-bs-target="#detailModal"
-                data-type="layanan" data-title="{{ $layanan->nama }}"
-                data-image="{{ 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=600&auto=format&fit=crop' }}"
-                data-price="Rp{{ number_format($layanan->harga, 0, ',', '.') }}"
-                data-description="{{ e($layanan->deskripsi ?? 'Layanan barbershop premium.') }}"
-                data-category="Barber"
-                data-availability="Tersedia"
-                data-extra="Layanan Barber"
-                data-estimation="{{ $layanan->estimasi_waktu ?? '-' }} mnt"
-                data-show-meta="1">
+            <div role="button" tabindex="0" class="layanan-card-trigger text-decoration-none d-block h-100"
+                id="layanan-{{ $layanan->id }}"
+                data-id="{{ $layanan->id }}"
+                data-name="{{ $layanan->nama }}"
+                data-description="{{ e($layanan->deskripsi ?? 'Tidak ada deskripsi.') }}"
+                data-time="{{ $layanan->estimasi_waktu }}"
+                data-ikon="{{ $layanan->ikon }}"
+                data-price="{{ number_format($layanan->harga, 0, ',', '.') }}">
                 <div class="service-custom-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex gap-3 align-items-start">
                     <div class="service-icon-wrapper rounded-circle flex-shrink-0 d-flex align-items-center justify-content-center text-white bg-dark shadow-sm">
-                        <i class="fas fa-cut"></i>
+                        @if ($layanan->ikon === 'paint')
+                            <i class="fas fa-paint-brush"></i>
+                        @elseif ($layanan->ikon === 'face')
+                            <i class="fas fa-smile"></i>
+                        @else
+                            <i class="fas fa-cut"></i>
+                        @endif
                     </div>
                     <div class="service-details-wrapper text-start d-flex flex-column justify-content-between h-100 w-100">
                         <div>
@@ -197,9 +201,7 @@ if ($count <= 4) {
 
     <!-- Menu Café Favorit Section -->
     @php
-    $makanan = collect($menus)->where('kategori', 'Makanan')->take(2);
-    $minuman = collect($menus)->where('kategori', 'Minuman')->take(2);
-    $combinedMenus = $makanan->merge($minuman)->take(4);
+    $combinedMenus = collect($menus)->take(4);
     @endphp
 
     @if($combinedMenus->isNotEmpty())
@@ -297,6 +299,7 @@ if ($count <= 4) {
             </div>
         </div>
     </div>
+    @include('pelanggan.partials.layanan-detail-modal')
     @endsection
 
     @push('scripts')

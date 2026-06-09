@@ -17,7 +17,7 @@
         $queueLocation = $defaultConfig;
     }
 
-    $jumlahAntrean = \App\Models\Antrean::whereDate('created_at', \Carbon\Carbon::today())->where('status', 'menunggu')->count();
+    $jumlahAntrean = isset($data_antrean) ? $data_antrean->count() : 0;
 @endphp
 
 @push('styles')

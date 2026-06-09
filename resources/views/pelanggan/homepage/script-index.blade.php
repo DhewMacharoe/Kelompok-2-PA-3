@@ -85,6 +85,82 @@
             });
         }
 
+        // Custom Service Detail Modal logic for Homepage
+        const modalOverlay = document.getElementById('layananDetailModal');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const modalName = document.getElementById('modalLayananName');
+        const modalTime = document.getElementById('modalLayananTime');
+        const modalDescription = document.getElementById('modalLayananDescription');
+        const modalPrice = document.getElementById('modalLayananPrice');
+
+        const btnBuatAntrean = document.getElementById('btnBuatAntreanDariLayanan');
+        const antreanBaseUrl = "{{ route('antrean') }}";
+
+        document.querySelectorAll('.layanan-card-trigger').forEach(item => {
+            item.addEventListener('click', function() {
+                const layananId = this.dataset.id;
+                const ikon = this.dataset.ikon;
+                modalName.textContent = this.dataset.name;
+                modalTime.innerHTML = '<i class="far fa-clock"></i> ' + this.dataset.time;
+                modalDescription.textContent = this.dataset.description;
+                modalPrice.textContent = 'Rp ' + this.dataset.price;
+
+                // Update modal icon
+                const modalIconWrapper = document.querySelector('.modal-image-wrapper');
+                if (modalIconWrapper) {
+                    let iconClass = 'fas fa-cut';
+                    if (ikon === 'paint') iconClass = 'fas fa-paint-brush';
+                    if (ikon === 'face') iconClass = 'fas fa-smile';
+                    modalIconWrapper.innerHTML = `<i class="${iconClass}"></i>`;
+                }
+
+                // Update href tombol Buat Antrean
+                if (btnBuatAntrean) {
+                    btnBuatAntrean.href = antreanBaseUrl + '?layanan_id=' + layananId;
+                }
+
+                modalOverlay.classList.add('active');
+            });
+
+            // Keydown listener for accessibility (acting as button)
+            item.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        const modalBackBtn = document.getElementById('modalBackBtn');
+        const modalBackBottomBtn = document.getElementById('modalBackBottomBtn');
+
+        function handleBackOrClose() {
+            modalOverlay.classList.remove('active');
+            // Bersihkan URL query parameter tanpa reload
+            const cleanUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, cleanUrl);
+        }
+
+        if (modalBackBtn) {
+            modalBackBtn.addEventListener('click', handleBackOrClose);
+        }
+
+        if (modalBackBottomBtn) {
+            modalBackBottomBtn.addEventListener('click', handleBackOrClose);
+        }
+
+        if (modalCloseBtn) {
+            modalCloseBtn.addEventListener('click', handleBackOrClose);
+        }
+
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', function(event) {
+                if (event.target === modalOverlay) {
+                    handleBackOrClose();
+                }
+            });
+        }
+
         function checkEcho(callback) {
             if (window.Echo) {
                 callback();

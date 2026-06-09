@@ -93,9 +93,20 @@
     <div class="detail-container">
         <div class="detail-card">
             <div class="detail-header">
-                <div>
-                    <h2>{{ $layanan->nama }}</h2>
-                    <p style="margin-top: 8px; color: #556673;">Detail lengkap layanan barbershop.</p>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div class="icon-circle shadow-sm" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; background-color: #f5f7fb; border-radius: 50%; font-size: 24px; color: #2C3E50; border: 1px solid #e7ecf6; flex-shrink: 0;">
+                        @if ($layanan->ikon === 'paint')
+                            <i class="fas fa-paint-brush"></i>
+                        @elseif ($layanan->ikon === 'face')
+                            <i class="fas fa-smile"></i>
+                        @else
+                            <i class="fas fa-cut"></i>
+                        @endif
+                    </div>
+                    <div>
+                        <h2 style="margin: 0; font-size: 28px; color: #2C3E50;">{{ $layanan->nama }}</h2>
+                        <p style="margin-top: 4px; margin-bottom: 0; color: #556673;">Detail lengkap layanan barbershop.</p>
+                    </div>
                 </div>
                 <a href="{{ route('admin.layanan.index') }}" class="btn-back">Kembali</a>
             </div>

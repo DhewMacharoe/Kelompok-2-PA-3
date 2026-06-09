@@ -273,14 +273,30 @@
                     <div class="service-list">
                         @if($antrean->layanan1)
                         <div class="service-item">
-                            <div class="service-icon"><i class="bi bi-scissors"></i></div>
+                            <div class="service-icon">
+                                @if ($antrean->layanan1->ikon === 'paint')
+                                    <i class="fas fa-paint-brush"></i>
+                                @elseif ($antrean->layanan1->ikon === 'face')
+                                    <i class="fas fa-smile"></i>
+                                @else
+                                    <i class="fas fa-cut"></i>
+                                @endif
+                            </div>
                             <span class="service-name">{{ $antrean->layanan1->nama }}</span>
                         </div>
                         @endif
                         
                         @if($antrean->layanan2)
                         <div class="service-item">
-                            <div class="service-icon"><i class="bi bi-droplet"></i></div>
+                            <div class="service-icon">
+                                @if ($antrean->layanan2->ikon === 'paint')
+                                    <i class="fas fa-paint-brush"></i>
+                                @elseif ($antrean->layanan2->ikon === 'face')
+                                    <i class="fas fa-smile"></i>
+                                @else
+                                    <i class="fas fa-cut"></i>
+                                @endif
+                            </div>
                             <span class="service-name">{{ $antrean->layanan2->nama }}</span>
                         </div>
                         @endif
@@ -317,14 +333,30 @@
                     <div class="service-list">
                         @if($antrean->layanan1)
                         <div class="service-item">
-                            <div class="service-icon"><i class="bi bi-scissors"></i></div>
+                            <div class="service-icon">
+                                @if ($antrean->layanan1->ikon === 'paint')
+                                    <i class="fas fa-paint-brush"></i>
+                                @elseif ($antrean->layanan1->ikon === 'face')
+                                    <i class="fas fa-smile"></i>
+                                @else
+                                    <i class="fas fa-cut"></i>
+                                @endif
+                            </div>
                             <span class="service-name">{{ $antrean->layanan1->nama }}</span>
                         </div>
                         @endif
                         
                         @if($antrean->layanan2)
                         <div class="service-item">
-                            <div class="service-icon"><i class="bi bi-droplet"></i></div>
+                            <div class="service-icon">
+                                @if ($antrean->layanan2->ikon === 'paint')
+                                    <i class="fas fa-paint-brush"></i>
+                                @elseif ($antrean->layanan2->ikon === 'face')
+                                    <i class="fas fa-smile"></i>
+                                @else
+                                    <i class="fas fa-cut"></i>
+                                @endif
+                            </div>
                             <span class="service-name">{{ $antrean->layanan2->nama }}</span>
                         </div>
                         @endif

@@ -37,13 +37,23 @@ class AdminController extends Controller
             $dataStatus['batal'] ?? 0,
         ];
 
-        // Tren Pengunjung 7 Hari Terakhir
+        // Tren Pengunjung 7 Hari Terakhir - Dioptimalkan menjadi 1 query
         $trendLabels = [];
         $trendData = [];
+        $startDate = Carbon::today()->subDays(6);
+        $endDate = Carbon::today()->endOfDay();
+
+        $trendCounts = Antrean::whereBetween('created_at', [$startDate, $endDate])
+            ->selectRaw('DATE(created_at) as date, count(*) as total')
+            ->groupBy('date')
+            ->pluck('total', 'date')
+            ->toArray();
+
         for ($i = 6; $i >= 0; $i--) {
             $tanggal = Carbon::today()->subDays($i);
+            $dateString = $tanggal->toDateString();
             $trendLabels[] = $tanggal->translatedFormat('l');
-            $trendData[] = Antrean::whereDate('created_at', $tanggal)->count();
+            $trendData[] = $trendCounts[$dateString] ?? 0;
         }
 
         return view('admin.dashboard', compact(

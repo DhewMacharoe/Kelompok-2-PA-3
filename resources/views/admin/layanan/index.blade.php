@@ -61,7 +61,16 @@
                             data-status="{{ $item->is_active ? 'aktif' : 'nonaktif' }}"
                             data-description="{{ strtolower($item->deskripsi ?? '') }}">
                             <td data-label="Nama">
-                                <div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="icon-circle shadow-sm" style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; background-color: #f8f9fa; border-radius: 50%; font-size: 14px; color: #2C3E50; border: 1px solid #e7ecf6;">
+                                        @if ($item->ikon === 'paint')
+                                            <i class="fas fa-paint-brush"></i>
+                                        @elseif ($item->ikon === 'face')
+                                            <i class="fas fa-smile"></i>
+                                        @else
+                                            <i class="fas fa-cut"></i>
+                                        @endif
+                                    </div>
                                     <strong>{{ $item->nama }}</strong>
                                 </div>
                             </td>
@@ -79,6 +88,7 @@
                                         data-harga="Rp {{ number_format($item->harga, 0, ',', '.') }}"
                                         data-estimasi="{{ $item->estimasi_waktu ?? '-' }}"
                                         data-status="{{ $item->is_active ? 'Aktif' : 'Nonaktif' }}"
+                                        data-ikon="{{ $item->ikon }}"
                                         data-deskripsi="{{ str_replace(["\r", "\n"], ' ', e($item->deskripsi ?? 'Tidak ada deskripsi tambahan.')) }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#viewLayananModal" style="margin: 0;">
@@ -140,7 +150,10 @@
                 </div>
 
                 <div class="modal-body">
-                    <h6 id="detailNama" style="font-size: 16px; font-weight: bold; margin-bottom: 8px;"></h6>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span id="detailIkon" style="font-size: 16px; color: #2C3E50; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: #f8f9fa; border-radius: 50%; border: 1px solid #e7ecf6;"></span>
+                        <h6 id="detailNama" style="font-size: 16px; font-weight: bold; margin: 0;"></h6>
+                    </div>
                     <div style="margin-bottom: 8px;"><strong>Harga:</strong> <span id="detailHarga"></span></div>
                     <div style="margin-bottom: 8px;"><strong>Estimasi Waktu:</strong> <span id="detailEstimasi"></span></div>
                     <div style="margin-bottom: 8px;"><strong>Status:</strong> <span id="detailStatus"></span></div>
@@ -163,6 +176,7 @@
         const detailEstimasi = document.getElementById('detailEstimasi');
         const detailStatus = document.getElementById('detailStatus');
         const detailDeskripsi = document.getElementById('detailDeskripsi');
+        const detailIkon = document.getElementById('detailIkon');
 
         document.querySelectorAll('.btn-view-layanan').forEach(button => {
             button.addEventListener('click', () => {
@@ -171,6 +185,12 @@
                 detailEstimasi.textContent = button.dataset.estimasi;
                 detailStatus.textContent = button.dataset.status;
                 detailDeskripsi.textContent = button.dataset.deskripsi;
+                
+                const icon = button.dataset.ikon;
+                let iconHtml = '<i class="fas fa-cut"></i>';
+                if (icon === 'paint') iconHtml = '<i class="fas fa-paint-brush"></i>';
+                if (icon === 'face') iconHtml = '<i class="fas fa-smile"></i>';
+                if (detailIkon) detailIkon.innerHTML = iconHtml;
             });
         });
 

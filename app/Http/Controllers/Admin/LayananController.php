@@ -46,6 +46,7 @@ class LayananController extends Controller
             'harga' => 'required|numeric',
             'estimasi_waktu' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
+            'ikon' => 'required|string|in:scissors,paint,face',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_active' => 'required|boolean',
         ]);
@@ -73,6 +74,7 @@ class LayananController extends Controller
             'harga' => 'required|numeric',
             'estimasi_waktu' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
+            'ikon' => 'required|string|in:scissors,paint,face',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_active' => 'required|boolean',
         ]);

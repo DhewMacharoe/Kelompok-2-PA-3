@@ -8,11 +8,23 @@ class Layanan extends Model
 {
     protected $table = 'layanans';
 
+    protected static function booted()
+    {
+        static::saved(function () {
+            \Illuminate\Support\Facades\Cache::forget('active_layanans');
+        });
+
+        static::deleted(function () {
+            \Illuminate\Support\Facades\Cache::forget('active_layanans');
+        });
+    }
+
     protected $fillable = [
         'nama',
         'harga',
         'estimasi_waktu',
         'deskripsi',
+        'ikon',
         'is_active',
     ];
 

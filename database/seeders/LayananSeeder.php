@@ -24,6 +24,7 @@ class LayananSeeder extends Seeder
                 'harga' => 50000,
                 'estimasi_waktu' => '30',
                 'deskripsi' => 'Potong rambut standar dengan menggunakan gunting profesional. Cocok untuk pemeliharaan rambut regular dan rapi dengan hasil yang sempurna.',
+                'ikon' => 'scissors',
                 'is_active' => true,
             ],
             [
@@ -31,6 +32,7 @@ class LayananSeeder extends Seeder
                 'harga' => 70000,
                 'estimasi_waktu' => '45',
                 'deskripsi' => 'Potong rambut premium dengan konsultasi gaya rambut gratis. Termasuk styling dan finishing khusus dengan produk premium untuk hasil maksimal.',
+                'ikon' => 'scissors',
                 'is_active' => true,
             ],
             [
@@ -38,6 +40,7 @@ class LayananSeeder extends Seeder
                 'harga' => 100000,
                 'estimasi_waktu' => '60',
                 'deskripsi' => 'Potong rambut eksklusif VIP dengan barber berpengalaman tinggi. Termasuk konsultasi mendalam, styling custom, beard grooming, dan perawatan khusus.',
+                'ikon' => 'scissors',
                 'is_active' => true,
             ],
             [
@@ -45,6 +48,7 @@ class LayananSeeder extends Seeder
                 'harga' => 30000,
                 'estimasi_waktu' => '25',
                 'deskripsi' => 'Layanan potong rambut khusus untuk anak-anak dengan barber yang sabar dan berpengalaman. Lingkungan yang nyaman dan menyenangkan untuk si kecil.',
+                'ikon' => 'scissors',
                 'is_active' => true,
             ],
             [
@@ -52,6 +56,7 @@ class LayananSeeder extends Seeder
                 'harga' => 25000,
                 'estimasi_waktu' => '20',
                 'deskripsi' => 'Layanan cukur kumis dan jenggot dengan teknik tradisional atau modern sesuai keinginan. Menggunakan pisau cukur berkualitas dan produk perawatan terbaik.',
+                'ikon' => 'scissors',
                 'is_active' => true,
             ],
             [
@@ -59,6 +64,7 @@ class LayananSeeder extends Seeder
                 'harga' => 25000,
                 'estimasi_waktu' => '30',
                 'deskripsi' => 'Perawatan wajah profesional dengan membersihkan pori-pori dan menutrisi kulit. Menggunakan produk skincare berkualitas untuk kulit yang lebih sehat dan bercahaya.',
+                'ikon' => 'face',
                 'is_active' => true,
             ],
             [
@@ -66,6 +72,7 @@ class LayananSeeder extends Seeder
                 'harga' => 20000,
                 'estimasi_waktu' => '25',
                 'deskripsi' => 'Layanan cuci rambut dengan massage kepala relaksasi dan styling sesuai keinginan. Menggunakan shampoo dan produk perawatan rambut premium untuk hasil terbaik.',
+                'ikon' => 'scissors',
                 'is_active' => true,
             ],
             [
@@ -73,6 +80,7 @@ class LayananSeeder extends Seeder
                 'harga' => 100000,
                 'estimasi_waktu' => '90',
                 'deskripsi' => 'Pewarna rambut profesional dengan pilihan warna dasar. Termasuk konsultasi warna, treatment perawatan rambut, dan hasil yang tahan lama.',
+                'ikon' => 'paint',
                 'is_active' => true,
             ],
             [
@@ -80,6 +88,7 @@ class LayananSeeder extends Seeder
                 'harga' => 60000,
                 'estimasi_waktu' => '80',
                 'deskripsi' => 'Layanan pewarna rambut dengan menggunakan produk pewarna yang Anda bawa sendiri. Barber kami siap membantu aplikasi dengan teknik profesional dan teliti.',
+                'ikon' => 'paint',
                 'is_active' => true,
             ],
         ];

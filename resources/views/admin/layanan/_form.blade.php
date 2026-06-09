@@ -58,6 +58,84 @@
     </div>
 @endif
 
+<div class="mb-3">
+    <label class="form-label d-block mb-2">Ikon Layanan</label>
+    
+    <!-- Hidden input to store the selected value for form submission -->
+    <input type="hidden" name="ikon" id="ikonSelect" value="{{ old('ikon', $layanan->ikon ?? '') }}">
+    
+    <div class="row g-3 icon-picker-container">
+        <!-- Option 1: Scissors -->
+        <div class="col-4">
+            <div class="icon-picker-item text-center p-3 border rounded transition-hover" 
+                 role="button" 
+                 data-value="scissors" 
+                 style="cursor: pointer;">
+                <div class="icon-display mb-2" style="font-size: 2rem; color: #2C3E50;">
+                    <i class="fas fa-cut"></i>
+                </div>
+                <div class="icon-label fw-semibold" style="font-size: 0.85rem;">Gunting</div>
+                <div class="icon-desc text-muted small d-none d-md-block" style="font-size: 0.75rem;">Potong, Trim, Styling</div>
+            </div>
+        </div>
+        
+        <!-- Option 2: Paint -->
+        <div class="col-4">
+            <div class="icon-picker-item text-center p-3 border rounded transition-hover" 
+                 role="button" 
+                 data-value="paint" 
+                 style="cursor: pointer;">
+                <div class="icon-display mb-2" style="font-size: 2rem; color: #2C3E50;">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <div class="icon-label fw-semibold" style="font-size: 0.85rem;">Cat</div>
+                <div class="icon-desc text-muted small d-none d-md-block" style="font-size: 0.75rem;">Bleach, Mewarnai</div>
+            </div>
+        </div>
+        
+        <!-- Option 3: Face -->
+        <div class="col-4">
+            <div class="icon-picker-item text-center p-3 border rounded transition-hover" 
+                 role="button" 
+                 data-value="face" 
+                 style="cursor: pointer;">
+                <div class="icon-display mb-2" style="font-size: 2rem; color: #2C3E50;">
+                    <i class="fas fa-smile"></i>
+                </div>
+                <div class="icon-label fw-semibold" style="font-size: 0.85rem;">Face</div>
+                <div class="icon-desc text-muted small d-none d-md-block" style="font-size: 0.75rem;">Facial, Perawatan</div>
+            </div>
+        </div>
+    </div>
+    
+    @error('ikon')
+        <small class="text-danger d-block mt-2">{{ $message }}</small>
+    @enderror
+</div>
+
+<style>
+    .icon-picker-item {
+        background-color: #fdfdfd;
+        border-color: #dee2e6 !important;
+        transition: all 0.2s ease-in-out;
+    }
+    .icon-picker-item:hover {
+        background-color: #f8f9fa;
+        transform: translateY(-2px);
+    }
+    .icon-picker-item.active {
+        border-color: #2F80ED !important;
+        background-color: #eef5fc;
+        box-shadow: 0 4px 12px rgba(47, 128, 237, 0.15);
+    }
+    .icon-picker-item.active .icon-display {
+        color: #2F80ED !important;
+    }
+    .icon-picker-item.active .icon-label {
+        color: #2F80ED;
+    }
+</style>
+
 <div class="mb-4">
     <label class="form-label">Status</label>
     <select name="is_active" class="form-control" required>
@@ -168,6 +246,33 @@
 
             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
             return prefix == undefined ? rupiah : (rupiah ? 'Rp.' + rupiah : '');
+        }
+
+        const ikonSelect = document.getElementById('ikonSelect');
+        const pickerItems = document.querySelectorAll('.icon-picker-item');
+
+        if (ikonSelect && pickerItems.length > 0) {
+            // Set active state initially based on value
+            const initialVal = ikonSelect.value;
+            if (initialVal) {
+                const activeItem = document.querySelector(`.icon-picker-item[data-value="${initialVal}"]`);
+                if (activeItem) {
+                    activeItem.classList.add('active');
+                }
+            }
+
+            pickerItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active from all
+                    pickerItems.forEach(i => i.classList.remove('active'));
+                    
+                    // Add active to current
+                    this.classList.add('active');
+                    
+                    // Update hidden input value
+                    ikonSelect.value = this.dataset.value;
+                });
+            });
         }
     });
 </script>

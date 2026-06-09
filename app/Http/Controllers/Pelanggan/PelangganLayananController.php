@@ -15,7 +15,9 @@ class PelangganLayananController extends Controller
 
     public function index()
     {
-        $layanans = Layanan::where('is_active', true)->get();
+        $layanans = \Illuminate\Support\Facades\Cache::remember('active_layanans', 3600, function () {
+            return Layanan::where('is_active', true)->get();
+        });
 
         $punyaAntreanAktif = false;
         if (Auth::check() && Auth::user()->username) {

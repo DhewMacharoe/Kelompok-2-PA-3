@@ -51,7 +51,9 @@ class PublicController extends Controller
     public function menu()
     {
         // Ambil hanya menu yang tersedia untuk halaman pelanggan
-        $menus = Menu::where('is_available', true)->get();
+        $menus = \Illuminate\Support\Facades\Cache::remember('active_menus', 3600, function () {
+            return Menu::where('is_available', true)->get();
+        });
         return view('pelanggan.menu.menu', compact('menus'));
     }
     public function daftarAntrean(Request $request)

@@ -125,8 +125,13 @@
                             <input type="text" id="search-input" class="form-control form-control-premium border-start-0 rounded-end-3" placeholder="Masukkan nama tempat / alamat, atau tempel URL Google Maps..." autocomplete="off">
                             <button type="button" id="btn-search" class="btn btn-outline-secondary rounded-3 ms-2 px-3 fw-semibold">Proses</button>
                         </div>
-                        <div class="form-text mt-1 text-muted small">
-                            <i class="bi bi-info-circle me-1"></i> Anda bisa mencari alamat secara langsung, atau menempelkan URL Google Maps lengkap dari address bar browser (contoh: <code>https://www.google.com/maps/place/.../@2.33758,99.079255,...</code>) untuk presisi koordinat 100%.
+                        <div class="d-flex justify-content-between align-items-center mt-2 flex-wrap gap-2">
+                            <div class="form-text text-muted small mb-0 flex-grow-1" style="max-width: 70%;">
+                                <i class="bi bi-info-circle me-1"></i> Anda bisa mencari alamat secara langsung, atau menempelkan URL Google Maps lengkap dari address bar browser (contoh: <code>https://www.google.com/maps/place/.../@2.33758,99.079255,...</code>) untuk presisi koordinat 100%.
+                            </div>
+                            <button type="button" id="btn-reset-default" class="btn btn-outline-secondary btn-sm rounded-3 fw-semibold py-2 px-3 shadow-sm border" style="font-size: 0.85rem; background: #fff; color: #dc3545; border-color: #f5c2c7 !important;">
+                                <i class="bi bi-arrow-counterclockwise me-1"></i> Reset ke Lokasi Default
+                            </button>
                         </div>
                         <div id="search-results" class="search-results-dropdown"></div>
                     </div>
@@ -323,6 +328,16 @@
                 };
             }
 
+            // Format 4: ll=latitude,longitude (e.g. ll=2.33758,99.079255)
+            const llRegex = /[?&]ll=(-?\d+\.\d+),(-?\d+\.\d+)/;
+            const llMatch = url.match(llRegex);
+            if (llMatch) {
+                return {
+                    lat: parseFloat(llMatch[1]),
+                    lng: parseFloat(llMatch[2])
+                };
+            }
+
             return null;
         }
 
@@ -423,6 +438,42 @@
         });
 
         btnSearch.addEventListener('click', triggerSearch);
+
+        // Reset to default location logic
+        const btnResetDefault = document.getElementById('btn-reset-default');
+        if (btnResetDefault) {
+            btnResetDefault.addEventListener('click', function() {
+                Swal.fire({
+                    title: 'Reset Lokasi?',
+                    text: 'Apakah Anda ingin mengembalikan lokasi ke lokasi default?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#0578FB',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Reset',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const defaultUrl = 'https://www.google.com/maps?ll=2.33758,99.079255&z=15&t=m&hl=id&gl=ID&mapclient=embed&cid=18097217044614040437';
+                        const defaultLat = 2.33758;
+                        const defaultLng = 99.079255;
+                        
+                        searchInput.value = defaultUrl;
+                        marker.setLatLng([defaultLat, defaultLng]);
+                        circle.setLatLng([defaultLat, defaultLng]);
+                        updateCoordinates(defaultLat, defaultLng);
+                        map.setView([defaultLat, defaultLng], 17);
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Lokasi berhasil di-reset ke default. Jangan lupa untuk menekan tombol "Simpan Lokasi" di sebelah kanan.',
+                            confirmButtonColor: '#0578FB'
+                        });
+                    }
+                });
+            });
+        }
 
         // Tutup dropdown pencarian ketika klik di luar
         document.addEventListener('click', function(e) {
