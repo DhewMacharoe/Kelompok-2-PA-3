@@ -228,8 +228,6 @@
     </script>
         <!-- PWA Service Worker & Install Handler -->
     <script>
-        let deferredPrompt;
-
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('/sw.js').then(function(registration) {
@@ -274,46 +272,7 @@
             });
         }
 
-        // Capture PWA installation prompt event
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            const installBtnContainer = document.getElementById('install-pwa-nav');
-            if (installBtnContainer) {
-                installBtnContainer.style.setProperty('display', 'flex', 'important');
-            }
-        });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const installBtn = document.getElementById('install-pwa-btn');
-            if (installBtn) {
-                installBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (!deferredPrompt) return;
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('User accepted the PWA install prompt');
-                        } else {
-                            console.log('User dismissed the PWA install prompt');
-                        }
-                        deferredPrompt = null;
-                        const installBtnContainer = document.getElementById('install-pwa-nav');
-                        if (installBtnContainer) {
-                            installBtnContainer.style.setProperty('display', 'none', 'important');
-                        }
-                    });
-                });
-            }
-        });
-
-        window.addEventListener('appinstalled', (evt) => {
-            console.log('Arga Barbershop PWA was installed.');
-            const installBtnContainer = document.getElementById('install-pwa-nav');
-            if (installBtnContainer) {
-                installBtnContainer.style.setProperty('display', 'none', 'important');
-            }
-        });
     </script>
 
 
