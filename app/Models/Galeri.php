@@ -13,9 +13,15 @@ class Galeri extends Model
         'deskripsi',
         'gambar',
         'is_active',
+        'user_id',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -12,7 +12,8 @@ class Menu extends Model
         'harga',
         'deskripsi',
         'foto',
-        'is_available'
+        'is_available',
+        'user_id'
     ];
 
     protected static function booted()
@@ -24,5 +25,10 @@ class Menu extends Model
         static::deleted(function () {
             \Illuminate\Support\Facades\Cache::forget('active_menus');
         });
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
