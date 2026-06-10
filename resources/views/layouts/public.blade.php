@@ -7,6 +7,13 @@
     <title>@yield('title', 'Arga Barbershop')</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <!-- PWA Manifest & iOS Tags -->
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#fdfbf8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Arga Barbershop">
+    <link rel="apple-touch-icon" href="{{ asset('assets/images/logo.png') }}">
     @yield('head')
 </head>
 
@@ -56,6 +63,31 @@
 
     </div>
 
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registered from public layout:', registration.scope);
+                    
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        if (newWorker) {
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    if (confirm('Versi baru aplikasi tersedia. Muat ulang sekarang untuk menikmati fitur terbaru?')) {
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }, function(err) {
+                    console.log('ServiceWorker registration failed:', err);
+                });
+            });
+        }
+    </script>
     @stack('scripts')
 </body>
 

@@ -9,6 +9,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- PWA Manifest & iOS Tags -->
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#fdfbf8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Arga Barbershop Admin">
+    <link rel="apple-touch-icon" href="{{ asset('assets/images/logo.png') }}">
     @vite(['resources/js/app.js'])
 
     <style>
@@ -280,6 +287,49 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registered from admin/app layout:', registration.scope);
+                    
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        if (newWorker) {
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    if (typeof Swal !== 'undefined') {
+                                        Swal.fire({
+                                            title: 'Pembaruan Tersedia!',
+                                            text: 'Versi baru dasbor admin telah diunduh. Silakan muat ulang halaman untuk menggunakan fitur terbaru.',
+                                            icon: 'info',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#0578FB',
+                                            cancelButtonColor: '#6c757d',
+                                            confirmButtonText: 'Muat Ulang',
+                                            cancelButtonText: 'Nanti'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.reload();
+                                            }
+                                        });
+                                    } else {
+                                        if (confirm('Versi baru dasbor admin tersedia. Muat ulang sekarang?')) {
+                                            window.location.reload();
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }, function(err) {
+                    console.log('ServiceWorker registration failed:', err);
+                });
+            });
+        }
+    </script>
 </body>
 
 </html>

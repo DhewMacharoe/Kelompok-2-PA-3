@@ -183,6 +183,14 @@
                         Menu Café
                     </a>
                 </li>
+                <li class="nav-item" id="install-pwa-nav" style="display: none; align-items: center; justify-content: center;">
+                    <a class="nav-link fw-bold" href="#" id="install-pwa-btn"
+                        style="color: #e8a53a; transition: color 0.3s ease; white-space: nowrap;"
+                        onmouseover="this.style.color='white'"
+                        onmouseout="this.style.color='#e8a53a'">
+                        <i class="fas fa-download me-1"></i> Pasang Aplikasi
+                    </a>
+                </li>
 
                 @guest
                     <li class="nav-item d-flex align-items-center justify-content-center">

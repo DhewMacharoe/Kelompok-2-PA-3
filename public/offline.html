@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koneksi Terputus - Arga Barbershop</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --primary-gold: #d4af37;
+            --accent-gold: #e8a53a;
+            --border-color: #2a2a2a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .offline-container {
+            text-align: center;
+            max-width: 480px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Subtle glowing background ornament */
+        .offline-container::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            right: -50px;
+            bottom: -50px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .logo-wrapper {
+            margin-bottom: 24px;
+        }
+
+        .logo-wrapper img {
+            max-height: 50px;
+            opacity: 0.9;
+        }
+
+        .wifi-icon-wrapper {
+            margin: 20px auto 30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(212, 175, 55, 0.08);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .wifi-icon-wrapper svg {
+            width: 50px;
+            height: 50px;
+            fill: var(--primary-gold);
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-gold);
+            color: #121212;
+            border: 1px solid var(--primary-gold);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-gold);
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-muted);
+            transform: translateY(-2px);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.98);
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.2);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+            }
+            100% {
+                transform: scale(0.98);
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="logo-wrapper">
+            <!-- Fallback text jika gambar logo gagal dimuat saat offline -->
+            <img src="/assets/images/logo.png" alt="Arga Barbershop" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+            <h2 id="logo-fallback" style="display: none; color: var(--primary-gold); font-size: 1.5rem; font-weight: 800; letter-spacing: 1.5px;">ARGA HOME'S</h2>
+        </div>
+
+        <div class="wifi-icon-wrapper">
+            <!-- Inline SVG Wifi Off Icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23.64 12.01c-.13-.15-4.14-4.88-11.64-4.88-.74 0-1.46.05-2.16.14l1.63 1.63c.17-.01.35-.02.53-.02 5.56 0 8.91 3.25 9.8 4.18l1.84-2.05zm-6.1 1.74l1.43 1.43c.12-.11.23-.23.33-.35l-1.43-1.43-.33.35zm-5.54-5.61L3.51 3.51 2.1 4.92l4.03 4.03C4.1 9.87 2.12 11.51 2.01 11.6l1.83 2.05c.08-.07 1.59-1.39 4.39-2.58l2.67 2.67c-1.35.53-2.56 1.34-2.71 1.44l1.83 2.05c.08-.06.77-.52 1.98-1.01l4.03 4.03 1.41-1.41-8.44-8.44z"/>
+            </svg>
+        </div>
+
+        <h1>Koneksi Internet Terputus</h1>
+        <p>Sepertinya perangkat Anda sedang offline atau memiliki koneksi internet yang tidak stabil. Harap periksa jaringan Wi-Fi atau data seluler Anda.</p>
+
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="window.location.reload();">
+                Coba Lagi
+            </button>
+            <a href="/" class="btn btn-secondary">
+                Kembali ke Beranda
+            </a>
+        </div>
+    </div>
+</body>
+</html>

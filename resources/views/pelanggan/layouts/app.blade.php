@@ -14,7 +14,11 @@
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="{{ asset('manifest.json') }}">
-    <meta name="theme-color" content="#fdfbf8ff"> <!-- Sesuaikan dengan warna brand Anda -->
+    <meta name="theme-color" content="#fdfbf8"> <!-- Sesuaikan dengan warna brand Anda -->
+    <!-- iOS PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Arga Barbershop">
     <link rel="apple-touch-icon" href="{{ asset('assets/images/logo.png') }}">
 
     <!-- Google Fonts -->
@@ -222,17 +226,94 @@
             });
         });
     </script>
-        <!-- PWA Service Worker Registration -->
+        <!-- PWA Service Worker & Install Handler -->
     <script>
+        let deferredPrompt;
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('/sw.js').then(function(registration) {
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+                    // Monitor Service Worker updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        if (newWorker) {
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed') {
+                                    if (navigator.serviceWorker.controller) {
+                                        // New SW version is available, prompt user using SweetAlert2
+                                        if (typeof Swal !== 'undefined') {
+                                            Swal.fire({
+                                                title: 'Pembaruan Tersedia!',
+                                                text: 'Versi baru aplikasi telah diunduh. Silakan muat ulang halaman untuk mengaktifkan fitur terbaru.',
+                                                icon: 'info',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#d4af37',
+                                                cancelButtonColor: '#6c757d',
+                                                confirmButtonText: 'Muat Ulang',
+                                                cancelButtonText: 'Nanti'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.reload();
+                                                }
+                                            });
+                                        } else {
+                                            if (confirm('Versi baru aplikasi tersedia. Muat ulang sekarang?')) {
+                                                window.location.reload();
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
                 }, function(err) {
                     console.log('ServiceWorker registration failed: ', err);
                 });
             });
         }
+
+        // Capture PWA installation prompt event
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installBtnContainer = document.getElementById('install-pwa-nav');
+            if (installBtnContainer) {
+                installBtnContainer.style.setProperty('display', 'flex', 'important');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const installBtn = document.getElementById('install-pwa-btn');
+            if (installBtn) {
+                installBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (!deferredPrompt) return;
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the PWA install prompt');
+                        } else {
+                            console.log('User dismissed the PWA install prompt');
+                        }
+                        deferredPrompt = null;
+                        const installBtnContainer = document.getElementById('install-pwa-nav');
+                        if (installBtnContainer) {
+                            installBtnContainer.style.setProperty('display', 'none', 'important');
+                        }
+                    });
+                });
+            }
+        });
+
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('Arga Barbershop PWA was installed.');
+            const installBtnContainer = document.getElementById('install-pwa-nav');
+            if (installBtnContainer) {
+                installBtnContainer.style.setProperty('display', 'none', 'important');
+            }
+        });
     </script>
 
 
