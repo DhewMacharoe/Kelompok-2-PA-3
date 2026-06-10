@@ -26,6 +26,7 @@ class Layanan extends Model
         'deskripsi',
         'ikon',
         'is_active',
+        'user_id',
     ];
 
     public function tambahLayanan(array $data): bool
@@ -47,5 +48,10 @@ class Layanan extends Model
     {
         return $this->belongsToMany(Antrean::class, 'antrean_layanan', 'layanan_id', 'antrean_id')
             ->withTimestamps();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

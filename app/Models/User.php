@@ -66,4 +66,23 @@ class User extends Authenticatable
     {
         return Antrean::all();
     }
+    public function antreans()
+    {
+        return $this->hasMany(Antrean::class);
+    }
+
+    public function layanans()
+    {
+        return $this->hasMany(Layanan::class);
+    }
+
+    public function menus()
+    {
+        return $this->hasMany(Menu::class);
+    }
+
+    public function galeris()
+    {
+        return $this->hasMany(Galeri::class);
+    }
 }

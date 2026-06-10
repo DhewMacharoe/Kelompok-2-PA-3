@@ -20,6 +20,7 @@ class Antrean extends Model
         'alasan_batal',
         'waktu_masuk',
         'waktu_selesai',
+        'user_id',
     ];
 
     protected $dates = [
@@ -302,5 +303,13 @@ class Antrean extends Model
             'status' => 'selesai',
             'waktu_selesai' => now(),
         ]);
+    }
+
+    /**
+     * Get the user that owns the antrean.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
