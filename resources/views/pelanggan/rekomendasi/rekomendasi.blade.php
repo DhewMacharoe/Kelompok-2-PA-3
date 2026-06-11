@@ -322,6 +322,9 @@
                                     <p id="hasil-ringkasan" class="text-muted mb-0" style="line-height: 1.7;">
                                         Ringkasan analisis akan muncul setelah bentuk wajah terdeteksi.
                                     </p>
+                                    <div id="disclaimer-botak" class="small mt-3 p-2 bg-white border border-info rounded text-muted d-none" style="border-left: 4px solid #0dcaf0 !important;">
+                                        <i class="fas fa-info-circle text-info me-1"></i> <strong>Catatan:</strong> AI kami berfokus menganalisis struktur tulang rahang dan proporsi wajah Anda. Rekomendasi di bawah ini merupakan referensi gaya yang secara estetika paling ideal untuk bentuk wajah Anda, terlepas dari panjang atau gaya rambut Anda saat ini.
+                                    </div>
                                 </div>
                                 <div class="text-end">
                                     <span class="badge bg-success py-2 px-3 mb-2">Bentuk Wajah: <span id="label-bentuk-wajah"></span></span>
@@ -344,8 +347,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
+    <!-- Face-API.js (Ringan & Cepat < 5MB) menggantikan TensorFlow 95MB -->
+    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
 
     <script>
         const CLASS_NAMES = ['Heart', 'Oblong', 'Oval', 'Round', 'Square'];
@@ -381,9 +384,12 @@
             document.getElementById('daftar-card-rekomendasi').innerHTML = '';
             document.getElementById('label-bentuk-wajah').innerText = '-';
             document.getElementById('label-akurasi-hasil').innerText = '0%';
+            document.getElementById('disclaimer-botak').classList.add('d-none');
         }
 
         let pendingImageSrc = null;
+        let isModelLoaded = false;
+        let userIsLikelyBald = false;
 
         // Fungsi untuk menghentikan kamera
         function stopCameraStream() {
@@ -400,13 +406,19 @@
             btnCamera.classList.add('btn-secondary');
         }
 
-        // Load Lokal Model
+        // Load Fast Face-API Models via CDN
         async function loadModels() {
             try {
-                // Gunakan origin saat ini agar tidak salah memanggil localhost di HP
-                const modelUrl = window.location.origin + "/ai_model/model.json";
-                aiModel = await tf.loadGraphModel(modelUrl);
-                faceDetector = await blazeface.load();
+                // Menggunakan model ringan dari Vladmandic CDN (total ~3MB)
+                const MODEL_URL = 'https://vladmandic.github.io/face-api/model/';
+                
+                await Promise.all([
+                    faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+                    faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+                    faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL)
+                ]);
+                
+                isModelLoaded = true;
                 
                 // Hide loading overlay smoothly
                 const overlay = document.getElementById('ai-loading-overlay');
@@ -423,16 +435,15 @@
                     pendingImageSrc = null;
                 }
             } catch (error) {
-                console.error('Gagal memuat model AI:', error);
+                console.error('Gagal memuat model AI ringan:', error);
                 const overlay = document.getElementById('ai-loading-overlay');
                 if (overlay) {
                     overlay.innerHTML = `
                         <div class="text-danger fs-3 mb-2"><i class="fas fa-exclamation-triangle"></i></div>
                         <div class="fw-bold small text-dark mb-1">AI Gagal Dimuat</div>
                         <div class="text-muted text-center" style="font-size: 0.75rem; padding: 0 10px; line-height: 1.4;">
-                            Gagal mengunduh modul AI.<br>
-                            <span class="text-danger small">${escapeHtml(error.message || error)}</span><br>
-                            <span class="text-warning fw-semibold mt-1 d-block">Tips: Pastikan koneksi internet stabil (ukuran model ~95MB).</span>
+                            Pastikan koneksi internet stabil.<br>
+                            <span class="text-danger small">${escapeHtml(error.message || error)}</span>
                         </div>
                     `;
                 }
@@ -452,25 +463,17 @@
 
             try {
                 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                    throw new Error("Browser Anda tidak mendukung akses kamera di konteks ini. Pastikan Anda menggunakan HTTPS.");
+                    throw new Error("Browser Anda tidak mendukung akses kamera di konteks ini. Pastikan menggunakan HTTPS.");
                 }
                 
                 stopCameraStream();
 
                 let stream;
                 try {
-                    // Coba request kamera depan terlebih dahulu (untuk HP)
-                    stream = await navigator.mediaDevices.getUserMedia({
-                        video: {
-                            facingMode: 'user'
-                        }
-                    });
+                    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
                 } catch (err) {
-                    console.warn("Gagal mengakses kamera dengan facingMode: 'user'. Mencoba fallback ke kamera default...", err);
-                    // Fallback: Coba akses kamera apa pun yang tersedia (penting untuk PC/Laptop tanpa kamera depan khusus)
-                    stream = await navigator.mediaDevices.getUserMedia({
-                        video: true
-                    });
+                    console.warn("Fallback kamera...", err);
+                    stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 }
 
                 video.srcObject = stream;
@@ -484,19 +487,10 @@
                 btnCamera.classList.remove('btn-secondary');
                 btnCamera.classList.add('btn-danger');
             } catch (error) {
-                console.error('Gagal mengakses kamera:', error);
-                
-                let detailPesan = error.message;
-                if (error.name === 'NotFoundError' || error.message.includes('device not found')) {
-                    detailPesan = "Kamera tidak ditemukan. Pastikan perangkat Anda memiliki kamera yang aktif, tersambung, dan tidak sedang digunakan oleh aplikasi lain (seperti Zoom, Meet, atau browser lain).";
-                } else if (error.name === 'NotAllowedError' || error.message.includes('Permission denied')) {
-                    detailPesan = "Akses kamera ditolak. Silakan berikan izin akses kamera untuk website ini pada pengaturan browser Anda.";
-                }
-
                 Swal.fire({
                     icon: 'error',
                     title: 'Gagal',
-                    text: "Gagal mengakses kamera:\n" + detailPesan + "\n\nCatatan: Akses kamera pada perangkat HP memerlukan koneksi HTTPS (Secure Context) jika tidak diakses via localhost.",
+                    text: "Gagal mengakses kamera: " + error.message,
                     confirmButtonText: 'OK'
                 });
             }
@@ -510,7 +504,6 @@
 
             base64Image = canvas.toDataURL('image/jpeg');
             processImage(base64Image);
-
             stopCameraStream();
         };
 
@@ -527,71 +520,272 @@
             }
         };
 
-        // Analisis Gambar dengan Model TFJS
+        // Strict Mode: Blur Detection menggunakan Mathematical Laplacian Variance
+        function isImageBlurry(imgElement) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            // Ukuran kecil agar komputasi kilat
+            const size = 150; 
+            canvas.width = size;
+            canvas.height = size;
+            ctx.drawImage(imgElement, 0, 0, size, size);
+            
+            const imageData = ctx.getImageData(0, 0, size, size);
+            const data = imageData.data;
+            const gray = new Float32Array(size * size);
+            
+            // Convert ke Grayscale
+            for(let i=0; i<data.length; i+=4) {
+                gray[i/4] = data[i]*0.299 + data[i+1]*0.587 + data[i+2]*0.114;
+            }
+            
+            // Convolution Laplacian Kernel (Pendeteksi Tepi)
+            const kernel = [0, 1, 0, 1, -4, 1, 0, 1, 0];
+            let sum = 0, variance = 0;
+            const laplacianValues = [];
+            
+            for(let y=1; y<size-1; y++) {
+                for(let x=1; x<size-1; x++) {
+                    let val = 
+                        gray[(y-1)*size + x] * kernel[1] +
+                        gray[y*size + (x-1)] * kernel[3] +
+                        gray[y*size + x] * kernel[4] +
+                        gray[y*size + (x+1)] * kernel[5] +
+                        gray[(y+1)*size + x] * kernel[7];
+                    laplacianValues.push(val);
+                    sum += val;
+                }
+            }
+            
+            const mean = sum / laplacianValues.length;
+            for(let i=0; i<laplacianValues.length; i++) {
+                variance += Math.pow(laplacianValues[i] - mean, 2);
+            }
+            variance = variance / laplacianValues.length;
+            
+            // Jika varian edge sangat kecil (< 15), berarti gambar sangat goyang/buram. 
+            // Angka diturunkan dari 60 ke 15 agar HP dengan kamera standar tetap lolos.
+            return variance < 15; 
+        }
+
+        // Strict Mode Khusus: Deteksi Botak 2.0 (Diperlonggar)
+        function isLikelyBald(imgElement, landmarksPos) {
+            const chinY = landmarksPos[8].y;
+            const browY = Math.min(landmarksPos[19].y, landmarksPos[24].y);
+            const browLeft = landmarksPos[19].x;
+            const browRight = landmarksPos[24].x;
+            
+            const faceH = chinY - browY; 
+            const faceW = browRight - browLeft; 
+            
+            const foreheadY = browY - (faceH * 0.2); 
+            const foreheadX = browLeft;
+            const boxW = faceW;
+            const boxH = faceH * 0.15; 
+            
+            // Ambil area di atas dahi (sekitar 50% tinggi wajah). Math.max untuk mencegah minus (crop).
+            const hairY = Math.max(0, browY - (faceH * 0.5)); 
+            
+            // Pastikan ada jarak ruang minimal di atas dahi untuk diukur
+            if (foreheadY - hairY < 10) return false; 
+            
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const nWidth = imgElement.naturalWidth || imgElement.width;
+            const nHeight = imgElement.naturalHeight || imgElement.height;
+            const scaleX = nWidth / imgElement.width;
+            const scaleY = nHeight / imgElement.height;
+            
+            canvas.width = nWidth;
+            canvas.height = nHeight;
+            ctx.drawImage(imgElement, 0, 0, nWidth, nHeight);
+
+            try {
+                const fData = ctx.getImageData(foreheadX * scaleX, foreheadY * scaleY, boxW * scaleX, boxH * scaleY).data;
+                const hData = ctx.getImageData(foreheadX * scaleX, hairY * scaleY, boxW * scaleX, boxH * scaleY).data;
+                
+                let fR = 0, fG = 0, fB = 0;
+                const fCount = fData.length / 4;
+                for(let i=0; i<fData.length; i+=4) { fR+=fData[i]; fG+=fData[i+1]; fB+=fData[i+2]; }
+                fR /= fCount; fG /= fCount; fB /= fCount;
+                
+                let hR = 0, hG = 0, hB = 0;
+                const hCount = hData.length / 4;
+                let hGrays = new Float32Array(hCount);
+                
+                for(let i=0, j=0; i<hData.length; i+=4, j++) { 
+                    hR+=hData[i]; hG+=hData[i+1]; hB+=hData[i+2]; 
+                    hGrays[j] = (hData[i]*0.299 + hData[i+1]*0.587 + hData[i+2]*0.114);
+                }
+                hR /= hCount; hG /= hCount; hB /= hCount;
+                
+                // Perbedaan warna RGB Euclidean
+                const colorDiff = Math.sqrt(Math.pow(fR - hR, 2) + Math.pow(fG - hG, 2) + Math.pow(fB - hB, 2));
+                
+                let meanGray = 0;
+                for(let i=0; i<hCount; i++) meanGray += hGrays[i];
+                meanGray /= hCount;
+                
+                let variance = 0;
+                for(let i=0; i<hCount; i++) variance += Math.pow(hGrays[i] - meanGray, 2);
+                const stdDev = Math.sqrt(variance / hCount);
+                
+                // Toleransi dilonggarkan drastis agar lebih gampang ketahuan!
+                // Perbedaan warna hingga 65 (krn shading lampu/kilap) dan noise/stdDev tekstur hingga 25 (kamera HP jelek).
+                if (colorDiff < 65 && stdDev < 25) {
+                    return true;
+                }
+                
+                return false;
+            } catch(e) {
+                return false;
+            }
+        }
+
+        // Analisis Wajah dengan Strict Mode
         async function processImage(src) {
             imgPreview.src = src;
             imgPreview.style.display = 'block';
             document.getElementById('placeholder-text').style.display = 'none';
             document.getElementById('status-analisis').classList.remove('d-none');
-            document.getElementById('live-bentuk-wajah').innerText = 'Menganalisis...';
+            document.getElementById('live-bentuk-wajah').innerText = 'Memfilter Gambar...';
             document.getElementById('live-akurasi').innerText = 'Akurasi: 0%';
+            
             if (analysisProgressBar) {
-                analysisProgressBar.style.width = '0%';
-                analysisProgressBar.setAttribute('aria-valuenow', '0');
+                analysisProgressBar.style.width = '10%';
+                analysisProgressBar.setAttribute('aria-valuenow', '10');
             }
             resetResultView();
 
-            if (!aiModel || !faceDetector) {
-                document.getElementById('analysis-caption').innerText = 'Menunggu modul AI selesai dimuat di latar belakang...';
+            if (!isModelLoaded) {
+                document.getElementById('analysis-caption').innerText = 'Menunggu modul AI dimuat...';
                 pendingImageSrc = src;
                 return;
             }
 
-            document.getElementById('analysis-caption').innerText = 'Wajah sedang dianalisis untuk membaca proporsi terbaik.';
+            document.getElementById('analysis-caption').innerText = 'Menjalankan Pengecekan Strict Mode...';
 
             imgPreview.onload = async () => {
-                const faces = await faceDetector.estimateFaces(imgPreview, false);
-                if (faces.length > 0) {
-                    const face = faces[0];
-                    const start = face.topLeft;
-                    const end = face.bottomRight;
-                    const size = [end[0] - start[0], end[1] - start[1]];
-
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 224;
-                    canvas.height = 224;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(imgPreview, start[0], start[1], size[0], size[1], 0, 0, 224, 224);
-
-                    const prediction = tf.tidy(() => {
-                        let tensor = tf.browser.fromPixels(canvas).toFloat().expandDims();
-                        return aiModel.predict(tensor.div(255.0));
-                    });
-
-                    const results = await prediction.data();
-                    const maxIdx = results.indexOf(Math.max(...results));
-
-                    currentBentukWajah = CLASS_NAMES[maxIdx];
-                    currentAkurasi = (results[maxIdx] * 100).toFixed(2);
-
-                    document.getElementById('live-bentuk-wajah').innerText = currentBentukWajah;
-                    document.getElementById('live-akurasi').innerText = `Akurasi: ${currentAkurasi}%`;
-                    document.getElementById('analysis-caption').innerText = 'Wajah terdeteksi. Tekan tombol di bawah untuk melihat rekomendasi yang lebih detail.';
-                    if (analysisProgressBar) {
-                        analysisProgressBar.style.width = `${Math.min(currentAkurasi, 100)}%`;
-                        analysisProgressBar.setAttribute('aria-valuenow', currentAkurasi);
-                    }
-                    btnKirim.disabled = false;
-                } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Validasi Data',
-                        text: "Wajah tidak terdeteksi. Gunakan foto yang lebih jelas.",
-                        confirmButtonText: 'OK'
-                    });
-                    document.getElementById('analysis-caption').innerText = 'Pastikan wajah terlihat jelas, menghadap ke kamera, dan pencahayaan cukup.';
+                // 1. Strict Mode: Cek Blur
+                if (isImageBlurry(imgPreview)) {
+                    showError('Kualitas Foto Ditolak', 'Foto terlalu buram atau goyang. Mohon ambil ulang foto yang lebih tajam dan jelas.');
+                    return;
                 }
+
+                if (analysisProgressBar) analysisProgressBar.style.width = '30%';
+
+                // 2. Strict Mode: Face Detection (Manusia, Single Face, Occlusion)
+                const options = new faceapi.TinyFaceDetectorOptions({ inputSize: 224, scoreThreshold: 0.5 });
+                const allFaces = await faceapi.detectAllFaces(imgPreview, options).withFaceLandmarks().withAgeAndGender();
+
+                if (analysisProgressBar) analysisProgressBar.style.width = '60%';
+
+                if (allFaces.length === 0) {
+                    showError('Wajah Tidak Terdeteksi', 'Wajah manusia tidak terdeteksi. Pastikan pencahayaan cukup dan wajah terlihat utuh menghadap layar.');
+                    return;
+                }
+                
+                if (allFaces.length > 1) {
+                    showError('Multi-Wajah Terdeteksi', 'Terdeteksi lebih dari 1 wajah di dalam frame. Harap pastikan hanya ada Anda sendirian.');
+                    return;
+                }
+
+                const face = allFaces[0];
+                const confidence = face.detection.score;
+
+                // 3. Strict Mode: Kacamata / Masker / Topi (Confidence Rendah)
+                // Threshold diturunkan dari 0.85 ke 0.50 agar kamera HP biasa tetap lolos
+                if (confidence < 0.50) {
+                    showError('Wajah Terhalang', 'Deteksi wajah kurang jelas. Mohon lepaskan masker atau kacamata hitam, dan cari tempat yang sedikit lebih terang.');
+                    return;
+                }
+
+                // Cek Kebotakan Secara Halus (Tanpa memblokir sistem)
+                userIsLikelyBald = isLikelyBald(imgPreview, face.landmarks.positions);
+
+                // 4. Strict Mode: Gender Filter
+                // Threshold dikembalikan ke 0.60. Jika AI mendeteksi perempuan dengan keyakinan > 60%, akan ditolak.
+                if (face.gender === 'female' && face.genderProbability > 0.60) {
+                    showError('Peringatan Gender', 'Sistem mendeteksi profil wajah perempuan. Harap maklum, saat ini rekomendasi gaya rambut kami dirancang khusus untuk anatomi pria.');
+                    return;
+                }
+
+                if (analysisProgressBar) analysisProgressBar.style.width = '85%';
+                document.getElementById('analysis-caption').innerText = 'Menghitung Geometri Rahang dan Tulang Pipi...';
+
+                // 5. Perhitungan Matematis Bentuk Wajah Berdasarkan 68 Landmarks
+                const landmarks = face.landmarks.positions;
+                
+                // Jarak Pipi ke Pipi (Lebar Wajah Maksimal) -> Point 0 ke 16
+                const faceWidth = Math.hypot(landmarks[0].x - landmarks[16].x, landmarks[0].y - landmarks[16].y);
+                
+                // Jarak Rahang Bawah (Jaw) -> Point 4 ke 12
+                const jawWidth = Math.hypot(landmarks[4].x - landmarks[12].x, landmarks[4].y - landmarks[12].y);
+                
+                // Panjang Wajah (Alis Tertinggi ke Dagu) * 1.4 untuk estimasi dahi/hairline
+                const browY = Math.min(landmarks[19].y, landmarks[24].y); 
+                const chinY = landmarks[8].y;
+                const faceLength = (chinY - browY) * 1.4;
+
+                // Rasio
+                const lengthRatio = faceLength / faceWidth;
+                const jawRatio = jawWidth / faceWidth;
+                
+                let shape = 'Oval'; 
+                
+                // Threshold disesuaikan agar tidak didominasi Oval/Oblong
+                if (lengthRatio > 1.38) {
+                    shape = 'Oblong'; // Wajah secara signifikan memanjang vertikal
+                } else if (lengthRatio < 1.22) {
+                    // Wajah cenderung pendek/melebar
+                    if (jawRatio > 0.82) {
+                        shape = 'Square'; // Rahang kotak dominan
+                    } else {
+                        shape = 'Round'; // Rahang membulat
+                    }
+                } else {
+                    // Wajah proporsi sedang (1.22 - 1.38)
+                    if (jawRatio > 0.85) {
+                        shape = 'Square'; // Meski panjangnya normal, rahangnya sangat lebar
+                    } else if (jawRatio < 0.78) {
+                        shape = 'Heart'; // Dagu lancip, rahang bawah menyempit
+                    } else {
+                        shape = 'Oval'; // Rahang & pipi seimbang
+                    }
+                }
+
+                currentBentukWajah = shape;
+                currentAkurasi = (confidence * 100).toFixed(2);
+
+                if (analysisProgressBar) {
+                    analysisProgressBar.style.width = '100%';
+                    analysisProgressBar.setAttribute('aria-valuenow', '100');
+                }
+
+                document.getElementById('live-bentuk-wajah').innerText = currentBentukWajah;
+                document.getElementById('live-akurasi').innerText = `Akurasi: ${currentAkurasi}%`;
+                document.getElementById('analysis-caption').innerText = 'Wajah berhasil dipetakan. Tekan tombol di bawah untuk melihat rekomendasi yang lebih detail.';
+                
+                btnKirim.disabled = false;
             };
+        }
+
+        function showError(title, message) {
+            document.getElementById('analysis-caption').innerText = 'Analisis dibatalkan: ' + message;
+            document.getElementById('live-bentuk-wajah').innerText = 'Ditolak';
+            document.getElementById('live-akurasi').innerText = 'Error';
+            if (analysisProgressBar) {
+                analysisProgressBar.style.width = '0%';
+                analysisProgressBar.classList.add('bg-danger');
+            }
+            btnKirim.disabled = true;
+
+            Swal.fire({
+                icon: 'warning',
+                title: title,
+                text: message,
+                confirmButtonText: 'Coba Lagi'
+            });
         }
 
         // Mengambil Data Rekomendasi Tanpa Reload
@@ -649,6 +843,13 @@
             document.getElementById('label-bentuk-wajah').innerText = bentukWajah.toUpperCase();
             document.getElementById('label-akurasi-hasil').innerText = `${akurasi}%`;
             document.getElementById('hasil-ringkasan').innerText = summary;
+            
+            // Tampilkan disclaimer hanya jika terdeteksi botak
+            if (userIsLikelyBald) {
+                document.getElementById('disclaimer-botak').classList.remove('d-none');
+            } else {
+                document.getElementById('disclaimer-botak').classList.add('d-none');
+            }
 
             const tipsContainer = document.getElementById('hasil-tips');
             tipsContainer.innerHTML = '';
@@ -722,8 +923,6 @@
                     </div>
                 `;
             }
-
-            // bersihkan UI lama AI (tidak digunakan lagi)
         }
 
         // Buka modal galeri gambar (front/side/back)
