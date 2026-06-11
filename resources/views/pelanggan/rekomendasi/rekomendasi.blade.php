@@ -51,10 +51,14 @@
             aspect-ratio: 1 / 1;
             margin: 0 auto;
             border-radius: 24px;
-            background: linear-gradient(180deg, #f7f3ea, #f0ebe2);
-            border: 1px solid #eadfc6;
+            background: #fdfbf7;
+            border: 2px dashed #d4af37;
             overflow: hidden;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
         #preview-container {
@@ -200,6 +204,7 @@
 
             .preview-shell {
                 max-width: 280px;
+                aspect-ratio: 1 / 1;
             }
 
             .rekomendasi-hero h2 {
@@ -234,13 +239,13 @@
 @endpush
 
 @section('content')
-    <div class="container py-5 rekomendasi-shell">
+    <div class="container py-4 py-md-5 rekomendasi-shell">
 
 
         <div class="row justify-content-center g-4">
             <!-- Bagian Input Kamera / Foto -->
             <div class="col-md-5 col-lg-4 mb-4">
-                <div class="card preview-card h-100">
+                <div class="card preview-card h-100 border-0 shadow-sm" style="border-radius: 24px;">
                     <div class="card-body p-4 text-center">
                         <div class="mb-3 text-start">
                             <h5 class="fw-bold mb-1">Ambil foto wajah</h5>
@@ -259,35 +264,38 @@
                                     <div class="text-muted text-center" style="font-size: 0.72rem; padding: 0 15px;">Sedang memuat modul cerdas...</div>
                                 </div>
 
-                                <div id="preview-container" class="d-flex align-items-center justify-content-center">
+                                <div id="preview-container" class="d-flex align-items-center justify-content-center w-100 h-100">
                                     <video id="webcam" width="300" height="300" autoplay playsinline
-                                        style="display:none; object-fit: cover; transform: scaleX(-1);"></video>
+                                        style="display:none; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);"></video>
                                     <img id="image-preview" style="display:none; width: 100%; height: 100%; object-fit: cover;">
                                     <canvas id="ar-canvas" width="300" height="300"
-                                        style="position: absolute; left: 0; top: 0; z-index: 10; pointer-events: none;"></canvas>
-                                    <div id="placeholder-text" class="text-muted p-3 text-center">
-                                        <div class="rekomendasi-preview-label mb-2"><i class="fas fa-image"></i> Preview</div>
-                                        <div>Silakan pilih metode di bawah untuk memulai analisis.</div>
+                                        style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none;"></canvas>
+                                    <div id="placeholder-text" class="w-100 h-100">
+                                        <div class="text-muted p-4 text-center d-flex flex-column align-items-center justify-content-center w-100 h-100">
+                                            <div class="mb-3" style="font-size: 3.5rem; color: #e0d0a6;"><i class="fas fa-user-circle"></i></div>
+                                            <h5 class="fw-bold text-dark mb-2">Area Preview Wajah</h5>
+                                            <p class="small mb-0" style="max-width: 220px; line-height: 1.5;">Aktifkan kamera atau unggah foto wajah Anda untuk memulai analisis AI.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="d-grid gap-2 mb-3">
-                            <button type="button" id="btn-camera" class="btn btn-secondary">
+                        <div class="d-grid gap-3 mb-4">
+                            <button type="button" id="btn-camera" class="btn btn-dark btn-lg shadow-sm" style="border-radius: 12px; transition: 0.3s;">
                                 <i class="fas fa-camera me-2"></i>Aktifkan Kamera
                             </button>
-                            <button type="button" id="btn-capture" class="btn btn-primary" style="display:none;">
-                                <i class="fas fa-circle me-2"></i>Ambil Foto
+                            <button type="button" id="btn-capture" class="btn btn-warning btn-lg shadow-sm fw-bold" style="display:none; border-radius: 12px; transition: 0.3s; color: #000;">
+                                <i class="fas fa-dot-circle me-2"></i>Ambil Foto
                             </button>
                             <input type="file" id="file-upload" accept="image/*" class="d-none">
                             <button type="button" onclick="document.getElementById('file-upload').click()"
-                                class="btn btn-secondary">
-                                <i class="fas fa-upload me-2"></i>Unggah Foto
+                                class="btn btn-outline-dark btn-lg shadow-sm bg-white" style="border-radius: 12px; transition: 0.3s;">
+                                <i class="fas fa-upload me-2"></i>Unggah dari Galeri
                             </button>
                         </div>
 
-                        <div id="status-analisis" class="mb-4 p-3 analysis-box d-none text-start">
+                        <div id="status-analisis" class="mb-4 p-3 p-md-4 analysis-box d-none text-start shadow-sm" style="border-radius: 16px;">
                             <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
                                 <div>
                                     <div class="text-muted small fw-semibold text-uppercase mb-1">Hasil deteksi</div>
@@ -302,20 +310,20 @@
                             <p id="analysis-caption" class="text-muted small mb-0">Sistem sedang membaca karakter wajah Anda untuk menyesuaikan rekomendasi.</p>
                         </div>
 
-                        <button type="button" id="btn-kirim" class="btn btn-gold w-100 fw-bold py-2" disabled
-                            onclick="kirimHasil()">
-                            Tampilkan Rekomendasi
+                        <button type="button" id="btn-kirim" class="btn btn-warning btn-lg w-100 fw-bold py-3 mt-2 shadow-sm text-dark" disabled
+                            onclick="kirimHasil()" style="border-radius: 16px; letter-spacing: 0.5px; transition: all 0.3s; font-size: 1.1rem;">
+                            <i class="fas fa-magic me-2"></i> Tampilkan Rekomendasi
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- Bagian Hasil Rekomendasi (Card) -->
-            <div class="col-md-7 col-lg-7 mb-4 d-none" id="hasil-rekomendasi-container">
-                <div class="card result-card h-100 bg-light">
-                    <div class="card-body p-4">
-                        <div class="result-banner p-3 p-md-4 mb-4">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+            <div class="col-md-7 col-lg-8 mb-4 d-none" id="hasil-rekomendasi-container">
+                <div class="card result-card h-100 border-0" style="background: linear-gradient(145deg, #ffffff, #fdfcfa);">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="result-banner p-4 mb-4 shadow-sm" style="border-radius: 20px;">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
                                 <div>
                                     <div class="text-uppercase text-muted small fw-semibold mb-1">Hasil rekomendasi</div>
                                     <h4 class="fw-bold mb-2">Rekomendasi Gaya Rambut</h4>
@@ -327,8 +335,8 @@
                                     </div>
                                 </div>
                                 <div class="text-end">
-                                    <span class="badge bg-success py-2 px-3 mb-2">Bentuk Wajah: <span id="label-bentuk-wajah"></span></span>
-                                    <div class="small text-muted">Akurasi model: <span id="label-akurasi-hasil" class="fw-semibold text-dark">0%</span></div>
+                                    <span class="badge bg-warning text-dark py-2 px-3 mb-2 fs-6 shadow-sm rounded-pill"><i class="fas fa-user-tag me-1"></i> Bentuk Wajah: <span id="label-bentuk-wajah" class="fw-bold"></span></span>
+                                    <div class="small text-muted bg-white px-3 py-1 rounded-pill border d-inline-block shadow-sm">Akurasi AI: <span id="label-akurasi-hasil" class="fw-bold text-success">0%</span></div>
                                 </div>
                             </div>
                         </div>
@@ -402,8 +410,8 @@
 
             isCameraActive = false;
             btnCamera.innerHTML = '<i class="fas fa-camera me-2"></i>Aktifkan Kamera';
-            btnCamera.classList.remove('btn-danger');
-            btnCamera.classList.add('btn-secondary');
+            btnCamera.classList.remove('btn-danger', 'text-white');
+            btnCamera.classList.add('btn-dark');
         }
 
         // Load Fast Face-API Models via CDN
@@ -484,8 +492,8 @@
 
                 isCameraActive = true;
                 btnCamera.innerHTML = '<i class="fas fa-times me-2"></i>Nonaktifkan Kamera';
-                btnCamera.classList.remove('btn-secondary');
-                btnCamera.classList.add('btn-danger');
+                btnCamera.classList.remove('btn-dark');
+                btnCamera.classList.add('btn-danger', 'text-white');
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
@@ -510,13 +518,27 @@
         // Upload Logic
         fileUpload.onchange = (e) => {
             if (e.target.files && e.target.files[0]) {
+                const file = e.target.files[0];
+                
+                // Validasi Tipe File (Hanya izinkan gambar)
+                if (!file.type.startsWith('image/')) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Format File Ditolak',
+                        text: 'File yang Anda unggah bukan gambar. Silakan pilih file dengan format JPG, PNG, atau format gambar lainnya.',
+                        confirmButtonText: 'Mengerti'
+                    });
+                    fileUpload.value = ''; // Reset input file
+                    return;
+                }
+
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     base64Image = event.target.result;
                     stopCameraStream();
                     processImage(base64Image);
                 };
-                reader.readAsDataURL(e.target.files[0]);
+                reader.readAsDataURL(file);
             }
         };
 
@@ -663,7 +685,7 @@
                 return;
             }
 
-            document.getElementById('analysis-caption').innerText = 'Menjalankan Pengecekan Strict Mode...';
+            document.getElementById('analysis-caption').innerText = 'Sedang Melakukan Pengecekan...';
 
             imgPreview.onload = async () => {
                 // 1. Strict Mode: Cek Blur
@@ -857,12 +879,12 @@
                 tips.forEach((tip, index) => {
                     tipsContainer.innerHTML += `
                         <div class="col-12 col-md-4">
-                            <div class="tip-card">
+                            <div class="tip-card shadow-sm border-0 h-100" style="background: linear-gradient(135deg, #ffffff, #fffaf0); transition: 0.3s; border-radius: 16px;">
                                 <div class="d-flex align-items-start gap-3">
-                                    <div class="recommendation-rank" style="min-width: 34px; height: 34px; border-radius: 12px;">${index + 1}</div>
+                                    <div class="recommendation-rank bg-warning text-dark shadow-sm d-flex align-items-center justify-content-center" style="min-width: 42px; height: 42px; border-radius: 12px; font-size: 1.2rem;"><i class="fas fa-lightbulb"></i></div>
                                     <div>
-                                        <div class="fw-bold mb-1">Tips ${index + 1}</div>
-                                        <div class="text-muted small" style="line-height: 1.65;">${escapeHtml(tip)}</div>
+                                        <div class="fw-bold mb-1 text-dark">Tips ${index + 1}</div>
+                                        <div class="text-muted small" style="line-height: 1.6;">${escapeHtml(tip)}</div>
                                     </div>
                                 </div>
                             </div>
@@ -885,26 +907,26 @@
 
                 const cardHtml = `
                     <div class="col-12 col-md-6">
-                        <div class="card recommendation-card h-100">
-                            <div class="card-body p-4 d-flex flex-column">
+                        <div class="card recommendation-card h-100 border-0 shadow-sm" style="border-radius: 20px; overflow: hidden; transition: all 0.3s ease; background: #fff;">
+                            <div class="card-body p-4 p-xl-5 d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-                                    <div class="recommendation-rank">${index + 1}</div>
-                                    <span class="badge bg-light text-dark border">${prioritas}</span>
+                                    <div class="recommendation-rank shadow-sm bg-dark text-warning d-flex align-items-center justify-content-center" style="border-radius: 14px; font-size: 1.2rem; width: 45px; height: 45px;">#${index + 1}</div>
+                                    <span class="badge bg-warning text-dark px-3 py-2 rounded-pill shadow-sm" style="font-size: 0.85rem;"><i class="fas fa-star me-1"></i> ${prioritas}</span>
                                 </div>
-                                <h5 class="fw-bold text-dark mb-2">${nama}</h5>
-                                <p class="recommendation-reason mb-3">${alasan}</p>
-                                <div class="recommendation-note mb-3">
-                                    <div class="fw-semibold mb-1"><i class="fas fa-scissors me-2"></i>Catatan ke kapster</div>
-                                    <div class="small">${catatan}</div>
+                                <h4 class="fw-bold text-dark mb-2" style="letter-spacing: -0.5px; font-size: 1.4rem;">${nama}</h4>
+                                <p class="recommendation-reason mb-4 text-muted" style="font-size: 1rem; line-height: 1.6;">${alasan}</p>
+                                <div class="recommendation-note mb-4 shadow-sm border-0" style="background-color: #fffaf0; border-left: 4px solid #ffc107 !important; border-radius: 12px; padding: 14px;">
+                                    <div class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;"><i class="fas fa-cut text-warning me-2"></i>Catatan Kapster</div>
+                                    <div class="small text-muted" style="line-height: 1.5;">${catatan}</div>
                                 </div>
-                                <div class="d-flex gap-2 mb-3">
-                                    <img src="${frontUrl}" alt="${nama} front" class="thumb-img" onclick="openGallery({front: '${frontUrl}', side: '${sideUrl}', back: '${backUrl}'})">
-                                    <img src="${sideUrl}" alt="${nama} side" class="thumb-img" onclick="openGallery({front: '${frontUrl}', side: '${sideUrl}', back: '${backUrl}'})">
-                                    <img src="${backUrl}" alt="${nama} back" class="thumb-img" onclick="openGallery({front: '${frontUrl}', side: '${sideUrl}', back: '${backUrl}'})">
+                                <div class="d-flex justify-content-between gap-2 mb-4">
+                                    <img src="${frontUrl}" alt="${nama} front" class="thumb-img shadow-sm border" style="border-radius: 14px; flex: 1; height: 90px; object-fit: cover; cursor: pointer;" onclick="openGallery({front: '${frontUrl}', side: '${sideUrl}', back: '${backUrl}'})">
+                                    <img src="${sideUrl}" alt="${nama} side" class="thumb-img shadow-sm border" style="border-radius: 14px; flex: 1; height: 90px; object-fit: cover; cursor: pointer;" onclick="openGallery({front: '${frontUrl}', side: '${sideUrl}', back: '${backUrl}'})">
+                                    <img src="${backUrl}" alt="${nama} back" class="thumb-img shadow-sm border" style="border-radius: 14px; flex: 1; height: 90px; object-fit: cover; cursor: pointer;" onclick="openGallery({front: '${frontUrl}', side: '${sideUrl}', back: '${backUrl}'})">
                                 </div>
                                 <div class="mt-auto">
-                                    <button class="btn btn-secondary btn-sm w-100" data-front="${frontUrl}" data-side="${sideUrl}" data-back="${backUrl}" onclick="openGallery(this.dataset)">
-                                        <i class="fas fa-image me-1"></i> Lihat Gambar
+                                    <button class="btn btn-outline-dark w-100 fw-bold py-2 shadow-sm" style="border-radius: 12px; font-size: 1rem; border-width: 2px;" data-front="${frontUrl}" data-side="${sideUrl}" data-back="${backUrl}" onclick="openGallery(this.dataset)">
+                                        <i class="fas fa-expand-arrows-alt me-1"></i> Perbesar Gambar
                                     </button>
                                 </div>
                             </div>
