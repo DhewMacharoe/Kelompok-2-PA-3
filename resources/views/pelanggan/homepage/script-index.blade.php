@@ -209,5 +209,34 @@
                     window.location.reload();
                 });
         });
+
+        // Stopwatch untuk Antrean Dipanggil/Dilayani
+        const stopwatchEl = document.getElementById('stopwatch-dipanggil');
+        let stopwatchInterval;
+
+        function updateStopwatch() {
+            if (!stopwatchEl) return;
+            const startTime = parseInt(stopwatchEl.dataset.start);
+            if (!startTime) return;
+
+            const now = new Date().getTime();
+            const diff = now - startTime;
+
+            if (diff < 0) return;
+
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            stopwatchEl.textContent = 
+                String(hours).padStart(2, '0') + ':' + 
+                String(minutes).padStart(2, '0') + ':' + 
+                String(seconds).padStart(2, '0');
+        }
+
+        if (stopwatchEl) {
+            updateStopwatch();
+            stopwatchInterval = setInterval(updateStopwatch, 1000);
+        }
     });
 </script>

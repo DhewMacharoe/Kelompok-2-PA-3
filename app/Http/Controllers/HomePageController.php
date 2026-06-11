@@ -29,11 +29,13 @@ class HomePageController extends Controller
         });
 
         $punyaAntreanAktif = false;
+        $antreanSayaAktif = null;
         if (Auth::check() && Auth::user()->username) {
-            $punyaAntreanAktif = Antrean::customerHasActiveQueue(Auth::user()->username);
+            $antreanSayaAktif = Antrean::getCustomerActiveQueue(Auth::user()->username);
+            $punyaAntreanAktif = (bool) $antreanSayaAktif;
         }
 
-        return view('pelanggan.homepage.homepage', compact('antrean', 'jumlahAntrean', 'layanans', 'menus', 'punyaAntreanAktif'));
+        return view('pelanggan.homepage.homepage', compact('antrean', 'jumlahAntrean', 'layanans', 'menus', 'punyaAntreanAktif', 'antreanSayaAktif'));
     }
 }
 

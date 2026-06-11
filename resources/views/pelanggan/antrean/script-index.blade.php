@@ -785,14 +785,30 @@
                     if (antreanList.length > 0) {
                         antreanList.forEach(item => {
                             const isMyQueue = isCurrentUserQueue(item);
+                            const totalEst = item.total_estimasi_waktu || 30;
+                            const estMnt = `${totalEst} mnt`;
+
                             queueListContainer.insertAdjacentHTML('beforeend', `
-                                <div class="queue-card ${isMyQueue ? 'my-queue-highlight' : ''}">
-                                    <div class="queue-number-box">${item.nomor_antrean_seq}</div>
-                                    <div class="queue-info">
-                                        <p class="queue-name">${item.nama_pelanggan}</p>
-                                        <p class="queue-time">(${formatJam(item.created_at)})</p>
+                                <div class="card shadow-sm mb-2 ${isMyQueue ? 'border-success border-2' : 'border-0'}" style="background: #ffffff; border-radius: 12px;">
+                                    <div class="card-body p-3 d-flex align-items-center">
+                                        <div class="d-flex align-items-center justify-content-center text-white fw-bold me-3 flex-shrink-0" style="width: 50px; height: 50px; background-color: #1a1a1a; font-size: 1.1rem; border-radius: 10px;">
+                                            ${item.nomor_antrean_seq}
+                                        </div>
+                                        <div class="flex-grow-1 min-w-0">
+                                            <h6 class="fw-bold mb-1 text-dark text-truncate" style="font-size: 0.95rem;">${item.nama_pelanggan}</h6>
+                                            <p class="text-muted mb-0" style="font-size: 0.75rem;">
+                                                <span class="text-nowrap"><i class="far fa-clock me-1"></i> Masuk: ${formatJam(item.created_at)}</span> 
+                                                <span class="ms-2 text-nowrap"><i class="fas fa-hourglass-half me-1"></i> Est: ${estMnt}</span>
+                                            </p>
+                                        </div>
+                                        <div class="flex-shrink-0 ms-2">
+                                            ${isMyQueue ? `
+                                                <span class="badge" style="border: 1px solid #198754; color: #198754; background: #e8f7ef; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">ANTREAN SAYA</span>
+                                            ` : `
+                                                <span class="badge" style="border: 1px solid #e8a53a; color: #e8a53a; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
+                                            `}
+                                        </div>
                                     </div>
-                                    <div class="queue-badges">${isMyQueue ? '<span class="badge-mine">ANTREAN SAYA</span>' : ''}<span class="badge-waiting">MENUNGGU</span></div>
                                 </div>
                             `);
                         });

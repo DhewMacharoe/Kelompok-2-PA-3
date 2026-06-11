@@ -47,22 +47,22 @@
                         <h3 class="text-white fw-bold mb-1" style="font-size: 1.5rem;">Sedang Melayani No. <span id="antrean-nomor">{{ $dipanggil->nomor_antrean_seq }}</span></h3>
                         <p class="text-secondary mb-4" style="font-size: 0.9rem;">Pelanggan sedang dalam proses layanan</p>
                         
-                        <div class="row text-center border-top border-secondary pt-3 mt-2" style="border-color: #333 !important;">
-                            <div class="col-4 border-end border-secondary" style="border-color: #333 !important;">
+                        <div class="header-stats-row text-center">
+                            <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Sisa Menunggu</p>
                                 <h5 class="text-white fw-bold mb-0">{{ $jumlahAntrean }}</h5>
                             </div>
-                            <div class="col-4 border-end border-secondary" style="border-color: #333 !important;">
+                            <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Status Saat Ini</p>
                                 <h5 class="fw-bold mb-0" style="color: #e8a53a; font-size: 0.85rem;" id="antrean-status">{{ ucfirst($dipanggil->status) }}</h5>
                             </div>
-                            <div class="col-4">
+                            <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Sedang Dilayani</p>
                                 <h5 class="fw-bold mb-0" style="color: #e8a53a; font-size: 0.85rem;" id="antrean-nama">{{ $dipanggil->nama_pelanggan }}</h5>
                             </div>
                         </div>
                         <div class="mt-3 py-2 text-center" style="background: rgba(232, 165, 58, 0.1); border-radius: 8px; border: 1px dashed rgba(232, 165, 58, 0.3);">
-                            <p class="text-secondary mb-1" style="font-size: 0.75rem;">Durasi Pelayanan Berjalan</p>
+                            <p class="text-secondary mb-1" style="font-size: 0.75rem;">Durasi Pelayanan Berjalan <span class="ms-1" style="color: #a0a0a0;">(Est: {{ $dipanggil->total_estimasi_waktu }} mnt)</span></p>
                             <h4 class="fw-bold mb-0" style="color: #e8a53a; letter-spacing: 2px;" id="stopwatch-dipanggil" data-start="{{ $dipanggil->updated_at->timestamp * 1000 }}">00:00:00</h4>
                         </div>
                     </div>
@@ -79,16 +79,16 @@
                         <h3 class="text-white fw-bold mb-1" style="font-size: 1.5rem;">Belum Ada yang Dilayani</h3>
                         <p class="text-secondary mb-4" style="font-size: 0.9rem;">Menunggu pemilik barbershop memanggil antrean</p>
                         
-                        <div class="row text-center border-top border-secondary pt-3 mt-2" style="border-color: #444 !important;">
-                            <div class="col-4 border-end border-secondary" style="border-color: #444 !important;">
+                        <div class="header-stats-row text-center">
+                            <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Total Antrean</p>
                                 <h5 class="text-white fw-bold mb-0">{{ $jumlahAntrean }}</h5>
                             </div>
-                            <div class="col-4 border-end border-secondary" style="border-color: #444 !important;">
+                            <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Status Saat Ini</p>
                                 <h5 class="fw-bold mb-0" style="color: #e8a53a; font-size: 0.85rem;">Menunggu Panggilan</h5>
                             </div>
-                            <div class="col-4">
+                            <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Sedang Dilayani</p>
                                 <h5 class="fw-bold mb-0" style="color: #e8a53a; font-size: 0.85rem;">Belum Ada</h5>
                             </div>
@@ -109,28 +109,47 @@
                                 <h5 class="fw-bold mb-0">Antrean Anda Aktif</h5>
                             </div>
                             
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Nomor Antrean Anda</span>
-                                <span class="fw-bold" id="my-queue-number">{{ $antreanSayaAktif->nomor_antrean_seq }}</span>
+                            <div class="row mb-2 align-items-center">
+                                <div class="col-6">
+                                    <span class="text-muted small">Nomor Antrean Anda</span>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="fw-bold" id="my-queue-number">{{ $antreanSayaAktif->nomor_antrean_seq }}</span>
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Posisi Saat Ini</span>
-                                <span class="fw-bold" id="my-queue-position">{{ $antreanSayaAktif->status === 'menunggu' ? str_pad((string) ($posisiAntreanSaya ?? 0), 2, '0', STR_PAD_LEFT) : '-' }}</span>
+                            <div class="row mb-2 align-items-center">
+                                <div class="col-6">
+                                    <span class="text-muted small">Posisi Saat Ini</span>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="fw-bold" id="my-queue-position">{{ $antreanSayaAktif->status === 'menunggu' ? str_pad((string) ($posisiAntreanSaya ?? 0), 2, '0', STR_PAD_LEFT) : '-' }}</span>
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Layanan</span>
-                                <span class="fw-bold text-end" id="my-queue-services">{{ $antreanSayaAktif->layanan1?->nama ?? '-' }}{{ $antreanSayaAktif->layanan2 ? ' + ' . $antreanSayaAktif->layanan2->nama : '' }}</span>
+                            <div class="row mb-2 align-items-center">
+                                <div class="col-4">
+                                    <span class="text-muted small">Layanan</span>
+                                </div>
+                                <div class="col-8 text-end">
+                                    <span class="fw-bold text-end d-block" id="my-queue-services" style="font-size: 0.9rem; word-break: break-word;">{{ $antreanSayaAktif->layanan1?->nama ?? '-' }}{{ $antreanSayaAktif->layanan2 ? ' + ' . $antreanSayaAktif->layanan2->nama : '' }}</span>
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-between mb-3 border-bottom pb-3">
-                                <span class="text-muted small">Status</span>
-                                <span class="fw-bold" style="color: #e8a53a;" id="my-queue-status-chip">{{ strtoupper($antreanSayaAktif->status) }}</span>
+                            <div class="row mb-3 border-bottom pb-3 align-items-center">
+                                <div class="col-6">
+                                    <span class="text-muted small">Status</span>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="fw-bold" style="color: #e8a53a;" id="my-queue-status-chip">{{ strtoupper($antreanSayaAktif->status) }}</span>
+                                </div>
                             </div>
                             
                             @if ($antreanSayaAktif->status === 'menunggu')
                             <div class="alert mb-4 p-3" style="background-color: #fff8eb; border: 1px solid #f5d39a; border-radius: 8px;">
                                 <div class="d-flex gap-2">
                                     <i class="fas fa-info-circle mt-1" style="color: #e8a53a;"></i>
-                                    <p class="mb-0 small" style="color: #8c6a28; line-height: 1.4;">Saat ini No. {{ $dipanggil ? $dipanggil->nomor_antrean_seq : '-' }} sedang dilayani. Anda akan dipanggil setelah layanan selesai.</p>
+                                    <div>
+                                        <p class="mb-1 small fw-bold" style="color: #8c6a28;">Estimasi Waktu Pelayanan Anda: {{ $antreanSayaAktif->total_estimasi_waktu }} mnt</p>
+                                        <p class="mb-0 small text-muted" style="line-height: 1.4;">Saat ini No. {{ $dipanggil ? $dipanggil->nomor_antrean_seq : '-' }} sedang dilayani. Anda akan dipanggil setelah layanan selesai.</p>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -177,14 +196,14 @@
                     @foreach ($data_antrean as $antrean)
                         <div class="card shadow-sm mb-2 {{ $antreanSayaAktif && $antreanSayaAktif->id === $antrean->id ? 'border-success border-2' : 'border-0' }}" style="background: #ffffff; border-radius: 12px;">
                             <div class="card-body p-3 d-flex align-items-center">
-                                <div class="d-flex align-items-center justify-content-center text-white fw-bold me-3" style="width: 50px; height: 50px; background-color: #1a1a1a; font-size: 1.1rem; border-radius: 10px;">
+                                <div class="d-flex align-items-center justify-content-center text-white fw-bold me-3 flex-shrink-0" style="width: 50px; height: 50px; background-color: #1a1a1a; font-size: 1.1rem; border-radius: 10px;">
                                     {{ $antrean->nomor_antrean_seq }}
                                 </div>
-                                <div class="flex-grow-1">
-                                    <h6 class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;">{{ $antrean->nama_pelanggan }}</h6>
-                                    <p class="text-muted mb-0" style="font-size: 0.75rem;"><i class="far fa-clock me-1"></i> Masuk: {{ $antrean->created_at->format('H:i') }} <span class="ms-2"><i class="fas fa-hourglass-half me-1"></i> Est: {{ $antrean->total_estimasi_waktu }} mnt</span></p>
+                                <div class="flex-grow-1 min-w-0">
+                                    <h6 class="fw-bold mb-1 text-dark text-truncate" style="font-size: 0.95rem;">{{ $antrean->nama_pelanggan }}</h6>
+                                    <p class="text-muted mb-0" style="font-size: 0.75rem;"><span class="text-nowrap"><i class="far fa-clock me-1"></i> Masuk: {{ $antrean->created_at->format('H:i') }}</span> <span class="ms-2 text-nowrap"><i class="fas fa-hourglass-half me-1"></i> Est: {{ $antrean->total_estimasi_waktu }} mnt</span></p>
                                 </div>
-                                <div>
+                                <div class="flex-shrink-0 ms-2">
                                     @if ($antreanSayaAktif && $antreanSayaAktif->id === $antrean->id)
                                         <span class="badge" style="border: 1px solid #198754; color: #198754; background: #e8f7ef; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">ANTREAN SAYA</span>
                                     @else
@@ -206,16 +225,23 @@
                 @endif
             </div>
 
-            <!-- Action Buttons -->
+             <!-- Action Buttons -->
             @auth
                 @if (!$punyaAntreanAktif)
                     @if (\App\Models\Antrean::isOperationalHour())
                         <div class="d-grid gap-3 mb-4">
-                            <button class="btn btn-gold w-100 btn-add-queue fw-bold shadow-sm" data-bs-toggle="modal"
-                                data-bs-target="#modalTambahAntrean"
-                                data-loading-text="Membuka form..." style="border-radius: 12px; padding: 14px 20px; font-size: 1rem;">
-                                Tambah Antrean
-                            </button>
+                            @if (auth()->user()->hasRole('admin'))
+                                <button class="btn btn-disabled w-100 fw-bold shadow-sm" disabled
+                                    style="border-radius: 12px; padding: 14px 20px; font-size: 1rem;" title="Admin tidak dapat mengambil antrean">
+                                    Tambah Antrean
+                                </button>
+                            @else
+                                <button class="btn btn-gold w-100 btn-add-queue fw-bold shadow-sm" data-bs-toggle="modal"
+                                    data-bs-target="#modalTambahAntrean"
+                                    data-loading-text="Membuka form..." style="border-radius: 12px; padding: 14px 20px; font-size: 1rem;">
+                                    Tambah Antrean
+                                </button>
+                            @endif
                         </div>
                     @else
                         <button class="btn btn-disabled w-100 fw-bold mb-4 shadow-sm" disabled

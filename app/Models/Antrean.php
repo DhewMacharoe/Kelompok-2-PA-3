@@ -23,6 +23,10 @@ class Antrean extends Model
         'user_id',
     ];
 
+    protected $appends = [
+        'total_estimasi_waktu',
+    ];
+
     protected $dates = [
         'waktu_masuk',
         'waktu_selesai',

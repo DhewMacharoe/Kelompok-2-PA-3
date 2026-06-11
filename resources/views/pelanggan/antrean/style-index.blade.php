@@ -806,4 +806,48 @@
          background-color: #b0893a;
          color: #1a1a1a;
      }
+
+     /* Custom Responsive Header Stats */
+     .header-stats-row {
+         display: flex;
+         flex-direction: row;
+         border-top: 1px solid rgba(255, 255, 255, 0.15);
+         padding-top: 16px;
+         margin-top: 16px;
+     }
+     .header-stat-col {
+         flex: 1;
+         border-right: 1px solid rgba(255, 255, 255, 0.15);
+         padding: 0 8px;
+     }
+     .header-stat-col:last-child {
+         border-right: none;
+     }
+     @media (max-width: 576px) {
+         .header-stats-row {
+             flex-direction: column;
+             gap: 12px;
+         }
+         .header-stat-col {
+             border-right: none;
+             border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+             padding-bottom: 12px;
+             padding-left: 0;
+             padding-right: 0;
+         }
+         .header-stat-col:last-child {
+             border-bottom: none;
+             padding-bottom: 0;
+         }
+         
+         /* Queue location preview header mobile layout */
+         .queue-location-preview-header {
+             flex-direction: column !important;
+             align-items: flex-start !important;
+             gap: 8px !important;
+         }
+         .queue-location-status {
+             align-self: flex-start !important;
+         }
+     }
  </style>

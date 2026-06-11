@@ -64,6 +64,10 @@ class AntreanController extends Controller
 
         $user = Auth::user();
 
+        if ($user->hasRole('admin')) {
+            return back()->with('error', 'Admin tidak diperbolehkan mengambil antrean.');
+        }
+
         if (!$user->username) {
             return redirect()->route('set.username')->with('error', 'Silakan atur username terlebih dahulu untuk mengantri.');
         }
