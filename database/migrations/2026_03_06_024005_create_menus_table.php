@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('nama', 25);
             $table->enum('kategori', ['Minuman', 'Makanan Ringan']);
-            $table->integer('harga');
-            $table->text('deskripsi')->nullable();
-            $table->string('foto')->nullable();
+            $table->mediumInteger('harga');
+            $table->string('deskripsi', 60)->nullable();
+            $table->string('foto', 50)->nullable();
             $table->boolean('is_available')->default(true); // true = Tersedia, false = Habis
             $table->timestamps();
         });

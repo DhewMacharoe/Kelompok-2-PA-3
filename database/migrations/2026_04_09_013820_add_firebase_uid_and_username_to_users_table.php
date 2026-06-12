@@ -13,8 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('firebase_uid')->nullable()->unique()->after('email');
-            $table->string('username')->unique()->nullable()->after('name');
+            $table->string('firebase_uid', 28)->nullable()->unique()->after('email');
+            $table->string('username', 15)->unique()->nullable()->after('name');
         });
     }
 

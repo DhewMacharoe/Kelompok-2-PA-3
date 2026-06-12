@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('layanans', function (Blueprint $table) {
-            $table->string('ikon')->default('scissors')->after('deskripsi');
+            $table->string('ikon', 20)->default('scissors')->after('deskripsi');
         });
 
         // Auto-mapping data lama ke sistem ikon baru:

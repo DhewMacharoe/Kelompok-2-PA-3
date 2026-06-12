@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('layanans', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->integer('harga');
-            $table->string('estimasi_waktu')->nullable();
-            $table->text('deskripsi')->nullable();
+            $table->string('nama', 25);
+            $table->mediumInteger('harga');
+            $table->string('estimasi_waktu', 10)->nullable();
+            $table->string('deskripsi', 60)->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

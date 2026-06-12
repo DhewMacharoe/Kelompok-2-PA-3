@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('antreans', function (Blueprint $table) {
             $table->id();
             $table->string('nomor_antrean')->unique();
-            $table->string('nama_pelanggan')->index();
+            $table->string('nama_pelanggan', 25)->index();
 
             // Layanan yang diambil pelanggan
             $table->foreignId('layanan_id1')
