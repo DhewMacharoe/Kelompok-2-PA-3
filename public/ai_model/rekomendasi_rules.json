@@ -1,0 +1,1358 @@
+{
+    "male": {
+        "child": {
+            "Heart": {
+                "Lurus": {
+                    "summary": "Gaya simpel yang memudahkan anak beraktivitas dengan rambut lurus.",
+                    "tips": [
+                        "Hindari produk berbahan kimia keras.",
+                        "Pilih potongan yang tidak menutupi mata."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Bowl Cut",
+                            "reason": "Sangat lucu dan praktis.",
+                            "barber_note": "Potong melingkar rapi di atas telinga.",
+                            "priority": "Klasik"
+                        },
+                        {
+                            "name": "Short Spiky",
+                            "reason": "Bebas gerah saat bermain.",
+                            "barber_note": "Mudah dikelola.",
+                            "priority": "Aktif"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Gaya simpel yang memudahkan anak beraktivitas dengan rambut ikal.",
+                    "tips": [
+                        "Hindari produk berbahan kimia keras.",
+                        "Pilih potongan yang tidak menutupi mata."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Little Curly Fro",
+                            "reason": "Menonjolkan ikal natural yang menggemaskan.",
+                            "barber_note": "Rapikan bulat.",
+                            "priority": "Lucu"
+                        },
+                        {
+                            "name": "Curly Short Crop",
+                            "reason": "Lebih rapi untuk acara formal atau sekolah.",
+                            "barber_note": "Tipis samping.",
+                            "priority": "Praktis"
+                        }
+                    ]
+                }
+            },
+            "Oblong": {
+                "Lurus": {
+                    "summary": "Gaya simpel yang memudahkan anak beraktivitas dengan rambut lurus.",
+                    "tips": [
+                        "Hindari produk berbahan kimia keras.",
+                        "Pilih potongan yang tidak menutupi mata."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Bowl Cut",
+                            "reason": "Sangat lucu dan praktis.",
+                            "barber_note": "Potong melingkar rapi di atas telinga.",
+                            "priority": "Klasik"
+                        },
+                        {
+                            "name": "Short Spiky",
+                            "reason": "Bebas gerah saat bermain.",
+                            "barber_note": "Mudah dikelola.",
+                            "priority": "Aktif"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Gaya simpel yang memudahkan anak beraktivitas dengan rambut ikal.",
+                    "tips": [
+                        "Hindari produk berbahan kimia keras.",
+                        "Pilih potongan yang tidak menutupi mata."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Little Curly Fro",
+                            "reason": "Menonjolkan ikal natural yang menggemaskan.",
+                            "barber_note": "Rapikan bulat.",
+                            "priority": "Lucu"
+                        },
+                        {
+                            "name": "Curly Short Crop",
+                            "reason": "Lebih rapi untuk acara formal atau sekolah.",
+                            "barber_note": "Tipis samping.",
+                            "priority": "Praktis"
+                        }
+                    ]
+                }
+            },
+            "Oval": {
+                "Lurus": {
+                    "summary": "Gaya simpel yang memudahkan anak beraktivitas dengan rambut lurus.",
+                    "tips": [
+                        "Hindari produk berbahan kimia keras.",
+                        "Pilih potongan yang tidak menutupi mata."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Bowl Cut",
+                            "reason": "Sangat lucu dan praktis.",
+                            "barber_note": "Potong melingkar rapi di atas telinga.",
+                            "priority": "Klasik"
+                        },
+                        {
+                            "name": "Short Spiky",
+                            "reason": "Bebas gerah saat bermain.",
+                            "barber_note": "Mudah dikelola.",
+                            "priority": "Aktif"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Gaya simpel yang memudahkan anak beraktivitas dengan rambut ikal.",
+                    "tips": [
+                        "Hindari produk berbahan kimia keras.",
+                        "Pilih potongan yang tidak menutupi mata."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Little Curly Fro",
+                            "reason": "Menonjolkan ikal natural yang menggemaskan.",
+                            "barber_note": "Rapikan bulat.",
+                            "priority": "Lucu"
+                        },
+                        {
+                            "name": "Curly Short Crop",
+                            "reason": "Lebih rapi untuk acara formal atau sekolah.",
+                            "barber_note": "Tipis samping.",
+                            "priority": "Praktis"
+                        }
+                    ]
+                }
+            },
+            "Round": {
+                "Lurus": {
+                    "summary": "Gaya simpel yang memudahkan anak beraktivitas dengan rambut lurus.",
+                    "tips": [
+                        "Hindari produk berbahan kimia keras.",
+                        "Pilih potongan yang tidak menutupi mata."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Bowl Cut",
+                            "reason": "Sangat lucu dan praktis.",
+                            "barber_note": "Potong melingkar rapi di atas telinga.",
+                            "priority": "Klasik"
+                        },
+                        {
+                            "name": "Short Spiky",
+                            "reason": "Bebas gerah saat bermain.",
+                            "barber_note": "Mudah dikelola.",
+                            "priority": "Aktif"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Gaya simpel yang memudahkan anak beraktivitas dengan rambut ikal.",
+                    "tips": [
+                        "Hindari produk berbahan kimia keras.",
+                        "Pilih potongan yang tidak menutupi mata."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Little Curly Fro",
+                            "reason": "Menonjolkan ikal natural yang menggemaskan.",
+                            "barber_note": "Rapikan bulat.",
+                            "priority": "Lucu"
+                        },
+                        {
+                            "name": "Curly Short Crop",
+                            "reason": "Lebih rapi untuk acara formal atau sekolah.",
+                            "barber_note": "Tipis samping.",
+                            "priority": "Praktis"
+                        }
+                    ]
+                }
+            },
+            "Square": {
+                "Lurus": {
+                    "summary": "Gaya simpel yang memudahkan anak beraktivitas dengan rambut lurus.",
+                    "tips": [
+                        "Hindari produk berbahan kimia keras.",
+                        "Pilih potongan yang tidak menutupi mata."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Bowl Cut",
+                            "reason": "Sangat lucu dan praktis.",
+                            "barber_note": "Potong melingkar rapi di atas telinga.",
+                            "priority": "Klasik"
+                        },
+                        {
+                            "name": "Short Spiky",
+                            "reason": "Bebas gerah saat bermain.",
+                            "barber_note": "Mudah dikelola.",
+                            "priority": "Aktif"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Gaya simpel yang memudahkan anak beraktivitas dengan rambut ikal.",
+                    "tips": [
+                        "Hindari produk berbahan kimia keras.",
+                        "Pilih potongan yang tidak menutupi mata."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Little Curly Fro",
+                            "reason": "Menonjolkan ikal natural yang menggemaskan.",
+                            "barber_note": "Rapikan bulat.",
+                            "priority": "Lucu"
+                        },
+                        {
+                            "name": "Curly Short Crop",
+                            "reason": "Lebih rapi untuk acara formal atau sekolah.",
+                            "barber_note": "Tipis samping.",
+                            "priority": "Praktis"
+                        }
+                    ]
+                }
+            }
+        },
+        "teen": {
+            "Heart": {
+                "Lurus": {
+                    "summary": "Cocok untuk menyeimbangkan dahi yang lebih lebar dengan volume yang lebih lembut. (Disempurnakan untuk usia sekolah/remaja)",
+                    "tips": [
+                        "Pilih tekstur ringan di bagian fringe.",
+                        "Pertahankan sisi yang rapi.",
+                        "Cocok untuk dipadukan dengan aturan seragam."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Two Block",
+                            "reason": "Sangat populer di kalangan remaja saat ini.",
+                            "barber_note": "Jangan potong terlalu pendek di bagian samping.",
+                            "priority": "Trending"
+                        },
+                        {
+                            "name": "Comma Hair",
+                            "reason": "Memberi kesan santai ala Korea.",
+                            "barber_note": "Sisakan poni untuk dibentuk melengkung.",
+                            "priority": "Gaya K-Pop"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Ikal natural membantu menambah volume di sisi samping untuk menyeimbangkan wajah Heart. (Disempurnakan untuk usia sekolah/remaja)",
+                    "tips": [
+                        "Gunakan produk penegas ikal.",
+                        "Biarkan poni sedikit jatuh ke depan dahi.",
+                        "Cocok untuk dipadukan dengan aturan seragam."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Mullet / Burst Fade",
+                            "reason": "Gaya edgy yang sangat hype di Tiktok.",
+                            "barber_note": "Biarkan belakang memanjang.",
+                            "priority": "Viral"
+                        },
+                        {
+                            "name": "Messy Curly Top",
+                            "reason": "Terlihat tidak berusaha tapi keren.",
+                            "barber_note": "Rapikan ujung agar ikal berbentuk.",
+                            "priority": "Santai"
+                        }
+                    ]
+                }
+            },
+            "Oblong": {
+                "Lurus": {
+                    "summary": "Tujuannya memecah kesan wajah yang panjang dengan potongan yang lebih pendek. (Disempurnakan untuk usia sekolah/remaja)",
+                    "tips": [
+                        "Jaga tinggi rambut agar tidak membuat wajah memanjang.",
+                        "Gunakan potongan lebar di samping.",
+                        "Cocok untuk dipadukan dengan aturan seragam."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Two Block",
+                            "reason": "Sangat populer di kalangan remaja saat ini.",
+                            "barber_note": "Jangan potong terlalu pendek di bagian samping.",
+                            "priority": "Trending"
+                        },
+                        {
+                            "name": "Comma Hair",
+                            "reason": "Memberi kesan santai ala Korea.",
+                            "barber_note": "Sisakan poni untuk dibentuk melengkung.",
+                            "priority": "Gaya K-Pop"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Tekstur ikal sangat bagus untuk memberi ilusi lebar pada wajah Oblong. (Disempurnakan untuk usia sekolah/remaja)",
+                    "tips": [
+                        "Jangan potong terlalu tipis di bagian samping.",
+                        "Biarkan ikal natural di bagian atas.",
+                        "Cocok untuk dipadukan dengan aturan seragam."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Mullet / Burst Fade",
+                            "reason": "Gaya edgy yang sangat hype di Tiktok.",
+                            "barber_note": "Biarkan belakang memanjang.",
+                            "priority": "Viral"
+                        },
+                        {
+                            "name": "Messy Curly Top",
+                            "reason": "Terlihat tidak berusaha tapi keren.",
+                            "barber_note": "Rapikan ujung agar ikal berbentuk.",
+                            "priority": "Santai"
+                        }
+                    ]
+                }
+            },
+            "Oval": {
+                "Lurus": {
+                    "summary": "Bentuk wajah yang paling fleksibel, rambut lurus bisa diaplikasikan ke gaya klasik maupun modern. (Disempurnakan untuk usia sekolah/remaja)",
+                    "tips": [
+                        "Coba gaya yang sesuai karakter.",
+                        "Jaga bagian atas agar tidak terlalu berat.",
+                        "Cocok untuk dipadukan dengan aturan seragam."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Two Block",
+                            "reason": "Sangat populer di kalangan remaja saat ini.",
+                            "barber_note": "Jangan potong terlalu pendek di bagian samping.",
+                            "priority": "Trending"
+                        },
+                        {
+                            "name": "Comma Hair",
+                            "reason": "Memberi kesan santai ala Korea.",
+                            "barber_note": "Sisakan poni untuk dibentuk melengkung.",
+                            "priority": "Gaya K-Pop"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Wajah oval sangat proporsional, ikal akan memberi karakter yang kuat. (Disempurnakan untuk usia sekolah/remaja)",
+                    "tips": [
+                        "Berikan hidrasi agar ikal tidak mengembang berantakan.",
+                        "Bereksperimen dengan panjang sedang.",
+                        "Cocok untuk dipadukan dengan aturan seragam."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Mullet / Burst Fade",
+                            "reason": "Gaya edgy yang sangat hype di Tiktok.",
+                            "barber_note": "Biarkan belakang memanjang.",
+                            "priority": "Viral"
+                        },
+                        {
+                            "name": "Messy Curly Top",
+                            "reason": "Terlihat tidak berusaha tapi keren.",
+                            "barber_note": "Rapikan ujung agar ikal berbentuk.",
+                            "priority": "Santai"
+                        }
+                    ]
+                }
+            },
+            "Round": {
+                "Lurus": {
+                    "summary": "Potongan ideal adalah yang memberi kesan tegas dan sedikit memanjang. (Disempurnakan untuk usia sekolah/remaja)",
+                    "tips": [
+                        "Tambahkan tinggi di bagian atas.",
+                        "Sisi yang pendek memberi efek ramping.",
+                        "Cocok untuk dipadukan dengan aturan seragam."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Two Block",
+                            "reason": "Sangat populer di kalangan remaja saat ini.",
+                            "barber_note": "Jangan potong terlalu pendek di bagian samping.",
+                            "priority": "Trending"
+                        },
+                        {
+                            "name": "Comma Hair",
+                            "reason": "Memberi kesan santai ala Korea.",
+                            "barber_note": "Sisakan poni untuk dibentuk melengkung.",
+                            "priority": "Gaya K-Pop"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Rambut ikal perlu dijinakkan di sisi samping agar wajah tidak terlihat makin bulat. (Disempurnakan untuk usia sekolah/remaja)",
+                    "tips": [
+                        "Potong sangat tipis di bagian sisi.",
+                        "Arahkan ikal ke atas untuk ilusi tinggi.",
+                        "Cocok untuk dipadukan dengan aturan seragam."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Mullet / Burst Fade",
+                            "reason": "Gaya edgy yang sangat hype di Tiktok.",
+                            "barber_note": "Biarkan belakang memanjang.",
+                            "priority": "Viral"
+                        },
+                        {
+                            "name": "Messy Curly Top",
+                            "reason": "Terlihat tidak berusaha tapi keren.",
+                            "barber_note": "Rapikan ujung agar ikal berbentuk.",
+                            "priority": "Santai"
+                        }
+                    ]
+                }
+            },
+            "Square": {
+                "Lurus": {
+                    "summary": "Cocok dengan potongan yang tegas tetapi tidak terlalu keras. (Disempurnakan untuk usia sekolah/remaja)",
+                    "tips": [
+                        "Pertahankan garis rambut yang rapi.",
+                        "Tekstur lembut di atas.",
+                        "Cocok untuk dipadukan dengan aturan seragam."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Two Block",
+                            "reason": "Sangat populer di kalangan remaja saat ini.",
+                            "barber_note": "Jangan potong terlalu pendek di bagian samping.",
+                            "priority": "Trending"
+                        },
+                        {
+                            "name": "Comma Hair",
+                            "reason": "Memberi kesan santai ala Korea.",
+                            "barber_note": "Sisakan poni untuk dibentuk melengkung.",
+                            "priority": "Gaya K-Pop"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Tekstur ikal akan melembutkan rahang persegi Anda dengan sangat apik. (Disempurnakan untuk usia sekolah/remaja)",
+                    "tips": [
+                        "Biarkan sisi samping sedikit berisi untuk keseimbangan.",
+                        "Fokuskan volume natural.",
+                        "Cocok untuk dipadukan dengan aturan seragam."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Mullet / Burst Fade",
+                            "reason": "Gaya edgy yang sangat hype di Tiktok.",
+                            "barber_note": "Biarkan belakang memanjang.",
+                            "priority": "Viral"
+                        },
+                        {
+                            "name": "Messy Curly Top",
+                            "reason": "Terlihat tidak berusaha tapi keren.",
+                            "barber_note": "Rapikan ujung agar ikal berbentuk.",
+                            "priority": "Santai"
+                        }
+                    ]
+                }
+            }
+        },
+        "adult": {
+            "Heart": {
+                "Lurus": {
+                    "summary": "Cocok untuk menyeimbangkan dahi yang lebih lebar dengan volume yang lebih lembut.",
+                    "tips": [
+                        "Pilih tekstur ringan di bagian fringe.",
+                        "Pertahankan sisi yang rapi."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Textured Fringe",
+                            "reason": "Mengarahkan fokus ke area mata.",
+                            "barber_note": "Minta fringe bertekstur layer tipis.",
+                            "priority": "Paling disarankan"
+                        },
+                        {
+                            "name": "Side Part",
+                            "reason": "Belahan samping rapi.",
+                            "barber_note": "Minta belahan samping natural.",
+                            "priority": "Aman"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Ikal natural membantu menambah volume di sisi samping untuk menyeimbangkan wajah Heart.",
+                    "tips": [
+                        "Gunakan produk penegas ikal.",
+                        "Biarkan poni sedikit jatuh ke depan dahi."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Fringe",
+                            "reason": "Poni ikal menyamarkan dahi lebar secara alami.",
+                            "barber_note": "Biarkan bagian atas sedikit lebih panjang.",
+                            "priority": "Paling disarankan"
+                        },
+                        {
+                            "name": "Messy Quiff",
+                            "reason": "Volume ikal di atas menambah kesan santai.",
+                            "barber_note": "Rapikan sisi agar tidak terlalu lebar.",
+                            "priority": "Stylish"
+                        }
+                    ]
+                }
+            },
+            "Oblong": {
+                "Lurus": {
+                    "summary": "Tujuannya memecah kesan wajah yang panjang dengan potongan yang lebih pendek.",
+                    "tips": [
+                        "Jaga tinggi rambut agar tidak membuat wajah memanjang.",
+                        "Gunakan potongan lebar di samping."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Buzz Cut",
+                            "reason": "Potongan sangat pendek menjaga bentuk wajah seimbang.",
+                            "barber_note": "Minta panjang konsisten.",
+                            "priority": "Praktis"
+                        },
+                        {
+                            "name": "Crew Cut",
+                            "reason": "Memberi struktur rapi.",
+                            "barber_note": "Sisi pendek, atas pendek-menengah.",
+                            "priority": "Rapi"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Tekstur ikal sangat bagus untuk memberi ilusi lebar pada wajah Oblong.",
+                    "tips": [
+                        "Jangan potong terlalu tipis di bagian samping.",
+                        "Biarkan ikal natural di bagian atas."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Undercut",
+                            "reason": "Memberi lebar visual di bagian atas.",
+                            "barber_note": "Sisakan ikal di atas, fade tidak terlalu tinggi.",
+                            "priority": "Paling disarankan"
+                        },
+                        {
+                            "name": "Curly Fringe",
+                            "reason": "Poni menutupi dahi sehingga wajah terlihat lebih pendek.",
+                            "barber_note": "Jatuhkan poni ke depan dahi.",
+                            "priority": "Aman"
+                        }
+                    ]
+                }
+            },
+            "Oval": {
+                "Lurus": {
+                    "summary": "Bentuk wajah yang paling fleksibel, rambut lurus bisa diaplikasikan ke gaya klasik maupun modern.",
+                    "tips": [
+                        "Coba gaya yang sesuai karakter.",
+                        "Jaga bagian atas agar tidak terlalu berat."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Pompadour",
+                            "reason": "Memberi volume stylish.",
+                            "barber_note": "Minta volume sedang.",
+                            "priority": "Stylish"
+                        },
+                        {
+                            "name": "Undercut",
+                            "reason": "Kontras samping bersih.",
+                            "barber_note": "Disconnect yang tidak ekstrem.",
+                            "priority": "Modern"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Wajah oval sangat proporsional, ikal akan memberi karakter yang kuat.",
+                    "tips": [
+                        "Berikan hidrasi agar ikal tidak mengembang berantakan.",
+                        "Bereksperimen dengan panjang sedang."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Medium Curly Flow",
+                            "reason": "Mengikuti bentuk wajah secara natural.",
+                            "barber_note": "Rapikan ujungnya saja.",
+                            "priority": "Elegan"
+                        },
+                        {
+                            "name": "Curly Pompadour",
+                            "reason": "Memberi kesan klasik tapi bertekstur tinggi.",
+                            "barber_note": "Rapikan samping dengan fade halus.",
+                            "priority": "Modern"
+                        }
+                    ]
+                }
+            },
+            "Round": {
+                "Lurus": {
+                    "summary": "Potongan ideal adalah yang memberi kesan tegas dan sedikit memanjang.",
+                    "tips": [
+                        "Tambahkan tinggi di bagian atas.",
+                        "Sisi yang pendek memberi efek ramping."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Faux Hawk",
+                            "reason": "Garis tengah naik memberi ilusi wajah panjang.",
+                            "barber_note": "Sisi lebih pendek.",
+                            "priority": "Tegas"
+                        },
+                        {
+                            "name": "High Fade",
+                            "reason": "Fade tinggi memberi kesan struktur rapi.",
+                            "barber_note": "Padukan fade tinggi.",
+                            "priority": "Rapi"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Rambut ikal perlu dijinakkan di sisi samping agar wajah tidak terlihat makin bulat.",
+                    "tips": [
+                        "Potong sangat tipis di bagian sisi.",
+                        "Arahkan ikal ke atas untuk ilusi tinggi."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly High Fade",
+                            "reason": "Menghilangkan volume samping sepenuhnya.",
+                            "barber_note": "Skin fade di samping.",
+                            "priority": "Paling disarankan"
+                        },
+                        {
+                            "name": "Curly Faux Hawk",
+                            "reason": "Ikal difokuskan ke tengah.",
+                            "barber_note": "Arahkan potong memanjang ke tengah kepala.",
+                            "priority": "Tegas"
+                        }
+                    ]
+                }
+            },
+            "Square": {
+                "Lurus": {
+                    "summary": "Cocok dengan potongan yang tegas tetapi tidak terlalu keras.",
+                    "tips": [
+                        "Pertahankan garis rambut yang rapi.",
+                        "Tekstur lembut di atas."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "French Crop",
+                            "reason": "Poni pendek dan tekstur lembut.",
+                            "barber_note": "Fringe pendek natural.",
+                            "priority": "Modern"
+                        },
+                        {
+                            "name": "Crew Cut",
+                            "reason": "Potongan pendek bersih.",
+                            "barber_note": "Top pendek, sisi rapi.",
+                            "priority": "Aman"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Tekstur ikal akan melembutkan rahang persegi Anda dengan sangat apik.",
+                    "tips": [
+                        "Biarkan sisi samping sedikit berisi untuk keseimbangan.",
+                        "Fokuskan volume natural."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly French Crop",
+                            "reason": "Poni ikal memperlembut dimensi dahi tegak lurus.",
+                            "barber_note": "Jangan potong poni terlalu rata.",
+                            "priority": "Paling disarankan"
+                        },
+                        {
+                            "name": "Short Curly Taper",
+                            "reason": "Rapi namun tetap menonjolkan tekstur alami.",
+                            "barber_note": "Taper halus di samping, tidak terlalu tinggi.",
+                            "priority": "Klasik"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "female": {
+        "child": {
+            "Heart": {
+                "Lurus": {
+                    "summary": "Gaya rambut manis untuk anak dengan rambut lurus.",
+                    "tips": [
+                        "Hindari poni kepanjangan.",
+                        "Bebaskan anak bergerak nyaman."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Bob with Bangs",
+                            "reason": "Klasik seperti Dora.",
+                            "barber_note": "Poni rapi di atas alis.",
+                            "priority": "Manis"
+                        },
+                        {
+                            "name": "Straight Pixie",
+                            "reason": "Praktis jika anak sangat aktif.",
+                            "barber_note": "Pendek rapi.",
+                            "priority": "Aktif"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Gaya rambut manis untuk anak dengan rambut ikal.",
+                    "tips": [
+                        "Hindari poni kepanjangan.",
+                        "Bebaskan anak bergerak nyaman."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Space Buns",
+                            "reason": "Sangat menggemaskan.",
+                            "barber_note": "Biarkan ikal diikat dua atas.",
+                            "priority": "Lucu"
+                        },
+                        {
+                            "name": "Natural Short Curls",
+                            "reason": "Mudah disisir dan dirawat.",
+                            "barber_note": "Rapikan melingkar sebahu.",
+                            "priority": "Manis"
+                        }
+                    ]
+                }
+            },
+            "Oblong": {
+                "Lurus": {
+                    "summary": "Gaya rambut manis untuk anak dengan rambut lurus.",
+                    "tips": [
+                        "Hindari poni kepanjangan.",
+                        "Bebaskan anak bergerak nyaman."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Bob with Bangs",
+                            "reason": "Klasik seperti Dora.",
+                            "barber_note": "Poni rapi di atas alis.",
+                            "priority": "Manis"
+                        },
+                        {
+                            "name": "Straight Pixie",
+                            "reason": "Praktis jika anak sangat aktif.",
+                            "barber_note": "Pendek rapi.",
+                            "priority": "Aktif"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Gaya rambut manis untuk anak dengan rambut ikal.",
+                    "tips": [
+                        "Hindari poni kepanjangan.",
+                        "Bebaskan anak bergerak nyaman."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Space Buns",
+                            "reason": "Sangat menggemaskan.",
+                            "barber_note": "Biarkan ikal diikat dua atas.",
+                            "priority": "Lucu"
+                        },
+                        {
+                            "name": "Natural Short Curls",
+                            "reason": "Mudah disisir dan dirawat.",
+                            "barber_note": "Rapikan melingkar sebahu.",
+                            "priority": "Manis"
+                        }
+                    ]
+                }
+            },
+            "Oval": {
+                "Lurus": {
+                    "summary": "Gaya rambut manis untuk anak dengan rambut lurus.",
+                    "tips": [
+                        "Hindari poni kepanjangan.",
+                        "Bebaskan anak bergerak nyaman."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Bob with Bangs",
+                            "reason": "Klasik seperti Dora.",
+                            "barber_note": "Poni rapi di atas alis.",
+                            "priority": "Manis"
+                        },
+                        {
+                            "name": "Straight Pixie",
+                            "reason": "Praktis jika anak sangat aktif.",
+                            "barber_note": "Pendek rapi.",
+                            "priority": "Aktif"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Gaya rambut manis untuk anak dengan rambut ikal.",
+                    "tips": [
+                        "Hindari poni kepanjangan.",
+                        "Bebaskan anak bergerak nyaman."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Space Buns",
+                            "reason": "Sangat menggemaskan.",
+                            "barber_note": "Biarkan ikal diikat dua atas.",
+                            "priority": "Lucu"
+                        },
+                        {
+                            "name": "Natural Short Curls",
+                            "reason": "Mudah disisir dan dirawat.",
+                            "barber_note": "Rapikan melingkar sebahu.",
+                            "priority": "Manis"
+                        }
+                    ]
+                }
+            },
+            "Round": {
+                "Lurus": {
+                    "summary": "Gaya rambut manis untuk anak dengan rambut lurus.",
+                    "tips": [
+                        "Hindari poni kepanjangan.",
+                        "Bebaskan anak bergerak nyaman."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Bob with Bangs",
+                            "reason": "Klasik seperti Dora.",
+                            "barber_note": "Poni rapi di atas alis.",
+                            "priority": "Manis"
+                        },
+                        {
+                            "name": "Straight Pixie",
+                            "reason": "Praktis jika anak sangat aktif.",
+                            "barber_note": "Pendek rapi.",
+                            "priority": "Aktif"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Gaya rambut manis untuk anak dengan rambut ikal.",
+                    "tips": [
+                        "Hindari poni kepanjangan.",
+                        "Bebaskan anak bergerak nyaman."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Space Buns",
+                            "reason": "Sangat menggemaskan.",
+                            "barber_note": "Biarkan ikal diikat dua atas.",
+                            "priority": "Lucu"
+                        },
+                        {
+                            "name": "Natural Short Curls",
+                            "reason": "Mudah disisir dan dirawat.",
+                            "barber_note": "Rapikan melingkar sebahu.",
+                            "priority": "Manis"
+                        }
+                    ]
+                }
+            },
+            "Square": {
+                "Lurus": {
+                    "summary": "Gaya rambut manis untuk anak dengan rambut lurus.",
+                    "tips": [
+                        "Hindari poni kepanjangan.",
+                        "Bebaskan anak bergerak nyaman."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Bob with Bangs",
+                            "reason": "Klasik seperti Dora.",
+                            "barber_note": "Poni rapi di atas alis.",
+                            "priority": "Manis"
+                        },
+                        {
+                            "name": "Straight Pixie",
+                            "reason": "Praktis jika anak sangat aktif.",
+                            "barber_note": "Pendek rapi.",
+                            "priority": "Aktif"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Gaya rambut manis untuk anak dengan rambut ikal.",
+                    "tips": [
+                        "Hindari poni kepanjangan.",
+                        "Bebaskan anak bergerak nyaman."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Space Buns",
+                            "reason": "Sangat menggemaskan.",
+                            "barber_note": "Biarkan ikal diikat dua atas.",
+                            "priority": "Lucu"
+                        },
+                        {
+                            "name": "Natural Short Curls",
+                            "reason": "Mudah disisir dan dirawat.",
+                            "barber_note": "Rapikan melingkar sebahu.",
+                            "priority": "Manis"
+                        }
+                    ]
+                }
+            }
+        },
+        "teen": {
+            "Heart": {
+                "Lurus": {
+                    "summary": "Cocok dengan poni menyamping atau layer. (Cocok untuk gaya remaja yang fresh)",
+                    "tips": [
+                        "Pilih belahan samping.",
+                        "Hindari potongan rata se-dagu.",
+                        "Pilih gaya yang mudah diatur sebelum ke sekolah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Wolf Cut",
+                            "reason": "Gaya trendi di sosmed.",
+                            "barber_note": "Layer mullet modern.",
+                            "priority": "Trending"
+                        },
+                        {
+                            "name": "Butterfly Haircut",
+                            "reason": "Volume cantik bersayap.",
+                            "barber_note": "Layer di dagu.",
+                            "priority": "Viral"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Ikal membantu menambah volume natural di rahang. (Cocok untuk gaya remaja yang fresh)",
+                    "tips": [
+                        "Biarkan ikal menjuntai di sisi pipi.",
+                        "Jangan potong terlalu pendek.",
+                        "Pilih gaya yang mudah diatur sebelum ke sekolah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Messy Shag",
+                            "reason": "Sangat artsy dan populer di Pinterest.",
+                            "barber_note": "Layer acak ringan.",
+                            "priority": "Aesthetic"
+                        },
+                        {
+                            "name": "Wavy Y2K Braids",
+                            "reason": "Sangat lucu untuk remaja.",
+                            "barber_note": "Gaya natural dipadu kepangan kecil.",
+                            "priority": "Trending"
+                        }
+                    ]
+                }
+            },
+            "Oblong": {
+                "Lurus": {
+                    "summary": "Poni lurus atau layer lebar sangat membantu wajah Oblong. (Cocok untuk gaya remaja yang fresh)",
+                    "tips": [
+                        "Tambahkan volume horizontal.",
+                        "Jangan lurus rata tanpa poni.",
+                        "Pilih gaya yang mudah diatur sebelum ke sekolah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Wolf Cut",
+                            "reason": "Gaya trendi di sosmed.",
+                            "barber_note": "Layer mullet modern.",
+                            "priority": "Trending"
+                        },
+                        {
+                            "name": "Butterfly Haircut",
+                            "reason": "Volume cantik bersayap.",
+                            "barber_note": "Layer di dagu.",
+                            "priority": "Viral"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Ikal adalah senjata terbaik wajah Oblong untuk menambah dimensi horizontal. (Cocok untuk gaya remaja yang fresh)",
+                    "tips": [
+                        "Biarkan rambut mengembang ke samping.",
+                        "Panjang sebahu paling optimal.",
+                        "Pilih gaya yang mudah diatur sebelum ke sekolah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Messy Shag",
+                            "reason": "Sangat artsy dan populer di Pinterest.",
+                            "barber_note": "Layer acak ringan.",
+                            "priority": "Aesthetic"
+                        },
+                        {
+                            "name": "Wavy Y2K Braids",
+                            "reason": "Sangat lucu untuk remaja.",
+                            "barber_note": "Gaya natural dipadu kepangan kecil.",
+                            "priority": "Trending"
+                        }
+                    ]
+                }
+            },
+            "Oval": {
+                "Lurus": {
+                    "summary": "Beruntung! Bentuk wajah ini proporsional. (Cocok untuk gaya remaja yang fresh)",
+                    "tips": [
+                        "Berani bereksperimen.",
+                        "Hindari gaya menutupi wajah.",
+                        "Pilih gaya yang mudah diatur sebelum ke sekolah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Wolf Cut",
+                            "reason": "Gaya trendi di sosmed.",
+                            "barber_note": "Layer mullet modern.",
+                            "priority": "Trending"
+                        },
+                        {
+                            "name": "Butterfly Haircut",
+                            "reason": "Volume cantik bersayap.",
+                            "barber_note": "Layer di dagu.",
+                            "priority": "Viral"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Ikal mempercantik dimensi oval. (Cocok untuk gaya remaja yang fresh)",
+                    "tips": [
+                        "Pastikan ikal terhidrasi.",
+                        "Layer panjang adalah sahabat Anda.",
+                        "Pilih gaya yang mudah diatur sebelum ke sekolah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Messy Shag",
+                            "reason": "Sangat artsy dan populer di Pinterest.",
+                            "barber_note": "Layer acak ringan.",
+                            "priority": "Aesthetic"
+                        },
+                        {
+                            "name": "Wavy Y2K Braids",
+                            "reason": "Sangat lucu untuk remaja.",
+                            "barber_note": "Gaya natural dipadu kepangan kecil.",
+                            "priority": "Trending"
+                        }
+                    ]
+                }
+            },
+            "Round": {
+                "Lurus": {
+                    "summary": "Lurus panjang memberi ilusi wajah lebih vertikal. (Cocok untuk gaya remaja yang fresh)",
+                    "tips": [
+                        "Hindari poni lurus rata.",
+                        "Pilih belahan tengah.",
+                        "Pilih gaya yang mudah diatur sebelum ke sekolah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Wolf Cut",
+                            "reason": "Gaya trendi di sosmed.",
+                            "barber_note": "Layer mullet modern.",
+                            "priority": "Trending"
+                        },
+                        {
+                            "name": "Butterfly Haircut",
+                            "reason": "Volume cantik bersayap.",
+                            "barber_note": "Layer di dagu.",
+                            "priority": "Viral"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Ikal bisa membuat wajah terkesan bulat jika salah potong. (Cocok untuk gaya remaja yang fresh)",
+                    "tips": [
+                        "Pastikan volume berada di puncak kepala, bukan di sisi pipi.",
+                        "Hindari ikal pendek rahang.",
+                        "Pilih gaya yang mudah diatur sebelum ke sekolah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Messy Shag",
+                            "reason": "Sangat artsy dan populer di Pinterest.",
+                            "barber_note": "Layer acak ringan.",
+                            "priority": "Aesthetic"
+                        },
+                        {
+                            "name": "Wavy Y2K Braids",
+                            "reason": "Sangat lucu untuk remaja.",
+                            "barber_note": "Gaya natural dipadu kepangan kecil.",
+                            "priority": "Trending"
+                        }
+                    ]
+                }
+            },
+            "Square": {
+                "Lurus": {
+                    "summary": "Garis wajah yang tegas butuh potongan yang memperlembut. (Cocok untuk gaya remaja yang fresh)",
+                    "tips": [
+                        "Pilih layer lembut.",
+                        "Poni menyamping sangat membantu.",
+                        "Pilih gaya yang mudah diatur sebelum ke sekolah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Wolf Cut",
+                            "reason": "Gaya trendi di sosmed.",
+                            "barber_note": "Layer mullet modern.",
+                            "priority": "Trending"
+                        },
+                        {
+                            "name": "Butterfly Haircut",
+                            "reason": "Volume cantik bersayap.",
+                            "barber_note": "Layer di dagu.",
+                            "priority": "Viral"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Tekstur bergelombang sangat luar biasa untuk wajah persegi. (Cocok untuk gaya remaja yang fresh)",
+                    "tips": [
+                        "Ini kombinasi emas. Biarkan ikal jatuh natural.",
+                        "Jangan potong model bob kotak.",
+                        "Pilih gaya yang mudah diatur sebelum ke sekolah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Messy Shag",
+                            "reason": "Sangat artsy dan populer di Pinterest.",
+                            "barber_note": "Layer acak ringan.",
+                            "priority": "Aesthetic"
+                        },
+                        {
+                            "name": "Wavy Y2K Braids",
+                            "reason": "Sangat lucu untuk remaja.",
+                            "barber_note": "Gaya natural dipadu kepangan kecil.",
+                            "priority": "Trending"
+                        }
+                    ]
+                }
+            }
+        },
+        "adult": {
+            "Heart": {
+                "Lurus": {
+                    "summary": "Cocok dengan poni menyamping atau layer.",
+                    "tips": [
+                        "Pilih belahan samping.",
+                        "Hindari potongan rata se-dagu."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Long Bob with Side Bangs",
+                            "reason": "Menyeimbangkan dahi lebar.",
+                            "barber_note": "Layer di ujung.",
+                            "priority": "Elegan"
+                        },
+                        {
+                            "name": "Sleek Straight Layers",
+                            "reason": "Terlihat profesional dan bersih.",
+                            "barber_note": "Layer panjang dari dagu ke bawah.",
+                            "priority": "Klasik"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Ikal membantu menambah volume natural di rahang.",
+                    "tips": [
+                        "Biarkan ikal menjuntai di sisi pipi.",
+                        "Jangan potong terlalu pendek."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Wavy Lob",
+                            "reason": "Gelombang memberi volume di area rahang.",
+                            "barber_note": "Tekstur natural.",
+                            "priority": "Kasual"
+                        },
+                        {
+                            "name": "Curly Shag",
+                            "reason": "Memberi kesan edgy.",
+                            "barber_note": "Layer acak di atas.",
+                            "priority": "Trendy"
+                        }
+                    ]
+                }
+            },
+            "Oblong": {
+                "Lurus": {
+                    "summary": "Poni lurus atau layer lebar sangat membantu wajah Oblong.",
+                    "tips": [
+                        "Tambahkan volume horizontal.",
+                        "Jangan lurus rata tanpa poni."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Blunt Bangs with Layers",
+                            "reason": "Poni memotong panjang wajah.",
+                            "barber_note": "Poni rata di atas alis.",
+                            "priority": "Manis"
+                        },
+                        {
+                            "name": "Shoulder-length Layer",
+                            "reason": "Membingkai wajah dengan manis.",
+                            "barber_note": "Layer mulai dari pipi.",
+                            "priority": "Aman"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Ikal adalah senjata terbaik wajah Oblong untuk menambah dimensi horizontal.",
+                    "tips": [
+                        "Biarkan rambut mengembang ke samping.",
+                        "Panjang sebahu paling optimal."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Big Curly Volume",
+                            "reason": "Memberi lebar dramatis pada wajah.",
+                            "barber_note": "Layer merata bundar.",
+                            "priority": "Paling disarankan"
+                        },
+                        {
+                            "name": "Curly Lob with Bangs",
+                            "reason": "Poni ikal memendekkan dahi.",
+                            "barber_note": "Biarkan poni bergelombang natural.",
+                            "priority": "Stylish"
+                        }
+                    ]
+                }
+            },
+            "Oval": {
+                "Lurus": {
+                    "summary": "Beruntung! Bentuk wajah ini proporsional.",
+                    "tips": [
+                        "Berani bereksperimen.",
+                        "Hindari gaya menutupi wajah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Blunt Bob",
+                            "reason": "Menonjolkan rahang sempurna.",
+                            "barber_note": "Potongan rata.",
+                            "priority": "Chic"
+                        },
+                        {
+                            "name": "Long Straight Hair",
+                            "reason": "Sangat elegan dan flowy.",
+                            "barber_note": "Rapi dan terawat.",
+                            "priority": "Aman"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Ikal mempercantik dimensi oval.",
+                    "tips": [
+                        "Pastikan ikal terhidrasi.",
+                        "Layer panjang adalah sahabat Anda."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Long Curly Layers",
+                            "reason": "Memberi dimensi yang mewah.",
+                            "barber_note": "Layer panjang.",
+                            "priority": "Anggun"
+                        },
+                        {
+                            "name": "Short Curly Bob",
+                            "reason": "Lebih segar dan muda.",
+                            "barber_note": "Bob di atas bahu.",
+                            "priority": "Fresh"
+                        }
+                    ]
+                }
+            },
+            "Round": {
+                "Lurus": {
+                    "summary": "Lurus panjang memberi ilusi wajah lebih vertikal.",
+                    "tips": [
+                        "Hindari poni lurus rata.",
+                        "Pilih belahan tengah."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Asymmetrical Bob",
+                            "reason": "Memecah kebulatan wajah.",
+                            "barber_note": "Lebih panjang di satu sisi.",
+                            "priority": "Edgy"
+                        },
+                        {
+                            "name": "Long Straight Center Part",
+                            "reason": "Garis vertikal melangsingkan wajah.",
+                            "barber_note": "Belahan tengah rapi.",
+                            "priority": "Aman"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Ikal bisa membuat wajah terkesan bulat jika salah potong.",
+                    "tips": [
+                        "Pastikan volume berada di puncak kepala, bukan di sisi pipi.",
+                        "Hindari ikal pendek rahang."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Curly Pixie Cut",
+                            "reason": "Volume atas menambah tinggi.",
+                            "barber_note": "Sisi lebih tipis.",
+                            "priority": "Modern"
+                        },
+                        {
+                            "name": "Long Wavy Layers",
+                            "reason": "Menarik mata ke bawah.",
+                            "barber_note": "Mulai layer dari bawah dagu.",
+                            "priority": "Aman"
+                        }
+                    ]
+                }
+            },
+            "Square": {
+                "Lurus": {
+                    "summary": "Garis wajah yang tegas butuh potongan yang memperlembut.",
+                    "tips": [
+                        "Pilih layer lembut.",
+                        "Poni menyamping sangat membantu."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Soft Layers with Sweeping Bangs",
+                            "reason": "Memperhalus sudut rahang.",
+                            "barber_note": "Layer framing wajah.",
+                            "priority": "Feminin"
+                        },
+                        {
+                            "name": "Long Straight with Texture",
+                            "reason": "Tidak terlalu kaku.",
+                            "barber_note": "Hindari potongan tumpul di dagu.",
+                            "priority": "Aman"
+                        }
+                    ]
+                },
+                "Ikal": {
+                    "summary": "Tekstur bergelombang sangat luar biasa untuk wajah persegi.",
+                    "tips": [
+                        "Ini kombinasi emas. Biarkan ikal jatuh natural.",
+                        "Jangan potong model bob kotak."
+                    ],
+                    "rekomendasi": [
+                        {
+                            "name": "Tousled Curly Shag",
+                            "reason": "Mengalihkan fokus dari rahang keras.",
+                            "barber_note": "Banyak tekstur acak.",
+                            "priority": "Trendy"
+                        },
+                        {
+                            "name": "Romantic Curly Waves",
+                            "reason": "Sangat feminin dan lembut.",
+                            "barber_note": "Layer panjang.",
+                            "priority": "Elegan"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
