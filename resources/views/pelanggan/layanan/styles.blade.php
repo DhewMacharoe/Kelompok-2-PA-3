@@ -12,7 +12,7 @@
     height: 270px;
     background:
         linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)),
-        url("https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=1200&auto=format&fit=crop");
+        url("{{ isset($activeDesign) && $activeDesign->gambar_hero_layanan ? asset($activeDesign->gambar_hero_layanan) : 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=1200&auto=format&fit=crop' }}");
     background-size: cover;
     background-position: center;
     padding: 28px 24px;

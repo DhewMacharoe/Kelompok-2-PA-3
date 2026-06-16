@@ -4,7 +4,7 @@
         // Swap Logo dynamically to full brand logo on homepage
         const logoImg = document.querySelector('.pelanggan-navbar .navbar-brand img');
         if (logoImg) {
-            logoImg.src = "{{ asset('assets/images/logo.png') }}";
+            logoImg.src = "{{ isset($activeDesign) && $activeDesign->favicon ? asset($activeDesign->favicon) : asset('assets/images/logo.png') }}";
             logoImg.style.maxHeight = '48px';
             logoImg.style.height = 'auto';
         }

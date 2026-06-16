@@ -111,7 +111,7 @@
 
     /* Hero Section */
     .hero {
-        background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.75)), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=1474&auto=format&fit=crop');
+        background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.75)), url('{{ isset($activeDesign) && $activeDesign->gambar_hero ? asset($activeDesign->gambar_hero) : "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=1474&auto=format&fit=crop" }}');
         background-size: cover;
         background-position: center;
         min-height: 460px;

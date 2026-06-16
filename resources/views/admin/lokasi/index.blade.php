@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Tentukan Lokasi')
+@section('title', 'Lokasi dan Jam Operasional')
 
 @push('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -100,8 +100,8 @@
     <div class="col-12">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div>
-                <h4 class="fw-bold text-dark mb-1">Tentukan Lokasi Antrean</h4>
-                <p class="text-muted mb-0">Atur koordinat pusat dan radius jangkauan antrean agar pelanggan dapat mendaftar dalam radius tersebut.</p>
+                <h4 class="fw-bold text-dark mb-1">Lokasi & Jam Operasional</h4>
+                <p class="text-muted mb-0">Atur koordinat jangkauan antrean dan jam operasional outlet.</p>
             </div>
         </div>
 
@@ -112,25 +112,28 @@
             </div>
         @endif
 
-        <div class="card location-card p-4">
-            <div class="row g-4">
-                <div class="col-lg-8">
+        <div class="row g-4">
+            <!-- Left Card: Peta & Pencarian -->
+            <div class="col-lg-8">
+                <div class="card location-card p-4 h-100 shadow-sm border-0">
+                    <h5 class="fw-bold text-dark mb-4"><i class="bi bi-map text-primary me-2"></i>Peta & Lokasi</h5>
+                    
                     <!-- Search Input -->
-                    <div class="position-relative mb-3">
-                        <label for="search-input" class="form-label fw-semibold text-muted">Cari Alamat atau Tempel URL Google Maps</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0 rounded-start-3" style="border-color: #cbd5e1;">
-                                <i class="bi bi-geo-alt text-muted"></i>
+                    <div class="position-relative mb-4">
+                        <label for="search-input" class="form-label fw-semibold text-muted mb-2">Cari Alamat / Link Maps</label>
+                        <div class="input-group shadow-xs rounded-3 overflow-hidden">
+                            <span class="input-group-text bg-light border-end-0" style="border-color: #cbd5e1;">
+                                <i class="bi bi-geo-alt text-primary"></i>
                             </span>
-                            <input type="text" id="search-input" class="form-control form-control-premium border-start-0 rounded-end-3" placeholder="Masukkan nama tempat / alamat, atau tempel URL Google Maps..." autocomplete="off">
-                            <button type="button" id="btn-search" class="btn btn-outline-secondary rounded-3 ms-2 px-3 fw-semibold">Proses</button>
+                            <input type="text" id="search-input" class="form-control form-control-premium border-start-0 border-end-0" placeholder="Ketik alamat atau tempel tautan Google Maps..." autocomplete="off" style="border-color: #cbd5e1;">
+                            <button type="button" id="btn-search" class="btn btn-primary px-4 fw-bold">Cari</button>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center mt-2 flex-wrap gap-2">
+                        <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
                             <div class="form-text text-muted small mb-0 flex-grow-1" style="max-width: 70%;">
-                                <i class="bi bi-info-circle me-1"></i> Anda bisa mencari alamat secara langsung, atau menempelkan URL Google Maps lengkap dari address bar browser (contoh: <code>https://www.google.com/maps/place/.../@2.33758,99.079255,...</code>) untuk presisi koordinat 100%.
+                                <i class="bi bi-info-circle text-primary me-1"></i> Tempel tautan Google Maps lengkap untuk koordinat presisi.
                             </div>
-                            <button type="button" id="btn-reset-default" class="btn btn-outline-secondary btn-sm rounded-3 fw-semibold py-2 px-3 shadow-sm border" style="font-size: 0.85rem; background: #fff; color: #dc3545; border-color: #f5c2c7 !important;">
-                                <i class="bi bi-arrow-counterclockwise me-1"></i> Reset ke Lokasi Default
+                            <button type="button" id="btn-reset-default" class="btn btn-outline-danger btn-sm rounded-3 fw-semibold py-1.5 px-3 border shadow-xs" style="font-size: 0.82rem;">
+                                <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Lokasi
                             </button>
                         </div>
                         <div id="search-results" class="search-results-dropdown"></div>
@@ -139,69 +142,87 @@
                     <!-- Map container -->
                     <div id="map"></div>
                 </div>
+            </div>
 
-                <div class="col-lg-4">
+            <!-- Right Card: Form Konfigurasi -->
+            <div class="col-lg-4">
+                <div class="card location-card p-4 h-100 shadow-sm border-0">
                     <form action="{{ route('admin.lokasi.store') }}" method="POST" id="locationForm" class="h-100 d-flex flex-column justify-content-between">
                         @csrf
                         <div>
-                            <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Informasi Koordinat</h5>
+                            <h5 class="fw-bold text-dark mb-4 pb-2 border-bottom"><i class="bi bi-sliders text-primary me-2"></i>Konfigurasi Antrean</h5>
 
-                            <!-- Latitude -->
-                            <div class="mb-3">
-                                <label for="latitude" class="form-label fw-semibold text-muted">Latitude (Garis Lintang)</label>
-                                <input type="text" name="latitude" id="latitude" class="form-control form-control-premium bg-light" value="{{ $latitude }}" readonly>
-                                @error('latitude')
-                                    <span class="text-danger small">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <!-- Longitude -->
-                            <div class="mb-3">
-                                <label for="longitude" class="form-label fw-semibold text-muted">Longitude (Garis Bujur)</label>
-                                <input type="text" name="longitude" id="longitude" class="form-control form-control-premium bg-light" value="{{ $longitude }}" readonly>
-                                @error('longitude')
-                                    <span class="text-danger small">{{ $message }}</span>
-                                @enderror
+                            <!-- Koordinat (Latitude & Longitude) -->
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <label for="latitude" class="form-label fw-semibold text-muted mb-1">Latitude</label>
+                                    <input type="text" name="latitude" id="latitude" class="form-control form-control-premium bg-light text-muted" value="{{ $latitude }}" readonly>
+                                    @error('latitude')
+                                        <span class="text-danger small">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="col-6">
+                                    <label for="longitude" class="form-label fw-semibold text-muted mb-1">Longitude</label>
+                                    <input type="text" name="longitude" id="longitude" class="form-control form-control-premium bg-light text-muted" value="{{ $longitude }}" readonly>
+                                    @error('longitude')
+                                        <span class="text-danger small">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
 
                             <!-- Radius -->
                             <div class="mb-4">
-                                <label for="radius_meters" class="form-label fw-semibold text-muted d-flex justify-content-between">
+                                <label for="radius_meters" class="form-label fw-semibold text-muted mb-1 d-flex justify-content-between">
                                     <span>Radius Jangkauan</span>
                                     <span class="text-primary fw-bold" id="radius-val">{{ $radius }} Meter</span>
                                 </label>
                                 <input type="range" class="form-range" id="radius_slider" min="10" max="1000" step="10" value="{{ $radius }}">
                                 <input type="number" name="radius_meters" id="radius_meters" class="form-control form-control-premium mt-2" value="{{ $radius }}" min="10" max="1000">
-                                <span class="text-muted small">Tentukan radius melingkar dari titik koordinat dalam satuan meter.</span>
+                                <span class="text-muted small">Atur batas radius pendaftaran pelanggan.</span>
                                 @error('radius_meters')
+                                    <span class="text-danger small">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Jam Operasional -->
+                            <div class="mb-4 pt-3 border-top">
+                                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-clock text-primary me-2"></i>Jam Operasional</h6>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <label for="jam_buka" class="form-label fw-semibold text-muted mb-1">Buka</label>
+                                        <input type="time" name="jam_buka" id="jam_buka" class="form-control form-control-premium" value="{{ $jam_buka ?? '09:00' }}" required>
+                                        @error('jam_buka')
+                                            <span class="text-danger small">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="jam_tutup" class="form-label fw-semibold text-muted mb-1">Tutup</label>
+                                        <input type="time" name="jam_tutup" id="jam_tutup" class="form-control form-control-premium" value="{{ $jam_tutup ?? '21:00' }}" required>
+                                        @error('jam_tutup')
+                                            <span class="text-danger small">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Status Hari Raya -->
+                            <div class="mb-4 pt-3 border-top">
+                                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-calendar-event text-primary me-2"></i>Hari Raya</h6>
+                                <label for="keterangan_libur" class="form-label fw-semibold text-muted mb-1">Status Operasional</label>
+                                <select name="keterangan_libur" id="keterangan_libur" class="form-select form-control-premium" required>
+                                    <option value="libur" {{ ($keterangan_libur ?? 'libur') === 'libur' ? 'selected' : '' }}>Libur pada Hari Raya</option>
+                                    <option value="buka" {{ ($keterangan_libur ?? 'libur') === 'buka' ? 'selected' : '' }}>Tetap Buka pada Hari Raya</option>
+                                </select>
+                                <span class="text-muted small">Status ini akan tampil di bagian footer pelanggan.</span>
+                                @error('keterangan_libur')
                                     <span class="text-danger small">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
 
-                        <div class="mt-4 pt-3 border-top">
-                            <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Jam Operasional</h5>
-                            <div class="row g-3">
-                                <div class="col-md-6 mb-3">
-                                    <label for="jam_buka" class="form-label fw-semibold text-muted">Jam Buka</label>
-                                    <input type="time" name="jam_buka" id="jam_buka" class="form-control form-control-premium" value="{{ $jam_buka ?? '09:00' }}" required>
-                                    @error('jam_buka')
-                                        <span class="text-danger small">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="jam_tutup" class="form-label fw-semibold text-muted">Jam Tutup</label>
-                                    <input type="time" name="jam_tutup" id="jam_tutup" class="form-control form-control-premium" value="{{ $jam_tutup ?? '21:00' }}" required>
-                                    @error('jam_tutup')
-                                        <span class="text-danger small">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 pt-3 border-top">
-                            <button type="submit" class="btn-save-premium w-100 shadow-sm" data-loading-text="Menyimpan...">
-                                <i class="bi bi-save me-2"></i> Simpan Lokasi
+                        <div class="mt-auto pt-3">
+                            <button type="submit" class="btn btn-primary w-100 py-2.5 fw-bold shadow-sm rounded-3 btn-save-premium" data-loading-text="Menyimpan...">
+                                <i class="bi bi-save me-2"></i>Simpan Pengaturan
                             </button>
                         </div>
                     </form>
@@ -338,6 +359,16 @@
                 };
             }
 
+            // Format 5: query=latitude,longitude (e.g. query=2.386130,99.147852)
+            const queryRegex = /[?&]query=(-?\d+\.\d+),(-?\d+\.\d+)/;
+            const queryMatch = url.match(queryRegex);
+            if (queryMatch) {
+                return {
+                    lat: parseFloat(queryMatch[1]),
+                    lng: parseFloat(queryMatch[2])
+                };
+            }
+
             return null;
         }
 
@@ -454,9 +485,15 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        const defaultUrl = 'https://www.google.com/maps?ll=2.33758,99.079255&z=15&t=m&hl=id&gl=ID&mapclient=embed&cid=18097217044614040437';
-                        const defaultLat = 2.33758;
-                        const defaultLng = 99.079255;
+                        const defaultUrl = "{{ $activeDesign && isset($activeDesign->kontak['link_map']) && !empty($activeDesign->kontak['link_map']) ? $activeDesign->kontak['link_map'] : 'https://www.google.com/maps?ll=2.33758,99.079255' }}";
+                        let defaultLat = 2.33758;
+                        let defaultLng = 99.079255;
+                        
+                        const coords = parseGoogleMapsUrl(defaultUrl);
+                        if (coords) {
+                            defaultLat = coords.lat;
+                            defaultLng = coords.lng;
+                        }
                         
                         searchInput.value = defaultUrl;
                         marker.setLatLng([defaultLat, defaultLng]);
@@ -467,7 +504,7 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'Berhasil',
-                            text: 'Lokasi berhasil di-reset ke default. Jangan lupa untuk menekan tombol "Simpan Lokasi" di sebelah kanan.',
+                            text: 'Lokasi berhasil di-reset ke default. Jangan lupa untuk menekan tombol "Simpan Pengaturan" di sebelah kanan.',
                             confirmButtonColor: '#0578FB'
                         });
                     }

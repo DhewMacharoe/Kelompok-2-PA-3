@@ -3,7 +3,7 @@
     height: 270px;
     background:
         linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)),
-        url("https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1400&auto=format&fit=crop");
+        url("{{ isset($activeDesign) && $activeDesign->gambar_hero_menu ? asset($activeDesign->gambar_hero_menu) : 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1400&auto=format&fit=crop' }}");
     background-size: cover;
     background-position: center;
     border-radius: 0 0 26px 26px;

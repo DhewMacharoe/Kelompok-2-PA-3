@@ -96,6 +96,7 @@ class ServiceCombinationTest extends TestCase
             'name' => 'Pelanggan Test',
             'email' => 'pelanggan@test.com',
             'username' => 'pelanggantest',
+            'no_whatsapp' => '08123456789',
             'password' => bcrypt('password'),
         ]);
         $this->user->assignRole('user');

@@ -70,6 +70,105 @@
                     @enderror
                 </div>
 
+                <h5 class="mt-5 mb-3" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Hero Halaman Beranda (Home)</h5>
+                <div class="mb-4">
+                    <label for="deskripsi_hero" class="form-label">Deskripsi Hero Beranda <span class="text-danger">*</span></label>
+                    <textarea class="form-control @error('deskripsi_hero') is-invalid @enderror" id="deskripsi_hero" name="deskripsi_hero" rows="3" required placeholder="Contoh: Tempat pangkas rambut premium dengan layanan walk-in queue...">{{ old('deskripsi_hero', 'Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!') }}</textarea>
+                    <small class="text-muted">Deskripsi ini akan ditampilkan pada area selamat datang (hero) di halaman utama dan di bagian footer.</small>
+                    @error('deskripsi_hero')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="gambar_hero" class="form-label">Gambar Hero Beranda (Opsional)</label>
+                    <input type="file" class="form-control @error('gambar_hero') is-invalid @enderror" id="gambar_hero" name="gambar_hero" accept="image/*">
+                    <small class="text-muted">Format yang didukung: JPG, PNG, GIF, SVG. Maks 2MB.</small>
+                    @error('gambar_hero')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <h5 class="mt-5 mb-3" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Hero Halaman Daftar Layanan</h5>
+                <div class="mb-4">
+                    <label for="judul_hero_layanan" class="form-label">Judul Hero Layanan <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control @error('judul_hero_layanan') is-invalid @enderror" id="judul_hero_layanan" name="judul_hero_layanan" value="{{ old('judul_hero_layanan', 'Daftar Layanan') }}" required placeholder="Contoh: Daftar Layanan">
+                    @error('judul_hero_layanan')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="deskripsi_hero_layanan" class="form-label">Deskripsi Hero Layanan <span class="text-danger">*</span></label>
+                    <textarea class="form-control @error('deskripsi_hero_layanan') is-invalid @enderror" id="deskripsi_hero_layanan" name="deskripsi_hero_layanan" rows="3" required placeholder="Contoh: Lihat pilihan layanan yang tersedia beserta harga dan estimasi waktunya...">{{ old('deskripsi_hero_layanan', 'Lihat pilihan layanan yang tersedia beserta harga dan estimasi waktunya.') }}</textarea>
+                    @error('deskripsi_hero_layanan')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="gambar_hero_layanan" class="form-label">Gambar Hero Layanan (Opsional)</label>
+                    <input type="file" class="form-control @error('gambar_hero_layanan') is-invalid @enderror" id="gambar_hero_layanan" name="gambar_hero_layanan" accept="image/*">
+                    <small class="text-muted">Format yang didukung: JPG, PNG, GIF, SVG. Maks 2MB.</small>
+                    @error('gambar_hero_layanan')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <h5 class="mt-5 mb-3" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Hero Halaman Galeri</h5>
+                <div class="mb-4">
+                    <label for="judul_hero_galeri" class="form-label">Judul Hero Galeri <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control @error('judul_hero_galeri') is-invalid @enderror" id="judul_hero_galeri" name="judul_hero_galeri" value="{{ old('judul_hero_galeri', 'Galeri Kami') }}" required placeholder="Contoh: Galeri Kami">
+                    @error('judul_hero_galeri')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="deskripsi_hero_galeri" class="form-label">Deskripsi Hero Galeri <span class="text-danger">*</span></label>
+                    <textarea class="form-control @error('deskripsi_hero_galeri') is-invalid @enderror" id="deskripsi_hero_galeri" name="deskripsi_hero_galeri" rows="3" required placeholder="Contoh: Lihat suasana barbershop, hasil potongan rambut, dan area coffee sebelum datang ke tempat...">{{ old('deskripsi_hero_galeri', 'Lihat suasana barbershop, hasil potongan rambut, dan area coffee sebelum datang ke tempat.') }}</textarea>
+                    @error('deskripsi_hero_galeri')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="gambar_hero_galeri" class="form-label">Gambar Hero Galeri (Opsional)</label>
+                    <input type="file" class="form-control @error('gambar_hero_galeri') is-invalid @enderror" id="gambar_hero_galeri" name="gambar_hero_galeri" accept="image/*">
+                    <small class="text-muted">Format yang didukung: JPG, PNG, GIF, SVG. Maks 2MB.</small>
+                    @error('gambar_hero_galeri')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <h5 class="mt-5 mb-3" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Hero Halaman Menu Café</h5>
+                <div class="mb-4">
+                    <label for="judul_hero_menu" class="form-label">Judul Hero Menu <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control @error('judul_hero_menu') is-invalid @enderror" id="judul_hero_menu" name="judul_hero_menu" value="{{ old('judul_hero_menu', 'Menu Café') }}" required placeholder="Contoh: Menu Café">
+                    @error('judul_hero_menu')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="deskripsi_hero_menu" class="form-label">Deskripsi Hero Menu <span class="text-danger">*</span></label>
+                    <textarea class="form-control @error('deskripsi_hero_menu') is-invalid @enderror" id="deskripsi_hero_menu" name="deskripsi_hero_menu" rows="3" required placeholder="Contoh: Nikmati berbagai pilihan makanan dan minuman kopi yang tersedia di barbershop kami...">{{ old('deskripsi_hero_menu', 'Nikmati berbagai pilihan makanan dan minuman kopi yang tersedia di barbershop kami.') }}</textarea>
+                    @error('deskripsi_hero_menu')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="gambar_hero_menu" class="form-label">Gambar Hero Menu (Opsional)</label>
+                    <input type="file" class="form-control @error('gambar_hero_menu') is-invalid @enderror" id="gambar_hero_menu" name="gambar_hero_menu" accept="image/*">
+                    <small class="text-muted">Format yang didukung: JPG, PNG, GIF, SVG. Maks 2MB.</small>
+                    @error('gambar_hero_menu')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <h5 class="mt-5 mb-3" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Pengaturan Lainnya</h5>
+
                 <div class="mb-4">
                     <label for="warna_primer" class="form-label">Warna Dasar / Aksen Web</label>
                     <div class="d-flex align-items-center gap-3">

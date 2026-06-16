@@ -9,10 +9,9 @@
 <section class="galeri-hero">
     <div class="galeri-hero-overlay">
         <div class="galeri-hero-text">
-            <h1>Galeri {{ $activeDesign->nama_brand ?? "Arga Home's" }}</h1>
+            <h1>{{ $activeDesign->judul_hero_galeri ?? "Galeri " . ($activeDesign->nama_brand ?? "Arga Home's") }}</h1>
             <p>
-                Lihat suasana barbershop, hasil potongan rambut, dan area coffee
-                di {{ $activeDesign->nama_brand ?? "Arga Home's" }} sebelum datang ke tempat.
+                {{ $activeDesign->deskripsi_hero_galeri ?? "Lihat suasana barbershop, hasil potongan rambut, dan area coffee sebelum datang ke tempat." }}
             </p>
         </div>
     </div>

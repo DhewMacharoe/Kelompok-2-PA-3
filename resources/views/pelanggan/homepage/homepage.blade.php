@@ -20,7 +20,7 @@
             <span class="hero-divider-line"></span>
         </div>
         <p class="hero-desc mx-auto mb-4">
-            Tempat pangkas rambut premium dengan layanan walk-in queue terbaiks.
+            {{ $activeDesign->deskripsi_hero ?? 'Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!' }}
         </p>
         <a href="{{ route('antrean') }}" class="btn hero-cta-btn px-4 py-2.5 fw-semibold shadow-sm">
             <i class="fas fa-users me-2"></i>Ambil Antrean

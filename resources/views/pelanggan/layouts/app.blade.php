@@ -270,7 +270,7 @@
                         <i class="fas fa-cut me-2" style="color:#e8a53a;"></i> {{ strtoupper($activeDesign->nama_brand ?? "ARGA HOME'S") }}
                     </h5>
                     <p style="font-size: 0.95rem; line-height: 1.6;">
-                        Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!
+                        {{ $activeDesign->deskripsi_hero ?? 'Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!' }}
                     </p>
                     <div class="mt-3">
                         @if(isset($activeDesign) && isset($activeDesign->kontak['instagram']))
@@ -310,10 +310,20 @@
                             <strong>Sabtu - Minggu:</strong><br>
                             <span style="margin-left: 30px; display:inline-block;">09:00 - 22:00</span>
                         </li>
-                        <li class="text-danger mt-2">
-                            <i class="fas fa-info-circle text-danger icon-gold"></i> 
-                            Libur pada Hari Raya
-                        </li>
+                        @php
+                            $liburStatus = \App\Models\Setting::get('queue_libur_note', 'libur');
+                        @endphp
+                        @if($liburStatus === 'buka')
+                            <li class="text-success mt-2">
+                                <i class="fas fa-check-circle text-success icon-gold"></i> 
+                                Tetap Buka pada Hari Raya
+                            </li>
+                        @else
+                            <li class="text-danger mt-2">
+                                <i class="fas fa-info-circle text-danger icon-gold"></i> 
+                                Libur pada Hari Raya
+                            </li>
+                        @endif
                     </ul>
                 </div>
 

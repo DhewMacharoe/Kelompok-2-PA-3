@@ -16,8 +16,10 @@ class SettingController extends Controller
         $radius = \App\Models\Setting::get('queue_radius_meters', $defaultConfig['radius_meters'] ?? 100);
         $jam_buka = \App\Models\Setting::get('queue_jam_buka', '09:00');
         $jam_tutup = \App\Models\Setting::get('queue_jam_tutup', '21:00');
+        $keterangan_libur = \App\Models\Setting::get('queue_libur_note', 'libur');
+        $activeDesign = \App\Models\Design::where('is_active', true)->first();
 
-        return view('admin.lokasi.index', compact('latitude', 'longitude', 'radius', 'jam_buka', 'jam_tutup'));
+        return view('admin.lokasi.index', compact('latitude', 'longitude', 'radius', 'jam_buka', 'jam_tutup', 'keterangan_libur', 'activeDesign'));
     }
 
     public function simpanLokasi(Request $request)
@@ -28,6 +30,7 @@ class SettingController extends Controller
             'radius_meters' => 'required|integer|min:1',
             'jam_buka' => 'required|date_format:H:i',
             'jam_tutup' => 'required|date_format:H:i',
+            'keterangan_libur' => 'required|in:libur,buka',
         ]);
 
         \App\Models\Setting::set('queue_latitude', $request->input('latitude'));
@@ -35,6 +38,7 @@ class SettingController extends Controller
         \App\Models\Setting::set('queue_radius_meters', $request->input('radius_meters'));
         \App\Models\Setting::set('queue_jam_buka', $request->input('jam_buka'));
         \App\Models\Setting::set('queue_jam_tutup', $request->input('jam_tutup'));
+        \App\Models\Setting::set('queue_libur_note', $request->input('keterangan_libur'));
 
         return redirect()->back()->with('success', 'Pengaturan antrean berhasil diperbarui.');
     }

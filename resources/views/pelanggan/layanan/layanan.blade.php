@@ -13,8 +13,8 @@
     <section class="layanan-hero">
         <div class="layanan-hero-overlay">
             <div class="layanan-hero-text">
-                <h1>Daftar Layanan</h1>
-                <p>Lihat pilihan layanan yang tersedia beserta harga dan estimasi waktunya.</p>
+                <h1>{{ $activeDesign->judul_hero_layanan ?? 'Daftar Layanan' }}</h1>
+                <p>{{ $activeDesign->deskripsi_hero_layanan ?? 'Lihat pilihan layanan yang tersedia beserta harga dan estimasi waktunya.' }}</p>
             </div>
         </div>
     </section>

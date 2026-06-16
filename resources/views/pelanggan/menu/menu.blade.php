@@ -10,8 +10,8 @@
     <section class="menu-hero">
         <div class="menu-hero-overlay">
             <div class="menu-hero-text">
-                <h1>Menu Café</h1>
-                <p>Nikmati berbagai pilihan minuman kopi yang tersedia di barbershop kami.</p>
+                <h1>{{ $activeDesign->judul_hero_menu ?? 'Menu Café' }}</h1>
+                <p>{{ $activeDesign->deskripsi_hero_menu ?? 'Nikmati berbagai pilihan makanan dan minuman kopi yang tersedia di barbershop kami.' }}</p>
             </div>
         </div>
     </section>
