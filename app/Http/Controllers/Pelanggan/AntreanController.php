@@ -79,8 +79,8 @@ class AntreanController extends Controller
             return back()->with('error', 'Admin tidak diperbolehkan mengambil antrean.');
         }
 
-        if (!$user->username) {
-            return redirect()->route('set.username')->with('error', 'Silakan atur username terlebih dahulu untuk mengantri.');
+        if (!$user->username || !$user->no_whatsapp) {
+            return redirect()->route('set.username')->with('error', 'Silakan lengkapi profil terlebih dahulu untuk mengantri.');
         }
 
         $this->validateQueueRequest($request);
@@ -142,7 +142,8 @@ class AntreanController extends Controller
             'layanan_id1' => $layananId1,
             'layanan_id2' => $layananId2,
             'status' => 'menunggu',
-            'waktu_masuk' => now()
+            'waktu_masuk' => now(),
+            'user_id' => $user->id,
         ]);
 
         $antrean->layanans()->sync(array_values(array_filter([$layananId1, $layananId2])));
@@ -165,8 +166,8 @@ class AntreanController extends Controller
         ]);
 
         $user = Auth::user();
-        if (!$user->username) {
-            return redirect()->route('set.username')->with('error', 'Silakan atur username terlebih dahulu.');
+        if (!$user->username || !$user->no_whatsapp) {
+            return redirect()->route('set.username')->with('error', 'Silakan lengkapi profil terlebih dahulu.');
         }
 
         $antreanAktif = Antrean::getCustomerActiveQueue($user->username);

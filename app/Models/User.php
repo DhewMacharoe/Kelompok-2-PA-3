@@ -27,6 +27,7 @@ class User extends Authenticatable
         'email',
         'password',
         'firebase_uid',
+        'no_whatsapp',
     ];
 
     /**
