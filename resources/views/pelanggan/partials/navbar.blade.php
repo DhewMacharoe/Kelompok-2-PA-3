@@ -115,9 +115,13 @@
     style="background-color: #1a1a1a; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
     <div class="container">
         <div class="d-flex align-items-center justify-content-between w-100 py-2">
-            <a href="{{ route('home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center">
-                <img src="{{ asset('assets/images/logo.png') }}" alt="Arga Home's Logo" class="img-fluid "
-                    style="max-height: 40px;">
+            <a href="{{ route('home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center gap-2">
+                @if(isset($activeDesign) && $activeDesign->favicon)
+                    <img src="{{ asset($activeDesign->favicon) }}" alt="{{ $activeDesign->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
+                @else
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="{{ $activeDesign->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
+                @endif
+                <span style="font-weight: 700; color: #fff; font-size: 1.2rem; display: none;" class="d-none d-sm-block">{{ $activeDesign->nama_brand ?? '' }}</span>
             </a>
 
             <button class="navbar-toggler text-white border-0 shadow-none" type="button" data-bs-toggle="collapse"

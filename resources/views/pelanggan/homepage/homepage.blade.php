@@ -13,7 +13,7 @@
     <div class="hero-overlay"></div>
     <div class="hero-content z-index-2 w-100">
         <h6 class="hero-subtitle mb-2">SELAMAT DATANG DI</h6>
-        <h1 class="hero-title mb-3">ARGA HOME'S</h1>
+        <h1 class="hero-title mb-3">{{ strtoupper($activeDesign->nama_brand ?? "ARGA HOME'S") }}</h1>
         <div class="hero-divider-container mb-3 d-flex align-items-center justify-content-center gap-3">
             <span class="hero-divider-line"></span>
             <span class="hero-divider-text">Barber, Coffee & Food</span>

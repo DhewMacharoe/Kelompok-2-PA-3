@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Arga Home\'s')</title>
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <title>@yield('title', $activeDesign->nama_brand ?? 'Arga Home\'s')</title>
+    <link rel="icon" type="image/png" href="{{ isset($activeDesign) && $activeDesign->favicon ? asset($activeDesign->favicon) : asset('favicon.png') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -133,15 +133,33 @@
 
                 <div class="col-lg-3 col-md-6">
                     <h5 class="mb-3 d-flex align-items-center">
-                        <i class="fas fa-cut me-2" style="color:#e8a53a;"></i> ARGA HOME'S
+                        <i class="fas fa-cut me-2" style="color:#e8a53a;"></i> {{ strtoupper($activeDesign->nama_brand ?? "ARGA HOME'S") }}
                     </h5>
                     <p style="font-size: 0.95rem; line-height: 1.6;">
                         Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!
                     </p>
                     <div class="mt-3">
-                        <a href="#" class="me-3 fs-5"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="me-3 fs-5"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="fs-5"><i class="fab fa-whatsapp"></i></a>
+                        @if(isset($activeDesign) && isset($activeDesign->kontak['instagram']))
+                            <a href="{{ $activeDesign->kontak['instagram'] }}" target="_blank" class="me-3 fs-5"><i class="fab fa-instagram"></i></a>
+                        @else
+                            <a href="#" class="me-3 fs-5"><i class="fab fa-instagram"></i></a>
+                        @endif
+                        
+                        @if(isset($activeDesign) && isset($activeDesign->kontak['facebook']))
+                            <a href="{{ $activeDesign->kontak['facebook'] }}" target="_blank" class="me-3 fs-5"><i class="fab fa-facebook"></i></a>
+                        @else
+                            <a href="#" class="me-3 fs-5"><i class="fab fa-facebook"></i></a>
+                        @endif
+                        
+                        @if(isset($activeDesign) && isset($activeDesign->kontak['whatsapp']))
+                            @php
+                                $wa = preg_replace('/[^0-9]/', '', $activeDesign->kontak['whatsapp']);
+                                if(str_starts_with($wa, '0')) $wa = '62' . substr($wa, 1);
+                            @endphp
+                            <a href="https://wa.me/{{ $wa }}" target="_blank" class="fs-5"><i class="fab fa-whatsapp"></i></a>
+                        @else
+                            <a href="#" class="fs-5"><i class="fab fa-whatsapp"></i></a>
+                        @endif
                     </div>
                 </div>
 
@@ -170,10 +188,10 @@
                     <ul class="list-unstyled footer-list">
                         <li class="d-flex align-items-start">
                             <i class="fas fa-map-marker-alt icon-gold mt-1"></i> 
-                            <span>Jl.P.Siantar Km 2, Tampubolon, Sibolahotangaso Kec. Balige, Tobasa, Sumatera Utara</span>
+                            <span>{{ $activeDesign->alaamat ?? 'Jl.P.Siantar Km 2, Tampubolon, Sibolahotangaso Kec. Balige, Tobasa, Sumatera Utara' }}</span>
                         </li>
-                        <li><i class="fas fa-phone-alt icon-gold"></i> 0821-6789-3019</li>
-                        <li><i class="fas fa-envelope icon-gold"></i> joebarberid@gmail.com</li>
+                        <li><i class="fas fa-phone-alt icon-gold"></i> {{ isset($activeDesign) && isset($activeDesign->kontak['whatsapp']) ? $activeDesign->kontak['whatsapp'] : '0821-6789-3019' }}</li>
+                        <li><i class="fas fa-envelope icon-gold"></i> {{ $activeDesign->email ?? 'joebarberid@gmail.com' }}</li>
                     </ul>
                 </div>
 
@@ -184,9 +202,13 @@
                         $longitude = \App\Models\Setting::get('queue_longitude', 99.079255);
                     @endphp
                     <div class="map-container mb-2">
-                        <iframe src="https://maps.google.com/maps?q={{ $latitude }},{{ $longitude }}&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        @if(isset($activeDesign) && !empty($activeDesign->kontak['map_embed']))
+                            <iframe src="{{ $activeDesign->kontak['map_embed'] }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        @else
+                            <iframe src="https://maps.google.com/maps?q={{ $latitude }},{{ $longitude }}&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        @endif
                     </div>
-                    <a id="footer-maps-btn" href="https://www.google.com/maps/search/?api=1&query={{ $latitude }},{{ $longitude }}" target="_blank" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2" style="border-color: #444; font-size: 0.85rem; border-radius: 6px;">
+                    <a id="footer-maps-btn" href="{{ isset($activeDesign) && !empty($activeDesign->kontak['link_map']) ? $activeDesign->kontak['link_map'] : 'https://www.google.com/maps/search/?api=1&query='.$latitude.','.$longitude }}" target="_blank" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2" style="border-color: #444; font-size: 0.85rem; border-radius: 6px;">
                         Lihat di Maps <i class="fas fa-external-link-alt" style="color: #e8a53a;"></i>
                     </a>
                 </div>
@@ -196,7 +218,7 @@
 
         <div class="footer-bottom">
             <div class="container">
-                <p class="mb-0">&copy; {{ date('Y') }} Arga Home's Barbershop & Cafe. All rights reserved.</p>
+                <p class="mb-0">&copy; {{ date('Y') }} {{ $activeDesign->nama_brand ?? "Arga Home's" }} Barbershop & Cafe. All rights reserved.</p>
             </div>
         </div>
     </footer>

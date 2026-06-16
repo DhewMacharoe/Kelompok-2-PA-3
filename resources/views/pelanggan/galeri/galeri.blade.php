@@ -9,10 +9,10 @@
 <section class="galeri-hero">
     <div class="galeri-hero-overlay">
         <div class="galeri-hero-text">
-            <h1>Galeri Arga Home's</h1>
+            <h1>Galeri {{ $activeDesign->nama_brand ?? "Arga Home's" }}</h1>
             <p>
                 Lihat suasana barbershop, hasil potongan rambut, dan area coffee
-                di Arga Home's sebelum datang ke tempat.
+                di {{ $activeDesign->nama_brand ?? "Arga Home's" }} sebelum datang ke tempat.
             </p>
         </div>
     </div>
@@ -20,7 +20,7 @@
 
 <section class="galeri-content">
     <div class="galeri-section-header">
-        <h2>Galeri Arga Home's</h2>
+        <h2>Galeri {{ $activeDesign->nama_brand ?? "Arga Home's" }}</h2>
         <div class="galeri-line"></div>
     </div>
 
@@ -39,7 +39,7 @@
                         @if($galeri->deskripsi)
                             <p>{{ $galeri->deskripsi }}</p>
                         @else
-                            <p>Dokumentasi visual Arga Home's Barber, Coffee & Food.</p>
+                            <p>Dokumentasi visual {{ $activeDesign->nama_brand ?? "Arga Home's" }} Barber, Coffee & Food.</p>
                         @endif
                     </div>
                 </div>

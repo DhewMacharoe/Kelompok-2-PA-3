@@ -44,5 +44,10 @@
                 <i class="bi bi-geo-alt"></i> Jam & Lokasi
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {{ request()->is('admin/design*') ? 'active' : '' }}" href="{{ route('admin.design.index') }}">
+                <i class="bi bi-palette"></i> Design Web
+            </a>
+        </li>
     </ul>
 </nav>
