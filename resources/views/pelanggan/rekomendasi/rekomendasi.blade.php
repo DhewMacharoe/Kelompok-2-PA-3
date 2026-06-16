@@ -83,8 +83,8 @@
         }
 
         .analysis-box {
-            background: linear-gradient(180deg, #fff, #fbf8f1);
-            border: 1px solid #efe6d1;
+            background: linear-gradient(180deg, #fff, {{ $activeDesign->warna_primer ?? '#d4af37' }}0d);
+            border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }}33;
             border-radius: 18px;
         }
 
@@ -100,8 +100,8 @@
         }
 
         .result-banner {
-            background: linear-gradient(135deg, #fff, #f7f2e6);
-            border: 1px solid #eee1bf;
+            background: linear-gradient(135deg, #fff, {{ $activeDesign->warna_primer ?? '#d4af37' }}14);
+            border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }}40;
             border-radius: 18px;
         }
 
@@ -112,7 +112,7 @@
         }
 
         .tip-card {
-            border: 1px solid #eee1bf;
+            border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }}40;
             border-radius: 18px;
             background: #fff;
             padding: 16px;
@@ -120,7 +120,7 @@
         }
 
         .tip-card i {
-            color: #c59b2d;
+            color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
         }
 
         .recommendation-card {
@@ -133,7 +133,7 @@
             .recommendation-card:hover {
                 transform: translateY(-4px);
                 box-shadow: 0 18px 32px rgba(22, 28, 45, 0.11);
-                border-color: #d9c38a;
+                border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
             }
         }
 
@@ -155,10 +155,10 @@
         }
 
         .recommendation-note {
-            background: #f8f5ee;
+            background: {{ $activeDesign->warna_primer ?? '#d4af37' }}14;
             border-radius: 14px;
             padding: 12px 14px;
-            color: #5a4a22;
+            color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
         }
 
         .thumb-img {
@@ -257,7 +257,7 @@
                                 <!-- AI Loading Overlay inside preview box -->
                                 <div id="ai-loading-overlay" class="position-absolute d-flex flex-column align-items-center justify-content-center" 
                                      style="top:0; left:0; width:100%; height:100%; background: rgba(255, 255, 255, 0.96); z-index: 100; transition: opacity 0.5s ease, visibility 0.5s;">
-                                    <div class="spinner-border text-warning mb-2" role="status" style="width: 2rem; height: 2rem;">
+                                    <div class="spinner-border mb-2" role="status" style="width: 2rem; height: 2rem; color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
                                     <div class="fw-bold small text-dark mb-1">Menyiapkan AI Wajah</div>
@@ -285,7 +285,7 @@
                             <button type="button" id="btn-camera" class="btn btn-dark btn-lg shadow-sm" style="border-radius: 12px; transition: 0.3s;">
                                 <i class="fas fa-camera me-2"></i>Aktifkan Kamera
                             </button>
-                            <button type="button" id="btn-capture" class="btn btn-warning btn-lg shadow-sm fw-bold" style="display:none; border-radius: 12px; transition: 0.3s; color: #000;">
+                            <button type="button" id="btn-capture" class="btn btn-lg shadow-sm fw-bold text-white" style="display:none; border-radius: 12px; transition: 0.3s; background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important; border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;">
                                 <i class="fas fa-dot-circle me-2"></i>Ambil Foto
                             </button>
                             <input type="file" id="file-upload" accept="image/*" class="d-none">
@@ -299,7 +299,7 @@
                             <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
                                 <div>
                                     <div class="text-muted small fw-semibold text-uppercase mb-1">Hasil deteksi</div>
-                                    <h3 id="live-bentuk-wajah" class="text-warning fw-bold text-uppercase mb-1">Menganalisis...</h3>
+                                    <h3 id="live-bentuk-wajah" class="fw-bold text-uppercase mb-1" style="color: {{ $activeDesign->warna_primer ?? '#d4af37' }};">Menganalisis...</h3>
                                 </div>
                                 <span id="live-akurasi" class="badge bg-dark">Akurasi: 0%</span>
                             </div>
@@ -310,8 +310,8 @@
                             <p id="analysis-caption" class="text-muted small mb-0">Sistem sedang membaca karakter wajah Anda untuk menyesuaikan rekomendasi.</p>
                         </div>
 
-                        <button type="button" id="btn-kirim" class="btn btn-warning btn-lg w-100 fw-bold py-3 mt-2 shadow-sm text-dark" disabled
-                            onclick="kirimHasil()" style="border-radius: 16px; letter-spacing: 0.5px; transition: all 0.3s; font-size: 1.1rem;">
+                        <button type="button" id="btn-kirim" class="btn btn-lg w-100 fw-bold py-3 mt-2 shadow-sm text-white" disabled
+                            onclick="kirimHasil()" style="border-radius: 16px; letter-spacing: 0.5px; transition: all 0.3s; font-size: 1.1rem; background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important; border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;">
                             <i class="fas fa-magic me-2"></i> Tampilkan Rekomendasi
                         </button>
                     </div>
@@ -335,7 +335,7 @@
                                     </div>
                                 </div>
                                 <div class="text-end">
-                                    <span class="badge bg-warning text-dark py-2 px-3 mb-2 fs-6 shadow-sm rounded-pill"><i class="fas fa-user-tag me-1"></i> Bentuk Wajah: <span id="label-bentuk-wajah" class="fw-bold"></span></span>
+                                    <span class="badge py-2 px-3 mb-2 fs-6 shadow-sm rounded-pill" style="background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important; color: #fff !important;"><i class="fas fa-user-tag me-1"></i> Bentuk Wajah: <span id="label-bentuk-wajah" class="fw-bold"></span></span>
                                     <div class="small text-muted bg-white px-3 py-1 rounded-pill border d-inline-block shadow-sm">Akurasi AI: <span id="label-akurasi-hasil" class="fw-bold text-success">0%</span></div>
                                 </div>
                             </div>
@@ -359,6 +359,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
 
     <script>
+        const warnaPrimer = "{{ $activeDesign->warna_primer ?? '#d4af37' }}";
         const CLASS_NAMES = ['Heart', 'Oblong', 'Oval', 'Round', 'Square'];
         const fallbackImageUrl = "{{ asset('assets/images/rambut/buzz_cut.png') }}";
         let aiModel = null,
@@ -879,9 +880,9 @@
                 tips.forEach((tip, index) => {
                     tipsContainer.innerHTML += `
                         <div class="col-12 col-md-4">
-                            <div class="tip-card shadow-sm border-0 h-100" style="background: linear-gradient(135deg, #ffffff, #fffaf0); transition: 0.3s; border-radius: 16px;">
+                            <div class="tip-card shadow-sm border-0 h-100" style="background: linear-gradient(135deg, #ffffff, ${warnaPrimer}14); transition: 0.3s; border-radius: 16px;">
                                 <div class="d-flex align-items-start gap-3">
-                                    <div class="recommendation-rank bg-warning text-dark shadow-sm d-flex align-items-center justify-content-center" style="min-width: 42px; height: 42px; border-radius: 12px; font-size: 1.2rem;"><i class="fas fa-lightbulb"></i></div>
+                                    <div class="recommendation-rank shadow-sm d-flex align-items-center justify-content-center" style="background-color: ${warnaPrimer} !important; min-width: 42px; height: 42px; border-radius: 12px; font-size: 1.2rem;"><i class="fas fa-lightbulb" style="color: #fff !important;"></i></div>
                                     <div>
                                         <div class="fw-bold mb-1 text-dark">Tips ${index + 1}</div>
                                         <div class="text-muted small" style="line-height: 1.6;">${escapeHtml(tip)}</div>
@@ -910,13 +911,13 @@
                         <div class="card recommendation-card h-100 border-0 shadow-sm" style="border-radius: 20px; overflow: hidden; transition: all 0.3s ease; background: #fff;">
                             <div class="card-body p-4 p-xl-5 d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-                                    <div class="recommendation-rank shadow-sm bg-dark text-warning d-flex align-items-center justify-content-center" style="border-radius: 14px; font-size: 1.2rem; width: 45px; height: 45px;">#${index + 1}</div>
-                                    <span class="badge bg-warning text-dark px-3 py-2 rounded-pill shadow-sm" style="font-size: 0.85rem;"><i class="fas fa-star me-1"></i> ${prioritas}</span>
+                                    <div class="recommendation-rank shadow-sm bg-dark d-flex align-items-center justify-content-center" style="border-radius: 14px; font-size: 1.2rem; width: 45px; height: 45px; color: ${warnaPrimer} !important;">#${index + 1}</div>
+                                    <span class="badge px-3 py-2 rounded-pill shadow-sm" style="background-color: ${warnaPrimer} !important; color: #fff !important; font-size: 0.85rem;"><i class="fas fa-star me-1"></i> ${prioritas}</span>
                                 </div>
                                 <h4 class="fw-bold text-dark mb-2" style="letter-spacing: -0.5px; font-size: 1.4rem;">${nama}</h4>
                                 <p class="recommendation-reason mb-4 text-muted" style="font-size: 1rem; line-height: 1.6;">${alasan}</p>
-                                <div class="recommendation-note mb-4 shadow-sm border-0" style="background-color: #fffaf0; border-left: 4px solid #ffc107 !important; border-radius: 12px; padding: 14px;">
-                                    <div class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;"><i class="fas fa-cut text-warning me-2"></i>Catatan Kapster</div>
+                                <div class="recommendation-note mb-4 shadow-sm border-0" style="background-color: ${warnaPrimer}14; border-left: 4px solid ${warnaPrimer} !important; border-radius: 12px; padding: 14px;">
+                                    <div class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;"><i class="fas fa-cut me-2" style="color: ${warnaPrimer};"></i>Catatan Kapster</div>
                                     <div class="small text-muted" style="line-height: 1.5;">${catatan}</div>
                                 </div>
                                 <div class="d-flex justify-content-between gap-2 mb-4">
