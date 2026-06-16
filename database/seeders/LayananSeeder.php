@@ -2,99 +2,135 @@
 
 namespace Database\Seeders;
 
-use App\Models\Layanan;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class LayananSeeder extends Seeder
 {
     public function run()
     {
         // Nonaktifkan foreign key check
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         
         // Hapus semua data layanan sebelumnya
-        Layanan::truncate();
+        DB::table('layanans')->truncate();
         
         // Aktifkan kembali foreign key check
-        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $layanans = [
             [
-                'nama' => 'Punxgoaran Silver Cut',
-                'harga' => 50000,
-                'estimasi_waktu' => '30',
-                'deskripsi' => 'Potong rambut standar dengan menggunakan gunting profesional. Cocok untuk pemeliharaan rambut regular dan rapi dengan hasil yang sempurna.',
-                'ikon' => 'scissors',
-                'is_active' => true,
-            ],
-            [
-                'nama' => 'Punxgoaran Gold Cut',
-                'harga' => 70000,
-                'estimasi_waktu' => '45',
-                'deskripsi' => 'Potong rambut premium dengan konsultasi gaya rambut gratis. Termasuk styling dan finishing khusus dengan produk premium untuk hasil maksimal.',
-                'ikon' => 'scissors',
-                'is_active' => true,
-            ],
-            [
-                'nama' => 'Punxgoaran Diamond Cut',
-                'harga' => 100000,
+                'id' => 11,
+                'nama' => 'Regular',
+                'harga' => 60000,
                 'estimasi_waktu' => '60',
-                'deskripsi' => 'Potong rambut eksklusif VIP dengan barber berpengalaman tinggi. Termasuk konsultasi mendalam, styling custom, beard grooming, dan perawatan khusus.',
+                'deskripsi' => 'Haircut, hairwash, styling',
                 'ikon' => 'scissors',
                 'is_active' => true,
+                'created_at' => '2026-06-11 07:45:44',
+                'updated_at' => '2026-06-11 07:45:44',
+                'user_id' => null,
             ],
             [
-                'nama' => 'Punxgoaran Kids Cut',
-                'harga' => 30000,
-                'estimasi_waktu' => '25',
-                'deskripsi' => 'Layanan potong rambut khusus untuk anak-anak dengan barber yang sabar dan berpengalaman. Lingkungan yang nyaman dan menyenangkan untuk si kecil.',
+                'id' => 12,
+                'nama' => 'Premium',
+                'harga' => 80000,
+                'estimasi_waktu' => '90',
+                'deskripsi' => 'Haircut, hairwash, tonic, hot towel, head massage, cold towe',
                 'ikon' => 'scissors',
                 'is_active' => true,
+                'created_at' => '2026-06-11 07:48:21',
+                'updated_at' => '2026-06-11 07:48:21',
+                'user_id' => null,
             ],
             [
+                'id' => 13,
+                'nama' => 'Executive',
+                'harga' => 100000,
+                'estimasi_waktu' => '120',
+                'deskripsi' => 'Haircut, hairwash, black mask, tonic, hot towel, head massag',
+                'ikon' => 'scissors',
+                'is_active' => true,
+                'created_at' => '2026-06-11 07:49:48',
+                'updated_at' => '2026-06-11 07:49:48',
+                'user_id' => null,
+            ],
+            [
+                'id' => 14,
+                'nama' => 'Bald',
+                'harga' => 60000,
+                'estimasi_waktu' => '45',
+                'deskripsi' => 'Complete head shave using clippers or razor for a smooth fin',
+                'ikon' => 'scissors',
+                'is_active' => true,
+                'created_at' => '2026-06-11 07:52:21',
+                'updated_at' => '2026-06-11 07:56:36',
+                'user_id' => null,
+            ],
+            [
+                'id' => 15,
                 'nama' => 'Shaving',
-                'harga' => 25000,
+                'harga' => 30000,
                 'estimasi_waktu' => '20',
-                'deskripsi' => 'Layanan cukur kumis dan jenggot dengan teknik tradisional atau modern sesuai keinginan. Menggunakan pisau cukur berkualitas dan produk perawatan terbaik.',
-                'ikon' => 'scissors',
-                'is_active' => true,
-            ],
-            [
-                'nama' => 'Face Facial',
-                'harga' => 25000,
-                'estimasi_waktu' => '30',
-                'deskripsi' => 'Perawatan wajah profesional dengan membersihkan pori-pori dan menutrisi kulit. Menggunakan produk skincare berkualitas untuk kulit yang lebih sehat dan bercahaya.',
+                'deskripsi' => 'Clean facial shave or precision beard trim.',
                 'ikon' => 'face',
                 'is_active' => true,
+                'created_at' => '2026-06-11 07:52:45',
+                'updated_at' => '2026-06-11 07:56:20',
+                'user_id' => null,
             ],
             [
+                'id' => 16,
+                'nama' => 'Face Facial',
+                'harga' => 30000,
+                'estimasi_waktu' => '30',
+                'deskripsi' => 'Refreshing facial treatment, head massage, and cold towel.',
+                'ikon' => 'face',
+                'is_active' => true,
+                'created_at' => '2026-06-11 07:53:24',
+                'updated_at' => '2026-06-11 07:58:43',
+                'user_id' => null,
+            ],
+            [
+                'id' => 17,
+                'nama' => 'Coloring Basic / Fashion',
+                'harga' => 100000,
+                'estimasi_waktu' => '60',
+                'deskripsi' => 'Professional hair coloring using natural or trendy fashion s',
+                'ikon' => 'paint',
+                'is_active' => true,
+                'created_at' => '2026-06-11 07:55:59',
+                'updated_at' => '2026-06-11 07:55:59',
+                'user_id' => null,
+            ],
+            [
+                'id' => 18,
                 'nama' => 'Hairwash & Style',
-                'harga' => 20000,
-                'estimasi_waktu' => '25',
-                'deskripsi' => 'Layanan cuci rambut dengan massage kepala relaksasi dan styling sesuai keinginan. Menggunakan shampoo dan produk perawatan rambut premium untuk hasil terbaik.',
+                'harga' => 30000,
+                'estimasi_waktu' => '20',
+                'deskripsi' => 'Invigorating hair wash followed by professional styling.',
                 'ikon' => 'scissors',
                 'is_active' => true,
+                'created_at' => '2026-06-11 07:57:58',
+                'updated_at' => '2026-06-11 07:57:58',
+                'user_id' => null,
             ],
             [
-                'nama' => 'Coloring Basic Colour',
-                'harga' => 100000,
+                'id' => 19,
+                'nama' => 'Bleaching',
+                'harga' => 200000,
                 'estimasi_waktu' => '90',
-                'deskripsi' => 'Pewarna rambut profesional dengan pilihan warna dasar. Termasuk konsultasi warna, treatment perawatan rambut, dan hasil yang tahan lama.',
+                'deskripsi' => 'Professional hair lightening process to prepare for vivid co',
                 'ikon' => 'paint',
                 'is_active' => true,
-            ],
-            [
-                'nama' => 'Coloring (Bawa cat sendiri)',
-                'harga' => 60000,
-                'estimasi_waktu' => '80',
-                'deskripsi' => 'Layanan pewarna rambut dengan menggunakan produk pewarna yang Anda bawa sendiri. Barber kami siap membantu aplikasi dengan teknik profesional dan teliti.',
-                'ikon' => 'paint',
-                'is_active' => true,
+                'created_at' => '2026-06-11 07:58:27',
+                'updated_at' => '2026-06-15 08:51:30',
+                'user_id' => null,
             ],
         ];
 
         foreach ($layanans as $layanan) {
-            Layanan::create($layanan);
+            DB::table('layanans')->insert($layanan);
         }
     }
 }

@@ -13,6 +13,7 @@ class Design extends Model
         'alaamat',
         'kontak',
         'email',
+        'warna_primer',
     ];
 
     protected $casts = [

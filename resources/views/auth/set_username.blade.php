@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/arga-auth.css') }}">
 @endsection
 
-@section('title', "Set Username - Arga Home's")
+@section('title', isset($activeDesign) && $activeDesign->nama_brand ? 'Set Username - ' . $activeDesign->nama_brand : "Set Username - Arga Home's")
 
 @section('content')
     <div class="auth-shell auth-shell--public">

@@ -64,6 +64,21 @@
             background-color: #0b66da;
         }
     </style>
+    
+    @if(isset($activeDesign) && $activeDesign->warna_primer)
+    <style>
+        .btn-login {
+            background-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        .btn-login:hover {
+            background-color: {{ $activeDesign->warna_primer }}e6 !important;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem {{ $activeDesign->warna_primer }}40 !important;
+            border-color: {{ $activeDesign->warna_primer }} !important;
+        }
+    </style>
+    @endif
 </head>
 
 <body>

@@ -10,9 +10,9 @@
 <style>
     .form-label { font-weight: 500; color: #333; }
     .form-control { border-radius: 8px; padding: 10px 15px; border: 1px solid #ced4da; }
-    .form-control:focus { border-color: #e8a53a; box-shadow: 0 0 0 0.2rem rgba(232, 165, 58, 0.25); }
-    .btn-submit { background-color: #e8a53a; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; }
-    .btn-submit:hover { background-color: #d4af37; color: white; }
+    .form-control:focus { border-color: {{ $design->warna_primer ?? '#e8a53a' }}; box-shadow: 0 0 0 0.2rem {{ $design->warna_primer ?? '#e8a53a' }}40; }
+    .btn-submit { background-color: {{ $design->warna_primer ?? '#e8a53a' }}; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; }
+    .btn-submit:hover { background-color: {{ $design->warna_primer ?? '#e8a53a' }}e6; color: white; }
     .btn-cancel { background-color: #6c757d; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block; transition: all 0.3s ease; }
     .btn-cancel:hover { background-color: #5a6268; color: white; }
 </style>
@@ -68,7 +68,18 @@
                     @enderror
                 </div>
 
-                <h5 class="mt-5 mb-3" style="color: #e8a53a; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Kontak & Sosial Media</h5>
+                <div class="mb-4">
+                    <label for="warna_primer" class="form-label">Warna Dasar / Aksen Web</label>
+                    <div class="d-flex align-items-center gap-3">
+                        <input type="color" class="form-control form-control-color" id="warna_primer" name="warna_primer" value="{{ old('warna_primer', $design->warna_primer ?? '#e8a53a') }}" title="Pilih warna dasar" style="width: 60px; height: 45px; padding: 4px;">
+                        <span class="text-muted">Pilih warna dasar kustom untuk aksen tombol, badge, dan ikon pada website (Default: Emas/Gold #e8a53a)</span>
+                    </div>
+                    @error('warna_primer')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <h5 class="mt-5 mb-3" style="color: {{ $design->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Kontak & Sosial Media</h5>
 
                 <div class="mb-4">
                     <label for="whatsapp" class="form-label">WhatsApp (Nomor Telepon)</label>
@@ -94,23 +105,7 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="link_map" class="form-label">Link Google Maps (Tombol)</label>
-                    <input type="url" class="form-control @error('link_map') is-invalid @enderror" id="link_map" name="link_map" value="{{ old('link_map', $design->kontak['link_map'] ?? '') }}" placeholder="Contoh: https://maps.app.goo.gl/xyz">
-                    <small class="text-muted">Link ini digunakan pada tombol "Lihat di Maps" pada bagian footer.</small>
-                    @error('link_map')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
 
-                <div class="mb-4">
-                    <label for="map_embed" class="form-label">URL Embed Peta (Iframe)</label>
-                    <textarea class="form-control @error('map_embed') is-invalid @enderror" id="map_embed" name="map_embed" rows="3" placeholder='Contoh: https://www.google.com/maps/embed?...'>{{ old('map_embed', $design->kontak['map_embed'] ?? '') }}</textarea>
-                    <small class="text-muted">Cara mendapatkan: Buka Google Maps > Bagikan > Sematkan Peta > Salin URL pada bagian <code>src="..."</code>.</small>
-                    @error('map_embed')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
 
                 <div class="d-flex justify-content-end gap-2 mt-5">
                     <a href="{{ route('admin.design.index') }}" class="btn-cancel">Batal</a>

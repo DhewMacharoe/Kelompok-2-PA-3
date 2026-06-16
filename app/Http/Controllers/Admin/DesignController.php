@@ -10,8 +10,24 @@ class DesignController extends Controller
 {
     public function index()
     {
-        $designs = Design::latest()->get();
-        return view('admin.design_web.index', compact('designs'));
+        $design = Design::first();
+        if (!$design) {
+            $design = Design::create([
+                'is_active' => true,
+                'nama_brand' => "Arga Home's",
+                'favicon' => 'assets/images/logo.png',
+                'alaamat' => 'Jl.P.Siantar Km 2, Tampubolon, Sibolahotangaso Kec. Balige, Tobasa, Sumatera Utara',
+                'email' => 'joebarberid@gmail.com',
+                'kontak' => [
+                    'instagram' => 'https://instagram.com',
+                    'facebook' => 'https://facebook.com',
+                    'whatsapp' => '082167893019',
+                    'link_map' => null,
+                    'map_embed' => null,
+                ],
+            ]);
+        }
+        return view('admin.design_web.index', compact('design'));
     }
 
     public function create()
@@ -31,6 +47,7 @@ class DesignController extends Controller
             'facebook' => 'nullable|string',
             'link_map' => 'nullable|string',
             'map_embed' => 'nullable|string',
+            'warna_primer' => 'nullable|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/',
         ]);
 
         $faviconPath = 'favicon.png';
@@ -58,6 +75,7 @@ class DesignController extends Controller
             'alaamat' => $request->alaamat,
             'email' => $request->email,
             'kontak' => $kontak,
+            'warna_primer' => $request->warna_primer ?? '#e8a53a',
         ]);
 
         return redirect()->route('admin.design.index')->with('success', 'Design berhasil ditambahkan!');
@@ -80,6 +98,7 @@ class DesignController extends Controller
             'facebook' => 'nullable|string',
             'link_map' => 'nullable|string',
             'map_embed' => 'nullable|string',
+            'warna_primer' => 'nullable|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/',
         ]);
 
         $faviconPath = $design->favicon;
@@ -93,8 +112,8 @@ class DesignController extends Controller
             'whatsapp' => $request->whatsapp,
             'instagram' => $request->instagram,
             'facebook' => $request->facebook,
-            'link_map' => $request->link_map,
-            'map_embed' => $request->map_embed,
+            'link_map' => $design->kontak['link_map'] ?? null,
+            'map_embed' => $design->kontak['map_embed'] ?? null,
         ];
 
         $design->update([
@@ -103,6 +122,7 @@ class DesignController extends Controller
             'alaamat' => $request->alaamat,
             'email' => $request->email,
             'kontak' => $kontak,
+            'warna_primer' => $request->warna_primer ?? '#e8a53a',
         ]);
 
         return redirect()->route('admin.design.index')->with('success', 'Design berhasil diperbarui!');

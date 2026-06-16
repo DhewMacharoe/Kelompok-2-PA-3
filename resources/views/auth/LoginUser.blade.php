@@ -8,6 +8,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/arga-auth.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    @if(isset($activeDesign) && $activeDesign->warna_primer)
+    <style>
+        :root {
+            --auth-accent: {{ $activeDesign->warna_primer }} !important;
+            --auth-accent-strong: {{ $activeDesign->warna_primer }} !important;
+        }
+        .auth-button--google:hover {
+            border-color: {{ $activeDesign->warna_primer }} !important;
+            box-shadow: 0 0 16px {{ $activeDesign->warna_primer }}33 !important;
+        }
+    </style>
+    @endif
 </head>
 
 <body class="auth-page auth-page--login">

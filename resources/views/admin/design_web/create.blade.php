@@ -10,9 +10,9 @@
 <style>
     .form-label { font-weight: 500; color: #333; }
     .form-control { border-radius: 8px; padding: 10px 15px; border: 1px solid #ced4da; }
-    .form-control:focus { border-color: #e8a53a; box-shadow: 0 0 0 0.2rem rgba(232, 165, 58, 0.25); }
-    .btn-submit { background-color: #e8a53a; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; }
-    .btn-submit:hover { background-color: #d4af37; color: white; }
+    .form-control:focus { border-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; box-shadow: 0 0 0 0.2rem {{ $activeDesign->warna_primer ?? '#e8a53a' }}40; }
+    .btn-submit { background-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; }
+    .btn-submit:hover { background-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}e6; color: white; }
     .btn-cancel { background-color: #6c757d; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block; transition: all 0.3s ease; }
     .btn-cancel:hover { background-color: #5a6268; color: white; }
 </style>
@@ -62,7 +62,7 @@
                     @enderror
                 </div>
 
-                <h5 class="mt-5 mb-3" style="color: #e8a53a; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Kontak & Sosial Media</h5>
+                <h5 class="mt-5 mb-3" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Kontak & Sosial Media</h5>
 
                 <div class="mb-4">
                     <label for="whatsapp" class="form-label">WhatsApp (Nomor Telepon)</label>

@@ -19,7 +19,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Arga Barbershop">
-    <link rel="apple-touch-icon" href="{{ asset('assets/images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ isset($activeDesign) && $activeDesign->favicon ? asset($activeDesign->favicon) : asset('assets/images/logo.png') }}">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,141 @@
 
     @vite(['resources/js/app.js'])
 
+    @if(isset($activeDesign) && $activeDesign->warna_primer)
+    <style>
+        :root {
+            --accent-gold: {{ $activeDesign->warna_primer }} !important;
+            --gold: {{ $activeDesign->warna_primer }} !important;
+            --primary: {{ $activeDesign->warna_primer }} !important;
+        }
+    </style>
+    @endif
+
     @stack('styles')
+
+    @if(isset($activeDesign) && $activeDesign->warna_primer)
+    <style>
+        /* Background & Borders */
+        .btn-primary, .bg-primary, .btn-submit, .btn-edit-profile, .btn-tambah,
+        .btn-gold, .btn-gold-accent, .bg-gold-accent, .border-gold-accent,
+        .hero-cta-btn, .service-icon-wrapper, .btn-buat-antrean-layanan {
+            background-color: {{ $activeDesign->warna_primer }} !important;
+            border-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        
+        .btn-buat-antrean-layanan {
+            background: {{ $activeDesign->warna_primer }} !important;
+            box-shadow: 0 4px 12px {{ $activeDesign->warna_primer }}4d !important;
+        }
+        
+        /* Hover Background & Borders */
+        .btn-gold-accent:hover, .hero-cta-btn:hover, .btn-buat-antrean-layanan:hover {
+            background-color: {{ $activeDesign->warna_primer }}e6 !important;
+            border-color: {{ $activeDesign->warna_primer }}e6 !important;
+            background: {{ $activeDesign->warna_primer }}e6 !important;
+            box-shadow: 0 6px 18px {{ $activeDesign->warna_primer }}73 !important;
+        }
+        
+        /* Text & Icons */
+        .text-gold, .icon-gold, .text-primary, .text-gold-accent, .queue-large-val-gold,
+        .service-price-text, .detail-modal-price, .footer-custom h5, .footer-custom .icon-gold,
+        .hero-divider-text, .hero-subtitle, .footer-custom a:hover, .layanan-price, .modal-price,
+        .modal-back:hover, .btn-back-bottom:hover {
+            color: {{ $activeDesign->warna_primer }} !important;
+        }
+        
+        #btn-cancel-my-queue {
+            border-color: {{ $activeDesign->warna_primer }} !important;
+            color: {{ $activeDesign->warna_primer }} !important;
+            background: transparent !important;
+        }
+        
+        #btn-cancel-my-queue:hover {
+            background: {{ $activeDesign->warna_primer }} !important;
+            color: #ffffff !important;
+        }
+        
+        .btn-back-bottom:hover {
+            border-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        
+        .hero-divider-line {
+            background-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        
+        .footer-custom {
+            border-top-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        
+        /* Cards hover border */
+        .menu-grid-card:hover {
+            border-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        .menu-grid-card:hover .menu-grid-icon,
+        .menu-grid-card:hover .menu-grid-text {
+            color: {{ $activeDesign->warna_primer }} !important;
+        }
+        .service-custom-card:hover {
+            border-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        
+        /* Navbar custom styles overrides */
+        .pelanggan-navbar .nav-link:hover,
+        .pelanggan-navbar .nav-link.active {
+            color: {{ $activeDesign->warna_primer }} !important;
+            background-color: {{ $activeDesign->warna_primer }}14 !important;
+        }
+        .pelanggan-navbar .navbar-nav a[href*="login"] {
+            background-color: {{ $activeDesign->warna_primer }} !important;
+            border-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        .pelanggan-navbar .navbar-nav a[href*="login"]:hover {
+            background-color: {{ $activeDesign->warna_primer }}e6 !important;
+            border-color: {{ $activeDesign->warna_primer }}e6 !important;
+        }
+        .pelanggan-navbar .navbar-nav a[href*="profile"],
+        .pelanggan-navbar .navbar-nav button[type="submit"] {
+            color: {{ $activeDesign->warna_primer }} !important;
+            border-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        .pelanggan-navbar .navbar-nav a[href*="profile"]:hover,
+        .pelanggan-navbar .navbar-nav button[type="submit"]:hover {
+            background-color: {{ $activeDesign->warna_primer }} !important;
+            color: #ffffff !important;
+        }
+        
+        /* Cafe Menu Page Overrides */
+        .menu-line {
+            background-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        .filter-btn:hover {
+            border-color: {{ $activeDesign->warna_primer }} !important;
+            color: {{ $activeDesign->warna_primer }} !important;
+        }
+        .filter-btn.active {
+            background-color: {{ $activeDesign->warna_primer }} !important;
+            border-color: {{ $activeDesign->warna_primer }} !important;
+            color: #ffffff !important;
+        }
+        .item-price, .menu-note-icon, .modal-price {
+            color: {{ $activeDesign->warna_primer }} !important;
+        }
+        .category-title {
+            border-bottom-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        .menu-item:hover {
+            border-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        
+        /* Gallery Page Overrides */
+        .galeri-line {
+            background-color: {{ $activeDesign->warna_primer }} !important;
+        }
+        .galeri-card:hover {
+            border-color: {{ $activeDesign->warna_primer }} !important;
+        }
+    </style>
+    @endif
 
     <style>
         /* =========================================
@@ -209,7 +343,7 @@
                         @endif
                     </div>
                     <a id="footer-maps-btn" href="{{ isset($activeDesign) && !empty($activeDesign->kontak['link_map']) ? $activeDesign->kontak['link_map'] : 'https://www.google.com/maps/search/?api=1&query='.$latitude.','.$longitude }}" target="_blank" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2" style="border-color: #444; font-size: 0.85rem; border-radius: 6px;">
-                        Lihat di Maps <i class="fas fa-external-link-alt" style="color: #e8a53a;"></i>
+                        Lihat di Maps <i class="fas fa-external-link-alt" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};"></i>
                     </a>
                 </div>
 
@@ -269,7 +403,7 @@
                                                 text: 'Versi baru aplikasi telah diunduh. Silakan muat ulang halaman untuk mengaktifkan fitur terbaru.',
                                                 icon: 'info',
                                                 showCancelButton: true,
-                                                confirmButtonColor: '#d4af37',
+                                                confirmButtonColor: '{{ $activeDesign->warna_primer ?? "#d4af37" }}',
                                                 cancelButtonColor: '#6c757d',
                                                 confirmButtonText: 'Muat Ulang',
                                                 cancelButtonText: 'Nanti'

@@ -52,7 +52,7 @@
             margin: 0 auto;
             border-radius: 24px;
             background: #fdfbf7;
-            border: 2px dashed #d4af37;
+            border: 2px dashed {{ $activeDesign->warna_primer ?? '#d4af37' }};
             overflow: hidden;
             position: relative;
             display: flex;
@@ -96,7 +96,7 @@
         }
 
         .analysis-progress .progress-bar {
-            background: linear-gradient(90deg, #d4af37, #9c7b22);
+            background: linear-gradient(90deg, {{ $activeDesign->warna_primer ?? '#d4af37' }}, {{ $activeDesign->warna_primer ?? '#d4af37' }}bb);
         }
 
         .result-banner {

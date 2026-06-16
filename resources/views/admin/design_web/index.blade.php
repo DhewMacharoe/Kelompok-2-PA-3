@@ -7,197 +7,186 @@
 @endsection
 
 @push('styles')
-    @include('admin.galeri.style-index')
+<style>
+    .profile-card {
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        border: none;
+        overflow: hidden;
+        background-color: #ffffff;
+    }
+    .profile-header {
+        background: linear-gradient(135deg, #1a1a1a 0%, {{ $design->warna_primer ?? '#2c3e50' }} 100%);
+        padding: 30px;
+        color: #fff;
+        position: relative;
+    }
+    .brand-logo-container {
+        width: 90px;
+        height: 90px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        border: 3px solid #fff;
+        overflow: hidden;
+    }
+    .brand-logo-container img {
+        max-width: 80%;
+        max-height: 80%;
+        object-fit: contain;
+    }
+    .info-label {
+        font-weight: 600;
+        color: #495057;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .info-value {
+        color: #2b2b2b;
+        font-size: 1.05rem;
+    }
+    .btn-edit-profile {
+        background-color: {{ $design->warna_primer ?? '#e8a53a' }};
+        color: white;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+    .btn-edit-profile:hover {
+        background-color: {{ $design->warna_primer ?? '#e8a53a' }}e6;
+        color: white;
+        transform: translateY(-2px);
+    }
+    .social-icon-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: #f8f9fa;
+        color: #495057;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+    .social-icon-badge:hover {
+        background-color: {{ $design->warna_primer ?? '#e8a53a' }};
+        color: white;
+    }
+    .text-muted-white {
+        color: rgba(255, 255, 255, 0.7);
+    }
+</style>
 @endpush
 
 @section('content')
-    <div class="main-container">
-        @if (session('success'))
-            <div id="flash-success" data-message="{{ session('success') }}" hidden></div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const flashSuccess = document.getElementById('flash-success');
-                    if (flashSuccess && flashSuccess.dataset.message) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: flashSuccess.dataset.message,
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                });
-            </script>
-        @endif
-        @if (session('error'))
-            <div id="flash-error" data-message="{{ session('error') }}" hidden></div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const flashError = document.getElementById('flash-error');
-                    if (flashError && flashError.dataset.message) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: flashError.dataset.message,
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                });
-            </script>
-        @endif
+<div class="main-container pb-5">
+    @if (session('success'))
+        <div id="flash-success" data-message="{{ session('success') }}" hidden></div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const flashSuccess = document.getElementById('flash-success');
+                if (flashSuccess && flashSuccess.dataset.message) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: flashSuccess.dataset.message,
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        </script>
+    @endif
 
-        <a href="{{ route('admin.design.create') }}" class="btn-tambah shadow-sm">
-            + Tambah
-        </a>
+    <div class="profile-card mx-auto mt-4" style="max-width: 800px;">
+        <div class="profile-header d-flex align-items-center justify-content-between flex-wrap gap-4">
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <div class="brand-logo-container">
+                    @if($design->favicon)
+                        <img src="{{ asset($design->favicon) }}" alt="Favicon">
+                    @else
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="Default Logo">
+                    @endif
+                </div>
+                <div>
+                    <h3 class="mb-1 style-brand-name text-white" style="font-weight: 700; margin: 0;">{{ $design->nama_brand }}</h3>
+                    <p class="mb-0 text-muted-white" style="font-size: 0.9rem;">Profil Brand & Desain Web</p>
+                </div>
+            </div>
+            <div>
+                <a href="{{ route('admin.design.edit', $design->id) }}" class="btn-edit-profile shadow-sm">
+                    <i class="fas fa-edit"></i> Edit Profil
+                </a>
+            </div>
+        </div>
 
-        <div class="table-container mt-4">
-            <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th>Nama Brand</th>
-                        <th>Email</th>
-                        <th style="width: 120px;">Status</th>
-                        <th style="width: 250px;">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($designs as $item)
-                        <tr>
-                            <td data-label="Nama Brand">
-                                <strong>{{ $item->nama_brand }}</strong>
-                            </td>
-                            <td data-label="Email">
-                                {{ $item->email }}
-                            </td>
-                            <td data-label="Status">
-                                @if ($item->is_active)
-                                    <span class="status-badge status-aktif" style="background-color: #198754; color: white;">Aktif</span>
-                                @else
-                                    <span class="status-badge status-nonaktif" style="background-color: #6c757d; color: white;">Nonaktif</span>
-                                @endif
-                            </td>
-                            <td data-label="Aksi">
-                                <div style="display: flex; gap: 5px; flex-wrap: nowrap; justify-content: center;">
-                                    @if (!$item->is_active)
-                                    <form action="{{ route('admin.design.activate') }}" method="POST"
-                                        class="form-toggle" data-nama="{{ $item->nama_brand }}"
-                                        style="display: inline; margin: 0;">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $item->id }}">
-                                        <button type="button"
-                                            class="btn-action shadow-sm btn-activate-alert" style="margin: 0; background-color: #e8a53a; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 13px; font-weight: 500;">
-                                            Aktifkan
-                                        </button>
-                                    </form>
-                                    @else
-                                    <form action="{{ route('admin.design.deactivate') }}" method="POST"
-                                        class="form-toggle" data-nama="{{ $item->nama_brand }}"
-                                        style="display: inline; margin: 0;">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $item->id }}">
-                                        <button type="button"
-                                            class="btn-action shadow-sm btn-deactivate-alert" style="margin: 0; background-color: #6c757d; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 13px; font-weight: 500;">
-                                            Nonaktifkan
-                                        </button>
-                                    </form>
-                                    @endif
+        <div class="p-4">
+            <div class="row g-4">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <div class="info-label mb-1">Nama Brand / Judul Web</div>
+                    <div class="info-value mb-4"><strong>{{ $design->nama_brand }}</strong></div>
 
-                                    <a href="{{ route('admin.design.edit', $item->id) }}"
-                                        class="btn-action btn-edit shadow-sm" style="margin: 0;">
-                                        Ubah
-                                    </a>
+                    <div class="info-label mb-1">Email Kontak</div>
+                    <div class="info-value mb-4">{{ $design->email }}</div>
 
-                                    <button type="button" class="btn-action btn-hapus shadow-sm btn-delete-alert"
-                                        data-id="{{ $item->id }}" data-nama="{{ $item->nama_brand }}" style="margin: 0;">
-                                        Hapus
-                                    </button>
+                    <div class="info-label mb-1">Warna Dasar / Aksen Web</div>
+                    <div class="info-value mb-4 d-flex align-items-center gap-2">
+                        <span style="display: inline-block; width: 20px; height: 20px; border-radius: 4px; background-color: {{ $design->warna_primer ?? '#e8a53a' }}; border: 1px solid #ddd;"></span>
+                        <code>{{ $design->warna_primer ?? '#e8a53a' }}</code>
+                    </div>
 
-                                    <form id="delete-form-{{ $item->id }}"
-                                        action="{{ route('admin.design.destroy', $item->id) }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr class="empty-row-row">
-                            <td colspan="4" class="empty-row-cell" style="padding: 40px; text-align: center; color: #999;">
-                                Belum ada data design.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    <div class="info-label mb-1">Alamat Lengkap</div>
+                    <div class="info-value" style="line-height: 1.5;">{{ $design->alaamat }}</div>
+                </div>
+
+                <div class="col-md-6 ps-md-4" style="border-left: 1px solid #f0f0f0;">
+                    <h5 class="mb-4" style="color: {{ $design->warna_primer ?? '#e8a53a' }}; font-weight: 600; border-bottom: 2px solid #f8f9fa; padding-bottom: 8px;">Kontak & Sosial Media</h5>
+                    
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <span class="social-icon-badge"><i class="fab fa-whatsapp" style="color: #25D366; font-size: 1.25rem;"></i></span>
+                        <div>
+                            <div class="text-muted" style="font-size: 0.8rem;">WhatsApp</div>
+                            <div class="info-value"><strong>{{ $design->kontak['whatsapp'] ?? '-' }}</strong></div>
+                        </div>
+                    </div>
+ 
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <span class="social-icon-badge"><i class="fab fa-instagram" style="color: #E1306C; font-size: 1.25rem;"></i></span>
+                        <div>
+                            <div class="text-muted" style="font-size: 0.8rem;">Instagram</div>
+                            @if(isset($design->kontak['instagram']) && !empty($design->kontak['instagram']))
+                                <div class="info-value"><a href="{{ $design->kontak['instagram'] }}" target="_blank" style="color: {{ $design->warna_primer ?? '#e8a53a' }}; text-decoration: none; font-weight: 500;">Link Instagram</a></div>
+                            @else
+                                <div class="info-value">-</div>
+                            @endif
+                        </div>
+                    </div>
+ 
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="social-icon-badge"><i class="fab fa-facebook" style="color: #1877F2; font-size: 1.25rem;"></i></span>
+                        <div>
+                            <div class="text-muted" style="font-size: 0.8rem;">Facebook</div>
+                            @if(isset($design->kontak['facebook']) && !empty($design->kontak['facebook']))
+                                <div class="info-value"><a href="{{ $design->kontak['facebook'] }}" target="_blank" style="color: {{ $design->warna_primer ?? '#e8a53a' }}; text-decoration: none; font-weight: 500;">Link Facebook</a></div>
+                            @else
+                                <div class="info-value">-</div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <script>
-        document.querySelectorAll('.btn-activate-alert').forEach(button => {
-            button.addEventListener('click', function() {
-                const form = this.closest('form');
-                const nama = form.dataset.nama;
-
-                Swal.fire({
-                    title: 'Konfirmasi',
-                    text: `Apakah Anda yakin ingin mengaktifkan design "${nama}"? Design yang sedang aktif akan otomatis dinonaktifkan.`,
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#e8a53a',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, Aktifkan',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        });
-
-        document.querySelectorAll('.btn-deactivate-alert').forEach(button => {
-            button.addEventListener('click', function() {
-                const form = this.closest('form');
-                const nama = form.dataset.nama;
-
-                Swal.fire({
-                    title: 'Konfirmasi',
-                    text: `Apakah Anda yakin ingin menonaktifkan design "${nama}"? Jika tidak ada design yang aktif, tampilan web pelanggan akan kembali ke setelan default.`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#6c757d',
-                    cancelButtonColor: '#dc3545',
-                    confirmButtonText: 'Ya, Nonaktifkan',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        });
-
-        document.querySelectorAll('.btn-delete-alert').forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.dataset.id;
-                const nama = this.dataset.nama;
-
-                Swal.fire({
-                    title: 'Konfirmasi',
-                    text: `Apakah Anda yakin ingin menghapus design "${nama}"? Data yang dihapus tidak dapat dikembalikan.`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc3545',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, Hapus',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById(`delete-form-${id}`).submit();
-                    }
-                });
-            });
-        });
-    </script>
-    <div style="height:50px;"></div>
+</div>
+<div style="height:50px;"></div>
 @endsection

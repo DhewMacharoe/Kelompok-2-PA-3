@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('nama', 25);
             $table->enum('kategori', ['Minuman', 'Makanan Ringan']);
             $table->mediumInteger('harga');
-            $table->string('deskripsi', 60)->nullable();
-            $table->string('foto', 50)->nullable();
+            $table->text('deskripsi')->nullable();
+            $table->string('foto', 255)->nullable();
             $table->boolean('is_available')->default(true); // true = Tersedia, false = Habis
             $table->timestamps();
         });

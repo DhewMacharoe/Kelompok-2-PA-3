@@ -22,12 +22,13 @@
         padding: 0.5rem 1rem !important;
         border-radius: 6px;
         transition: all 0.2s ease;
+        white-space: nowrap !important;
     }
 
     .pelanggan-navbar .nav-link:hover,
     .pelanggan-navbar .nav-link.active {
-        color: #cc7c1b !important;
-        background-color: rgba(204, 124, 27, 0.08);
+        color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
+        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}14 !important;
     }
 
     .pelanggan-navbar .navbar-toggler {
@@ -51,26 +52,26 @@
     }
 
     .pelanggan-navbar .navbar-nav a[href*="login"] {
-        background-color: #d5913e !important;
+        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
         color: #ffffff !important;
-        border: 1px solid #d5913e !important;
+        border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
     }
 
     .pelanggan-navbar .navbar-nav a[href*="login"]:hover {
-        background-color: #b37e33 !important;
-        border-color: #b37e33 !important;
+        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}e6 !important;
+        border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}e6 !important;
     }
 
     .pelanggan-navbar .navbar-nav a[href*="profile"],
     .pelanggan-navbar .navbar-nav button[type="submit"] {
-        color: #cc7c1b !important;
-        border: 1px solid #cc7c1b !important;
+        color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
+        border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
         background: transparent !important;
     }
 
     .pelanggan-navbar .navbar-nav a[href*="profile"]:hover,
     .pelanggan-navbar .navbar-nav button[type="submit"]:hover {
-        background-color: #cc7c1b !important;
+        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
         color: #ffffff !important;
     }
 
@@ -135,55 +136,37 @@
             <ul class="navbar-nav gap-lg-4 text-center mt-3 mt-lg-0">
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('home') ? 'active' : '' }}"
-                        href="{{ route('home') }}"
-                        style="color: {{ request()->routeIs('home') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('home') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('home') }}">
                         Beranda
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('antrean') ? 'active' : '' }}"
-                        href="{{ route('antrean') }}"
-                        style="color: {{ request()->routeIs('antrean') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('antrean') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('antrean') }}">
                         Antrean
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('pelanggan.layanan') ? 'active' : '' }}"
-                        href="{{ route('pelanggan.layanan') }}"
-                        style="color: {{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('pelanggan.layanan') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('pelanggan.layanan') }}">
                         Layanan
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('rekomendasi.index') ? 'active' : '' }}"
-                        href="{{ route('rekomendasi.index') }}"
-                        style="color: {{ request()->routeIs('rekomendasi.index') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('rekomendasi.index') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('rekomendasi.index') }}">
                         Rekomendasi
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('galeri') ? 'active' : '' }}"
-                        href="{{ route('galeri') }}"
-                        style="color: {{ request()->routeIs('galeri') ? '#d4af37' : 'white' }}; transition: color 0.3s ease;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('galeri') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('galeri') }}">
                         Galeri
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('menu') ? 'active' : '' }}"
-                        href="{{ route('menu') }}"
-                        style="color: {{ request()->routeIs('menu') ? '#d4af37' : 'white' }}; transition: color 0.3s ease; white-space: nowrap;"
-                        onmouseover="this.style.color='#d4af37'"
-                        onmouseout="this.style.color='{{ request()->routeIs('menu') ? '#d4af37' : 'white' }}'">
+                        href="{{ route('menu') }}">
                         Menu Café
                     </a>
                 </li>
@@ -192,7 +175,7 @@
                 @guest
                     <li class="nav-item d-flex align-items-center justify-content-center">
                         <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3"
-                            style="background-color: #d4af37; color: #1a1a1a; border-radius: 8px;">
+                            style="background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}; color: #1a1a1a; border-radius: 8px;">
                             Masuk
                         </a>
                     </li>

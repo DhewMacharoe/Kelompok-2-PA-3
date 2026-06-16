@@ -54,16 +54,16 @@
                             </div>
                             <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Status Saat Ini</p>
-                                <h5 class="fw-bold mb-0" style="color: #e8a53a; font-size: 0.85rem;" id="antrean-status">{{ ucfirst($dipanggil->status) }}</h5>
+                                <h5 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;" id="antrean-status">{{ ucfirst($dipanggil->status) }}</h5>
                             </div>
                             <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Sedang Dilayani</p>
-                                <h5 class="fw-bold mb-0" style="color: #e8a53a; font-size: 0.85rem;" id="antrean-nama">{{ $dipanggil->nama_pelanggan }}</h5>
+                                <h5 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;" id="antrean-nama">{{ $dipanggil->nama_pelanggan }}</h5>
                             </div>
                         </div>
-                        <div class="mt-3 py-2 text-center" style="background: rgba(232, 165, 58, 0.1); border-radius: 8px; border: 1px dashed rgba(232, 165, 58, 0.3);">
+                        <div class="mt-3 py-2 text-center" style="background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}1a; border-radius: 8px; border: 1px dashed {{ $activeDesign->warna_primer ?? '#e8a53a' }}4d;">
                             <p class="text-secondary mb-1" style="font-size: 0.75rem;">Durasi Pelayanan Berjalan <span class="ms-1" style="color: #a0a0a0;">(Est: {{ $dipanggil->total_estimasi_waktu }} mnt)</span></p>
-                            <h4 class="fw-bold mb-0" style="color: #e8a53a; letter-spacing: 2px;" id="stopwatch-dipanggil" data-start="{{ $dipanggil->updated_at->timestamp * 1000 }}">00:00:00</h4>
+                            <h4 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; letter-spacing: 2px;" id="stopwatch-dipanggil" data-start="{{ $dipanggil->updated_at->timestamp * 1000 }}">00:00:00</h4>
                         </div>
                     </div>
                 </div>
@@ -72,8 +72,8 @@
                     <div style="position: absolute; inset: 0; background: rgba(26, 26, 26, 0.85);"></div>
                     <div class="header-content position-relative" style="z-index: 1;">
                         <div class="mb-3">
-                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 60px; height: 60px; background: rgba(232, 165, 58, 0.2); border: 1px solid #e8a53a;">
-                                <i class="fas fa-chair" style="color: #e8a53a; font-size: 1.5rem;"></i>
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 60px; height: 60px; background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}33; border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }};">
+                                <i class="fas fa-chair" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 1.5rem;"></i>
                             </div>
                         </div>
                         <h3 class="text-white fw-bold mb-1" style="font-size: 1.5rem;">Belum Ada yang Dilayani</h3>
@@ -86,11 +86,11 @@
                             </div>
                             <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Status Saat Ini</p>
-                                <h5 class="fw-bold mb-0" style="color: #e8a53a; font-size: 0.85rem;">Menunggu Panggilan</h5>
+                                <h5 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;">Menunggu Panggilan</h5>
                             </div>
                             <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Sedang Dilayani</p>
-                                <h5 class="fw-bold mb-0" style="color: #e8a53a; font-size: 0.85rem;">Belum Ada</h5>
+                                <h5 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;">Belum Ada</h5>
                             </div>
                         </div>
                     </div>
@@ -100,11 +100,11 @@
             <!-- User Status Card -->
             @auth
                 @if ($antreanSayaAktif)
-                    <div class="card shadow-sm mb-4" style="border: 1px solid #f5d39a !important; border-radius: 16px; background-color: #ffffff;">
+                    <div class="card shadow-sm mb-4" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}80 !important; border-radius: 16px; background-color: #ffffff;">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-3">
-                                <div class="d-flex align-items-center justify-content-center rounded-circle me-3" style="width: 45px; height: 45px; border: 2px solid #e8a53a; background: #fffcf5;">
-                                    <i class="far fa-user" style="color: #e8a53a; font-size: 1.2rem;"></i>
+                                <div class="d-flex align-items-center justify-content-center rounded-circle me-3" style="width: 45px; height: 45px; border: 2px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffcf5;">
+                                    <i class="far fa-user" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 1.2rem;"></i>
                                 </div>
                                 <h5 class="fw-bold mb-0">Antrean Anda Aktif</h5>
                             </div>
@@ -138,16 +138,16 @@
                                     <span class="text-muted small">Status</span>
                                 </div>
                                 <div class="col-6 text-end">
-                                    <span class="fw-bold" style="color: #e8a53a;" id="my-queue-status-chip">{{ strtoupper($antreanSayaAktif->status) }}</span>
+                                    <span class="fw-bold" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};" id="my-queue-status-chip">{{ strtoupper($antreanSayaAktif->status) }}</span>
                                 </div>
                             </div>
                             
                             @if ($antreanSayaAktif->status === 'menunggu')
-                            <div class="alert mb-4 p-3" style="background-color: #fff8eb; border: 1px solid #f5d39a; border-radius: 8px;">
+                            <div class="alert mb-4 p-3" style="background-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}14; border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}4d; border-radius: 8px;">
                                 <div class="d-flex gap-2">
-                                    <i class="fas fa-info-circle mt-1" style="color: #e8a53a;"></i>
+                                    <i class="fas fa-info-circle mt-1" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};"></i>
                                     <div>
-                                        <p class="mb-1 small fw-bold" style="color: #8c6a28;">Estimasi Waktu Pelayanan Anda: {{ $antreanSayaAktif->total_estimasi_waktu }} mnt</p>
+                                        <p class="mb-1 small fw-bold" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};">Estimasi Waktu Pelayanan Anda: {{ $antreanSayaAktif->total_estimasi_waktu }} mnt</p>
                                         <p class="mb-0 small text-muted" style="line-height: 1.4;">Saat ini No. {{ $dipanggil ? $dipanggil->nomor_antrean_seq : '-' }} sedang dilayani. Anda akan dipanggil setelah layanan selesai.</p>
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@
                                 <form action="{{ route('antrean.cancel') }}" method="POST">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="button" id="btn-cancel-my-queue" class="btn w-100 fw-bold" style="border: 2px solid #e8a53a; color: #e8a53a; border-radius: 10px; padding: 12px; background: transparent;" data-loading-text="Membatalkan...">
+                                    <button type="button" id="btn-cancel-my-queue" class="btn w-100 fw-bold" style="border: 2px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; border-radius: 10px; padding: 12px; background: transparent;" data-loading-text="Membatalkan...">
                                         Batalkan Antrean Saya
                                     </button>
                                 </form>
@@ -208,9 +208,9 @@
                                         <span class="badge" style="border: 1px solid #198754; color: #198754; background: #e8f7ef; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">ANTREAN SAYA</span>
                                     @else
                                         @if ($antrean->status == 'sedang dilayani')
-                                            <span class="badge" style="border: 1px solid #e8a53a; color: #e8a53a; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">SEDANG DILAYANI</span>
+                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">SEDANG DILAYANI</span>
                                         @else
-                                            <span class="badge" style="border: 1px solid #e8a53a; color: #e8a53a; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
+                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
                                         @endif
                                     @endif
                                 </div>

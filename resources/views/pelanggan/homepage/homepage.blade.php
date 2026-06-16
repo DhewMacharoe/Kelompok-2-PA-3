@@ -1,6 +1,6 @@
 @extends('pelanggan.layouts.app')
 
-@section('title', 'Dasbor - Arga Home\'s')
+@section('title', isset($activeDesign) && $activeDesign->nama_brand ? 'Dasbor - ' . $activeDesign->nama_brand : "Dasbor - Arga Home's")
 
 @push('styles')
 @include('pelanggan.homepage.style-index')
@@ -37,8 +37,8 @@
             <div class="row g-0 align-items-stretch">
                 <!-- Col 1: Antrean Menunggu -->
                 <div class="col-6 col-md-4 p-4 d-flex align-items-center gap-3 queue-info-section">
-                    <div class="queue-icon-circle flex-shrink-0 shadow-sm" style="background-color: #fffcf5; border: 1px solid #e8a53a;">
-                        <i class="fas fa-users" style="color: #e8a53a;"></i>
+                    <div class="queue-icon-circle flex-shrink-0 shadow-sm" style="background-color: #fffcf5; border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }};">
+                        <i class="fas fa-users" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};"></i>
                     </div>
                     <div class="queue-info-details">
                         <h6 class="mb-1 text-dark fw-bold" style="font-size: 0.8rem; letter-spacing: 0.5px;">Antrean Menunggu</h6>
@@ -49,8 +49,8 @@
 
                 <!-- Col 2: Sedang Dilayani -->
                 <div class="col-6 col-md-3 p-4 d-flex align-items-center gap-3 queue-info-section border-start-md">
-                    <div class="queue-icon-circle flex-shrink-0 shadow-sm" style="background-color: #fffcf5; border: 1px solid #e8a53a;">
-                        <i class="fas fa-chair" style="color: #e8a53a;"></i>
+                    <div class="queue-icon-circle flex-shrink-0 shadow-sm" style="background-color: #fffcf5; border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }};">
+                        <i class="fas fa-chair" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};"></i>
                     </div>
                     <div class="queue-info-details">
                         <h6 class="mb-1 text-dark fw-bold" style="font-size: 0.8rem; letter-spacing: 0.5px;">Sedang Melayani Nomor</h6>
@@ -71,7 +71,7 @@
                                 @if ($antreanSayaAktif->status === 'sedang dilayani')
                                     <span class="text-secondary small d-block mb-1" style="font-size: 0.72rem; letter-spacing: 0.2px;">Durasi Pelayanan Anda</span>
                                     <div class="d-flex align-items-center justify-content-center gap-2">
-                                        <strong id="stopwatch-dipanggil" data-start="{{ $antreanSayaAktif->updated_at->timestamp * 1000 }}" style="color: #e8a53a; font-family: monospace; font-size: 1.1rem; letter-spacing: 0.5px;">00:00:00</strong>
+                                        <strong id="stopwatch-dipanggil" data-start="{{ $antreanSayaAktif->updated_at->timestamp * 1000 }}" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-family: monospace; font-size: 1.1rem; letter-spacing: 0.5px;">00:00:00</strong>
                                         <span class="text-muted text-nowrap" style="font-size: 0.75rem;">| <i class="fas fa-hourglass-half ms-1 me-1"></i> Est: {{ $antreanSayaAktif->total_estimasi_waktu }} mnt</span>
                                     </div>
                                 @else
@@ -83,7 +83,7 @@
                             @elseif ($antrean)
                                 <span class="text-secondary small d-block mb-1" style="font-size: 0.72rem; letter-spacing: 0.2px;">Durasi Pelayanan Berjalan</span>
                                 <div class="d-flex align-items-center justify-content-center gap-2">
-                                    <strong id="stopwatch-dipanggil" data-start="{{ $antrean->updated_at->timestamp * 1000 }}" style="color: #e8a53a; font-family: monospace; font-size: 1.1rem; letter-spacing: 0.5px;">00:00:00</strong>
+                                    <strong id="stopwatch-dipanggil" data-start="{{ $antrean->updated_at->timestamp * 1000 }}" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-family: monospace; font-size: 1.1rem; letter-spacing: 0.5px;">00:00:00</strong>
                                     <span class="text-muted text-nowrap" style="font-size: 0.75rem;">| <i class="fas fa-hourglass-half ms-1 me-1"></i> Est: {{ $antrean->total_estimasi_waktu }} mnt</span>
                                 </div>
                             @else

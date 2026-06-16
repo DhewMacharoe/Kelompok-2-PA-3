@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama', 25);
             $table->mediumInteger('harga');
             $table->string('estimasi_waktu', 10)->nullable();
-            $table->string('deskripsi', 60)->nullable();
+            $table->text('deskripsi')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
