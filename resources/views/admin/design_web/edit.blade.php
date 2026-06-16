@@ -69,6 +69,14 @@
                 </div>
 
                 <div class="mb-4">
+                    <label for="slogan" class="form-label">Slogan / Tagline Brand <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control @error('slogan') is-invalid @enderror" id="slogan" name="slogan" value="{{ old('slogan', $design->slogan) }}" required placeholder="Contoh: Barber, Coffee & Food">
+                    @error('slogan')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
                     <label for="warna_primer" class="form-label">Warna Dasar / Aksen Web</label>
                     <div class="d-flex align-items-center gap-3">
                         <input type="color" class="form-control form-control-color" id="warna_primer" name="warna_primer" value="{{ old('warna_primer', $design->warna_primer ?? '#e8a53a') }}" title="Pilih warna dasar" style="width: 60px; height: 45px; padding: 4px;">

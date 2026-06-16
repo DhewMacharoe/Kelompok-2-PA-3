@@ -62,6 +62,25 @@
                     @enderror
                 </div>
 
+                <div class="mb-4">
+                    <label for="slogan" class="form-label">Slogan / Tagline Brand <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control @error('slogan') is-invalid @enderror" id="slogan" name="slogan" value="{{ old('slogan', 'Barber, Coffee & Food') }}" required placeholder="Contoh: Barber, Coffee & Food">
+                    @error('slogan')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="warna_primer" class="form-label">Warna Dasar / Aksen Web</label>
+                    <div class="d-flex align-items-center gap-3">
+                        <input type="color" class="form-control form-control-color" id="warna_primer" name="warna_primer" value="{{ old('warna_primer', '#e8a53a') }}" title="Pilih warna dasar" style="width: 60px; height: 45px; padding: 4px;">
+                        <span class="text-muted">Pilih warna dasar kustom untuk aksen tombol, badge, dan ikon pada website (Default: Emas/Gold #e8a53a)</span>
+                    </div>
+                    @error('warna_primer')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <h5 class="mt-5 mb-3" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Kontak & Sosial Media</h5>
 
                 <div class="mb-4">

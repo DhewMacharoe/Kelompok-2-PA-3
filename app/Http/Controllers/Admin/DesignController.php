@@ -18,6 +18,7 @@ class DesignController extends Controller
                 'favicon' => 'assets/images/logo.png',
                 'alaamat' => 'Jl.P.Siantar Km 2, Tampubolon, Sibolahotangaso Kec. Balige, Tobasa, Sumatera Utara',
                 'email' => 'joebarberid@gmail.com',
+                'slogan' => 'Barber, Coffee & Food',
                 'kontak' => [
                     'instagram' => 'https://instagram.com',
                     'facebook' => 'https://facebook.com',
@@ -48,6 +49,7 @@ class DesignController extends Controller
             'link_map' => 'nullable|string',
             'map_embed' => 'nullable|string',
             'warna_primer' => 'nullable|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/',
+            'slogan' => 'nullable|string|max:255',
         ]);
 
         $faviconPath = 'favicon.png';
@@ -76,6 +78,7 @@ class DesignController extends Controller
             'email' => $request->email,
             'kontak' => $kontak,
             'warna_primer' => $request->warna_primer ?? '#e8a53a',
+            'slogan' => $request->slogan ?? 'Barber, Coffee & Food',
         ]);
 
         return redirect()->route('admin.design.index')->with('success', 'Design berhasil ditambahkan!');
@@ -99,6 +102,7 @@ class DesignController extends Controller
             'link_map' => 'nullable|string',
             'map_embed' => 'nullable|string',
             'warna_primer' => 'nullable|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/',
+            'slogan' => 'nullable|string|max:255',
         ]);
 
         $faviconPath = $design->favicon;
@@ -123,6 +127,7 @@ class DesignController extends Controller
             'email' => $request->email,
             'kontak' => $kontak,
             'warna_primer' => $request->warna_primer ?? '#e8a53a',
+            'slogan' => $request->slogan ?? 'Barber, Coffee & Food',
         ]);
 
         return redirect()->route('admin.design.index')->with('success', 'Design berhasil diperbarui!');

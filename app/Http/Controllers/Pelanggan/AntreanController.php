@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pelanggan;
 
 use App\Events\AntreanListUpdate;
 use App\Http\Controllers\Concerns\ValidatesQueueLocation;
+use App\Http\Controllers\Concerns\ValidatesServiceCombination;
 use App\Http\Controllers\Controller;
 use App\Models\Antrean;
 use App\Models\Layanan;
@@ -13,7 +14,7 @@ use Illuminate\Validation\Rule;
 
 class AntreanController extends Controller
 {
-    use ValidatesQueueLocation;
+    use ValidatesQueueLocation, ValidatesServiceCombination;
 
     public function index()
     {
@@ -22,6 +23,14 @@ class AntreanController extends Controller
         $layananAktif = Layanan::where('is_active', true)
             ->orderBy('nama', 'asc')
             ->get();
+
+        $incompatibilities = \Illuminate\Support\Facades\DB::table('incompatibilities')->get();
+
+        $packageServices = \Illuminate\Support\Facades\DB::table('package_service')->get();
+        $packageMap = [];
+        foreach ($packageServices as $row) {
+            $packageMap[$row->package_id][] = (int) $row->service_id;
+        }
 
         $punyaAntreanAktif = false;
         $antreanSayaAktif = null;
@@ -47,7 +56,9 @@ class AntreanController extends Controller
             'punyaAntreanAktif',
             'layananAktif',
             'antreanSayaAktif',
-            'posisiAntreanSaya'
+            'posisiAntreanSaya',
+            'incompatibilities',
+            'packageMap'
         ));
     }
 
@@ -114,17 +125,27 @@ class AntreanController extends Controller
             return back()->with('error', 'Anda harus berada dalam radius maksimal ' . $radiusMeters . ' meter dari lokasi antrean untuk mengambil antrean.')->withInput();
         }
 
+        $layananId1 = $request->input('layanan_id1');
+        $layananId2 = $request->input('layanan_id2');
+
+        $validationError = $this->validateServiceCombination([$layananId1, $layananId2]);
+        if ($validationError) {
+            return back()->with('error', $validationError)->withInput();
+        }
+
         // Generate nomor antrean dengan format 2-digit yang auto-reset per hari
         $nomorFormat = Antrean::generateDailyQueueNumber();
 
-        Antrean::create([
+        $antrean = Antrean::create([
             'nomor_antrean_seq' => $nomorFormat,
             'nama_pelanggan' => $user->username,
-            'layanan_id1' => $request->input('layanan_id1'),
-            'layanan_id2' => $request->input('layanan_id2'),
+            'layanan_id1' => $layananId1,
+            'layanan_id2' => $layananId2,
             'status' => 'menunggu',
             'waktu_masuk' => now()
         ]);
+
+        $antrean->layanans()->sync(array_values(array_filter([$layananId1, $layananId2])));
 
         $this->broadcastQueueUpdate();
 

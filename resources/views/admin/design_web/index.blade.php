@@ -136,6 +136,9 @@
                     <div class="info-label mb-1">Nama Brand / Judul Web</div>
                     <div class="info-value mb-4"><strong>{{ $design->nama_brand }}</strong></div>
 
+                    <div class="info-label mb-1">Slogan / Tagline Brand</div>
+                    <div class="info-value mb-4"><em>{{ $design->slogan ?? 'Barber, Coffee & Food' }}</em></div>
+
                     <div class="info-label mb-1">Email Kontak</div>
                     <div class="info-value mb-4">{{ $design->email }}</div>
 

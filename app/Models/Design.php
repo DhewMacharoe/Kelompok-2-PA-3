@@ -14,6 +14,7 @@ class Design extends Model
         'kontak',
         'email',
         'warna_primer',
+        'slogan',
     ];
 
     protected $casts = [

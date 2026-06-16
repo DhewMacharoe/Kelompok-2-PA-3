@@ -463,7 +463,11 @@
             if (window.selectedServices.length >= 2) return;
 
             const card = document.querySelector(`.service-card[data-id="${id}"]`);
-            if (!card || card.classList.contains('disabled')) return;
+            if (!card || 
+                card.classList.contains('disabled') || 
+                card.classList.contains('included-disabled') || 
+                card.classList.contains('incompatible-disabled')
+            ) return;
 
             const option = document.querySelector(`#layanan_id1 option[value="${id}"]`);
             if (!option) return;
@@ -501,12 +505,77 @@
             input1.value = '';
             input2.value = '';
 
-            // Reset cards
+            // Gather all selected service IDs
+            const selectedIds = window.selectedServices.map(s => parseInt(s.id));
+
+            // Gather all services included in chosen packages
+            const packageConstituentIds = [];
+            const packagesMap = {};
+            selectedIds.forEach(id => {
+                const serviceData = (window.barberLayananList || []).find(l => l.id === id);
+                if (serviceData && serviceData.included_service_ids && serviceData.included_service_ids.length > 0) {
+                    packagesMap[id] = serviceData.included_service_ids;
+                    serviceData.included_service_ids.forEach(cid => {
+                        packageConstituentIds.push(cid);
+                    });
+                }
+            });
+
+            // Gather all active service IDs (direct selected + package constituents)
+            const activeIds = [...new Set([...selectedIds, ...packageConstituentIds])];
+
+            // Reset cards and apply new validation states
             document.querySelectorAll('.service-card').forEach(card => {
-                card.classList.remove('selected', 'disabled');
-                const id = card.getAttribute('data-id');
-                if (window.selectedServices.find(s => String(s.id) === String(id))) {
+                card.classList.remove('selected', 'disabled', 'included-disabled', 'incompatible-disabled');
+                
+                // Clear custom badges
+                const customBadge = card.querySelector('.badge-container-custom');
+                if (customBadge) {
+                    customBadge.remove();
+                }
+
+                const id = parseInt(card.getAttribute('data-id'));
+                const meta = card.querySelector('.service-meta');
+
+                // 1. If currently selected
+                if (selectedIds.includes(id)) {
                     card.classList.add('selected', 'disabled');
+                    return;
+                }
+
+                // 2. Rule BR-02: If it's a constituent service of a selected package
+                const serviceData = (window.barberLayananList || []).find(l => l.id === id);
+                const isPackage = serviceData && serviceData.included_service_ids && serviceData.included_service_ids.length > 0;
+                
+                if (!isPackage && packageConstituentIds.includes(id)) {
+                    card.classList.add('included-disabled');
+                    const badge = document.createElement('div');
+                    badge.className = 'badge-container-custom mt-2';
+                    badge.innerHTML = `<span class="included-badge"><i class="fas fa-check-circle"></i> Sudah Termasuk</span>`;
+                    if (meta) {
+                        meta.appendChild(badge);
+                    }
+                    return;
+                }
+
+                // 3. Rule BR-03: Incompatibilities
+                if (activeIds.length > 0) {
+                    const conflictRule = (window.barberIncompatibilities || []).find(rule => {
+                        const a = parseInt(rule.service_id_a);
+                        const b = parseInt(rule.service_id_b);
+                        return (activeIds.includes(a) && id === b) || (activeIds.includes(b) && id === a);
+                    });
+
+                    if (conflictRule) {
+                        card.classList.add('incompatible-disabled');
+                        const badge = document.createElement('div');
+                        badge.className = 'badge-container-custom mt-2';
+                        badge.innerHTML = `<span class="incompatible-badge" title="${conflictRule.deskripsi_konflik}"><i class="fas fa-exclamation-circle"></i> Konflik</span>`;
+                        if (meta) {
+                            meta.appendChild(badge);
+                        }
+                        return;
+                    }
                 }
             });
 
@@ -805,7 +874,7 @@
                                             ${isMyQueue ? `
                                                 <span class="badge" style="border: 1px solid #198754; color: #198754; background: #e8f7ef; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">ANTREAN SAYA</span>
                                             ` : `
-                                                <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
+                                                <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}14; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
                                             `}
                                         </div>
                                     </div>

@@ -208,9 +208,9 @@
                                         <span class="badge" style="border: 1px solid #198754; color: #198754; background: #e8f7ef; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">ANTREAN SAYA</span>
                                     @else
                                         @if ($antrean->status == 'sedang dilayani')
-                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">SEDANG DILAYANI</span>
+                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}14; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">SEDANG DILAYANI</span>
                                         @else
-                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
+                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}14; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
                                         @endif
                                     @endif
                                 </div>
@@ -320,7 +320,7 @@
                         <div id="step-layanan" class="step-container active">
                             <div class="service-grid">
                                 @foreach ($layananAktif as $layanan)
-                                    <div class="service-card" data-id="{{ $layanan->id }}" onclick="selectService({{ $layanan->id }})">
+                                    <div class="service-card" data-id="{{ $layanan->id }}" data-included-services="{{ json_encode($packageMap[$layanan->id] ?? []) }}" onclick="selectService({{ $layanan->id }})">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div class="service-name">{{ $layanan->nama }}</div>
                                             <a href="{{ route('pelanggan.layanan') }}?id={{ $layanan->id }}&open=true&from=antrean" onclick="event.stopPropagation()" class="text-decoration-none detail-layanan-link" style="color: #17a2b8;" title="Lihat Detail">
@@ -362,5 +362,18 @@
 @endsection
 
 @push('scripts')
+    @php
+        $layananListJson = $layananAktif->map(function($l) use ($packageMap) {
+            return [
+                'id' => $l->id,
+                'nama' => $l->nama,
+                'included_service_ids' => $packageMap[$l->id] ?? [],
+            ];
+        });
+    @endphp
+    <script>
+        window.barberIncompatibilities = @json($incompatibilities ?? []);
+        window.barberLayananList = @json($layananListJson);
+    </script>
     @include('pelanggan.antrean.script-index')
 @endpush

@@ -52,7 +52,7 @@
 .galeri-line {
     width: 96px;
     height: 4px;
-    background: #c9a24f;
+    background: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
     border-radius: 999px;
 }
 
@@ -102,7 +102,7 @@
 }
 
 .galeri-empty {
-    background: #f5efe4;
+    background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}1a;
     border-radius: 18px;
     padding: 28px 22px;
     border: 1px solid #ece6da;

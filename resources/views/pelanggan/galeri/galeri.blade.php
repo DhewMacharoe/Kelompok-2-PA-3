@@ -39,7 +39,7 @@
                         @if($galeri->deskripsi)
                             <p>{{ $galeri->deskripsi }}</p>
                         @else
-                            <p>Dokumentasi visual {{ $activeDesign->nama_brand ?? "Arga Home's" }} Barber, Coffee & Food.</p>
+                            <p>Dokumentasi visual {{ $activeDesign->nama_brand ?? "Arga Home's" }} {{ $activeDesign->slogan ?? 'Barber, Coffee & Food' }}.</p>
                         @endif
                     </div>
                 </div>
