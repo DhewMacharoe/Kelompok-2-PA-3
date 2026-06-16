@@ -15,7 +15,7 @@
             <div class="auth-form">
                 <div class="auth-form-inner">
                     <div class="auth-kicker">Langkah terakhir</div>
-                    <h2 class="auth-section-title">Pilih username untuk Arga Home's</h2>
+                    <h2 class="auth-section-title">Lengkapi profil untuk Arga Home's</h2>
                     @if (session('error'))
                         <div class="auth-alert auth-alert--error small text-start">
                             {{ session('error') }}
@@ -37,7 +37,14 @@
                                 pattern="[A-Za-z ]+" title="Hanya menggunakan huruf dan spasi Maksimal 20 karakter.">
                         </div>
 
-                        <button type="submit" class="auth-button auth-button--google">Simpan Username</button>
+                        <div class="auth-input-group">
+                            <label for="no_whatsapp" class="auth-label">No WhatsApp</label>
+                            <input type="text" id="no_whatsapp" name="no_whatsapp" required class="auth-input"
+                                placeholder="Contoh: 081234567890" value="{{ old('no_whatsapp') }}" minlength="10" maxlength="20"
+                                pattern="[0-9]+" title="Hanya angka, minimal 10 digit.">
+                        </div>
+
+                        <button type="submit" class="auth-button auth-button--google">Simpan Profil</button>
                     </form>
 
                     <p class="auth-footer-copy mb-0">Setelah disimpan, Anda akan diarahkan kembali ke halaman utama Arga

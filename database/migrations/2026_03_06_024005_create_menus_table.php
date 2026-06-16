@@ -17,11 +17,7 @@ return new class extends Migration
             $table->enum('kategori', ['Minuman', 'Makanan Ringan']);
             $table->mediumInteger('harga');
             $table->text('deskripsi')->nullable();
-<<<<<<< Updated upstream
             $table->string('foto', 255)->nullable();
-=======
-            $table->string('foto')->nullable();
->>>>>>> Stashed changes
             $table->boolean('is_available')->default(true); // true = Tersedia, false = Habis
             $table->timestamps();
         });
