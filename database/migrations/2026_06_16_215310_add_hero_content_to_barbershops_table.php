@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('designs', function (Blueprint $table) {
+        Schema::table('barbershops', function (Blueprint $table) {
             $table->text('deskripsi_hero')->default('Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!')->after('slogan');
             $table->string('gambar_hero')->nullable()->after('deskripsi_hero');
         });
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('designs', function (Blueprint $table) {
+        Schema::table('barbershops', function (Blueprint $table) {
             $table->dropColumn(['deskripsi_hero', 'gambar_hero']);
         });
     }

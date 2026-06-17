@@ -124,6 +124,7 @@
                 </div>
             </a>
         </div>
+        @if($activeDesign->is_cafe_active ?? true)
         <div class="col-6 col-md-3">
             <a href="{{ route('menu') }}" class="text-decoration-none menu-grid-item d-block h-100">
                 <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
@@ -132,6 +133,7 @@
                 </div>
             </a>
         </div>
+        @endif
     </div>
 
     <!-- Layanan yang Ditawarkan Section -->
@@ -206,6 +208,7 @@
         </div>
 
         <!-- Menu Café Favorit Section -->
+        @if($activeDesign->is_cafe_active ?? true)
         @php
         $combinedMenus = collect($menus)->take(4);
         @endphp
@@ -261,6 +264,7 @@
                 <i class="fas fa-info-circle text-muted me-2"></i> Menu cafe belum tersedia saat ini.
             </div>
         </div>
+        @endif
         @endif
 </div>
 

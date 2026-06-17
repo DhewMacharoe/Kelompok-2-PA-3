@@ -8,6 +8,7 @@ class Barbershop extends Model
 {
     protected $fillable = [
         'is_active',
+        'is_cafe_active',
         'nama_brand',
         'favicon',
         'alaamat',
@@ -31,5 +32,6 @@ class Barbershop extends Model
     protected $casts = [
         'kontak' => 'array',
         'is_active' => 'boolean',
+        'is_cafe_active' => 'boolean',
     ];
 }

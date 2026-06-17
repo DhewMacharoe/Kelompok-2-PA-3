@@ -14,6 +14,7 @@ class BarbershopController extends Controller
         if (!$barbershop) {
             $barbershop = Barbershop::create([
                 'is_active' => true,
+                'is_cafe_active' => true,
                 'nama_brand' => "Arga Home's",
                 'favicon' => 'assets/images/logo.png',
                 'alaamat' => 'Jl.P.Siantar Km 2, Tampubolon, Sibolahotangaso Kec. Balige, Tobasa, Sumatera Utara',
@@ -61,7 +62,7 @@ class BarbershopController extends Controller
             'map_embed' => 'nullable|string',
             'warna_primer' => 'nullable|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/',
             'slogan' => 'nullable|string|max:255',
-
+            'is_cafe_active' => 'nullable|boolean',
             // Home Hero
             'deskripsi_hero' => 'required|string',
             'gambar_hero' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,ico|max:2048',
@@ -130,6 +131,7 @@ class BarbershopController extends Controller
 
         Barbershop::create([
             'is_active' => $isActive,
+            'is_cafe_active' => $request->has('is_cafe_active'),
             'nama_brand' => $request->nama_brand,
             'favicon' => $faviconPath,
             'alaamat' => $request->alaamat,
@@ -173,7 +175,7 @@ class BarbershopController extends Controller
             'map_embed' => 'nullable|string',
             'warna_primer' => 'nullable|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/',
             'slogan' => 'nullable|string|max:255',
-
+            'is_cafe_active' => 'nullable|boolean',
             // Home Hero
             'deskripsi_hero' => 'required|string',
             'gambar_hero' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,ico|max:2048',
@@ -201,40 +203,40 @@ class BarbershopController extends Controller
             $faviconPath = 'assets/images/' . $faviconName;
         }
 
-        $gambarHeroPath = $design->gambar_hero;
+        $gambarHeroPath = $barbershop->gambar_hero;
         if ($request->hasFile('gambar_hero')) {
-            if ($design->gambar_hero && file_exists(public_path($design->gambar_hero))) {
-                @unlink(public_path($design->gambar_hero));
+            if ($barbershop->gambar_hero && file_exists(public_path($barbershop->gambar_hero))) {
+                @unlink(public_path($barbershop->gambar_hero));
             }
             $heroName = time() . '_' . uniqid() . '.' . $request->gambar_hero->extension();
             $request->gambar_hero->move(public_path('assets/images/hero'), $heroName);
             $gambarHeroPath = 'assets/images/hero/' . $heroName;
         }
 
-        $gambarHeroLayananPath = $design->gambar_hero_layanan;
+        $gambarHeroLayananPath = $barbershop->gambar_hero_layanan;
         if ($request->hasFile('gambar_hero_layanan')) {
-            if ($design->gambar_hero_layanan && file_exists(public_path($design->gambar_hero_layanan))) {
-                @unlink(public_path($design->gambar_hero_layanan));
+            if ($barbershop->gambar_hero_layanan && file_exists(public_path($barbershop->gambar_hero_layanan))) {
+                @unlink(public_path($barbershop->gambar_hero_layanan));
             }
             $heroName = time() . '_layanan_' . uniqid() . '.' . $request->gambar_hero_layanan->extension();
             $request->gambar_hero_layanan->move(public_path('assets/images/hero'), $heroName);
             $gambarHeroLayananPath = 'assets/images/hero/' . $heroName;
         }
 
-        $gambarHeroGaleriPath = $design->gambar_hero_galeri;
+        $gambarHeroGaleriPath = $barbershop->gambar_hero_galeri;
         if ($request->hasFile('gambar_hero_galeri')) {
-            if ($design->gambar_hero_galeri && file_exists(public_path($design->gambar_hero_galeri))) {
-                @unlink(public_path($design->gambar_hero_galeri));
+            if ($barbershop->gambar_hero_galeri && file_exists(public_path($barbershop->gambar_hero_galeri))) {
+                @unlink(public_path($barbershop->gambar_hero_galeri));
             }
             $heroName = time() . '_galeri_' . uniqid() . '.' . $request->gambar_hero_galeri->extension();
             $request->gambar_hero_galeri->move(public_path('assets/images/hero'), $heroName);
             $gambarHeroGaleriPath = 'assets/images/hero/' . $heroName;
         }
 
-        $gambarHeroMenuPath = $design->gambar_hero_menu;
+        $gambarHeroMenuPath = $barbershop->gambar_hero_menu;
         if ($request->hasFile('gambar_hero_menu')) {
-            if ($design->gambar_hero_menu && file_exists(public_path($design->gambar_hero_menu))) {
-                @unlink(public_path($design->gambar_hero_menu));
+            if ($barbershop->gambar_hero_menu && file_exists(public_path($barbershop->gambar_hero_menu))) {
+                @unlink(public_path($barbershop->gambar_hero_menu));
             }
             $heroName = time() . '_menu_' . uniqid() . '.' . $request->gambar_hero_menu->extension();
             $request->gambar_hero_menu->move(public_path('assets/images/hero'), $heroName);
@@ -251,6 +253,7 @@ class BarbershopController extends Controller
 
         $barbershop->update([
             'nama_brand' => $request->nama_brand,
+            'is_cafe_active' => $request->has('is_cafe_active'),
             'favicon' => $faviconPath,
             'alaamat' => $request->alaamat,
             'email' => $request->email,

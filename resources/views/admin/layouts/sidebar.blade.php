@@ -29,11 +29,13 @@
                 <i class="bi bi-gear"></i> Layanan
             </a>
         </li>
+        @if($activeDesign->is_cafe_active ?? true)
         <li class="nav-item">
             <a class="nav-link {{ request()->is('admin/menu*') ? 'active' : '' }}" href="/admin/menu">
                 <i class="bi bi-cup"></i> Menu Cafe
             </a>
         </li>
+        @endif
         <li class="nav-item">
             <a class="nav-link {{ request()->is('admin/rekap*') ? 'active' : '' }}" href="{{ route('admin.rekap') }}">
                 <i class="bi bi-receipt"></i> Rekap Pemasukan
