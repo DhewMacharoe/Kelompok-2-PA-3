@@ -1,18 +1,18 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Tambah Design Web')
+@section('title', 'Tambah barbershop Web')
 
 @section('header_title')
-    <div class="header-title">Tambah Design Web</div>
+    <div class="header-title">Tambah barbershop Web</div>
 @endsection
 
 @push('styles')
 <style>
     .form-label { font-weight: 500; color: #333; }
     .form-control { border-radius: 8px; padding: 10px 15px; border: 1px solid #ced4da; }
-    .form-control:focus { border-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; box-shadow: 0 0 0 0.2rem {{ $activeDesign->warna_primer ?? '#e8a53a' }}40; }
-    .btn-submit { background-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; }
-    .btn-submit:hover { background-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}e6; color: white; }
+    .form-control:focus { border-color: {{ $activebarbershop->warna_primer ?? '#e8a53a' }}; box-shadow: 0 0 0 0.2rem {{ $activebarbershop->warna_primer ?? '#e8a53a' }}40; }
+    .btn-submit { background-color: {{ $activebarbershop->warna_primer ?? '#e8a53a' }}; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; }
+    .btn-submit:hover { background-color: {{ $activebarbershop->warna_primer ?? '#e8a53a' }}e6; color: white; }
     .btn-cancel { background-color: #6c757d; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block; transition: all 0.3s ease; }
     .btn-cancel:hover { background-color: #5a6268; color: white; }
 </style>
@@ -20,13 +20,13 @@
 
 @section('content')
 <div class="content-header">
-    <h2 style="margin-left: 20px; margin-top: 20px;">Tambah Design Web</h2>
+    <h2 style="margin-left: 20px; margin-top: 20px;">Tambah barbershop Web</h2>
 </div>
 
 <div class="content-body pb-5">
     <div class="card shadow-sm mx-auto" style="max-width: 800px; border-radius: 12px; border: none;">
         <div class="card-body p-4">
-            <form action="{{ route('admin.design.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.barbershop.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-4">
@@ -62,7 +62,7 @@
                     @enderror
                 </div>
 
-                <h5 class="mt-5 mb-3" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Kontak & Sosial Media</h5>
+                <h5 class="mt-5 mb-3" style="color: {{ $activebarbershop->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Kontak & Sosial Media</h5>
 
                 <div class="mb-4">
                     <label for="whatsapp" class="form-label">WhatsApp (Nomor Telepon)</label>
@@ -107,7 +107,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end gap-2 mt-5">
-                    <a href="{{ route('admin.design.index') }}" class="btn-cancel">Batal</a>
+                    <a href="{{ route('admin.barbershop.index') }}" class="btn-cancel">Batal</a>
                     <button type="submit" class="btn-submit">Simpan</button>
                 </div>
             </form>

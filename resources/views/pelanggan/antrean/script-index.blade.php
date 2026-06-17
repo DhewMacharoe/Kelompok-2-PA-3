@@ -477,11 +477,17 @@
 
             window.selectedServices.push(service);
             updateUI();
+            if(document.getElementById('is_booking_toggle').checked && document.getElementById('tanggal_booking').value) {
+                fetchAvailableSlots();
+            }
         };
 
         window.removeService = function(index) {
             window.selectedServices.splice(index, 1);
             updateUI();
+            if(document.getElementById('is_booking_toggle').checked && document.getElementById('tanggal_booking').value) {
+                fetchAvailableSlots();
+            }
         };
 
         window.showServiceGrid = function() {
@@ -545,6 +551,101 @@
             }
         }
 
+        // --- BOOKING LOGIC ---
+        const bookingToggle = document.getElementById('is_booking_toggle');
+        const bookingDescText = document.getElementById('booking-desc-text');
+        const bookingContainer = document.getElementById('booking-fields-container');
+        const tanggalBooking = document.getElementById('tanggal_booking');
+        const waktuBooking = document.getElementById('waktu_booking');
+        const slotsContainer = document.getElementById('available-slots-container');
+
+        if(bookingToggle) {
+            bookingToggle.addEventListener('change', function() {
+                if(this.checked) {
+                    bookingDescText.textContent = "Sistem akan mencari waktu kosong berdasarkan durasi layanan.";
+                    bookingContainer.style.display = 'block';
+                    const locPreview = document.querySelector('.queue-location-preview');
+                    if (locPreview) locPreview.style.display = 'none';
+                    waktuBooking.disabled = false;
+                    tanggalBooking.required = true;
+                    if(tanggalBooking.value) {
+                        fetchAvailableSlots();
+                    }
+                } else {
+                    bookingDescText.textContent = "Mendaftar untuk antrean langsung saat ini juga (Walk-in).";
+                    bookingContainer.style.display = 'none';
+                    const locPreview = document.querySelector('.queue-location-preview');
+                    if (locPreview) locPreview.style.display = 'flex'; // or block depending on css
+                    waktuBooking.disabled = true;
+                    tanggalBooking.required = false;
+                    waktuBooking.value = "";
+                }
+            });
+        }
+
+        if(tanggalBooking) {
+            tanggalBooking.addEventListener('change', function() {
+                if(this.value && window.selectedServices.length > 0) {
+                    fetchAvailableSlots();
+                } else if(!this.value) {
+                    slotsContainer.innerHTML = '<span class="text-muted small">Pilih tanggal terlebih dahulu.</span>';
+                }
+            });
+        }
+
+        function fetchAvailableSlots() {
+            if(!tanggalBooking.value || window.selectedServices.length === 0) return;
+            
+            slotsContainer.innerHTML = '<span class="text-muted small">Mencari jadwal kosong...</span>';
+            waktuBooking.value = "";
+
+            let layanan1 = window.selectedServices[0]?.id;
+            let layanan2 = window.selectedServices[1]?.id;
+
+            let url = `/antrean/available-slots?date=${tanggalBooking.value}&layanan_id1=${layanan1}`;
+            if(layanan2) url += `&layanan_id2=${layanan2}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'success') {
+                        renderSlots(data.slots);
+                    } else {
+                        slotsContainer.innerHTML = '<span class="text-danger small">Gagal mengambil jadwal.</span>';
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    slotsContainer.innerHTML = '<span class="text-danger small">Terjadi kesalahan.</span>';
+                });
+        }
+
+        function renderSlots(slots) {
+            slotsContainer.innerHTML = '';
+            if(slots.length === 0) {
+                slotsContainer.innerHTML = '<span class="text-danger small">Tidak ada jadwal kosong yang tersedia di tanggal ini.</span>';
+                return;
+            }
+
+            slots.forEach(slot => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'btn btn-outline-dark btn-sm slot-btn';
+                btn.textContent = slot;
+                btn.style.borderRadius = '8px';
+                btn.onclick = function() {
+                    document.querySelectorAll('.slot-btn').forEach(b => {
+                        b.classList.remove('btn-dark', 'text-white');
+                        b.classList.add('btn-outline-dark');
+                    });
+                    this.classList.remove('btn-outline-dark');
+                    this.classList.add('btn-dark', 'text-white');
+                    waktuBooking.value = slot;
+                };
+                slotsContainer.appendChild(btn);
+            });
+        }
+
         if (formTambahPelanggan) {
             formTambahPelanggan.addEventListener('submit', function(event) {
                 if (window.selectedServices.length === 0) {
@@ -559,25 +660,43 @@
                     return;
                 }
 
-                if (queueLocationHasReading && !queueLocationVerified) {
-                    event.preventDefault();
-                    showLocationError('Anda masih di luar area antrean. Dekatkan lokasi Anda ke titik antrean sebelum menekan Ambil Antrean.');
-                    return;
+                if(bookingToggle && bookingToggle.checked) {
+                    if(!tanggalBooking.value) {
+                        event.preventDefault();
+                        Swal.fire({ icon: 'warning', title: 'Pilih Tanggal', text: 'Harap pilih tanggal booking.' });
+                        return;
+                    }
+                    if(!waktuBooking.value) {
+                        event.preventDefault();
+                        Swal.fire({ icon: 'warning', title: 'Pilih Waktu', text: 'Harap pilih jam kosong yang tersedia.' });
+                        return;
+                    }
                 }
 
-                if (queueLocationRequestInProgress) {
-                    event.preventDefault();
-                    showLocationError('Sedang mengambil lokasi perangkat. Tunggu sebentar lalu coba lagi.');
-                    return;
+                // If Walk-in queue, we need location verification. If booking, we might not need location, 
+                // but let's keep it consistent or skip location for booking.
+                // Assuming we skip location validation for booking (as they can book from anywhere):
+                if(!bookingToggle || !bookingToggle.checked) {
+                    if (queueLocationHasReading && !queueLocationVerified) {
+                        event.preventDefault();
+                        showLocationError('Anda masih di luar area antrean. Dekatkan lokasi Anda ke titik antrean sebelum menekan Ambil Antrean.');
+                        return;
+                    }
+
+                    if (queueLocationRequestInProgress) {
+                        event.preventDefault();
+                        showLocationError('Sedang mengambil lokasi perangkat. Tunggu sebentar lalu coba lagi.');
+                        return;
+                    }
+
+                    if (!queueLocationVerified) {
+                        event.preventDefault();
+                        requestUserLocationAndSubmit();
+                        return;
+                    }
                 }
 
-                if (queueLocationVerified) {
-                    clearLocationError();
-                    return;
-                }
-
-                event.preventDefault();
-                requestUserLocationAndSubmit();
+                // All validations passed. Let default submit happen if location is verified or booking is selected.
             });
         }
 
@@ -797,7 +916,11 @@
                                         <div class="flex-grow-1 min-w-0">
                                             <h6 class="fw-bold mb-1 text-dark text-truncate" style="font-size: 0.95rem;">${item.nama_pelanggan}</h6>
                                             <p class="text-muted mb-0" style="font-size: 0.75rem;">
-                                                <span class="text-nowrap"><i class="far fa-clock me-1"></i> Masuk: ${formatJam(item.created_at)}</span> 
+                                                ${item.is_booking ? `
+                                                    <span class="text-nowrap text-primary fw-bold"><i class="far fa-calendar-alt me-1"></i> Booking: ${item.waktu_booking}</span>
+                                                ` : `
+                                                    <span class="text-nowrap"><i class="far fa-clock me-1"></i> Masuk: ${formatJam(item.created_at)}</span> 
+                                                `}
                                                 <span class="ms-2 text-nowrap"><i class="fas fa-hourglass-half me-1"></i> Est: ${estMnt}</span>
                                             </p>
                                         </div>
@@ -805,7 +928,7 @@
                                             ${isMyQueue ? `
                                                 <span class="badge" style="border: 1px solid #198754; color: #198754; background: #e8f7ef; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">ANTREAN SAYA</span>
                                             ` : `
-                                                <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
+                                                <span class="badge" style="border: 1px solid {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
                                             `}
                                         </div>
                                     </div>

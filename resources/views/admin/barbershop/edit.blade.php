@@ -1,18 +1,18 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Edit Design Web')
+@section('title', 'Edit barbershop Web')
 
 @section('header_title')
-    <div class="header-title">Edit Design Web</div>
+    <div class="header-title">Edit barbershop Web</div>
 @endsection
 
 @push('styles')
 <style>
     .form-label { font-weight: 500; color: #333; }
     .form-control { border-radius: 8px; padding: 10px 15px; border: 1px solid #ced4da; }
-    .form-control:focus { border-color: {{ $design->warna_primer ?? '#e8a53a' }}; box-shadow: 0 0 0 0.2rem {{ $design->warna_primer ?? '#e8a53a' }}40; }
-    .btn-submit { background-color: {{ $design->warna_primer ?? '#e8a53a' }}; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; }
-    .btn-submit:hover { background-color: {{ $design->warna_primer ?? '#e8a53a' }}e6; color: white; }
+    .form-control:focus { border-color: {{ $barbershop->warna_primer ?? '#e8a53a' }}; box-shadow: 0 0 0 0.2rem {{ $barbershop->warna_primer ?? '#e8a53a' }}40; }
+    .btn-submit { background-color: {{ $barbershop->warna_primer ?? '#e8a53a' }}; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; }
+    .btn-submit:hover { background-color: {{ $barbershop->warna_primer ?? '#e8a53a' }}e6; color: white; }
     .btn-cancel { background-color: #6c757d; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block; transition: all 0.3s ease; }
     .btn-cancel:hover { background-color: #5a6268; color: white; }
 </style>
@@ -20,19 +20,19 @@
 
 @section('content')
 <div class="content-header">
-    <h2 style="margin-left: 20px; margin-top: 20px;">Edit Design Web</h2>
+    <h2 style="margin-left: 20px; margin-top: 20px;">Edit barbershop Web</h2>
 </div>
 
 <div class="content-body pb-5">
     <div class="card shadow-sm mx-auto" style="max-width: 800px; border-radius: 12px; border: none;">
         <div class="card-body p-4">
-            <form action="{{ route('admin.design.update', $design->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.barbershop.update', $barbershop->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
                 <div class="mb-4">
                     <label for="nama_brand" class="form-label">Nama Brand / Judul Web <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control @error('nama_brand') is-invalid @enderror" id="nama_brand" name="nama_brand" value="{{ old('nama_brand', $design->nama_brand) }}" required placeholder="Contoh: Arga Home's">
+                    <input type="text" class="form-control @error('nama_brand') is-invalid @enderror" id="nama_brand" name="nama_brand" value="{{ old('nama_brand', $barbershop->nama_brand) }}" required placeholder="Contoh: Arga Home's">
                     @error('nama_brand')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -40,9 +40,9 @@
 
                 <div class="mb-4">
                     <label for="favicon" class="form-label">Favicon / Logo (Biarkan kosong jika tidak ingin mengubah)</label>
-                    @if($design->favicon)
+                    @if($barbershop->favicon)
                         <div class="mb-2">
-                            <img src="{{ asset($design->favicon) }}" alt="Current Favicon" style="height: 40px; border-radius: 4px; border: 1px solid #eee; padding: 2px;">
+                            <img src="{{ asset($barbershop->favicon) }}" alt="Current Favicon" style="height: 40px; border-radius: 4px; border: 1px solid #eee; padding: 2px;">
                         </div>
                     @endif
                     <input type="file" class="form-control @error('favicon') is-invalid @enderror" id="favicon" name="favicon" accept="image/*">
@@ -54,7 +54,7 @@
 
                 <div class="mb-4">
                     <label for="alaamat" class="form-label">Alamat Lengkap <span class="text-danger">*</span></label>
-                    <textarea class="form-control @error('alaamat') is-invalid @enderror" id="alaamat" name="alaamat" rows="3" required placeholder="Contoh: Jl.P.Siantar Km 2...">{{ old('alaamat', $design->alaamat) }}</textarea>
+                    <textarea class="form-control @error('alaamat') is-invalid @enderror" id="alaamat" name="alaamat" rows="3" required placeholder="Contoh: Jl.P.Siantar Km 2...">{{ old('alaamat', $barbershop->alaamat) }}</textarea>
                     @error('alaamat')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -62,7 +62,7 @@
 
                 <div class="mb-4">
                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $design->email) }}" required placeholder="Contoh: info@argahomes.com">
+                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $barbershop->email) }}" required placeholder="Contoh: info@argahomes.com">
                     @error('email')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -71,7 +71,7 @@
                 <div class="mb-4">
                     <label for="warna_primer" class="form-label">Warna Dasar / Aksen Web</label>
                     <div class="d-flex align-items-center gap-3">
-                        <input type="color" class="form-control form-control-color" id="warna_primer" name="warna_primer" value="{{ old('warna_primer', $design->warna_primer ?? '#e8a53a') }}" title="Pilih warna dasar" style="width: 60px; height: 45px; padding: 4px;">
+                        <input type="color" class="form-control form-control-color" id="warna_primer" name="warna_primer" value="{{ old('warna_primer', $barbershop->warna_primer ?? '#e8a53a') }}" title="Pilih warna dasar" style="width: 60px; height: 45px; padding: 4px;">
                         <span class="text-muted">Pilih warna dasar kustom untuk aksen tombol, badge, dan ikon pada website (Default: Emas/Gold #e8a53a)</span>
                     </div>
                     @error('warna_primer')
@@ -79,11 +79,11 @@
                     @enderror
                 </div>
 
-                <h5 class="mt-5 mb-3" style="color: {{ $design->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Kontak & Sosial Media</h5>
+                <h5 class="mt-5 mb-3" style="color: {{ $barbershop->warna_primer ?? '#e8a53a' }}; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">Kontak & Sosial Media</h5>
 
                 <div class="mb-4">
                     <label for="whatsapp" class="form-label">WhatsApp (Nomor Telepon)</label>
-                    <input type="text" class="form-control @error('whatsapp') is-invalid @enderror" id="whatsapp" name="whatsapp" value="{{ old('whatsapp', $design->kontak['whatsapp'] ?? '') }}" placeholder="Contoh: 0821-6789-3019">
+                    <input type="text" class="form-control @error('whatsapp') is-invalid @enderror" id="whatsapp" name="whatsapp" value="{{ old('whatsapp', $barbershop->kontak['whatsapp'] ?? '') }}" placeholder="Contoh: 0821-6789-3019">
                     @error('whatsapp')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -91,7 +91,7 @@
 
                 <div class="mb-4">
                     <label for="instagram" class="form-label">Link Instagram (Opsional)</label>
-                    <input type="url" class="form-control @error('instagram') is-invalid @enderror" id="instagram" name="instagram" value="{{ old('instagram', $design->kontak['instagram'] ?? '') }}" placeholder="Contoh: https://instagram.com/argahomes">
+                    <input type="url" class="form-control @error('instagram') is-invalid @enderror" id="instagram" name="instagram" value="{{ old('instagram', $barbershop->kontak['instagram'] ?? '') }}" placeholder="Contoh: https://instagram.com/argahomes">
                     @error('instagram')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -99,7 +99,7 @@
 
                 <div class="mb-4">
                     <label for="facebook" class="form-label">Link Facebook (Opsional)</label>
-                    <input type="url" class="form-control @error('facebook') is-invalid @enderror" id="facebook" name="facebook" value="{{ old('facebook', $design->kontak['facebook'] ?? '') }}" placeholder="Contoh: https://facebook.com/argahomes">
+                    <input type="url" class="form-control @error('facebook') is-invalid @enderror" id="facebook" name="facebook" value="{{ old('facebook', $barbershop->kontak['facebook'] ?? '') }}" placeholder="Contoh: https://facebook.com/argahomes">
                     @error('facebook')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -108,7 +108,7 @@
 
 
                 <div class="d-flex justify-content-end gap-2 mt-5">
-                    <a href="{{ route('admin.design.index') }}" class="btn-cancel">Batal</a>
+                    <a href="{{ route('admin.barbershop.index') }}" class="btn-cancel">Batal</a>
                     <button type="submit" class="btn-submit">Simpan Perubahan</button>
                 </div>
             </form>

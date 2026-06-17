@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="{{ asset('css/arga-auth.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    @if(isset($activeDesign) && $activeDesign->warna_primer)
+    @if(isset($activeBarbershop) && $activeBarbershop->warna_primer)
     <style>
         :root {
-            --auth-accent: {{ $activeDesign->warna_primer }} !important;
-            --auth-accent-strong: {{ $activeDesign->warna_primer }} !important;
+            --auth-accent: {{ $activeBarbershop->warna_primer }} !important;
+            --auth-accent-strong: {{ $activeBarbershop->warna_primer }} !important;
         }
         .auth-button--google:hover {
-            border-color: {{ $activeDesign->warna_primer }} !important;
-            box-shadow: 0 0 16px {{ $activeDesign->warna_primer }}33 !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
+            box-shadow: 0 0 16px {{ $activeBarbershop->warna_primer }}33 !important;
         }
     </style>
     @endif

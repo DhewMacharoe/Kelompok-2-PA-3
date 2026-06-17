@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
         // 4. Data Antrean
         $this->call(AntreanSeeder::class);
 
-        // 5. Data Design
-        $this->call(DesignSeeder::class);
+        // 5. Data Barbershop
+        $this->call(BarbershopSeeder::class);
     }
 }

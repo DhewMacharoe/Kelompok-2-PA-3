@@ -27,8 +27,8 @@
 
     .pelanggan-navbar .nav-link:hover,
     .pelanggan-navbar .nav-link.active {
-        color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
-        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}14 !important;
+        color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
+        background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}14 !important;
     }
 
     .pelanggan-navbar .navbar-toggler {
@@ -52,26 +52,26 @@
     }
 
     .pelanggan-navbar .navbar-nav a[href*="login"] {
-        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
+        background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
         color: #ffffff !important;
-        border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
+        border: 1px solid {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
     }
 
     .pelanggan-navbar .navbar-nav a[href*="login"]:hover {
-        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}e6 !important;
-        border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}e6 !important;
+        background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}e6 !important;
+        border-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}e6 !important;
     }
 
     .pelanggan-navbar .navbar-nav a[href*="profile"],
     .pelanggan-navbar .navbar-nav button[type="submit"] {
-        color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
-        border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
+        color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
+        border: 1px solid {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
         background: transparent !important;
     }
 
     .pelanggan-navbar .navbar-nav a[href*="profile"]:hover,
     .pelanggan-navbar .navbar-nav button[type="submit"]:hover {
-        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
+        background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
         color: #ffffff !important;
     }
 
@@ -117,12 +117,12 @@
     <div class="container">
         <div class="d-flex align-items-center justify-content-between w-100 py-2">
             <a href="{{ route('home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center gap-2">
-                @if(isset($activeDesign) && $activeDesign->favicon)
-                    <img src="{{ asset($activeDesign->favicon) }}" alt="{{ $activeDesign->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
+                @if(isset($activeBarbershop) && $activeBarbershop->favicon)
+                    <img src="{{ asset($activeBarbershop->favicon) }}" alt="{{ $activeBarbershop->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
                 @else
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="{{ $activeDesign->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="{{ $activeBarbershop->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
                 @endif
-                <span style="font-weight: 700; color: #fff; font-size: 1.2rem; display: none;" class="d-none d-sm-block">{{ $activeDesign->nama_brand ?? '' }}</span>
+                <span style="font-weight: 700; color: #fff; font-size: 1.2rem; display: none;" class="d-none d-sm-block">{{ $activeBarbershop->nama_brand ?? '' }}</span>
             </a>
 
             <button class="navbar-toggler text-white border-0 shadow-none" type="button" data-bs-toggle="collapse"
@@ -175,7 +175,7 @@
                 @guest
                     <li class="nav-item d-flex align-items-center justify-content-center">
                         <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3"
-                            style="background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}; color: #1a1a1a; border-radius: 8px;">
+                            style="background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}; color: #1a1a1a; border-radius: 8px;">
                             Masuk
                         </a>
                     </li>

@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\MenuCafeController;
 use App\Http\Controllers\Admin\AntreanController;
-use App\Http\Controllers\admin\DesignController;
+use App\Http\Controllers\Admin\BarbershopController;
 use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\Admin\RekapController;
@@ -57,10 +57,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Rekap Laporan
     Route::get('/rekap', [RekapController::class, 'rekapPemasukan'])->name('rekap');
 
-    //design web
-    Route::resource('design', DesignController::class);
-    Route::post('/design/activate', [DesignController::class, 'activateDesign'])->name('design.activate');
-    Route::post('/design/deactivate', [DesignController::class, 'deactivateDesign'])->name('design.deactivate');
+    //barbershop
+    Route::resource('barbershop', BarbershopController::class);
+    Route::post('/barbershop/activate', [BarbershopController::class, 'activateBarbershop'])->name('barbershop.activate');
+    Route::post('/barbershop/deactivate', [BarbershopController::class, 'deactivateBarbershop'])->name('barbershop.deactivate');
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

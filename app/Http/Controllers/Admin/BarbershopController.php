@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Design;
+use App\Models\Barbershop;
 use Illuminate\Http\Request;
 
-class DesignController extends Controller
+class BarbershopController extends Controller
 {
     public function index()
     {
-        $design = Design::first();
-        if (!$design) {
-            $design = Design::create([
+        $barbershop = Barbershop::first();
+        if (!$barbershop) {
+            $barbershop = Barbershop::create([
                 'is_active' => true,
                 'nama_brand' => "Arga Home's",
                 'favicon' => 'assets/images/logo.png',
@@ -27,12 +27,12 @@ class DesignController extends Controller
                 ],
             ]);
         }
-        return view('admin.design_web.index', compact('design'));
+        return view('admin.barbershop.index', compact('barbershop'));
     }
 
     public function create()
     {
-        return view('admin.design_web.create');
+        return view('admin.barbershop.create');
     }
 
     public function store(Request $request)
@@ -65,10 +65,10 @@ class DesignController extends Controller
             'map_embed' => $request->map_embed,
         ];
 
-        // Jika ini design pertama, set sebagai aktif
-        $isActive = Design::count() === 0 ? true : false;
+        // Jika ini barbershop pertama, set sebagai aktif
+        $isActive = Barbershop::count() === 0 ? true : false;
 
-        Design::create([
+        Barbershop::create([
             'is_active' => $isActive,
             'nama_brand' => $request->nama_brand,
             'favicon' => $faviconPath,
@@ -78,15 +78,15 @@ class DesignController extends Controller
             'warna_primer' => $request->warna_primer ?? '#e8a53a',
         ]);
 
-        return redirect()->route('admin.design.index')->with('success', 'Design berhasil ditambahkan!');
+        return redirect()->route('admin.barbershop.index')->with('success', 'Barbershop berhasil ditambahkan!');
     }
 
-    public function edit(Design $design)
+    public function edit(Barbershop $barbershop)
     {
-        return view('admin.design_web.edit', compact('design'));
+        return view('admin.barbershop.edit', compact('barbershop'));
     }
 
-    public function update(Request $request, Design $design)
+    public function update(Request $request, Barbershop $barbershop)
     {
         $request->validate([
             'nama_brand' => 'required|string|max:255',
@@ -101,7 +101,7 @@ class DesignController extends Controller
             'warna_primer' => 'nullable|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/',
         ]);
 
-        $faviconPath = $design->favicon;
+        $faviconPath = $barbershop->favicon;
         if ($request->hasFile('favicon')) {
             $faviconName = time() . '.' . $request->favicon->extension();
             $request->favicon->move(public_path('assets/images'), $faviconName);
@@ -112,11 +112,11 @@ class DesignController extends Controller
             'whatsapp' => $request->whatsapp,
             'instagram' => $request->instagram,
             'facebook' => $request->facebook,
-            'link_map' => $design->kontak['link_map'] ?? null,
-            'map_embed' => $design->kontak['map_embed'] ?? null,
+            'link_map' => $barbershop->kontak['link_map'] ?? null,
+            'map_embed' => $barbershop->kontak['map_embed'] ?? null,
         ];
 
-        $design->update([
+        $barbershop->update([
             'nama_brand' => $request->nama_brand,
             'favicon' => $faviconPath,
             'alaamat' => $request->alaamat,
@@ -125,41 +125,41 @@ class DesignController extends Controller
             'warna_primer' => $request->warna_primer ?? '#e8a53a',
         ]);
 
-        return redirect()->route('admin.design.index')->with('success', 'Design berhasil diperbarui!');
+        return redirect()->route('admin.barbershop.index')->with('success', 'Barbershop berhasil diperbarui!');
     }
 
-    public function destroy(Design $design)
+    public function destroy(Barbershop $barbershop)
     {
-        if ($design->is_active) {
-            return redirect()->route('admin.design.index')->with('error', 'Design yang aktif tidak dapat dihapus!');
+        if ($barbershop->is_active) {
+            return redirect()->route('admin.barbershop.index')->with('error', 'Barbershop yang aktif tidak dapat dihapus!');
         }
-        $design->delete();
-        return redirect()->route('admin.design.index')->with('success', 'Design berhasil dihapus!');
+        $barbershop->delete();
+        return redirect()->route('admin.barbershop.index')->with('success', 'Barbershop berhasil dihapus!');
     }
 
-    public function activateDesign(Request $request)
+    public function activateBarbershop(Request $request)
     {
-        $activeDesign = Design::where('is_active', true)->first();
-        if ($activeDesign) {
-            $activeDesign->is_active = false;
-            $activeDesign->save();
+        $activeBarbershop = Barbershop::where('is_active', true)->first();
+        if ($activeBarbershop) {
+            $activeBarbershop->is_active = false;
+            $activeBarbershop->save();
         }
 
-        $design = Design::findOrFail($request->id);
-        $design->is_active = true;
-        $design->save();
+        $barbershop = Barbershop::findOrFail($request->id);
+        $barbershop->is_active = true;
+        $barbershop->save();
 
-        return redirect()->route('admin.design.index')->with('success', 'Design berhasil diaktifkan!');
+        return redirect()->route('admin.barbershop.index')->with('success', 'Barbershop berhasil diaktifkan!');
     }
 
-    public function deactivateDesign(Request $request)
+    public function deactivateBarbershop(Request $request)
     {
-        $design = Design::findOrFail($request->id);
-        if ($design->is_active) {
-            $design->is_active = false;
-            $design->save();
+        $barbershop = Barbershop::findOrFail($request->id);
+        if ($barbershop->is_active) {
+            $barbershop->is_active = false;
+            $barbershop->save();
         }
 
-        return redirect()->route('admin.design.index')->with('success', 'Design berhasil dinonaktifkan!');
+        return redirect()->route('admin.barbershop.index')->with('success', 'Barbershop berhasil dinonaktifkan!');
     }
 }

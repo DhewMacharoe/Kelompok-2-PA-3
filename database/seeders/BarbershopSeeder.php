@@ -5,13 +5,13 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DesignSeeder extends Seeder
+class BarbershopSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('designs')->truncate();
+        DB::table('barbershops')->truncate();
 
-        DB::table('designs')->insert([
+        DB::table('barbershops')->insert([
             'is_active' => true,
             'nama_brand' => "Arga Home's",
             'favicon' => 'assets/images/logo.png',

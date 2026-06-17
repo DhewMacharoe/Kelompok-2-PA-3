@@ -54,16 +54,16 @@
                             </div>
                             <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Status Saat Ini</p>
-                                <h5 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;" id="antrean-status">{{ ucfirst($dipanggil->status) }}</h5>
+                                <h5 class="fw-bold mb-0" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;" id="antrean-status">{{ ucfirst($dipanggil->status) }}</h5>
                             </div>
                             <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Sedang Dilayani</p>
-                                <h5 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;" id="antrean-nama">{{ $dipanggil->nama_pelanggan }}</h5>
+                                <h5 class="fw-bold mb-0" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;" id="antrean-nama">{{ $dipanggil->nama_pelanggan }}</h5>
                             </div>
                         </div>
-                        <div class="mt-3 py-2 text-center" style="background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}1a; border-radius: 8px; border: 1px dashed {{ $activeDesign->warna_primer ?? '#e8a53a' }}4d;">
+                        <div class="mt-3 py-2 text-center" style="background: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}1a; border-radius: 8px; border: 1px dashed {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}4d;">
                             <p class="text-secondary mb-1" style="font-size: 0.75rem;">Durasi Pelayanan Berjalan <span class="ms-1" style="color: #a0a0a0;">(Est: {{ $dipanggil->total_estimasi_waktu }} mnt)</span></p>
-                            <h4 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; letter-spacing: 2px;" id="stopwatch-dipanggil" data-start="{{ $dipanggil->updated_at->timestamp * 1000 }}">00:00:00</h4>
+                            <h4 class="fw-bold mb-0" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; letter-spacing: 2px;" id="stopwatch-dipanggil" data-start="{{ $dipanggil->updated_at->timestamp * 1000 }}">00:00:00</h4>
                         </div>
                     </div>
                 </div>
@@ -72,8 +72,8 @@
                     <div style="position: absolute; inset: 0; background: rgba(26, 26, 26, 0.85);"></div>
                     <div class="header-content position-relative" style="z-index: 1;">
                         <div class="mb-3">
-                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 60px; height: 60px; background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}33; border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }};">
-                                <i class="fas fa-chair" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 1.5rem;"></i>
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 60px; height: 60px; background: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}33; border: 1px solid {{ $activeBarbershop->warna_primer ?? '#e8a53a' }};">
+                                <i class="fas fa-chair" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; font-size: 1.5rem;"></i>
                             </div>
                         </div>
                         <h3 class="text-white fw-bold mb-1" style="font-size: 1.5rem;">Belum Ada yang Dilayani</h3>
@@ -86,11 +86,11 @@
                             </div>
                             <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Status Saat Ini</p>
-                                <h5 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;">Menunggu Panggilan</h5>
+                                <h5 class="fw-bold mb-0" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;">Menunggu Panggilan</h5>
                             </div>
                             <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Sedang Dilayani</p>
-                                <h5 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;">Belum Ada</h5>
+                                <h5 class="fw-bold mb-0" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;">Belum Ada</h5>
                             </div>
                         </div>
                     </div>
@@ -100,11 +100,11 @@
             <!-- User Status Card -->
             @auth
                 @if ($antreanSayaAktif)
-                    <div class="card shadow-sm mb-4" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}80 !important; border-radius: 16px; background-color: #ffffff;">
+                    <div class="card shadow-sm mb-4" style="border: 1px solid {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}80 !important; border-radius: 16px; background-color: #ffffff;">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-3">
-                                <div class="d-flex align-items-center justify-content-center rounded-circle me-3" style="width: 45px; height: 45px; border: 2px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffcf5;">
-                                    <i class="far fa-user" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 1.2rem;"></i>
+                                <div class="d-flex align-items-center justify-content-center rounded-circle me-3" style="width: 45px; height: 45px; border: 2px solid {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; background: #fffcf5;">
+                                    <i class="far fa-user" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; font-size: 1.2rem;"></i>
                                 </div>
                                 <h5 class="fw-bold mb-0">Antrean Anda Aktif</h5>
                             </div>
@@ -138,16 +138,16 @@
                                     <span class="text-muted small">Status</span>
                                 </div>
                                 <div class="col-6 text-end">
-                                    <span class="fw-bold" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};" id="my-queue-status-chip">{{ strtoupper($antreanSayaAktif->status) }}</span>
+                                    <span class="fw-bold" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }};" id="my-queue-status-chip">{{ strtoupper($antreanSayaAktif->status) }}</span>
                                 </div>
                             </div>
                             
                             @if ($antreanSayaAktif->status === 'menunggu')
-                            <div class="alert mb-4 p-3" style="background-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}14; border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}4d; border-radius: 8px;">
+                            <div class="alert mb-4 p-3" style="background-color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}14; border: 1px solid {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}4d; border-radius: 8px;">
                                 <div class="d-flex gap-2">
-                                    <i class="fas fa-info-circle mt-1" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};"></i>
+                                    <i class="fas fa-info-circle mt-1" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }};"></i>
                                     <div>
-                                        <p class="mb-1 small fw-bold" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};">Estimasi Waktu Pelayanan Anda: {{ $antreanSayaAktif->total_estimasi_waktu }} mnt</p>
+                                        <p class="mb-1 small fw-bold" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }};">Estimasi Waktu Pelayanan Anda: {{ $antreanSayaAktif->total_estimasi_waktu }} mnt</p>
                                         <p class="mb-0 small text-muted" style="line-height: 1.4;">Saat ini No. {{ $dipanggil ? $dipanggil->nomor_antrean_seq : '-' }} sedang dilayani. Anda akan dipanggil setelah layanan selesai.</p>
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@
                                 <form action="{{ route('antrean.cancel') }}" method="POST">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="button" id="btn-cancel-my-queue" class="btn w-100 fw-bold" style="border: 2px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; border-radius: 10px; padding: 12px; background: transparent;" data-loading-text="Membatalkan...">
+                                    <button type="button" id="btn-cancel-my-queue" class="btn w-100 fw-bold" style="border: 2px solid {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; border-radius: 10px; padding: 12px; background: transparent;" data-loading-text="Membatalkan...">
                                         Batalkan Antrean Saya
                                     </button>
                                 </form>
@@ -201,16 +201,20 @@
                                 </div>
                                 <div class="flex-grow-1 min-w-0">
                                     <h6 class="fw-bold mb-1 text-dark text-truncate" style="font-size: 0.95rem;">{{ $antrean->nama_pelanggan }}</h6>
-                                    <p class="text-muted mb-0" style="font-size: 0.75rem;"><span class="text-nowrap"><i class="far fa-clock me-1"></i> Masuk: {{ $antrean->created_at->format('H:i') }}</span> <span class="ms-2 text-nowrap"><i class="fas fa-hourglass-half me-1"></i> Est: {{ $antrean->total_estimasi_waktu }} mnt</span></p>
+                                    @if($antrean->is_booking)
+                                        <p class="text-muted mb-0" style="font-size: 0.75rem;"><span class="text-nowrap text-primary fw-bold"><i class="far fa-calendar-alt me-1"></i> Booking: {{ \Carbon\Carbon::parse($antrean->tanggal_booking)->format('d M') }} ({{ \Carbon\Carbon::parse($antrean->waktu_booking)->format('H:i') }})</span> <span class="ms-2 text-nowrap"><i class="fas fa-hourglass-half me-1"></i> Est: {{ $antrean->total_estimasi_waktu }} mnt</span></p>
+                                    @else
+                                        <p class="text-muted mb-0" style="font-size: 0.75rem;"><span class="text-nowrap"><i class="far fa-clock me-1"></i> Masuk: {{ $antrean->created_at->format('H:i') }}</span> <span class="ms-2 text-nowrap"><i class="fas fa-hourglass-half me-1"></i> Est: {{ $antrean->total_estimasi_waktu }} mnt</span></p>
+                                    @endif
                                 </div>
                                 <div class="flex-shrink-0 ms-2">
                                     @if ($antreanSayaAktif && $antreanSayaAktif->id === $antrean->id)
                                         <span class="badge" style="border: 1px solid #198754; color: #198754; background: #e8f7ef; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">ANTREAN SAYA</span>
                                     @else
                                         @if ($antrean->status == 'sedang dilayani')
-                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">SEDANG DILAYANI</span>
+                                            <span class="badge" style="border: 1px solid {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">SEDANG DILAYANI</span>
                                         @else
-                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
+                                            <span class="badge" style="border: 1px solid {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
                                         @endif
                                     @endif
                                 </div>
@@ -339,7 +343,30 @@
                         <!-- Step 2: Review Pilihan -->
                         <div id="step-review" class="step-container">
                             <div class="review-section">
-                                <div class="review-title">Layanan Terpilih</div>
+                                <div class="review-title">Tipe Antrean</div>
+                                <div class="mb-3">
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="is_booking_toggle" name="is_booking" value="1">
+                                        <label class="form-check-label fw-bold text-dark" for="is_booking_toggle">Booking Jadwal Ke Depan</label>
+                                    </div>
+                                    <p class="small text-muted mb-0" id="booking-desc-text">Mendaftar untuk antrean langsung saat ini juga (Walk-in).</p>
+                                </div>
+                                
+                                <div id="booking-fields-container" style="display: none; background: #fdfbf8; border: 1px solid #e8a53a; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                                    <div class="mb-3">
+                                        <label for="tanggal_booking" class="form-label small fw-bold">Pilih Tanggal</label>
+                                        <input type="date" class="form-control" id="tanggal_booking" name="tanggal_booking" min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('+7 days')) }}">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label small fw-bold">Pilih Waktu (Jadwal Tersedia)</label>
+                                        <div id="available-slots-container" class="d-flex flex-wrap gap-2">
+                                            <span class="text-muted small">Pilih tanggal terlebih dahulu.</span>
+                                        </div>
+                                        <input type="hidden" id="waktu_booking" name="waktu_booking" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="review-title mt-3">Layanan Terpilih</div>
                                 <div id="selected-services-container">
                                     <!-- Diisi oleh JS -->
                                 </div>

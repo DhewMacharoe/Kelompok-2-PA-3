@@ -29,6 +29,7 @@ Route::get('/', [HomePageController::class, 'index'])->name('home');
 
 Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
 Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
+Route::get('/antrean/available-slots', [AntreanController::class, 'getAvailableSlots'])->name('antrean.available_slots');
 Route::get('/rekomendasi', [PelangganRekomendasiController::class, 'rekomendasi'])->name('rekomendasi.index');
 Route::post('/rekomendasi/process', [PelangganRekomendasiController::class, 'process'])->name('rekomendasi.process');
 Route::get('/galeri', [PelangganGaleriController::class, 'index'])->name('galeri');

@@ -52,7 +52,7 @@
             margin: 0 auto;
             border-radius: 24px;
             background: #fdfbf7;
-            border: 2px dashed {{ $activeDesign->warna_primer ?? '#d4af37' }};
+            border: 2px dashed {{ $activeBarbershop->warna_primer ?? '#d4af37' }};
             overflow: hidden;
             position: relative;
             display: flex;
@@ -83,8 +83,8 @@
         }
 
         .analysis-box {
-            background: linear-gradient(180deg, #fff, {{ $activeDesign->warna_primer ?? '#d4af37' }}0d);
-            border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }}33;
+            background: linear-gradient(180deg, #fff, {{ $activeBarbershop->warna_primer ?? '#d4af37' }}0d);
+            border: 1px solid {{ $activeBarbershop->warna_primer ?? '#d4af37' }}33;
             border-radius: 18px;
         }
 
@@ -96,12 +96,12 @@
         }
 
         .analysis-progress .progress-bar {
-            background: linear-gradient(90deg, {{ $activeDesign->warna_primer ?? '#d4af37' }}, {{ $activeDesign->warna_primer ?? '#d4af37' }}bb);
+            background: linear-gradient(90deg, {{ $activeBarbershop->warna_primer ?? '#d4af37' }}, {{ $activeBarbershop->warna_primer ?? '#d4af37' }}bb);
         }
 
         .result-banner {
-            background: linear-gradient(135deg, #fff, {{ $activeDesign->warna_primer ?? '#d4af37' }}14);
-            border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }}40;
+            background: linear-gradient(135deg, #fff, {{ $activeBarbershop->warna_primer ?? '#d4af37' }}14);
+            border: 1px solid {{ $activeBarbershop->warna_primer ?? '#d4af37' }}40;
             border-radius: 18px;
         }
 
@@ -112,7 +112,7 @@
         }
 
         .tip-card {
-            border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }}40;
+            border: 1px solid {{ $activeBarbershop->warna_primer ?? '#d4af37' }}40;
             border-radius: 18px;
             background: #fff;
             padding: 16px;
@@ -120,7 +120,7 @@
         }
 
         .tip-card i {
-            color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
+            color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }};
         }
 
         .recommendation-card {
@@ -133,7 +133,7 @@
             .recommendation-card:hover {
                 transform: translateY(-4px);
                 box-shadow: 0 18px 32px rgba(22, 28, 45, 0.11);
-                border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
+                border-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }};
             }
         }
 
@@ -155,10 +155,10 @@
         }
 
         .recommendation-note {
-            background: {{ $activeDesign->warna_primer ?? '#d4af37' }}14;
+            background: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}14;
             border-radius: 14px;
             padding: 12px 14px;
-            color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
+            color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }};
         }
 
         .thumb-img {
@@ -257,7 +257,7 @@
                                 <!-- AI Loading Overlay inside preview box -->
                                 <div id="ai-loading-overlay" class="position-absolute d-flex flex-column align-items-center justify-content-center" 
                                      style="top:0; left:0; width:100%; height:100%; background: rgba(255, 255, 255, 0.96); z-index: 100; transition: opacity 0.5s ease, visibility 0.5s;">
-                                    <div class="spinner-border mb-2" role="status" style="width: 2rem; height: 2rem; color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;">
+                                    <div class="spinner-border mb-2" role="status" style="width: 2rem; height: 2rem; color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
                                     <div class="fw-bold small text-dark mb-1">Menyiapkan AI Wajah</div>
@@ -285,7 +285,7 @@
                             <button type="button" id="btn-camera" class="btn btn-dark btn-lg shadow-sm" style="border-radius: 12px; transition: 0.3s;">
                                 <i class="fas fa-camera me-2"></i>Aktifkan Kamera
                             </button>
-                            <button type="button" id="btn-capture" class="btn btn-lg shadow-sm fw-bold text-white" style="display:none; border-radius: 12px; transition: 0.3s; background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important; border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;">
+                            <button type="button" id="btn-capture" class="btn btn-lg shadow-sm fw-bold text-white" style="display:none; border-radius: 12px; transition: 0.3s; background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important; border-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;">
                                 <i class="fas fa-dot-circle me-2"></i>Ambil Foto
                             </button>
                             <input type="file" id="file-upload" accept="image/*" class="d-none">
@@ -299,7 +299,7 @@
                             <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
                                 <div>
                                     <div class="text-muted small fw-semibold text-uppercase mb-1">Hasil deteksi</div>
-                                    <h3 id="live-bentuk-wajah" class="fw-bold text-uppercase mb-1" style="color: {{ $activeDesign->warna_primer ?? '#d4af37' }};">Menganalisis...</h3>
+                                    <h3 id="live-bentuk-wajah" class="fw-bold text-uppercase mb-1" style="color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }};">Menganalisis...</h3>
                                 </div>
                                 <span id="live-akurasi" class="badge bg-dark">Akurasi: 0%</span>
                             </div>
@@ -355,7 +355,7 @@
                                     </div>
                                 </div>
                                 <div class="text-end">
-                                    <span class="badge py-2 px-3 mb-2 fs-6 shadow-sm rounded-pill" style="background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important; color: #fff !important;"><i class="fas fa-user-tag me-1"></i> Bentuk Wajah: <span id="label-bentuk-wajah" class="fw-bold"></span></span>
+                                    <span class="badge py-2 px-3 mb-2 fs-6 shadow-sm rounded-pill" style="background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important; color: #fff !important;"><i class="fas fa-user-tag me-1"></i> Bentuk Wajah: <span id="label-bentuk-wajah" class="fw-bold"></span></span>
                                     <div class="small text-muted bg-white px-3 py-1 rounded-pill border d-inline-block shadow-sm">Akurasi AI: <span id="label-akurasi-hasil" class="fw-bold text-success">0%</span></div>
                                 </div>
                             </div>
@@ -380,7 +380,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
 
     <script>
-        const warnaPrimer = "{{ $activeDesign->warna_primer ?? '#d4af37' }}";
+        const warnaPrimer = "{{ $activeBarbershop->warna_primer ?? '#d4af37' }}";
         const CLASS_NAMES = ['Heart', 'Oblong', 'Oval', 'Round', 'Square'];
         const fallbackImageUrl = "{{ asset('assets/images/rambut/buzz_cut.png') }}";
         let aiModel = null,

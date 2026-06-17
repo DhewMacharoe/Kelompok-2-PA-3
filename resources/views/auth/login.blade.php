@@ -65,17 +65,17 @@
         }
     </style>
     
-    @if(isset($activeDesign) && $activeDesign->warna_primer)
+    @if(isset($activeBarbershop) && $activeBarbershop->warna_primer)
     <style>
         .btn-login {
-            background-color: {{ $activeDesign->warna_primer }} !important;
+            background-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         .btn-login:hover {
-            background-color: {{ $activeDesign->warna_primer }}e6 !important;
+            background-color: {{ $activeBarbershop->warna_primer }}e6 !important;
         }
         .form-control:focus {
-            box-shadow: 0 0 0 0.25rem {{ $activeDesign->warna_primer }}40 !important;
-            border-color: {{ $activeDesign->warna_primer }} !important;
+            box-shadow: 0 0 0 0.25rem {{ $activeBarbershop->warna_primer }}40 !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
         }
     </style>
     @endif
