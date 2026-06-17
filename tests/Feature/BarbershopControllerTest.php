@@ -20,7 +20,7 @@ class BarbershopControllerTest extends TestCase
         parent::setUp();
 
         // Create a default barbershop
-        \Illuminate\Support\Facades\DB::table('barber_shops')->updateOrInsert(
+        \Illuminate\Support\Facades\DB::table('barbershops')->updateOrInsert(
             ['id' => 1],
             [
                 'nama' => 'Arga Barbershop',
@@ -43,8 +43,9 @@ class BarbershopControllerTest extends TestCase
         ]);
         $this->admin->assignRole('admin');
 
-        // Create initial barbershop
-        $this->barbershop = Barbershop::create([
+        // Create initial design config on unified barbershop
+        $this->barbershop = Barbershop::find(1);
+        $this->barbershop->update([
             'is_active' => true,
             'nama_brand' => "Arga Home's",
             'favicon' => 'assets/images/logo.png',

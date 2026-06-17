@@ -13,12 +13,21 @@ return new class extends Migration
     {
         Schema::create('barbershops', function (Blueprint $table) {
             $table->id();
+            // Tenant info
+            $table->string('nama', 100);
+            $table->string('slug', 100)->unique();
+            $table->text('alamat')->nullable();
+            $table->string('telepon', 20)->nullable();
+            $table->text('deskripsi')->nullable();
+            $table->string('logo', 255)->nullable();
+
+            // Design info
             $table->boolean('is_active')->default(false);
-            $table->string('nama_brand');
-            $table->string('favicon');
-            $table->string('alaamat');
-            $table->json('kontak');
-            $table->string('email');
+            $table->string('nama_brand')->nullable();
+            $table->string('favicon')->nullable();
+            $table->string('alaamat')->nullable();
+            $table->json('kontak')->nullable();
+            $table->string('email')->nullable();
             $table->string('warna_primer', 7)->default('#e8a53a');
             $table->timestamps();
         });

@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('barber_shops', function (Blueprint $table) {
+        Schema::table('barbershops', function (Blueprint $table) {
             $table->decimal('latitude', 10, 8)->nullable()->after('logo');
             $table->decimal('longitude', 11, 8)->nullable()->after('latitude');
-            $table->boolean('is_active')->default(true)->after('longitude');
         });
     }
 
@@ -23,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('barber_shops', function (Blueprint $table) {
-            $table->dropColumn(['latitude', 'longitude', 'is_active']);
+        Schema::table('barbershops', function (Blueprint $table) {
+            $table->dropColumn(['latitude', 'longitude']);
         });
     }
 };

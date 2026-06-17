@@ -18,7 +18,7 @@ class IdentifyTenant
         // 1. Resolve tenant dari parameter rute 'slug' (jika ada) dan simpan ke session
         $slug = $request->route('slug');
         if ($slug) {
-            $barbershop = DB::table('barber_shops')->where('slug', $slug)->first();
+            $barbershop = DB::table('barbershops')->where('slug', $slug)->first();
             if ($barbershop) {
                 app()->instance('currentTenantId', $barbershop->id);
                 session([

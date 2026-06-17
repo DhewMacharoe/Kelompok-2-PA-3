@@ -22,7 +22,7 @@ class ServiceCombinationTest extends TestCase
         parent::setUp();
 
         // Create a default barbershop
-        \Illuminate\Support\Facades\DB::table('barber_shops')->updateOrInsert(
+        \Illuminate\Support\Facades\DB::table('barbershops')->updateOrInsert(
             ['id' => 1],
             [
                 'nama' => 'Arga Barbershop',

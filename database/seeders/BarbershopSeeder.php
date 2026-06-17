@@ -9,10 +9,8 @@ class BarbershopSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('barbershops')->truncate();
-
-        DB::table('barbershops')->insert([
-            'is_active' => true,
+        // Update design settings untuk Barbershop 1 (Arga Barbershop)
+        DB::table('barbershops')->where('id', 1)->update([
             'is_cafe_active' => true,
             'nama_brand' => "Arga Barbershop",
             'favicon' => 'assets/images/logo.png',
@@ -34,14 +32,10 @@ class BarbershopSeeder extends Seeder
             'deskripsi_hero_galeri' => 'Lihat suasana barbershop, hasil potongan rambut, dan area cafe sebelum datang ke tempat.',
             'judul_hero_menu' => 'Menu Café',
             'deskripsi_hero_menu' => 'Nikmati berbagai pilihan makanan dan minuman kopi yang tersedia di barbershop kami.',
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
-        // Seeder design untuk Barbershop 2 (Toba Barbershop) - Cafe Nonaktif
-        DB::table('designs')->insert([
-            'barbershop_id' => 2,
-            'is_active' => true,
+        // Update design settings untuk Barbershop 2 (Toba Barbershop) - Cafe Nonaktif
+        DB::table('barbershops')->where('id', 2)->update([
             'is_cafe_active' => false, // Nonaktifkan Cafe
             'nama_brand' => "Toba Barbershop",
             'favicon' => 'assets/images/logo.png',
@@ -63,14 +57,10 @@ class BarbershopSeeder extends Seeder
             'deskripsi_hero_galeri' => 'Dokumentasi visual kenyamanan dan hasil potongan rambut di Toba Barbershop.',
             'judul_hero_menu' => 'Menu Café',
             'deskripsi_hero_menu' => 'Nikmati menu café spesial kami.',
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
-        // Seeder design untuk Barbershop 3 (Laguboti Barbershop)
-        DB::table('designs')->insert([
-            'barbershop_id' => 3,
-            'is_active' => true,
+        // Update design settings untuk Barbershop 3 (Laguboti Barbershop)
+        DB::table('barbershops')->where('id', 3)->update([
             'is_cafe_active' => true,
             'nama_brand' => "Laguboti Barbershop",
             'favicon' => 'assets/images/logo.png',
@@ -92,8 +82,6 @@ class BarbershopSeeder extends Seeder
             'deskripsi_hero_galeri' => 'Foto-foto sudut Laguboti Barbershop yang estetik dan hasil pangkas rambut pelanggan.',
             'judul_hero_menu' => 'Menu Café Kami',
             'deskripsi_hero_menu' => 'Nikmati kopi dan cemilan hangat sambil menunggu antrean Anda.',
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
     }
 }

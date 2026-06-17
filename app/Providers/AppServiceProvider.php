@@ -28,11 +28,22 @@ class AppServiceProvider extends ServiceProvider
         }
 
         try {
-            $activeBarbershop = Barbershop::where('is_active', true)->first();
-            View::share('activeBarbershop', $activeBarbershop);
+            View::composer('*', function ($view) {
+                $activeBarbershop = null;
+
+                if (app()->bound('currentTenantId')) {
+                    $activeBarbershop = Barbershop::find(app('currentTenantId'));
+                } else {
+                    $activeBarbershop = Barbershop::where('is_active', true)->first();
+                }
+
+                $view->with('activeBarbershop', $activeBarbershop);
+                $view->with('activeDesign', $activeBarbershop);
+            });
         } catch (\Exception $e) {
-            // Biarkan null jika tabel belum ada atau error database lainnya
+            // Fallback in case tables are not migrated yet
             View::share('activeBarbershop', null);
+            View::share('activeDesign', null);
         }
     }
 }

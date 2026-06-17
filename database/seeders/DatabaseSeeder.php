@@ -23,15 +23,15 @@ class DatabaseSeeder extends Seeder
         }
 
         // Create or update first barbershop with coordinates
-        DB::table('barber_shops')->where('id', 1)->update([
+        DB::table('barbershops')->where('id', 1)->update([
             'latitude' => 2.386130,
             'longitude' => 99.147852,
             'is_active' => true,
         ]);
 
         // Create second barbershop if not exists
-        if (!DB::table('barber_shops')->where('id', 2)->exists()) {
-            DB::table('barber_shops')->insert([
+        if (!DB::table('barbershops')->where('id', 2)->exists()) {
+            DB::table('barbershops')->insert([
                 'id' => 2,
                 'nama' => 'Toba Barbershop',
                 'slug' => 'toba-barbershop',
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         } else {
-            DB::table('barber_shops')->where('id', 2)->update([
+            DB::table('barbershops')->where('id', 2)->update([
                 'latitude' => 2.383120,
                 'longitude' => 99.148810,
                 'is_active' => true,
@@ -92,8 +92,8 @@ class DatabaseSeeder extends Seeder
         }
 
         // Create third barbershop if not exists
-        if (!DB::table('barber_shops')->where('id', 3)->exists()) {
-            DB::table('barber_shops')->insert([
+        if (!DB::table('barbershops')->where('id', 3)->exists()) {
+            DB::table('barbershops')->insert([
                 'id' => 3,
                 'nama' => 'Laguboti Barbershop',
                 'slug' => 'laguboti-barbershop',

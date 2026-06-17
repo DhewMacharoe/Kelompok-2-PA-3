@@ -37,7 +37,7 @@ class AdminUserController extends Controller
             'username' => 'required|string|min:3|max:20|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
-            'barbershop_id' => 'required|exists:barber_shops,id',
+            'barbershop_id' => 'required|exists:barbershops,id',
         ]);
 
         $user = User::create([
@@ -72,7 +72,7 @@ class AdminUserController extends Controller
             'username' => 'required|string|min:3|max:20|unique:users,username,' . $admin->id,
             'email' => 'required|email|unique:users,email,' . $admin->id,
             'password' => 'nullable|string|min:8',
-            'barbershop_id' => 'required|exists:barber_shops,id',
+            'barbershop_id' => 'required|exists:barbershops,id',
         ]);
 
         $data = [

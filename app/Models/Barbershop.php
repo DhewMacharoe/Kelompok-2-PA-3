@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Barbershop extends Model
 {
     protected $fillable = [
+        'nama',
+        'slug',
+        'alamat',
+        'telepon',
+        'deskripsi',
+        'logo',
+        'latitude',
+        'longitude',
         'is_active',
         'is_cafe_active',
         'nama_brand',

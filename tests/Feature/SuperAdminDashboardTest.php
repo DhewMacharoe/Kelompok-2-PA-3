@@ -95,7 +95,7 @@ class SuperAdminDashboardTest extends TestCase
             ]);
 
         $response->assertRedirect(route('super-admin.barbershops.index'));
-        $this->assertDatabaseHas('barber_shops', [
+        $this->assertDatabaseHas('barbershops', [
             'nama' => 'Cabang Toba',
             'slug' => 'cabang-toba',
             'is_active' => true,
@@ -113,7 +113,7 @@ class SuperAdminDashboardTest extends TestCase
             ]);
 
         $response->assertRedirect(route('super-admin.barbershops.index'));
-        $this->assertDatabaseHas('barber_shops', [
+        $this->assertDatabaseHas('barbershops', [
             'id' => $this->barbershop->id,
             'nama' => 'Cabang Balige Updated',
             'slug' => 'cabang-balige-updated',
@@ -126,7 +126,7 @@ class SuperAdminDashboardTest extends TestCase
             ->delete(route('super-admin.barbershops.destroy', $this->barbershop->id));
 
         $response->assertRedirect(route('super-admin.barbershops.index'));
-        $this->assertDatabaseMissing('barber_shops', [
+        $this->assertDatabaseMissing('barbershops', [
             'id' => $this->barbershop->id,
         ]);
     }

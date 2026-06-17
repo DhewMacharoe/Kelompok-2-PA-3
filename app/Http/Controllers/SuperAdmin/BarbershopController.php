@@ -33,7 +33,7 @@ class BarbershopController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:barber_shops,slug',
+            'slug' => 'nullable|string|max:255|unique:barbershops,slug',
             'alamat' => 'nullable|string',
             'telepon' => 'nullable|string|max:20',
             'deskripsi' => 'nullable|string',
@@ -68,7 +68,7 @@ class BarbershopController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:barber_shops,slug,' . $barbershop->id,
+            'slug' => 'nullable|string|max:255|unique:barbershops,slug,' . $barbershop->id,
             'alamat' => 'nullable|string',
             'telepon' => 'nullable|string|max:20',
             'deskripsi' => 'nullable|string',
