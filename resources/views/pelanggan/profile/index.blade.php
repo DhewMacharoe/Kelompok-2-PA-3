@@ -210,7 +210,7 @@
     
     .custom-tabs .nav-link.active {
         color: #1f2937;
-        border-bottom-color: #d4af37;
+        border-bottom-color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
         background: transparent;
     }
 </style>

@@ -3,7 +3,7 @@
     height: 270px;
     background:
         linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)),
-        url("https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1400&auto=format&fit=crop");
+        url("{{ isset($activeDesign) && $activeDesign->gambar_hero_menu ? asset($activeDesign->gambar_hero_menu) : 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1400&auto=format&fit=crop' }}");
     background-size: cover;
     background-position: center;
     border-radius: 0 0 26px 26px;
@@ -52,7 +52,7 @@
 .menu-line {
     width: 96px;
     height: 4px;
-    background: #c9a24f;
+    background: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
     border-radius: 999px;
 }
 
@@ -102,13 +102,13 @@
 }
 
 .filter-btn:hover {
-    border-color: #c9a24f;
-    color: #c9a24f;
+    border-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
+    color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
 }
 
 .filter-btn.active {
-    background: #c9a24f;
-    border-color: #c9a24f;
+    background: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
+    border-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
     color: white;
 }
 
@@ -222,7 +222,7 @@
 }
 
 .item-price {
-    color: #c9a24f;
+    color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
     font-size: 16px;
     font-weight: 700;
 }
@@ -311,14 +311,14 @@
 }
 
 .modal-price {
-    color: #c9a24f;
+    color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
     font-size: 20px;
     font-weight: 800;
 }
 
 .menu-note {
     margin-top: 26px;
-    background: #f5efe4;
+    background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}1a;
     border-radius: 18px;
     padding: 16px 18px;
     display: flex;
@@ -328,7 +328,7 @@
 
 .menu-note-icon {
     font-size: 28px;
-    color: #b08a43;
+    color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
     flex-shrink: 0;
 }
 
@@ -348,7 +348,7 @@
     color: #111;
     margin-bottom: 20px;
     font-weight: 700;
-    border-bottom: 2px solid #c9a24f;
+    border-bottom: 2px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }};
     padding-bottom: 10px;
 }
 

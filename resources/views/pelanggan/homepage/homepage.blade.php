@@ -16,11 +16,11 @@
         <h1 class="hero-title mb-3">{{ strtoupper($activeBarbershop->nama_brand ?? "ARGA HOME'S") }}</h1>
         <div class="hero-divider-container mb-3 d-flex align-items-center justify-content-center gap-3">
             <span class="hero-divider-line"></span>
-            <span class="hero-divider-text">Barber, Coffee & Food</span>
+            <span class="hero-divider-text">{{ $activeDesign->slogan ?? 'Barber, Coffee & Food' }}</span>
             <span class="hero-divider-line"></span>
         </div>
         <p class="hero-desc mx-auto mb-4">
-            Tempat pangkas rambut premium dengan layanan walk-in queue terbaiks.
+            {{ $activeDesign->deskripsi_hero ?? 'Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!' }}
         </p>
         <a href="{{ route('antrean') }}" class="btn hero-cta-btn px-4 py-2.5 fw-semibold shadow-sm">
             <i class="fas fa-users me-2"></i>Ambil Antrean

@@ -39,14 +39,14 @@
             data-queue-latitude="{{ $queueLocation['latitude'] ?? '' }}"
             data-queue-longitude="{{ $queueLocation['longitude'] ?? '' }}"
             data-queue-radius="{{ $queueLocation['radius_meters'] ?? 100 }}">
-            
+
             <!-- Header Section -->
             @if ($dipanggil)
                 <div class="header-section mb-4" style="background-color: #1a1a1a; border-radius: 16px; padding: 30px 20px; text-align: center; position: relative; overflow: hidden; margin-top: 20px;">
                     <div class="header-content position-relative" style="z-index: 1;">
                         <h3 class="text-white fw-bold mb-1" style="font-size: 1.5rem;">Sedang Melayani No. <span id="antrean-nomor">{{ $dipanggil->nomor_antrean_seq }}</span></h3>
                         <p class="text-secondary mb-4" style="font-size: 0.9rem;">Pelanggan sedang dalam proses layanan</p>
-                        
+
                         <div class="header-stats-row text-center">
                             <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Sisa Menunggu</p>
@@ -78,7 +78,7 @@
                         </div>
                         <h3 class="text-white fw-bold mb-1" style="font-size: 1.5rem;">Belum Ada yang Dilayani</h3>
                         <p class="text-secondary mb-4" style="font-size: 0.9rem;">Menunggu pemilik barbershop memanggil antrean</p>
-                        
+
                         <div class="header-stats-row text-center">
                             <div class="header-stat-col">
                                 <p class="text-secondary mb-1" style="font-size: 0.75rem;">Total Antrean</p>
@@ -108,7 +108,7 @@
                                 </div>
                                 <h5 class="fw-bold mb-0">Antrean Anda Aktif</h5>
                             </div>
-                            
+
                             <div class="row mb-2 align-items-center">
                                 <div class="col-6">
                                     <span class="text-muted small">Nomor Antrean Anda</span>
@@ -141,7 +141,7 @@
                                     <span class="fw-bold" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }};" id="my-queue-status-chip">{{ strtoupper($antreanSayaAktif->status) }}</span>
                                 </div>
                             </div>
-                            
+
                             @if ($antreanSayaAktif->status === 'menunggu')
                             <div class="alert mb-4 p-3" style="background-color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}14; border: 1px solid {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}4d; border-radius: 8px;">
                                 <div class="d-flex gap-2">
@@ -152,7 +152,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div id="my-queue-cancel-action">
                                 <form action="{{ route('antrean.cancel') }}" method="POST">
                                     @csrf
@@ -175,9 +175,9 @@
                             </div>
                             <h5 class="fw-bold mb-0">Anda belum login</h5>
                         </div>
-                        
+
                         <p class="text-muted small mb-4" style="line-height: 1.5;">Silakan login terlebih dahulu untuk mengambil dan melihat detail antrean pribadi Anda. Jika belum memiliki akun, antrean juga dapat ditambahkan melalui pemilik barber.</p>
-                        
+
                         <a href="{{ route('login.user') }}" class="btn btn-gold w-100 fw-bold mb-2" style="border-radius: 10px; padding: 12px;">Login Sekarang</a>
                     </div>
                 </div>
@@ -324,7 +324,7 @@
                         <div id="step-layanan" class="step-container active">
                             <div class="service-grid">
                                 @foreach ($layananAktif as $layanan)
-                                    <div class="service-card" data-id="{{ $layanan->id }}" onclick="selectService({{ $layanan->id }})">
+                                    <div class="service-card" data-id="{{ $layanan->id }}" data-included-services="{{ json_encode($packageMap[$layanan->id] ?? []) }}" onclick="selectService({{ $layanan->id }})">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div class="service-name">{{ $layanan->nama }}</div>
                                             <a href="{{ route('pelanggan.layanan') }}?id={{ $layanan->id }}&open=true&from=antrean" onclick="event.stopPropagation()" class="text-decoration-none detail-layanan-link" style="color: #17a2b8;" title="Lihat Detail">
@@ -351,7 +351,7 @@
                                     </div>
                                     <p class="small text-muted mb-0" id="booking-desc-text">Mendaftar untuk antrean langsung saat ini juga (Walk-in).</p>
                                 </div>
-                                
+
                                 <div id="booking-fields-container" style="display: none; background: #fdfbf8; border: 1px solid #e8a53a; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                                     <div class="mb-3">
                                         <label for="tanggal_booking" class="form-label small fw-bold">Pilih Tanggal</label>
@@ -389,5 +389,18 @@
 @endsection
 
 @push('scripts')
+    @php
+        $layananListJson = $layananAktif->map(function($l) use ($packageMap) {
+            return [
+                'id' => $l->id,
+                'nama' => $l->nama,
+                'included_service_ids' => $packageMap[$l->id] ?? [],
+            ];
+        });
+    @endphp
+    <script>
+        window.barberIncompatibilities = @json($incompatibilities ?? []);
+        window.barberLayananList = @json($layananListJson);
+    </script>
     @include('pelanggan.antrean.script-index')
 @endpush

@@ -88,7 +88,7 @@ class PelangganRekomendasiController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => [
-                'bentuk_wajah' => $bentukWajah,
+                'bentuk_wajah' => $request->input('bentuk_wajah'),
                 'akurasi_sistem' => $akurasi,
                 'summary' => $faceProfile['summary'],
                 'tips' => $faceProfile['tips'],

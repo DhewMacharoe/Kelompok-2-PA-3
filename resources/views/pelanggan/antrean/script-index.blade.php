@@ -463,7 +463,11 @@
             if (window.selectedServices.length >= 2) return;
 
             const card = document.querySelector(`.service-card[data-id="${id}"]`);
-            if (!card || card.classList.contains('disabled')) return;
+            if (!card ||
+                card.classList.contains('disabled') ||
+                card.classList.contains('included-disabled') ||
+                card.classList.contains('incompatible-disabled')
+            ) return;
 
             const option = document.querySelector(`#layanan_id1 option[value="${id}"]`);
             if (!option) return;
@@ -507,12 +511,77 @@
             input1.value = '';
             input2.value = '';
 
-            // Reset cards
+            // Gather all selected service IDs
+            const selectedIds = window.selectedServices.map(s => parseInt(s.id));
+
+            // Gather all services included in chosen packages
+            const packageConstituentIds = [];
+            const packagesMap = {};
+            selectedIds.forEach(id => {
+                const serviceData = (window.barberLayananList || []).find(l => l.id === id);
+                if (serviceData && serviceData.included_service_ids && serviceData.included_service_ids.length > 0) {
+                    packagesMap[id] = serviceData.included_service_ids;
+                    serviceData.included_service_ids.forEach(cid => {
+                        packageConstituentIds.push(cid);
+                    });
+                }
+            });
+
+            // Gather all active service IDs (direct selected + package constituents)
+            const activeIds = [...new Set([...selectedIds, ...packageConstituentIds])];
+
+            // Reset cards and apply new validation states
             document.querySelectorAll('.service-card').forEach(card => {
-                card.classList.remove('selected', 'disabled');
-                const id = card.getAttribute('data-id');
-                if (window.selectedServices.find(s => String(s.id) === String(id))) {
+                card.classList.remove('selected', 'disabled', 'included-disabled', 'incompatible-disabled');
+
+                // Clear custom badges
+                const customBadge = card.querySelector('.badge-container-custom');
+                if (customBadge) {
+                    customBadge.remove();
+                }
+
+                const id = parseInt(card.getAttribute('data-id'));
+                const meta = card.querySelector('.service-meta');
+
+                // 1. If currently selected
+                if (selectedIds.includes(id)) {
                     card.classList.add('selected', 'disabled');
+                    return;
+                }
+
+                // 2. Rule BR-02: If it's a constituent service of a selected package
+                const serviceData = (window.barberLayananList || []).find(l => l.id === id);
+                const isPackage = serviceData && serviceData.included_service_ids && serviceData.included_service_ids.length > 0;
+
+                if (!isPackage && packageConstituentIds.includes(id)) {
+                    card.classList.add('included-disabled');
+                    const badge = document.createElement('div');
+                    badge.className = 'badge-container-custom mt-2';
+                    badge.innerHTML = `<span class="included-badge"><i class="fas fa-check-circle"></i> Sudah Termasuk</span>`;
+                    if (meta) {
+                        meta.appendChild(badge);
+                    }
+                    return;
+                }
+
+                // 3. Rule BR-03: Incompatibilities
+                if (activeIds.length > 0) {
+                    const conflictRule = (window.barberIncompatibilities || []).find(rule => {
+                        const a = parseInt(rule.service_id_a);
+                        const b = parseInt(rule.service_id_b);
+                        return (activeIds.includes(a) && id === b) || (activeIds.includes(b) && id === a);
+                    });
+
+                    if (conflictRule) {
+                        card.classList.add('incompatible-disabled');
+                        const badge = document.createElement('div');
+                        badge.className = 'badge-container-custom mt-2';
+                        badge.innerHTML = `<span class="incompatible-badge" title="${conflictRule.deskripsi_konflik}"><i class="fas fa-exclamation-circle"></i> Konflik</span>`;
+                        if (meta) {
+                            meta.appendChild(badge);
+                        }
+                        return;
+                    }
                 }
             });
 
@@ -595,7 +664,7 @@
 
         function fetchAvailableSlots() {
             if(!tanggalBooking.value || window.selectedServices.length === 0) return;
-            
+
             slotsContainer.innerHTML = '<span class="text-muted small">Mencari jadwal kosong...</span>';
             waktuBooking.value = "";
 
@@ -673,7 +742,7 @@
                     }
                 }
 
-                // If Walk-in queue, we need location verification. If booking, we might not need location, 
+                // If Walk-in queue, we need location verification. If booking, we might not need location,
                 // but let's keep it consistent or skip location for booking.
                 // Assuming we skip location validation for booking (as they can book from anywhere):
                 if(!bookingToggle || !bookingToggle.checked) {
@@ -788,7 +857,7 @@
 
             // Auto-open modal dan pilih layanan jika ada query parameter layanan_id atau restore state dari sessionStorage
             const urlParams = new URLSearchParams(window.location.search);
-            
+
             // 1. Restore state dari sessionStorage jika ada
             const savedStateJson = sessionStorage.getItem('antrean_page_state');
             let hasRestoredState = false;
@@ -919,7 +988,7 @@
                                                 ${item.is_booking ? `
                                                     <span class="text-nowrap text-primary fw-bold"><i class="far fa-calendar-alt me-1"></i> Booking: ${item.waktu_booking}</span>
                                                 ` : `
-                                                    <span class="text-nowrap"><i class="far fa-clock me-1"></i> Masuk: ${formatJam(item.created_at)}</span> 
+                                                    <span class="text-nowrap"><i class="far fa-clock me-1"></i> Masuk: ${formatJam(item.created_at)}</span>
                                                 `}
                                                 <span class="ms-2 text-nowrap"><i class="fas fa-hourglass-half me-1"></i> Est: ${estMnt}</span>
                                             </p>
@@ -1009,9 +1078,9 @@
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            stopwatchEl.textContent = 
-                String(hours).padStart(2, '0') + ':' + 
-                String(minutes).padStart(2, '0') + ':' + 
+            stopwatchEl.textContent =
+                String(hours).padStart(2, '0') + ':' +
+                String(minutes).padStart(2, '0') + ':' +
                 String(seconds).padStart(2, '0');
         }
 
