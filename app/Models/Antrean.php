@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use App\Tenancy\Traits\BelongsToTenant;
 
 class Antrean extends Model
 {
+    use BelongsToTenant;
+
     protected $table = 'antreans';
 
     protected $fillable = [
@@ -21,6 +24,7 @@ class Antrean extends Model
         'waktu_masuk',
         'waktu_selesai',
         'user_id',
+        'barbershop_id',
     ];
 
     protected $appends = [

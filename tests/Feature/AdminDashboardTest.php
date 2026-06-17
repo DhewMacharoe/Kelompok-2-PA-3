@@ -23,12 +23,19 @@ class AdminDashboardTest extends TestCase
 
     public function test_admin_dashboard_renders_successfully_with_correct_chart_data(): void
     {
+        // Create a barbershop
+        $barbershop = \App\Models\Barbershop::create([
+            'nama' => 'Test Barbershop',
+            'slug' => 'test-barbershop',
+        ]);
+
         // 1. Create an admin user
         $admin = User::create([
             'name' => 'Test Admin',
             'email' => 'admin@test.com',
             'username' => 'testadmin',
             'password' => bcrypt('password'),
+            'barbershop_id' => $barbershop->id,
         ]);
         $admin->assignRole('admin');
 
@@ -39,6 +46,7 @@ class AdminDashboardTest extends TestCase
             'status' => 'menunggu',
             'waktu_masuk' => now(),
             'created_at' => Carbon::today(),
+            'barbershop_id' => $barbershop->id,
         ]);
         Antrean::create([
             'nomor_antrean_seq' => 2,
@@ -46,6 +54,7 @@ class AdminDashboardTest extends TestCase
             'status' => 'selesai',
             'waktu_masuk' => now(),
             'created_at' => Carbon::today(),
+            'barbershop_id' => $barbershop->id,
         ]);
         Antrean::create([
             'nomor_antrean_seq' => 3,
@@ -53,6 +62,7 @@ class AdminDashboardTest extends TestCase
             'status' => 'batal',
             'waktu_masuk' => now(),
             'created_at' => Carbon::today(),
+            'barbershop_id' => $barbershop->id,
         ]);
 
         // 3. Make request acting as the admin

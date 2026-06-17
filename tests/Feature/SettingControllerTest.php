@@ -18,6 +18,17 @@ class SettingControllerTest extends TestCase
     {
         parent::setUp();
 
+        // Create a default barbershop
+        \Illuminate\Support\Facades\DB::table('barber_shops')->updateOrInsert(
+            ['id' => 1],
+            [
+                'nama' => 'Arga Barbershop',
+                'slug' => 'arga-barbershop',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+
         // Create the admin role
         Role::create(['name' => 'admin', 'guard_name' => 'web']);
 
@@ -27,6 +38,7 @@ class SettingControllerTest extends TestCase
             'email' => 'admin@test.com',
             'username' => 'testadmin',
             'password' => bcrypt('password'),
+            'barbershop_id' => 1,
         ]);
         $this->admin->assignRole('admin');
     }
@@ -81,8 +93,11 @@ class SettingControllerTest extends TestCase
 
     public function test_landing_page_displays_correct_status_note(): void
     {
+        // Select barbershop
+        $this->get('/barbershop/arga-barbershop');
+
         // Default (libur)
-        $response = $this->get('/');
+        $response = $this->get('/home');
         $response->assertStatus(200);
         $response->assertSee('Libur pada Hari Raya');
         $response->assertDontSee('Tetap Buka pada Hari Raya');
@@ -90,7 +105,7 @@ class SettingControllerTest extends TestCase
         // Set to buka
         Setting::set('queue_libur_note', 'buka');
 
-        $response = $this->get('/');
+        $response = $this->get('/home');
         $response->assertStatus(200);
         $response->assertSee('Tetap Buka pada Hari Raya');
         $response->assertDontSee('Libur pada Hari Raya');

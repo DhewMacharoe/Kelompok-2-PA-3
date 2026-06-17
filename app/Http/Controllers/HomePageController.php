@@ -21,10 +21,11 @@ class HomePageController extends Controller
             ->whereDate('created_at', Carbon::today())
             ->count();
 
-        $layanans = \Illuminate\Support\Facades\Cache::remember('active_layanans', 3600, function () {
+        $tenantId = app('currentTenantId') ?? 1;
+        $layanans = \Illuminate\Support\Facades\Cache::remember("active_layanans_tenant_{$tenantId}", 3600, function () {
             return Layanan::where('is_active', true)->get();
         });
-        $menus = \Illuminate\Support\Facades\Cache::remember('active_menus', 3600, function () {
+        $menus = \Illuminate\Support\Facades\Cache::remember("active_menus_tenant_{$tenantId}", 3600, function () {
             return Menu::where('is_available', true)->get();
         });
 

@@ -4,18 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\AntreanListUpdate;
 use App\Events\AntreanUpdate;
-use App\Http\Controllers\Concerns\ValidatesServiceCombination;
 use App\Http\Controllers\Controller;
 use App\Models\Antrean;
 use App\Models\Layanan;
-use App\Services\WhatsAppService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class AntreanController extends Controller
 {
-    use ValidatesServiceCombination;
     public function index()
     {
         Antrean::cancelExpiredWaitingQueues();
@@ -98,10 +95,6 @@ class AntreanController extends Controller
         if ($success) {
             $this->broadcastQueueStatusUpdate($antrean);
             $this->broadcastQueueListUpdate();
-            
-            if ($antrean->user && $antrean->user->no_whatsapp) {
-                WhatsAppService::sendPanggilan($antrean->user->no_whatsapp, $antrean);
-            }
         }
 
         return response()->json([
@@ -146,10 +139,6 @@ class AntreanController extends Controller
                 ]);
                 $success = true;
                 $message = 'Status antrean ' . $antrean->nomor_antrean_seq . ' berhasil diubah menjadi batal.';
-                
-                if ($antrean->user && $antrean->user->no_whatsapp) {
-                    WhatsAppService::sendBatal($antrean->user->no_whatsapp, $antrean, $request->alasan_batal ?? 'Dibatalkan oleh Admin');
-                }
             }
         }
 
@@ -177,21 +166,13 @@ class AntreanController extends Controller
         $alasan = $request->alasan_batal;
 
         // Cancel the selected queues
-        $antreans = Antrean::whereIn('id', $ids)->whereIn('status', ['menunggu'])->get();
-        
-        $updatedCount = 0;
-        foreach ($antreans as $antrean) {
-            $antrean->update([
+        $updatedCount = Antrean::whereIn('id', $ids)
+            ->whereIn('status', ['menunggu'])
+            ->update([
                 'status' => 'batal',
                 'alasan_batal' => $alasan,
                 'waktu_selesai' => now(),
             ]);
-            $updatedCount++;
-            
-            if ($antrean->user && $antrean->user->no_whatsapp) {
-                WhatsAppService::sendBatal($antrean->user->no_whatsapp, $antrean, $alasan);
-            }
-        }
 
         if ($updatedCount > 0) {
             $this->broadcastQueueListUpdate();
@@ -248,11 +229,6 @@ class AntreanController extends Controller
         // Simpan ke database
         $layananId1 = $request->input('layanan_id1');
         $layananId2 = $request->input('layanan_id2');
-
-        $validationError = $this->validateServiceCombination([$layananId1, $layananId2]);
-        if ($validationError) {
-            return redirect()->back()->withErrors(['layanan_id1' => $validationError])->withInput();
-        }
 
         $antrean = Antrean::create([
             'nomor_antrean_seq' => $nomorFormat,

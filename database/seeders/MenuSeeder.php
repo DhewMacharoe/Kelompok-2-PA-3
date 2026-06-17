@@ -273,8 +273,13 @@ class MenuSeeder extends Seeder
             ]
         ];
 
-        foreach ($menus as $menu) {
-            DB::table('menus')->insert($menu);
+        foreach ([1, 2, 3] as $barbershopId) {
+            foreach ($menus as $menu) {
+                $menuCopy = $menu;
+                unset($menuCopy['id']);
+                $menuCopy['barbershop_id'] = $barbershopId;
+                DB::table('menus')->insert($menuCopy);
+            }
         }
     }
 }

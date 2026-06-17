@@ -60,9 +60,9 @@ class PublicController extends Controller
     {
         $user = Auth::user();
 
-        // Pastikan user sudah memiliki username dan no_whatsapp
-        if (!$user->username || !$user->no_whatsapp) {
-            return redirect()->route('set.username')->with('error', 'Silakan lengkapi profil (Username & No WhatsApp) terlebih dahulu untuk mengantri.');
+        // Pastikan user sudah memiliki username
+        if (!$user->username) {
+            return redirect()->route('set.username')->with('error', 'Silakan atur username terlebih dahulu untuk mengantri.');
         }
 
         // Opsional: Cek apakah user sudah mengantri hari ini dan statusnya belum selesai/batal

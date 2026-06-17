@@ -28,7 +28,13 @@ class User extends Authenticatable
         'password',
         'firebase_uid',
         'no_whatsapp',
+        'barbershop_id',
     ];
+
+    public function barbershop()
+    {
+        return $this->belongsTo(Barbershop::class, 'barbershop_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

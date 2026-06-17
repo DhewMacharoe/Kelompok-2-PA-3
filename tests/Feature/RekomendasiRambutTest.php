@@ -2,10 +2,29 @@
 
 namespace Tests\Feature;
 
+use App\Models\Barbershop;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class RekomendasiRambutTest extends TestCase
 {
+    use RefreshDatabase;
+
+    private $barbershop;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->barbershop = Barbershop::create([
+            'nama' => 'Test Barbershop',
+            'slug' => 'test-barbershop',
+            'latitude' => -6.200000,
+            'longitude' => 106.816666,
+            'is_active' => true,
+        ]);
+    }
+
     /**
      * Test recommendation mapping for all 5 shapes.
      */
@@ -14,7 +33,11 @@ class RekomendasiRambutTest extends TestCase
         $faceShapes = ['Heart', 'Oblong', 'Oval', 'Round', 'Square'];
 
         foreach ($faceShapes as $shape) {
-            $response = $this->postJson(route('rekomendasi.process'), [
+            $response = $this->withSession([
+                'current_barbershop_id' => $this->barbershop->id,
+                'current_barbershop_slug' => $this->barbershop->slug,
+                'current_barbershop_nama' => $this->barbershop->nama,
+            ])->postJson(route('rekomendasi.process'), [
                 'bentuk_wajah' => $shape,
                 'akurasi_sistem' => 95.5
             ]);
@@ -99,7 +122,11 @@ class RekomendasiRambutTest extends TestCase
      */
     public function test_fallback_behavior_for_unknown_shapes(): void
     {
-        $response = $this->postJson(route('rekomendasi.process'), [
+        $response = $this->withSession([
+            'current_barbershop_id' => $this->barbershop->id,
+            'current_barbershop_slug' => $this->barbershop->slug,
+            'current_barbershop_nama' => $this->barbershop->nama,
+        ])->postJson(route('rekomendasi.process'), [
             'bentuk_wajah' => 'UnknownShape',
             'akurasi_sistem' => 0.0
         ]);

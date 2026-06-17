@@ -404,6 +404,7 @@ class AntreanSeeder extends Seeder
         ];
 
         foreach ($antreans as $antrean) {
+            $antrean['barbershop_id'] = 1;
             DB::table('antreans')->insert($antrean);
         }
 

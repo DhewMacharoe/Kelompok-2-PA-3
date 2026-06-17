@@ -19,6 +19,17 @@ class DesignControllerTest extends TestCase
     {
         parent::setUp();
 
+        // Create a default barbershop
+        \Illuminate\Support\Facades\DB::table('barber_shops')->updateOrInsert(
+            ['id' => 1],
+            [
+                'nama' => 'Arga Barbershop',
+                'slug' => 'arga-barbershop',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+
         // Create the admin role
         Role::create(['name' => 'admin', 'guard_name' => 'web']);
 
@@ -28,11 +39,13 @@ class DesignControllerTest extends TestCase
             'email' => 'admin@test.com',
             'username' => 'testadmin',
             'password' => bcrypt('password'),
+            'barbershop_id' => 1,
         ]);
         $this->admin->assignRole('admin');
 
         // Create initial design
         $this->design = Design::create([
+            'barbershop_id' => 1,
             'is_active' => true,
             'nama_brand' => "Arga Home's",
             'favicon' => 'assets/images/logo.png',
@@ -57,7 +70,7 @@ class DesignControllerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee("Arga Home&#039;s", false);
-        $response->assertSee("Google Maps Link (Default Reset)", false);
+        $response->assertSee("Google Maps Sematan", false);
     }
 
     public function test_admin_can_view_edit_design_page_with_map_fields(): void
@@ -66,8 +79,8 @@ class DesignControllerTest extends TestCase
             ->get(route('admin.design.edit', $this->design->id));
 
         $response->assertStatus(200);
-        $response->assertSee('Link Google Maps (Tombol)', false);
-        $response->assertSee('URL Embed Peta (Iframe)', false);
+        $response->assertSee('Link Google Maps (Tombol Navigasi)', false);
+        $response->assertSee('URL Embed Peta (Iframe Preview)', false);
         $response->assertSee('query=2.386130,99.147852', false);
     }
 

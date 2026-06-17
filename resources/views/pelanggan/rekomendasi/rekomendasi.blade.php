@@ -83,8 +83,8 @@
         }
 
         .analysis-box {
-            background: linear-gradient(180deg, #fff, {{ $activeDesign->warna_primer ?? '#d4af37' }}0d);
-            border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }}33;
+            background: linear-gradient(180deg, #fff, #fbf8f1);
+            border: 1px solid #efe6d1;
             border-radius: 18px;
         }
 
@@ -96,12 +96,12 @@
         }
 
         .analysis-progress .progress-bar {
-            background: linear-gradient(90deg, {{ $activeDesign->warna_primer ?? '#d4af37' }}, {{ $activeDesign->warna_primer ?? '#d4af37' }}bb);
+            background: linear-gradient(90deg, {{ $activeDesign->warna_primer ?? '#d4af37' }}, {{ $activeDesign->warna_primer ?? '#9c7b22' }});
         }
 
         .result-banner {
-            background: linear-gradient(135deg, #fff, {{ $activeDesign->warna_primer ?? '#d4af37' }}14);
-            border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }}40;
+            background: linear-gradient(135deg, #fff, #f7f2e6);
+            border: 1px solid #eee1bf;
             border-radius: 18px;
         }
 
@@ -112,7 +112,7 @@
         }
 
         .tip-card {
-            border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }}40;
+            border: 1px solid #eee1bf;
             border-radius: 18px;
             background: #fff;
             padding: 16px;
@@ -120,7 +120,7 @@
         }
 
         .tip-card i {
-            color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
+            color: #c59b2d;
         }
 
         .recommendation-card {
@@ -133,7 +133,7 @@
             .recommendation-card:hover {
                 transform: translateY(-4px);
                 box-shadow: 0 18px 32px rgba(22, 28, 45, 0.11);
-                border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
+                border-color: #d9c38a;
             }
         }
 
@@ -155,10 +155,10 @@
         }
 
         .recommendation-note {
-            background: {{ $activeDesign->warna_primer ?? '#d4af37' }}14;
+            background: #f8f5ee;
             border-radius: 14px;
             padding: 12px 14px;
-            color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
+            color: #5a4a22;
         }
 
         .thumb-img {
@@ -257,7 +257,7 @@
                                 <!-- AI Loading Overlay inside preview box -->
                                 <div id="ai-loading-overlay" class="position-absolute d-flex flex-column align-items-center justify-content-center" 
                                      style="top:0; left:0; width:100%; height:100%; background: rgba(255, 255, 255, 0.96); z-index: 100; transition: opacity 0.5s ease, visibility 0.5s;">
-                                    <div class="spinner-border mb-2" role="status" style="width: 2rem; height: 2rem; color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;">
+                                    <div class="spinner-border text-warning mb-2" role="status" style="width: 2rem; height: 2rem;">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
                                     <div class="fw-bold small text-dark mb-1">Menyiapkan AI Wajah</div>
@@ -285,7 +285,7 @@
                             <button type="button" id="btn-camera" class="btn btn-dark btn-lg shadow-sm" style="border-radius: 12px; transition: 0.3s;">
                                 <i class="fas fa-camera me-2"></i>Aktifkan Kamera
                             </button>
-                            <button type="button" id="btn-capture" class="btn btn-lg shadow-sm fw-bold text-white" style="display:none; border-radius: 12px; transition: 0.3s; background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important; border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;">
+                            <button type="button" id="btn-capture" class="btn btn-warning btn-lg shadow-sm fw-bold" style="display:none; border-radius: 12px; transition: 0.3s; color: #000;">
                                 <i class="fas fa-dot-circle me-2"></i>Ambil Foto
                             </button>
                             <input type="file" id="file-upload" accept="image/*" class="d-none">
@@ -299,7 +299,7 @@
                             <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
                                 <div>
                                     <div class="text-muted small fw-semibold text-uppercase mb-1">Hasil deteksi</div>
-                                    <h3 id="live-bentuk-wajah" class="fw-bold text-uppercase mb-1" style="color: {{ $activeDesign->warna_primer ?? '#d4af37' }};">Menganalisis...</h3>
+                                    <h3 id="live-bentuk-wajah" class="text-warning fw-bold text-uppercase mb-1">Menganalisis...</h3>
                                 </div>
                                 <span id="live-akurasi" class="badge bg-dark">Akurasi: 0%</span>
                             </div>
@@ -308,26 +308,6 @@
                                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                             <p id="analysis-caption" class="text-muted small mb-0">Sistem sedang membaca karakter wajah Anda untuk menyesuaikan rekomendasi.</p>
-                        </div>
-
-                        <div id="jenis-rambut-container" class="mb-3 p-3 analysis-box text-start shadow-sm d-none" style="border-radius: 16px; border: 1px solid #e0d0a6; background-color: #fdfcfa;">
-                            <div class="row g-3">
-                                <div class="col-12 col-md-6">
-                                    <label for="input-gender" class="form-label fw-bold text-dark mb-2"><i class="fas fa-venus-mars me-2 text-warning"></i>Jenis Kelamin</label>
-                                    <select id="input-gender" class="form-select shadow-sm" style="border-radius: 12px; font-size: 0.95rem;">
-                                        <option value="male">Pria</option>
-                                        <option value="female">Wanita</option>
-                                    </select>
-                                    <small class="text-muted" style="font-size: 0.75rem;">Otomatis dideteksi oleh AI, silakan ubah jika keliru.</small>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <label for="input-jenis-rambut" class="form-label fw-bold text-dark mb-2"><i class="fas fa-cut me-2 text-warning"></i>Jenis Rambut</label>
-                                    <select id="input-jenis-rambut" class="form-select shadow-sm" style="border-radius: 12px; font-size: 0.95rem;">
-                                        <option value="Lurus" selected>Lurus</option>
-                                        <option value="Ikal">Ikal / Bergelombang</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
 
                         <button type="button" id="btn-kirim" class="btn btn-warning btn-lg w-100 fw-bold py-3 mt-2 shadow-sm text-dark" disabled
@@ -355,7 +335,7 @@
                                     </div>
                                 </div>
                                 <div class="text-end">
-                                    <span class="badge py-2 px-3 mb-2 fs-6 shadow-sm rounded-pill" style="background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important; color: #fff !important;"><i class="fas fa-user-tag me-1"></i> Bentuk Wajah: <span id="label-bentuk-wajah" class="fw-bold"></span></span>
+                                    <span class="badge bg-warning text-dark py-2 px-3 mb-2 fs-6 shadow-sm rounded-pill"><i class="fas fa-user-tag me-1"></i> Bentuk Wajah: <span id="label-bentuk-wajah" class="fw-bold"></span></span>
                                     <div class="small text-muted bg-white px-3 py-1 rounded-pill border d-inline-block shadow-sm">Akurasi AI: <span id="label-akurasi-hasil" class="fw-bold text-success">0%</span></div>
                                 </div>
                             </div>
@@ -377,18 +357,14 @@
     <!-- Scripts -->
     <!-- Face-API.js (Ringan & Cepat < 5MB) menggantikan TensorFlow 95MB -->
     <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
 
     <script>
-        const warnaPrimer = "{{ $activeDesign->warna_primer ?? '#d4af37' }}";
         const CLASS_NAMES = ['Heart', 'Oblong', 'Oval', 'Round', 'Square'];
         const fallbackImageUrl = "{{ asset('assets/images/rambut/buzz_cut.png') }}";
         let aiModel = null,
             faceDetector = null;
         let currentBentukWajah = '',
-            currentAkurasi = 0,
-            currentGender = 'male',
-            currentAge = 25;
+            currentAkurasi = 0;
         let base64Image = ''; // Menyimpan gambar untuk dikirim ke AI Generatif
         let isCameraActive = false;
 
@@ -447,8 +423,7 @@
                 await Promise.all([
                     faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
                     faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-                    faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL),
-                    tf.loadGraphModel('{{ asset("ai_model/model.json") }}').then(model => { aiModel = model; })
+                    faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL)
                 ]);
                 
                 isModelLoaded = true;
@@ -616,10 +591,7 @@
         }
 
         // Strict Mode Khusus: Deteksi Botak 2.0 (Diperlonggar)
-        function isLikelyBald(imgElement, landmarksPos, gender) {
-            // Lewati pengecekan untuk perempuan (sangat sering false positive karena poni/hijab/background)
-            if (gender === 'female') return false;
-
+        function isLikelyBald(imgElement, landmarksPos) {
             const chinY = landmarksPos[8].y;
             const browY = Math.min(landmarksPos[19].y, landmarksPos[24].y);
             const browLeft = landmarksPos[19].x;
@@ -680,8 +652,9 @@
                 for(let i=0; i<hCount; i++) variance += Math.pow(hGrays[i] - meanGray, 2);
                 const stdDev = Math.sqrt(variance / hCount);
                 
-                // Toleransi diperketat: Warna harus sangat mirip kulit dahi (< 25) dan tidak ada tekstur rambut sama sekali (< 10)
-                if (colorDiff < 25 && stdDev < 10) {
+                // Toleransi dilonggarkan drastis agar lebih gampang ketahuan!
+                // Perbedaan warna hingga 65 (krn shading lampu/kilap) dan noise/stdDev tekstur hingga 25 (kamera HP jelek).
+                if (colorDiff < 65 && stdDev < 25) {
                     return true;
                 }
                 
@@ -749,38 +722,61 @@
                     return;
                 }
 
-                // Cek Kebotakan (Memblokir Sistem jika botak pria)
-                if (isLikelyBald(imgPreview, face.landmarks.positions, face.gender)) {
-                    showError('Rambut Pendek / Botak', 'Sistem mendeteksi potongan rambut Anda saat ini sangat pendek atau botak. Aplikasi ini dirancang untuk merekomendasikan gaya rambut bagi pengguna yang memiliki rambut dengan panjang tertentu.');
+                // Cek Kebotakan Secara Halus (Tanpa memblokir sistem)
+                userIsLikelyBald = isLikelyBald(imgPreview, face.landmarks.positions);
+
+                // 4. Strict Mode: Gender Filter
+                // Threshold dikembalikan ke 0.60. Jika AI mendeteksi perempuan dengan keyakinan > 60%, akan ditolak.
+                if (face.gender === 'female' && face.genderProbability > 0.60) {
+                    showError('Peringatan Gender', 'Sistem mendeteksi profil wajah perempuan. Harap maklum, saat ini rekomendasi gaya rambut kami dirancang khusus untuk anatomi pria.');
                     return;
                 }
-
-                // 4. Simpan Deteksi Gender & Usia
-                currentGender = face.gender || 'male';
-                currentAge = face.age || 25;
-                
-                // Set otomatis nilai dropdown gender sesuai deteksi AI
-                document.getElementById('input-gender').value = currentGender;
 
                 if (analysisProgressBar) analysisProgressBar.style.width = '85%';
                 document.getElementById('analysis-caption').innerText = 'Menghitung Geometri Rahang dan Tulang Pipi...';
 
-                // 5. Prediksi Bentuk Wajah Menggunakan TensorFlow.js ResNet50V2
-                const tensor = tf.browser.fromPixels(imgPreview)
-                    .resizeBilinear([224, 224])
-                    .toFloat()
-                    .expandDims(0);
+                // 5. Perhitungan Matematis Bentuk Wajah Berdasarkan 68 Landmarks
+                const landmarks = face.landmarks.positions;
                 
-                const prediction = aiModel.predict(tensor);
-                const scores = await prediction.data();
-                tensor.dispose();
-                prediction.dispose();
+                // Jarak Pipi ke Pipi (Lebar Wajah Maksimal) -> Point 0 ke 16
+                const faceWidth = Math.hypot(landmarks[0].x - landmarks[16].x, landmarks[0].y - landmarks[16].y);
                 
-                // Array kelas sama dengan urutan saat training di Keras (alfabetis dari image_dataset_from_directory)
-                const classNames = ['Heart', 'Oblong', 'Oval', 'Round', 'Square'];
-                const maxIndex = scores.indexOf(Math.max(...scores));
+                // Jarak Rahang Bawah (Jaw) -> Point 4 ke 12
+                const jawWidth = Math.hypot(landmarks[4].x - landmarks[12].x, landmarks[4].y - landmarks[12].y);
                 
-                currentBentukWajah = classNames[maxIndex];
+                // Panjang Wajah (Alis Tertinggi ke Dagu) * 1.4 untuk estimasi dahi/hairline
+                const browY = Math.min(landmarks[19].y, landmarks[24].y); 
+                const chinY = landmarks[8].y;
+                const faceLength = (chinY - browY) * 1.4;
+
+                // Rasio
+                const lengthRatio = faceLength / faceWidth;
+                const jawRatio = jawWidth / faceWidth;
+                
+                let shape = 'Oval'; 
+                
+                // Threshold disesuaikan agar tidak didominasi Oval/Oblong
+                if (lengthRatio > 1.38) {
+                    shape = 'Oblong'; // Wajah secara signifikan memanjang vertikal
+                } else if (lengthRatio < 1.22) {
+                    // Wajah cenderung pendek/melebar
+                    if (jawRatio > 0.82) {
+                        shape = 'Square'; // Rahang kotak dominan
+                    } else {
+                        shape = 'Round'; // Rahang membulat
+                    }
+                } else {
+                    // Wajah proporsi sedang (1.22 - 1.38)
+                    if (jawRatio > 0.85) {
+                        shape = 'Square'; // Meski panjangnya normal, rahangnya sangat lebar
+                    } else if (jawRatio < 0.78) {
+                        shape = 'Heart'; // Dagu lancip, rahang bawah menyempit
+                    } else {
+                        shape = 'Oval'; // Rahang & pipi seimbang
+                    }
+                }
+
+                currentBentukWajah = shape;
                 currentAkurasi = (confidence * 100).toFixed(2);
 
                 if (analysisProgressBar) {
@@ -792,7 +788,6 @@
                 document.getElementById('live-akurasi').innerText = `Akurasi: ${currentAkurasi}%`;
                 document.getElementById('analysis-caption').innerText = 'Wajah berhasil dipetakan. Tekan tombol di bawah untuk melihat rekomendasi yang lebih detail.';
                 
-                document.getElementById('jenis-rambut-container').classList.remove('d-none');
                 btnKirim.disabled = false;
             };
         }
@@ -828,10 +823,7 @@
                     },
                     body: JSON.stringify({
                         bentuk_wajah: currentBentukWajah,
-                        akurasi_sistem: currentAkurasi,
-                        gender: document.getElementById('input-gender').value,
-                        age: currentAge,
-                        jenis_rambut: document.getElementById('input-jenis-rambut').value
+                        akurasi_sistem: currentAkurasi
                     })
                 })
                 .then(res => res.json())
@@ -874,7 +866,12 @@
             document.getElementById('label-akurasi-hasil').innerText = `${akurasi}%`;
             document.getElementById('hasil-ringkasan').innerText = summary;
             
-            // (Disclaimer botak dihapus karena kini langsung diblokir di awal proses)
+            // Tampilkan disclaimer hanya jika terdeteksi botak
+            if (userIsLikelyBald) {
+                document.getElementById('disclaimer-botak').classList.remove('d-none');
+            } else {
+                document.getElementById('disclaimer-botak').classList.add('d-none');
+            }
 
             const tipsContainer = document.getElementById('hasil-tips');
             tipsContainer.innerHTML = '';
@@ -882,9 +879,9 @@
                 tips.forEach((tip, index) => {
                     tipsContainer.innerHTML += `
                         <div class="col-12 col-md-4">
-                            <div class="tip-card shadow-sm border-0 h-100" style="background: linear-gradient(135deg, #ffffff, ${warnaPrimer}14); transition: 0.3s; border-radius: 16px;">
+                            <div class="tip-card shadow-sm border-0 h-100" style="background: linear-gradient(135deg, #ffffff, #fffaf0); transition: 0.3s; border-radius: 16px;">
                                 <div class="d-flex align-items-start gap-3">
-                                    <div class="recommendation-rank shadow-sm d-flex align-items-center justify-content-center" style="background-color: ${warnaPrimer} !important; min-width: 42px; height: 42px; border-radius: 12px; font-size: 1.2rem;"><i class="fas fa-lightbulb" style="color: #fff !important;"></i></div>
+                                    <div class="recommendation-rank bg-warning text-dark shadow-sm d-flex align-items-center justify-content-center" style="min-width: 42px; height: 42px; border-radius: 12px; font-size: 1.2rem;"><i class="fas fa-lightbulb"></i></div>
                                     <div>
                                         <div class="fw-bold mb-1 text-dark">Tips ${index + 1}</div>
                                         <div class="text-muted small" style="line-height: 1.6;">${escapeHtml(tip)}</div>
@@ -913,13 +910,13 @@
                         <div class="card recommendation-card h-100 border-0 shadow-sm" style="border-radius: 20px; overflow: hidden; transition: all 0.3s ease; background: #fff;">
                             <div class="card-body p-4 p-xl-5 d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-                                    <div class="recommendation-rank shadow-sm bg-dark d-flex align-items-center justify-content-center" style="border-radius: 14px; font-size: 1.2rem; width: 45px; height: 45px; color: ${warnaPrimer} !important;">#${index + 1}</div>
-                                    <span class="badge px-3 py-2 rounded-pill shadow-sm" style="background-color: ${warnaPrimer} !important; color: #fff !important; font-size: 0.85rem;"><i class="fas fa-star me-1"></i> ${prioritas}</span>
+                                    <div class="recommendation-rank shadow-sm bg-dark text-warning d-flex align-items-center justify-content-center" style="border-radius: 14px; font-size: 1.2rem; width: 45px; height: 45px;">#${index + 1}</div>
+                                    <span class="badge bg-warning text-dark px-3 py-2 rounded-pill shadow-sm" style="font-size: 0.85rem;"><i class="fas fa-star me-1"></i> ${prioritas}</span>
                                 </div>
                                 <h4 class="fw-bold text-dark mb-2" style="letter-spacing: -0.5px; font-size: 1.4rem;">${nama}</h4>
                                 <p class="recommendation-reason mb-4 text-muted" style="font-size: 1rem; line-height: 1.6;">${alasan}</p>
-                                <div class="recommendation-note mb-4 shadow-sm border-0" style="background-color: ${warnaPrimer}14; border-left: 4px solid ${warnaPrimer} !important; border-radius: 12px; padding: 14px;">
-                                    <div class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;"><i class="fas fa-cut me-2" style="color: ${warnaPrimer};"></i>Catatan Kapster</div>
+                                <div class="recommendation-note mb-4 shadow-sm border-0" style="background-color: #fffaf0; border-left: 4px solid #ffc107 !important; border-radius: 12px; padding: 14px;">
+                                    <div class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;"><i class="fas fa-cut text-warning me-2"></i>Catatan Kapster</div>
                                     <div class="small text-muted" style="line-height: 1.5;">${catatan}</div>
                                 </div>
                                 <div class="d-flex justify-content-between gap-2 mb-4">

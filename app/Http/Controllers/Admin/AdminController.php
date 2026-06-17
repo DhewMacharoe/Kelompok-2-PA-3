@@ -10,6 +10,10 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
+        if (auth()->check() && auth()->user()->hasRole('super_admin') && !session()->has('current_barbershop_id')) {
+            return redirect()->route('super-admin.dashboard');
+        }
+
         Antrean::cancelExpiredWaitingQueues();
 
         $dipanggil = Antrean::getQueueBeingServed();

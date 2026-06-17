@@ -61,7 +61,7 @@
                                 <h5 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;" id="antrean-nama">{{ $dipanggil->nama_pelanggan }}</h5>
                             </div>
                         </div>
-                        <div class="mt-3 py-2 text-center" style="background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}1a; border-radius: 8px; border: 1px dashed {{ $activeDesign->warna_primer ?? '#e8a53a' }}4d;">
+                        <div class="mt-3 py-2 text-center" style="background: rgba(232, 165, 58, 0.1); border-radius: 8px; border: 1px dashed rgba(232, 165, 58, 0.3);">
                             <p class="text-secondary mb-1" style="font-size: 0.75rem;">Durasi Pelayanan Berjalan <span class="ms-1" style="color: #a0a0a0;">(Est: {{ $dipanggil->total_estimasi_waktu }} mnt)</span></p>
                             <h4 class="fw-bold mb-0" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; letter-spacing: 2px;" id="stopwatch-dipanggil" data-start="{{ $dipanggil->updated_at->timestamp * 1000 }}">00:00:00</h4>
                         </div>
@@ -72,7 +72,7 @@
                     <div style="position: absolute; inset: 0; background: rgba(26, 26, 26, 0.85);"></div>
                     <div class="header-content position-relative" style="z-index: 1;">
                         <div class="mb-3">
-                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 60px; height: 60px; background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}33; border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }};">
+                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 60px; height: 60px; background: rgba(232, 165, 58, 0.2); border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }};">
                                 <i class="fas fa-chair" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; font-size: 1.5rem;"></i>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
             <!-- User Status Card -->
             @auth
                 @if ($antreanSayaAktif)
-                    <div class="card shadow-sm mb-4" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}80 !important; border-radius: 16px; background-color: #ffffff;">
+                    <div class="card shadow-sm mb-4" style="border: 1px solid #f5d39a !important; border-radius: 16px; background-color: #ffffff;">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-3">
                                 <div class="d-flex align-items-center justify-content-center rounded-circle me-3" style="width: 45px; height: 45px; border: 2px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffcf5;">
@@ -143,11 +143,11 @@
                             </div>
                             
                             @if ($antreanSayaAktif->status === 'menunggu')
-                            <div class="alert mb-4 p-3" style="background-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}14; border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}4d; border-radius: 8px;">
+                            <div class="alert mb-4 p-3" style="background-color: #fff8eb; border: 1px solid #f5d39a; border-radius: 8px;">
                                 <div class="d-flex gap-2">
                                     <i class="fas fa-info-circle mt-1" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};"></i>
                                     <div>
-                                        <p class="mb-1 small fw-bold" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};">Estimasi Waktu Pelayanan Anda: {{ $antreanSayaAktif->total_estimasi_waktu }} mnt</p>
+                                        <p class="mb-1 small fw-bold" style="color: #8c6a28;">Estimasi Waktu Pelayanan Anda: {{ $antreanSayaAktif->total_estimasi_waktu }} mnt</p>
                                         <p class="mb-0 small text-muted" style="line-height: 1.4;">Saat ini No. {{ $dipanggil ? $dipanggil->nomor_antrean_seq : '-' }} sedang dilayani. Anda akan dipanggil setelah layanan selesai.</p>
                                     </div>
                                 </div>
@@ -208,9 +208,9 @@
                                         <span class="badge" style="border: 1px solid #198754; color: #198754; background: #e8f7ef; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">ANTREAN SAYA</span>
                                     @else
                                         @if ($antrean->status == 'sedang dilayani')
-                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}14; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">SEDANG DILAYANI</span>
+                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">SEDANG DILAYANI</span>
                                         @else
-                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}14; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
+                                            <span class="badge" style="border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}; color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}; background: #fffaf0; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.65rem; letter-spacing: 0.5px;">MENUNGGU</span>
                                         @endif
                                     @endif
                                 </div>
@@ -320,7 +320,7 @@
                         <div id="step-layanan" class="step-container active">
                             <div class="service-grid">
                                 @foreach ($layananAktif as $layanan)
-                                    <div class="service-card" data-id="{{ $layanan->id }}" data-included-services="{{ json_encode($packageMap[$layanan->id] ?? []) }}" onclick="selectService({{ $layanan->id }})">
+                                    <div class="service-card" data-id="{{ $layanan->id }}" onclick="selectService({{ $layanan->id }})">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div class="service-name">{{ $layanan->nama }}</div>
                                             <a href="{{ route('pelanggan.layanan') }}?id={{ $layanan->id }}&open=true&from=antrean" onclick="event.stopPropagation()" class="text-decoration-none detail-layanan-link" style="color: #17a2b8;" title="Lihat Detail">
@@ -362,18 +362,5 @@
 @endsection
 
 @push('scripts')
-    @php
-        $layananListJson = $layananAktif->map(function($l) use ($packageMap) {
-            return [
-                'id' => $l->id,
-                'nama' => $l->nama,
-                'included_service_ids' => $packageMap[$l->id] ?? [],
-            ];
-        });
-    @endphp
-    <script>
-        window.barberIncompatibilities = @json($incompatibilities ?? []);
-        window.barberLayananList = @json($layananListJson);
-    </script>
     @include('pelanggan.antrean.script-index')
 @endpush

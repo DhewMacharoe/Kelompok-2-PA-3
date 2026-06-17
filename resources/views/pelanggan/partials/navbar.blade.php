@@ -28,7 +28,7 @@
     .pelanggan-navbar .nav-link:hover,
     .pelanggan-navbar .nav-link.active {
         color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
-        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}14 !important;
+        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}18 !important;
     }
 
     .pelanggan-navbar .navbar-toggler {
@@ -36,6 +36,8 @@
         line-height: 1;
         color: #1a1a1a !important;
         background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
     }
 
     .pelanggan-navbar .navbar-toggler i {
@@ -51,28 +53,54 @@
         transition: all 0.25s ease;
     }
 
-    .pelanggan-navbar .navbar-nav a[href*="login"] {
-        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
-        color: #ffffff !important;
-        border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
-    }
-
-    .pelanggan-navbar .navbar-nav a[href*="login"]:hover {
-        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}e6 !important;
-        border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}e6 !important;
-    }
-
-    .pelanggan-navbar .navbar-nav a[href*="profile"],
-    .pelanggan-navbar .navbar-nav button[type="submit"] {
+    .btn-gold {
         color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
         border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
         background: transparent !important;
     }
 
-    .pelanggan-navbar .navbar-nav a[href*="profile"]:hover,
-    .pelanggan-navbar .navbar-nav button[type="submit"]:hover {
+    .btn-gold:hover {
         background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
-        color: #ffffff !important;
+        color: #1a1a1a !important;
+    }
+
+    /* Garis pemisah Logo | Nama */
+    .pelanggan-navbar .brand-divider {
+        display: inline-block;
+        width: 1px;
+        height: 20px;
+        background: #ddd;
+        margin: 0 10px;
+        vertical-align: middle;
+        flex-shrink: 0;
+    }
+
+    .pelanggan-navbar .brand-name {
+        font-weight: 700;
+        color: #1a1a1a;
+        font-size: 1rem;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    /* Ubah Lokasi — pill badge kecil di sebelah brand */
+    .lokasi-badge {
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: #888 !important;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 3px 10px;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+        text-decoration: none !important;
+        line-height: 1.4;
+        flex-shrink: 0;
+    }
+
+    .lokasi-badge:hover {
+        color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
+        border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
     }
 
     @media (max-width: 991.98px) {
@@ -81,12 +109,12 @@
             max-width: calc(100% - 70px);
             white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .pelanggan-navbar .navbar-collapse {
             padding-top: 8px;
             padding-bottom: 8px;
+            border-top: 1px solid #f0f0f0;
         }
 
         .pelanggan-navbar .nav-link {
@@ -97,6 +125,10 @@
         .pelanggan-navbar .navbar-nav .btn {
             width: 100%;
             margin-top: 6px;
+        }
+
+        .lokasi-badge {
+            display: none !important;
         }
     }
 
@@ -112,21 +144,45 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg pelanggan-navbar"
-    style="background-color: #1a1a1a; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+<nav class="navbar navbar-expand-lg pelanggan-navbar">
     <div class="container">
-        <div class="d-flex align-items-center justify-content-between w-100 py-2">
-            <a href="{{ route('home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center justify-content-between w-100 py-1 gap-2">
+
+            {{-- KIRI: Logo | Nama Brand --}}
+            <a href="{{ route('barbershop.home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center flex-shrink-0">
                 @if(isset($activeDesign) && $activeDesign->favicon)
-                    <img src="{{ asset($activeDesign->favicon) }}" alt="{{ $activeDesign->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
+                    <img src="{{ asset($activeDesign->favicon) }}"
+                         alt="{{ $activeDesign->nama_brand ?? 'Logo' }}"
+                         class="img-fluid"
+                         style="max-height: 40px;">
                 @else
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="{{ $activeDesign->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
+                    <img src="{{ asset('assets/images/logo.png') }}"
+                         alt="{{ $activeDesign->nama_brand ?? 'Logo' }}"
+                         class="img-fluid"
+                         style="max-height: 40px;">
                 @endif
-                <span style="font-weight: 700; color: #fff; font-size: 1.2rem; display: none;" class="d-none d-sm-block">{{ $activeDesign->nama_brand ?? '' }}</span>
+
+                {{-- Garis "|" pemisah --}}
+                <span class="brand-divider d-none d-sm-inline-block"></span>
+
+                {{-- Nama brand --}}
+                <span class="brand-name d-none d-sm-inline">
+                    {{ $activeDesign->nama_brand ?? '' }}
+                </span>
             </a>
 
-            <button class="navbar-toggler text-white border-0 shadow-none" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+            {{-- TENGAH: Ubah Lokasi badge (desktop only) --}}
+            <a href="{{ route('home') }}" class="lokasi-badge d-none d-lg-inline-flex align-items-center gap-1">
+                <i class="fas fa-map-marker-alt me-1" style="color: {{ $activeDesign->warna_primer ?? '#d4af37' }};"></i>
+                {{ session('current_barbershop_nama') ?? 'Pilih Lokasi' }}
+            </a>
+
+            {{-- Mobile toggler --}}
+            <button class="navbar-toggler ms-auto" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
                 aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>
@@ -134,36 +190,42 @@
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav gap-lg-4 text-center mt-3 mt-lg-0">
+
                 <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('home') ? 'active' : '' }}"
-                        href="{{ route('home') }}">
+                    <a class="nav-link fw-bold {{ request()->routeIs('barbershop.home') ? 'active' : '' }}"
+                        href="{{ route('barbershop.home') }}">
                         Beranda
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('antrean') ? 'active' : '' }}"
                         href="{{ route('antrean') }}">
                         Antrean
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('pelanggan.layanan') ? 'active' : '' }}"
                         href="{{ route('pelanggan.layanan') }}">
                         Layanan
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('rekomendasi.index') ? 'active' : '' }}"
                         href="{{ route('rekomendasi.index') }}">
                         Rekomendasi
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('galeri') ? 'active' : '' }}"
                         href="{{ route('galeri') }}">
                         Galeri
                     </a>
                 </li>
+
                 @if($activeDesign->is_cafe_active ?? true)
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('menu') ? 'active' : '' }}"
@@ -173,6 +235,15 @@
                 </li>
                 @endif
 
+                {{-- Ubah Lokasi — mobile only (dalam collapse) --}}
+                <li class="nav-item d-lg-none">
+                    <a class="nav-link fw-bold" href="{{ route('home') }}"
+                        style="color: #888 !important; font-size: 0.85rem;">
+                        <i class="fas fa-map-marker-alt me-1"
+                           style="color: {{ $activeDesign->warna_primer ?? '#d4af37' }};"></i>
+                        Ubah Lokasi
+                    </a>
+                </li>
 
                 @guest
                     <li class="nav-item d-flex align-items-center justify-content-center">
@@ -204,6 +275,7 @@
                         @endif
                     </li>
                 @endauth
+
             </ul>
         </div>
     </div>

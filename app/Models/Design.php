@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Tenancy\Traits\BelongsToTenant;
 
 class Design extends Model
 {
+    use BelongsToTenant;
+
     protected $fillable = [
+        'barbershop_id',
         'is_active',
         'is_cafe_active',
         'nama_brand',

@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Tenancy\Traits\BelongsToTenant;
 
 class Setting extends Model
 {
+    use BelongsToTenant;
     protected $table = 'settings';
-    protected $fillable = ['key', 'value'];
+    protected $fillable = ['key', 'value', 'barbershop_id'];
 
     public static function get(string $key, $default = null)
     {
@@ -17,6 +19,10 @@ class Setting extends Model
 
     public static function set(string $key, $value): void
     {
-        static::updateOrCreate(['key' => $key], ['value' => $value]);
+        $tenantId = app('currentTenantId') ?? null;
+        static::updateOrCreate(
+            ['key' => $key, 'barbershop_id' => $tenantId],
+            ['value' => $value]
+        );
     }
 }
