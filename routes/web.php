@@ -25,7 +25,17 @@ use App\Http\Controllers\Pelanggan\ProfileController;
 
 require __DIR__ . '/admin_route.php';
 
-Route::get('/', [HomePageController::class, 'index'])->name('home');
+Route::get('/', [\App\Http\Controllers\BarbershopMapController::class, 'index'])->name('home');
+Route::get('/barbershop/{slug}', function ($slug) {
+    $barbershop = \App\Models\Barbershop::where('slug', $slug)->firstOrFail();
+    session([
+        'current_barbershop_id' => $barbershop->id,
+        'current_barbershop_slug' => $barbershop->slug,
+        'current_barbershop_nama' => $barbershop->nama,
+    ]);
+    return redirect('/home');
+})->name('barbershop.select');
+Route::get('/home', [\App\Http\Controllers\HomePageController::class, 'index'])->name('barbershop.home');
 
 Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
 Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');

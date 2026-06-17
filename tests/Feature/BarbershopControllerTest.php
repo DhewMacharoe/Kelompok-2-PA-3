@@ -19,6 +19,17 @@ class BarbershopControllerTest extends TestCase
     {
         parent::setUp();
 
+        // Create a default barbershop
+        \Illuminate\Support\Facades\DB::table('barber_shops')->updateOrInsert(
+            ['id' => 1],
+            [
+                'nama' => 'Arga Barbershop',
+                'slug' => 'arga-barbershop',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+
         // Create the admin role
         Role::create(['name' => 'admin', 'guard_name' => 'web']);
 
@@ -28,6 +39,7 @@ class BarbershopControllerTest extends TestCase
             'email' => 'admin@test.com',
             'username' => 'testadmin',
             'password' => bcrypt('password'),
+            'barbershop_id' => 1,
         ]);
         $this->admin->assignRole('admin');
 

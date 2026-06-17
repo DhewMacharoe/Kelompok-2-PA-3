@@ -53,17 +53,15 @@ class SettingSeeder extends Seeder
                 'created_at' => '2026-06-10 08:11:40',
                 'updated_at' => '2026-06-11 18:16:05',
             ],
-            [
-                'id' => 6,
-                'key' => 'queue_libur_note',
-                'value' => 'libur',
-                'created_at' => '2026-06-16 08:00:00',
-                'updated_at' => '2026-06-16 08:00:00',
-            ],
         ];
 
-        foreach ($settings as $setting) {
-            DB::table('settings')->insert($setting);
+        foreach ([1, 2, 3] as $barbershopId) {
+            foreach ($settings as $setting) {
+                $settingCopy = $setting;
+                unset($settingCopy['id']);
+                $settingCopy['barbershop_id'] = $barbershopId;
+                Setting::create($settingCopy);
+            }
         }
     }
 }

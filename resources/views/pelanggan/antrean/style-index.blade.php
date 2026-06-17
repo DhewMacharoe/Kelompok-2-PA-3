@@ -143,9 +143,9 @@
      }
 
      .queue-card.my-queue-highlight {
-         border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }};
-         box-shadow: 0 4px 14px {{ $activeDesign->warna_primer ?? '#e8a53a' }}33;
-         background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}14;
+         border: 1px solid #d8bd79;
+         box-shadow: 0 4px 14px rgba(201, 156, 62, 0.2);
+         background: #fffaf0;
      }
 
      .badge-mine {
@@ -160,8 +160,8 @@
      }
 
      .guest-queue-hint {
-         border: 1px dashed {{ $activeDesign->warna_primer ?? '#e8a53a' }};
-         background: linear-gradient(135deg, #ffffff 0%, {{ $activeDesign->warna_primer ?? '#e8a53a' }}1a 100%);
+         border: 1px dashed #d8bd79;
+         background: linear-gradient(135deg, #fffdf7 0%, #fff6e4 100%);
          border-radius: 12px;
          padding: 14px 16px;
          text-align: center;
@@ -354,8 +354,8 @@
      }
 
      .queue-location-preview {
-         background: linear-gradient(180deg, {{ $activeDesign->warna_primer ?? '#e8a53a' }}14 0%, #ffffff 100%);
-         border: 1px solid {{ $activeDesign->warna_primer ?? '#e8a53a' }}4d;
+         background: linear-gradient(180deg, #fffaf0 0%, #fffdf9 100%);
+         border: 1px solid #ead9b1;
          border-radius: 16px;
          padding: 16px;
          margin-bottom: 20px;
@@ -509,20 +509,20 @@
          height: 100%;
      }
      .service-card:hover {
-         border-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}80;
-         background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}0a;
+         border-color: #d8bd79;
+         background: #fffdf7;
          transform: translateY(-2px);
      }
      .service-card.selected {
-         border-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }} !important;
-         background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}14;
-         box-shadow: 0 4px 12px {{ $activeDesign->warna_primer ?? '#e8a53a' }}33;
+         border-color: #c49a45;
+         background: #fffaf0;
+         box-shadow: 0 4px 12px rgba(196, 154, 69, 0.15);
      }
      .service-card.selected::after {
          content: '\f058'; /* FontAwesome Check Circle */
          font-family: "Font Awesome 5 Free";
          font-weight: 900;
-         color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
+         color: #c49a45;
          position: absolute;
          top: 10px;
          right: 12px;
@@ -549,14 +549,14 @@
          gap: 4px;
      }
      .service-price {
-         color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
+         color: #c49a45;
          font-weight: 700;
      }
 
      /* Review Section */
      .review-section {
          background: #fdfdfd;
-         border: 1px dashed {{ $activeDesign->warna_primer ?? '#e8a53a' }};
+         border: 1px dashed #d8bd79;
          border-radius: 12px;
          padding: 16px;
          margin-bottom: 24px;
@@ -595,9 +595,9 @@
          text-decoration: underline;
      }
      .btn-add-more {
-         border: 1px dashed {{ $activeDesign->warna_primer ?? '#e8a53a' }};
-         background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}0a;
-         color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
+         border: 1px dashed #c49a45;
+         background: #fffcf5;
+         color: #c49a45;
          width: 100%;
          padding: 10px;
          border-radius: 8px;
@@ -605,7 +605,7 @@
          transition: all 0.2s;
      }
      .btn-add-more:hover {
-         background: {{ $activeDesign->warna_primer ?? '#e8a53a' }}14;
+         background: #fffaf0;
          border-style: solid;
      }
 
@@ -791,8 +791,8 @@
      }
 
      .btn-add-queue {
-         background-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};
-         color: #ffffff !important;
+         background-color: #c49a45;
+         color: #1a1a1a;
          font-weight: 700;
          border: none;
          width: 100%;
@@ -803,8 +803,8 @@
      }
 
      .btn-add-queue:hover {
-         background-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }}e6;
-         color: #ffffff !important;
+         background-color: #b0893a;
+         color: #1a1a1a;
      }
 
      /* Custom Responsive Header Stats */
@@ -850,40 +850,4 @@
              align-self: flex-start !important;
          }
      }
-
-    /* Inclusions and incompatibilities styles */
-    .service-card.included-disabled {
-        opacity: 0.6;
-        border-color: #d1e7dd !important;
-        background-color: #f8f9fa;
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-    .included-badge {
-        font-size: 0.72rem;
-        font-weight: 700;
-        color: #1f8043;
-        background: #e8f7ef;
-        border: 1px solid #bfe8ce;
-        padding: 2px 6px;
-        border-radius: 4px;
-        display: inline-block;
-    }
-    .service-card.incompatible-disabled {
-        opacity: 0.5;
-        border-color: #f8d7da !important;
-        background-color: #fff8f8;
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-    .incompatible-badge {
-        font-size: 0.72rem;
-        font-weight: 700;
-        color: #dc3545;
-        background: #fdecec;
-        border: 1px solid #f5c1c1;
-        padding: 2px 6px;
-        border-radius: 4px;
-        display: inline-block;
-    }
  </style>

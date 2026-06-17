@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('nama', 25);
             $table->enum('kategori', ['Minuman', 'Makanan Ringan']);
             $table->mediumInteger('harga');
             $table->text('deskripsi')->nullable();

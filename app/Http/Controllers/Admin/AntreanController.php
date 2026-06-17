@@ -4,18 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\AntreanListUpdate;
 use App\Events\AntreanUpdate;
-use App\Http\Controllers\Concerns\ValidatesServiceCombination;
 use App\Http\Controllers\Controller;
 use App\Models\Antrean;
 use App\Models\Layanan;
-use App\Services\WhatsAppService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class AntreanController extends Controller
 {
-    use ValidatesServiceCombination;
     public function index()
     {
         Antrean::cancelExpiredWaitingQueues();
@@ -280,11 +277,6 @@ class AntreanController extends Controller
         // Simpan ke database
         $layananId1 = $request->input('layanan_id1');
         $layananId2 = $request->input('layanan_id2');
-
-        $validationError = $this->validateServiceCombination([$layananId1, $layananId2]);
-        if ($validationError) {
-            return redirect()->back()->withErrors(['layanan_id1' => $validationError])->withInput();
-        }
 
         $antrean = Antrean::create([
             'nomor_antrean_seq' => $nomorFormat,

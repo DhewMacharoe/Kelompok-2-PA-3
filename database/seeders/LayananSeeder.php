@@ -129,8 +129,13 @@ class LayananSeeder extends Seeder
             ],
         ];
 
-        foreach ($layanans as $layanan) {
-            DB::table('layanans')->insert($layanan);
+        foreach ([1, 2, 3] as $barbershopId) {
+            foreach ($layanans as $layanan) {
+                $layananCopy = $layanan;
+                unset($layananCopy['id']);
+                $layananCopy['barbershop_id'] = $barbershopId;
+                DB::table('layanans')->insert($layananCopy);
+            }
         }
     }
 }

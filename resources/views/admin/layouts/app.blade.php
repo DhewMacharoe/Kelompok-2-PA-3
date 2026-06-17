@@ -195,6 +195,20 @@
 
 <body>
 
+    @if(auth()->check() && auth()->user()->hasRole('super_admin') && session()->has('current_barbershop_id'))
+        <div class="bg-danger text-white text-center py-2 px-3 fw-bold sticky-top d-flex justify-content-between align-items-center" style="z-index: 1100; font-size: 0.9rem;">
+            <div>
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                Mode Super Admin: Anda sedang mengelola tenant <strong>{{ session('current_barbershop_nama') }}</strong> (ID: {{ session('current_barbershop_id') }}).
+            </div>
+            <div>
+                <a href="{{ route('super-admin.switch-tenant', 'clear') }}" class="btn btn-sm btn-warning fw-bold text-dark px-3" style="font-size: 0.8rem;">
+                    <i class="bi bi-box-arrow-left me-1"></i>Kembali ke Super Admin
+                </a>
+            </div>
+        </div>
+    @endif
+
     <div class="container-fluid p-0">
         <div class="row g-0">
             <div class="col-md-3 col-lg-2 sidebar-shell" id="adminSidebarShell">

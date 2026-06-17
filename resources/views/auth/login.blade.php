@@ -64,21 +64,6 @@
             background-color: #0b66da;
         }
     </style>
-    
-    @if(isset($activeBarbershop) && $activeBarbershop->warna_primer)
-    <style>
-        .btn-login {
-            background-color: {{ $activeBarbershop->warna_primer }} !important;
-        }
-        .btn-login:hover {
-            background-color: {{ $activeBarbershop->warna_primer }}e6 !important;
-        }
-        .form-control:focus {
-            box-shadow: 0 0 0 0.25rem {{ $activeBarbershop->warna_primer }}40 !important;
-            border-color: {{ $activeBarbershop->warna_primer }} !important;
-        }
-    </style>
-    @endif
 </head>
 
 <body>

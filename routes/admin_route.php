@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\Admin\RekapController;
 use App\Http\Controllers\Admin\SettingController;
 
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:super_admin|admin'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
@@ -70,5 +70,19 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // REDIRECT /dashboard KE /admin/dashboard
 // ==========================================
 Route::get('/dashboard', function () {
+    if (auth()->check() && auth()->user()->hasRole('super_admin')) {
+        return redirect('/super-admin/dashboard');
+    }
     return redirect('/admin/dashboard');
+});
+
+// ==========================================
+// RUTE SUPER ADMIN
+// ==========================================
+Route::middleware(['auth', 'role:super_admin'])->prefix('super-admin')->name('super-admin.')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\SuperAdmin\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/switch-tenant/{id}', [\App\Http\Controllers\SuperAdmin\DashboardController::class, 'switchTenant'])->name('switch-tenant');
+    
+    Route::resource('barbershops', \App\Http\Controllers\SuperAdmin\BarbershopController::class);
+    Route::resource('admins', \App\Http\Controllers\SuperAdmin\AdminUserController::class);
 });

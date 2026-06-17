@@ -20,6 +20,17 @@ class QueueLocationTest extends TestCase
     {
         parent::setUp();
 
+        // Create a default barbershop
+        \Illuminate\Support\Facades\DB::table('barber_shops')->updateOrInsert(
+            ['id' => 1],
+            [
+                'nama' => 'Arga Barbershop',
+                'slug' => 'arga-barbershop',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+
         // Create roles
         Role::create(['name' => 'admin', 'guard_name' => 'web']);
         Role::create(['name' => 'user', 'guard_name' => 'web']);
@@ -28,6 +39,7 @@ class QueueLocationTest extends TestCase
         \Illuminate\Support\Facades\DB::table('layanans')->insert([
             [
                 'id' => 18,
+                'barbershop_id' => 1,
                 'nama' => 'Hairwash & Style',
                 'harga' => 30000,
                 'estimasi_waktu' => '20',
@@ -37,13 +49,13 @@ class QueueLocationTest extends TestCase
         ]);
 
         // Set operational hours to always open during tests
-        Setting::updateOrCreate(['key' => 'queue_jam_buka'], ['value' => '00:00']);
-        Setting::updateOrCreate(['key' => 'queue_jam_tutup'], ['value' => '23:59']);
+        Setting::updateOrCreate(['key' => 'queue_jam_buka', 'barbershop_id' => 1], ['value' => '00:00']);
+        Setting::updateOrCreate(['key' => 'queue_jam_tutup', 'barbershop_id' => 1], ['value' => '23:59']);
 
         // Set default queue location (Laguboti center roughly: 2.33758, 99.079255)
-        Setting::updateOrCreate(['key' => 'queue_latitude'], ['value' => '2.33758']);
-        Setting::updateOrCreate(['key' => 'queue_longitude'], ['value' => '99.079255']);
-        Setting::updateOrCreate(['key' => 'queue_radius_meters'], ['value' => '100']);
+        Setting::updateOrCreate(['key' => 'queue_latitude', 'barbershop_id' => 1], ['value' => '2.33758']);
+        Setting::updateOrCreate(['key' => 'queue_longitude', 'barbershop_id' => 1], ['value' => '99.079255']);
+        Setting::updateOrCreate(['key' => 'queue_radius_meters', 'barbershop_id' => 1], ['value' => '100']);
 
         // Create a test user with 'user' role
         $this->user = User::create([
@@ -52,8 +64,16 @@ class QueueLocationTest extends TestCase
             'username' => 'pelangganlokasi',
             'no_whatsapp' => '08123456789',
             'password' => bcrypt('password'),
+            'barbershop_id' => 1,
         ]);
         $this->user->assignRole('user');
+
+        // Set tenant context session
+        $this->withSession([
+            'current_barbershop_id' => 1,
+            'current_barbershop_slug' => 'arga-barbershop',
+            'current_barbershop_nama' => 'Arga Barbershop',
+        ]);
     }
 
     /**

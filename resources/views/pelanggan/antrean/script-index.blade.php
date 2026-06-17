@@ -511,26 +511,7 @@
             input1.value = '';
             input2.value = '';
 
-            // Gather all selected service IDs
-            const selectedIds = window.selectedServices.map(s => parseInt(s.id));
-
-            // Gather all services included in chosen packages
-            const packageConstituentIds = [];
-            const packagesMap = {};
-            selectedIds.forEach(id => {
-                const serviceData = (window.barberLayananList || []).find(l => l.id === id);
-                if (serviceData && serviceData.included_service_ids && serviceData.included_service_ids.length > 0) {
-                    packagesMap[id] = serviceData.included_service_ids;
-                    serviceData.included_service_ids.forEach(cid => {
-                        packageConstituentIds.push(cid);
-                    });
-                }
-            });
-
-            // Gather all active service IDs (direct selected + package constituents)
-            const activeIds = [...new Set([...selectedIds, ...packageConstituentIds])];
-
-            // Reset cards and apply new validation states
+            // Reset cards
             document.querySelectorAll('.service-card').forEach(card => {
                 card.classList.remove('selected', 'disabled', 'included-disabled', 'incompatible-disabled');
 

@@ -90,6 +90,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            if (Auth::user()->hasRole('super_admin')) {
+                return redirect()->intended('super-admin/dashboard');
+            }
             return redirect()->intended('admin/dashboard'); // Arahkan ke dashboard jika sukses
         }
 
@@ -153,7 +156,8 @@ class AuthController extends Controller
             }
         }
 
-        if (!$user->username || !$user->no_whatsapp) {
+        // If user doesn't have username, redirect to set username
+        if (!$user->username) {
             Auth::login($user);
             $request->session()->regenerate();
             return redirect()->route('set.username');
@@ -177,7 +181,7 @@ class AuthController extends Controller
                 ->with('error', 'Admin tidak memerlukan pengaturan username pelanggan.');
         }
 
-        if (Auth::user()->username && Auth::user()->no_whatsapp) {
+        if (Auth::user()->username) {
             return redirect('/');
         }
 
@@ -197,35 +201,29 @@ class AuthController extends Controller
                 ->with('error', 'Admin tidak dapat mengubah username pelanggan.');
         }
 
-        if (Auth::user()->username && Auth::user()->no_whatsapp) {
+        if (Auth::user()->username) {
             return redirect('/')
                 ->with('info', 'Username sudah diatur sebelumnya.');
         }
 
         $request->merge([
             'username' => trim((string) $request->input('username')),
-            'no_whatsapp' => trim((string) $request->input('no_whatsapp')),
         ]);
 
         $validated = $request->validate([
             'username' => 'required|string|min:3|max:20|unique:users,username',
-            'no_whatsapp' => 'required|string|min:10|max:20',
         ], [
             'username.required' => 'Username wajib diisi.',
             'username.min' => 'Username minimal 3 karakter.',
             'username.max' => 'Username maksimal 20 karakter.',
             'username.unique' => 'Username sudah digunakan, silakan pilih yang lain.',
-            'no_whatsapp.required' => 'No WhatsApp wajib diisi.',
-            'no_whatsapp.min' => 'No WhatsApp minimal 10 angka.',
-            'no_whatsapp.max' => 'No WhatsApp maksimal 20 angka.',
         ]);
 
-        $user = User::find(Auth::id());
+        $user = Auth::user();
         $user->username = $validated['username'];
-        $user->no_whatsapp = $validated['no_whatsapp'];
         $user->save();
 
-        return redirect('/')->with('success', 'Profil berhasil diset!');
+        return redirect('/')->with('success', 'Username berhasil diset!');
     }
 
     // Proses logout
