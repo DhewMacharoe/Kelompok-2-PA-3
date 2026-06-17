@@ -9,8 +9,17 @@ class BarbershopSeeder extends Seeder
 {
     public function run()
     {
-        // Update design settings untuk Barbershop 1 (Arga Barbershop)
-        DB::table('barbershops')->where('id', 1)->update([
+        // Seeder design settings untuk Barbershop 1 (Arga Barbershop)
+        DB::table('barbershops')->insert([
+            'id' => 1,
+            'nama' => 'Arga Barbershop',
+            'slug' => 'arga-barbershop',
+            'alamat' => 'Jl. Raya Toba No. 12, Balige',
+            'telepon' => '081234567890',
+            'deskripsi' => 'Barbershop terbaik di Balige dengan pelayanan ramah dan profesional.',
+            'latitude' => 2.386130,
+            'longitude' => 99.147852,
+            'is_active' => true,
             'is_cafe_active' => true,
             'nama_brand' => "Arga Barbershop",
             'favicon' => 'assets/images/logo.png',
@@ -34,8 +43,17 @@ class BarbershopSeeder extends Seeder
             'deskripsi_hero_menu' => 'Nikmati berbagai pilihan makanan dan minuman kopi yang tersedia di barbershop kami.',
         ]);
 
-        // Update design settings untuk Barbershop 2 (Toba Barbershop) - Cafe Nonaktif
-        DB::table('barbershops')->where('id', 2)->update([
+        // Seeder design settings untuk Barbershop 2 (Toba Barbershop) - Cafe Nonaktif
+        DB::table('barbershops')->insert([
+            'id' => 2,
+            'nama' => 'Toba Barbershop',
+            'slug' => 'toba-barbershop',
+            'alamat' => 'Jl. Sisingamangaraja No. 45, Balige',
+            'telepon' => '082198765432',
+            'deskripsi' => 'Barbershop premium dengan pemandangan Danau Toba.',
+            'latitude' => 2.383120,
+            'longitude' => 99.148810,
+            'is_active' => true,
             'is_cafe_active' => false, // Nonaktifkan Cafe
             'nama_brand' => "Toba Barbershop",
             'favicon' => 'assets/images/logo.png',
@@ -59,8 +77,17 @@ class BarbershopSeeder extends Seeder
             'deskripsi_hero_menu' => 'Nikmati menu café spesial kami.',
         ]);
 
-        // Update design settings untuk Barbershop 3 (Laguboti Barbershop)
-        DB::table('barbershops')->where('id', 3)->update([
+        // Seeder design settings untuk Barbershop 3 (Laguboti Barbershop)
+        DB::table('barbershops')->insert([
+            'id' => 3,
+            'nama' => 'Laguboti Barbershop',
+            'slug' => 'laguboti-barbershop',
+            'alamat' => 'Jl. Sisingamangaraja No. 102, Laguboti',
+            'telepon' => '082111223344',
+            'deskripsi' => 'Barbershop nyaman dengan pelayanan ramah di Laguboti.',
+            'latitude' => 2.378900,
+            'longitude' => 99.124500,
+            'is_active' => true,
             'is_cafe_active' => true,
             'nama_brand' => "Laguboti Barbershop",
             'favicon' => 'assets/images/logo.png',

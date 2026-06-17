@@ -389,5 +389,18 @@
 @endsection
 
 @push('scripts')
+    <script>
+        window.barberIncompatibilities = @json($incompatibilities);
+        
+        let layanans = @json($layananAktif);
+        let packageMap = @json($packageMap);
+        
+        window.barberLayananList = layanans.map(l => {
+            if (packageMap[l.id]) {
+                l.included_service_ids = packageMap[l.id];
+            }
+            return l;
+        });
+    </script>
     @include('pelanggan.antrean.script-index')
 @endpush

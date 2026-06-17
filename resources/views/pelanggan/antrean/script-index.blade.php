@@ -511,6 +511,18 @@
             input1.value = '';
             input2.value = '';
 
+            const selectedIds = window.selectedServices.map(s => parseInt(s.id));
+            let packageConstituentIds = [];
+            
+            selectedIds.forEach(id => {
+                const serviceData = (window.barberLayananList || []).find(l => l.id === id);
+                if (serviceData && serviceData.included_service_ids) {
+                    packageConstituentIds = packageConstituentIds.concat(serviceData.included_service_ids);
+                }
+            });
+
+            const activeIds = [...selectedIds, ...packageConstituentIds];
+
             // Reset cards
             document.querySelectorAll('.service-card').forEach(card => {
                 card.classList.remove('selected', 'disabled', 'included-disabled', 'incompatible-disabled');

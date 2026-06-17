@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('nama', 25);
-            $table->enum('kategori', ['Minuman', 'Makanan Ringan']);
+            $table->enum('kategori', ['Minuman', 'Makanan']);
             $table->mediumInteger('harga');
             $table->text('deskripsi')->nullable();
             $table->string('foto', 255)->nullable();

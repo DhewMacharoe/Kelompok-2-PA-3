@@ -29,6 +29,29 @@ return new class extends Migration
             $table->json('kontak')->nullable();
             $table->string('email')->nullable();
             $table->string('warna_primer', 7)->default('#e8a53a');
+            
+            // New design fields
+            $table->boolean('is_cafe_active')->default(true);
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
+            
+            // Hero fields
+            $table->string('slogan')->default('Barber, Coffee & Food');
+            $table->text('deskripsi_hero')->nullable();
+            $table->string('gambar_hero')->nullable();
+            
+            $table->string('judul_hero_layanan')->default('Daftar Layanan');
+            $table->text('deskripsi_hero_layanan')->nullable();
+            $table->string('gambar_hero_layanan')->nullable();
+            
+            $table->string('judul_hero_galeri')->default('Galeri Kami');
+            $table->text('deskripsi_hero_galeri')->nullable();
+            $table->string('gambar_hero_galeri')->nullable();
+            
+            $table->string('judul_hero_menu')->default('Menu Café');
+            $table->text('deskripsi_hero_menu')->nullable();
+            $table->string('gambar_hero_menu')->nullable();
+
             $table->timestamps();
         });
     }

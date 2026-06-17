@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Antrean;
 use App\Models\Layanan;
 use App\Models\Setting;
+use App\Models\User;
+use App\Models\Barbershop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -73,16 +75,17 @@ class AntreanController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login.user')->with('error', 'Silakan login terlebih dahulu.');
         }
-
         $user = Auth::user();
 
         if ($user->hasRole('admin')) {
             return back()->with('error', 'Admin tidak diperbolehkan mengambil antrean.');
         }
+        
 
-        if (!$user->username || !$user->no_whatsapp) {
+        if (!$user->username) {
             return redirect()->route('set.username')->with('error', 'Silakan lengkapi profil terlebih dahulu untuk mengantri.');
         }
+
 
         $this->validateQueueRequest($request);
 
@@ -142,6 +145,10 @@ class AntreanController extends Controller
         // Generate nomor antrean dengan format 2-digit yang auto-reset per hari
         $nomorFormat = Antrean::generateDailyQueueNumber();
 
+        // Get Barbershop ID
+        $barbershopId = session('current_barbershop_id');
+
+        
         if ($isBooking) {
             $request->validate([
                 'tanggal_booking' => 'required|date|after_or_equal:today',
@@ -159,10 +166,12 @@ class AntreanController extends Controller
                 'layanan_id2' => $request->input('layanan_id2'),
                 'status' => 'menunggu', // Status booking
                 'waktu_masuk' => $request->tanggal_booking . ' ' . $request->waktu_booking,
+                'barbershop_id' => $barbershopId,
             ]);
 
             return back()->with('success', 'Booking berhasil dibuat untuk tanggal ' . $request->tanggal_booking . ' jam ' . $request->waktu_booking);
         } else {
+            
             Antrean::create([
                 'is_booking' => false,
                 'nomor_antrean_seq' => $nomorFormat,
@@ -171,7 +180,8 @@ class AntreanController extends Controller
                 'layanan_id1' => $request->input('layanan_id1'),
                 'layanan_id2' => $request->input('layanan_id2'),
                 'status' => 'menunggu',
-                'waktu_masuk' => now()
+                'waktu_masuk' => now(),
+                'barbershop_id' => $barbershopId,
             ]);
 
             $this->broadcastQueueUpdate();

@@ -12,30 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // 1. Masukkan tenant default ke barbershops agar tidak ada data orphan
-        DB::table('barbershops')->insert([
-            'id' => 1,
-            'nama' => 'Arga Barbershop',
-            'slug' => 'arga-barbershop',
-            'alamat' => 'Jl. Raya Toba No. 12, Balige',
-            'telepon' => '081234567890',
-            'deskripsi' => 'Barbershop terbaik di Balige dengan pelayanan ramah dan profesional.',
-            'is_active' => true,
-            'nama_brand' => 'Arga Barbershop',
-            'favicon' => 'assets/images/logo.png',
-            'alaamat' => 'Jl.P.Siantar Km 2, Tampubolon, Sibolahotangaso Kec. Balige, Tobasa, Sumatera Utara',
-            'email' => 'joebarberid@gmail.com',
-            'warna_primer' => '#e8a53a',
-            'slogan' => 'Barber, Coffee & Food',
-            'deskripsi_hero' => 'Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!',
-            'kontak' => json_encode([
-                'instagram' => 'https://instagram.com',
-                'facebook' => 'https://facebook.com',
-                'whatsapp' => '081234567890',
-            ]),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        Schema::disableForeignKeyConstraints();
+        
+        // 1. (Data Seeder telah dipindahkan ke BarbershopSeeder.php)
 
         // 2. Tambahkan barbershop_id ke tabel users (nullable karena pelanggan bersifat global, super admin juga global)
         Schema::table('users', function (Blueprint $table) {
@@ -72,6 +51,8 @@ return new class extends Migration
             // Tambahkan composite unique index baru
             $table->unique(['barbershop_id', 'key']);
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

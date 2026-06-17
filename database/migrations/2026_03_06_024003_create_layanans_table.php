@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('layanans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('nama', 25);
+            $table->string('ikon')->nullable();
             $table->mediumInteger('harga');
             $table->string('estimasi_waktu', 10)->nullable();
             $table->text('deskripsi')->nullable();

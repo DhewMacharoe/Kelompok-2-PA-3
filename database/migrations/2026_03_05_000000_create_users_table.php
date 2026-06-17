@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name', 35);
             $table->string('email', 50)->unique();
+            $table->string('no_whatsapp', 20)->nullable();
+            $table->string('firebase_uid')->nullable()->unique();
+            $table->string('username')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

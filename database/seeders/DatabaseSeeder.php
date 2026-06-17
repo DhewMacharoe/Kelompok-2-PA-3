@@ -22,35 +22,12 @@ class DatabaseSeeder extends Seeder
             Role::create(['name' => 'user', 'guard_name' => 'web']);
         }
 
-        // Create or update first barbershop with coordinates
-        DB::table('barbershops')->where('id', 1)->update([
-            'latitude' => 2.386130,
-            'longitude' => 99.147852,
-            'is_active' => true,
-        ]);
+        // Call BarbershopSeeder FIRST to ensure the tenant rows exist before creating Users
+        $this->call(BarbershopSeeder::class);
 
-        // Create second barbershop if not exists
-        if (!DB::table('barbershops')->where('id', 2)->exists()) {
-            DB::table('barbershops')->insert([
-                'id' => 2,
-                'nama' => 'Toba Barbershop',
-                'slug' => 'toba-barbershop',
-                'alamat' => 'Jl. Sisingamangaraja No. 45, Balige',
-                'telepon' => '082198765432',
-                'deskripsi' => 'Barbershop premium dengan pemandangan Danau Toba.',
-                'latitude' => 2.383120,
-                'longitude' => 99.148810,
-                'is_active' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        } else {
-            DB::table('barbershops')->where('id', 2)->update([
-                'latitude' => 2.383120,
-                'longitude' => 99.148810,
-                'is_active' => true,
-            ]);
-        }
+
+
+
 
         // Create Super Admin if not exists
         if (!User::where('email', 'superadmin@gmail.com')->exists()) {
@@ -91,22 +68,7 @@ class DatabaseSeeder extends Seeder
             $admin2->assignRole('admin');
         }
 
-        // Create third barbershop if not exists
-        if (!DB::table('barbershops')->where('id', 3)->exists()) {
-            DB::table('barbershops')->insert([
-                'id' => 3,
-                'nama' => 'Laguboti Barbershop',
-                'slug' => 'laguboti-barbershop',
-                'alamat' => 'Jl. Sisingamangaraja No. 102, Laguboti',
-                'telepon' => '082111223344',
-                'deskripsi' => 'Barbershop nyaman dengan pelayanan ramah di Laguboti.',
-                'latitude' => 2.378900,
-                'longitude' => 99.124500,
-                'is_active' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+
 
         // Create User Admin (Laguboti Barbershop) if not exists
         if (!User::where('email', 'lagubotiadmin@gmail.com')->exists()) {
@@ -131,8 +93,5 @@ class DatabaseSeeder extends Seeder
 
         // 4. Data Antrean
         $this->call(AntreanSeeder::class);
-
-        // 5. Data Barbershop
-        $this->call(BarbershopSeeder::class);
     }
 }

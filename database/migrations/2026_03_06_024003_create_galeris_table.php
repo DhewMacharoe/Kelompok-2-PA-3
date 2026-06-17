@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('galeris', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('judul', 30);
             $table->string('deskripsi', 100)->nullable();
             $table->string('gambar', 50);
