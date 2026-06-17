@@ -11,8 +11,18 @@ class MenuCafeController extends Controller
 {
     use HandlesPublicImageUploads;
 
+    private function checkCafeActive()
+    {
+        $activeDesign = \App\Models\Design::where('is_active', true)->first();
+        if ($activeDesign && !$activeDesign->is_cafe_active) {
+            abort(404);
+        }
+    }
+
     public function index()
     {
+        $this->checkCafeActive();
+
         $menus = Menu::orderByDesc('updated_at')->get();
         $categories = ['Makanan', 'Minuman'];
 
@@ -21,11 +31,15 @@ class MenuCafeController extends Controller
 
     public function create()
     {
+        $this->checkCafeActive();
+
         return redirect()->route('admin.menu.index');
     }
 
     public function store(Request $request)
     {
+        $this->checkCafeActive();
+
         $data = $request->validate([
             'nama' => 'required',
             'kategori' => 'required|string',
@@ -47,11 +61,15 @@ class MenuCafeController extends Controller
 
     public function edit(Menu $menu)
     {
+        $this->checkCafeActive();
+
         return redirect()->route('admin.menu.index');
     }
 
     public function update(Request $request, Menu $menu)
     {
+        $this->checkCafeActive();
+
         $data = $request->validate([
             'nama' => 'required',
             'kategori' => 'required|string',
@@ -78,6 +96,8 @@ class MenuCafeController extends Controller
 
     public function destroy(Menu $menu)
     {
+        $this->checkCafeActive();
+
         $this->deleteImageFromPublic($menu->foto);
 
         $menu->delete();

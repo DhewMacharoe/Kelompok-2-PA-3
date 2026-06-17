@@ -14,6 +14,7 @@ class DesignController extends Controller
         if (!$design) {
             $design = Design::create([
                 'is_active' => true,
+                'is_cafe_active' => true,
                 'nama_brand' => "Arga Home's",
                 'favicon' => 'assets/images/logo.png',
                 'alaamat' => 'Jl.P.Siantar Km 2, Tampubolon, Sibolahotangaso Kec. Balige, Tobasa, Sumatera Utara',
@@ -61,6 +62,7 @@ class DesignController extends Controller
             'map_embed' => 'nullable|string',
             'warna_primer' => 'nullable|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/',
             'slogan' => 'nullable|string|max:255',
+            'is_cafe_active' => 'nullable|boolean',
             
             // Home Hero
             'deskripsi_hero' => 'required|string',
@@ -130,6 +132,7 @@ class DesignController extends Controller
 
         Design::create([
             'is_active' => $isActive,
+            'is_cafe_active' => $request->has('is_cafe_active'),
             'nama_brand' => $request->nama_brand,
             'favicon' => $faviconPath,
             'alaamat' => $request->alaamat,
@@ -173,6 +176,7 @@ class DesignController extends Controller
             'map_embed' => 'nullable|string',
             'warna_primer' => 'nullable|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/',
             'slogan' => 'nullable|string|max:255',
+            'is_cafe_active' => 'nullable|boolean',
             
             // Home Hero
             'deskripsi_hero' => 'required|string',
@@ -251,6 +255,7 @@ class DesignController extends Controller
 
         $design->update([
             'nama_brand' => $request->nama_brand,
+            'is_cafe_active' => $request->has('is_cafe_active'),
             'favicon' => $faviconPath,
             'alaamat' => $request->alaamat,
             'email' => $request->email,
