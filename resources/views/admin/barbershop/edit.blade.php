@@ -476,6 +476,26 @@
                 }
             });
         });
+
+        // Handle HTML5 validation across hidden tabs
+        document.addEventListener('invalid', function(e) {
+            const invalidField = e.target;
+            if(!invalidField.closest('form')) return;
+
+            const tabPane = invalidField.closest('.tab-pane');
+            if (tabPane && !tabPane.classList.contains('show')) {
+                e.preventDefault(); // Prevent browser error "invalid form control is not focusable"
+                const targetTabBtn = document.querySelector('button[data-bs-target="#' + tabPane.id + '"]');
+                if (targetTabBtn) {
+                    const tab = new bootstrap.Tab(targetTabBtn);
+                    tab.show();
+                    setTimeout(() => {
+                        invalidField.focus();
+                        invalidField.reportValidity();
+                    }, 200);
+                }
+            }
+        }, true);
     });
 </script>
 @endsection
