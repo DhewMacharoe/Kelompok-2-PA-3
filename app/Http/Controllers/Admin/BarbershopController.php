@@ -247,8 +247,8 @@ class BarbershopController extends Controller
             'whatsapp' => $request->whatsapp,
             'instagram' => $request->instagram,
             'facebook' => $request->facebook,
-            'link_map' => $barbershop->kontak['link_map'] ?? null,
-            'map_embed' => $barbershop->kontak['map_embed'] ?? null,
+            'link_map' => $request->link_map,
+            'map_embed' => $request->map_embed,
         ];
 
         $barbershop->update([
