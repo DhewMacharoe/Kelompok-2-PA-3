@@ -17,7 +17,7 @@ class SettingController extends Controller
         $jam_buka = \App\Models\Setting::get('queue_jam_buka', '09:00');
         $jam_tutup = \App\Models\Setting::get('queue_jam_tutup', '21:00');
         $keterangan_libur = \App\Models\Setting::get('queue_libur_note', 'libur');
-        $activeDesign = \App\Models\Design::where('is_active', true)->first();
+        $activeDesign = \App\Models\Barbershop::where('is_active', true)->first();
 
         return view('admin.lokasi.index', compact('latitude', 'longitude', 'radius', 'jam_buka', 'jam_tutup', 'keterangan_libur', 'activeDesign'));
     }

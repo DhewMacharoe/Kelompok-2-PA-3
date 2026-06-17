@@ -16,7 +16,7 @@
         background-color: #ffffff;
     }
     .profile-header {
-        background: linear-gradient(135deg, #1e1e24 0%, {{ $design->warna_primer ?? '#e8a53a' }} 100%);
+        background: linear-gradient(135deg, #1e1e24 0%, {{ $barbershop->warna_primer ?? '#e8a53a' }} 100%);
         padding: 40px 30px;
         color: #fff;
         position: relative;
@@ -80,7 +80,7 @@
         transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
     .btn-edit-profile:hover {
-        background-color: {{ $design->warna_primer ?? '#e8a53a' }};
+        background-color: {{ $barbershop->warna_primer ?? '#e8a53a' }};
         color: white;
         transform: translateY(-3px);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
@@ -124,8 +124,8 @@
         color: #343a40;
     }
     .custom-nav-tabs .nav-link.active {
-        background-color: {{ $design->warna_primer ?? '#e8a53a' }}15;
-        color: {{ $design->warna_primer ?? '#e8a53a' }};
+        background-color: {{ $barbershop->warna_primer ?? '#e8a53a' }}15;
+        color: {{ $barbershop->warna_primer ?? '#e8a53a' }};
         border-bottom: none;
     }
     .hero-preview-card {
@@ -210,20 +210,20 @@
         <div class="profile-header d-flex align-items-center justify-content-between flex-wrap gap-4">
             <div class="d-flex align-items-center gap-4 flex-wrap">
                 <div class="brand-logo-container">
-                    @if($design->favicon)
-                        <img src="{{ asset($design->favicon) }}" alt="Favicon">
+                    @if($barbershop->favicon)
+                        <img src="{{ asset($barbershop->favicon) }}" alt="Favicon">
                     @else
                         <img src="{{ asset('assets/images/logo.png') }}" alt="Default Logo">
                     @endif
                 </div>
                 <div>
                     <span class="badge mb-2 px-3 py-2 text-uppercase rounded-pill fw-bold" style="background-color: rgba(255, 255, 255, 0.2); font-size: 0.75rem; letter-spacing: 1px;">CMS Mode</span>
-                    <h2 class="mb-1 style-brand-name text-white fw-bold" style="margin: 0;">{{ $design->nama_brand }}</h2>
-                    <p class="mb-0 text-muted-white" style="font-size: 0.95rem; font-style: italic;">{{ $design->slogan ?? 'Barber, Coffee & Food' }}</p>
+                    <h2 class="mb-1 style-brand-name text-white fw-bold" style="margin: 0;">{{ $barbershop->nama_brand }}</h2>
+                    <p class="mb-0 text-muted-white" style="font-size: 0.95rem; font-style: italic;">{{ $barbershop->slogan ?? 'Barber, Coffee & Food' }}</p>
                 </div>
             </div>
             <div>
-                <a href="{{ route('admin.design.edit', $design->id) }}" class="btn-edit-profile">
+                <a href="{{ route('admin.barbershop.edit', $barbershop->id) }}" class="btn-edit-profile">
                     <i class="fas fa-edit text-primary-color"></i> Edit Desain Web
                 </a>
             </div>
@@ -258,17 +258,17 @@
                         <div class="col-md-6">
                             <div class="info-card p-3 mb-3">
                                 <div class="info-label mb-1">Nama Brand / Judul Web</div>
-                                <div class="info-value">{{ $design->nama_brand }}</div>
+                                <div class="info-value">{{ $barbershop->nama_brand }}</div>
                             </div>
                             
                             <div class="info-card p-3 mb-3">
                                 <div class="info-label mb-1">Slogan / Tagline Brand</div>
-                                <div class="info-value"><em>{{ $design->slogan ?? 'Barber, Coffee & Food' }}</em></div>
+                                <div class="info-value"><em>{{ $barbershop->slogan ?? 'Barber, Coffee & Food' }}</em></div>
                             </div>
 
                             <div class="info-card p-3">
                                 <div class="info-label mb-1">Email Kontak</div>
-                                <div class="info-value">{{ $design->email }}</div>
+                                <div class="info-value">{{ $barbershop->email }}</div>
                             </div>
                         </div>
 
@@ -277,8 +277,8 @@
                                 <div class="info-label mb-1">Warna Dasar / Aksen Web</div>
                                 <div class="info-value mt-1">
                                     <div class="color-pill">
-                                        <span style="display: inline-block; width: 18px; height: 18px; border-radius: 50%; background-color: {{ $design->warna_primer ?? '#e8a53a' }}; border: 1px solid rgba(0,0,0,0.1);"></span>
-                                        <span>{{ $design->warna_primer ?? '#e8a53a' }}</span>
+                                        <span style="display: inline-block; width: 18px; height: 18px; border-radius: 50%; background-color: {{ $barbershop->warna_primer ?? '#e8a53a' }}; border: 1px solid rgba(0,0,0,0.1);"></span>
+                                        <span>{{ $barbershop->warna_primer ?? '#e8a53a' }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -286,7 +286,7 @@
                             <div class="info-card p-3 mb-3">
                                 <div class="info-label mb-1">Status Fitur Café</div>
                                 <div class="info-value mt-1">
-                                    @if($design->is_cafe_active ?? true)
+                                    @if($barbershop->is_cafe_active ?? true)
                                         <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1.5 fw-semibold" style="font-size: 0.85rem;"><i class="fas fa-check-circle me-1"></i> Aktif</span>
                                     @else
                                         <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-3 py-1.5 fw-semibold" style="font-size: 0.85rem;"><i class="fas fa-times-circle me-1"></i> Nonaktif</span>
@@ -296,7 +296,7 @@
 
                             <div class="info-card p-3">
                                 <div class="info-label mb-1">Alamat Lengkap</div>
-                                <div class="info-value" style="line-height: 1.6; font-size: 0.95rem;">{{ $design->alaamat }}</div>
+                                <div class="info-value" style="line-height: 1.6; font-size: 0.95rem;">{{ $barbershop->alaamat }}</div>
                             </div>
                         </div>
                     </div>
@@ -308,21 +308,21 @@
                         <!-- Hero Beranda -->
                         <div class="col-md-6">
                             <div class="hero-preview-card card h-100">
-                                <div class="hero-preview-banner" style="background-image: url('{{ $design->gambar_hero ? asset($design->gambar_hero) : 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=600&auto=format&fit=cover' }}');">
+                                <div class="hero-preview-banner" style="background-image: url('{{ $barbershop->gambar_hero ? asset($barbershop->gambar_hero) : 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=600&auto=format&fit=cover' }}');">
                                     <div class="hero-preview-content">
                                         <span class="badge bg-warning-subtle text-warning border border-warning-subtle mb-1 rounded-pill">Home Hero</span>
-                                        <h5 class="fw-bold mb-0 text-white text-truncate">{{ $design->nama_brand }}</h5>
-                                        <p class="small mb-0 text-white-50 text-truncate" style="font-size: 0.75rem;">{{ $design->slogan }}</p>
+                                        <h5 class="fw-bold mb-0 text-white text-truncate">{{ $barbershop->nama_brand }}</h5>
+                                        <p class="small mb-0 text-white-50 text-truncate" style="font-size: 0.75rem;">{{ $barbershop->slogan }}</p>
                                     </div>
                                 </div>
                                 <div class="card-body p-3">
                                     <div class="info-label mb-1">Deskripsi Hero Beranda</div>
                                     <p class="text-secondary small mb-3 text-clamp" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 38px; line-height: 1.4;">
-                                        {{ $design->deskripsi_hero ?? 'Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!' }}
+                                        {{ $barbershop->deskripsi_hero ?? 'Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!' }}
                                     </p>
                                     <div class="border-top pt-2 d-flex justify-content-between align-items-center">
                                         <span class="text-muted small">Gambar Latar</span>
-                                        @if($design->gambar_hero)
+                                        @if($barbershop->gambar_hero)
                                             <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2.5">Kustom</span>
                                         @else
                                             <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2.5">Default (Unsplash)</span>
@@ -335,21 +335,21 @@
                         <!-- Hero Layanan -->
                         <div class="col-md-6">
                             <div class="hero-preview-card card h-100">
-                                <div class="hero-preview-banner" style="background-image: url('{{ $design->gambar_hero_layanan ? asset($design->gambar_hero_layanan) : 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=600&auto=format&fit=cover' }}');">
+                                <div class="hero-preview-banner" style="background-image: url('{{ $barbershop->gambar_hero_layanan ? asset($barbershop->gambar_hero_layanan) : 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=600&auto=format&fit=cover' }}');">
                                     <div class="hero-preview-content">
                                         <span class="badge bg-info-subtle text-info border border-info-subtle mb-1 rounded-pill">Services Hero</span>
-                                        <h5 class="fw-bold mb-0 text-white text-truncate">{{ $design->judul_hero_layanan }}</h5>
-                                        <p class="small mb-0 text-white-50 text-truncate" style="font-size: 0.75rem;">{{ $design->deskripsi_hero_layanan }}</p>
+                                        <h5 class="fw-bold mb-0 text-white text-truncate">{{ $barbershop->judul_hero_layanan }}</h5>
+                                        <p class="small mb-0 text-white-50 text-truncate" style="font-size: 0.75rem;">{{ $barbershop->deskripsi_hero_layanan }}</p>
                                     </div>
                                 </div>
                                 <div class="card-body p-3">
                                     <div class="info-label mb-1">Judul & Deskripsi</div>
                                     <p class="text-secondary small mb-3 text-clamp" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 38px; line-height: 1.4;">
-                                        <strong>{{ $design->judul_hero_layanan }}</strong> — {{ $design->deskripsi_hero_layanan }}
+                                        <strong>{{ $barbershop->judul_hero_layanan }}</strong> — {{ $barbershop->deskripsi_hero_layanan }}
                                     </p>
                                     <div class="border-top pt-2 d-flex justify-content-between align-items-center">
                                         <span class="text-muted small">Gambar Latar</span>
-                                        @if($design->gambar_hero_layanan)
+                                        @if($barbershop->gambar_hero_layanan)
                                             <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2.5">Kustom</span>
                                         @else
                                             <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2.5">Default (Unsplash)</span>
@@ -362,21 +362,21 @@
                         <!-- Hero Galeri -->
                         <div class="col-md-6">
                             <div class="hero-preview-card card h-100">
-                                <div class="hero-preview-banner" style="background-image: url('{{ $design->gambar_hero_galeri ? asset($design->gambar_hero_galeri) : 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=600&auto=format&fit=cover' }}');">
+                                <div class="hero-preview-banner" style="background-image: url('{{ $barbershop->gambar_hero_galeri ? asset($barbershop->gambar_hero_galeri) : 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=600&auto=format&fit=cover' }}');">
                                     <div class="hero-preview-content">
                                         <span class="badge bg-primary-subtle text-primary border border-primary-subtle mb-1 rounded-pill">Gallery Hero</span>
-                                        <h5 class="fw-bold mb-0 text-white text-truncate">{{ $design->judul_hero_galeri }}</h5>
-                                        <p class="small mb-0 text-white-50 text-truncate" style="font-size: 0.75rem;">{{ $design->deskripsi_hero_galeri }}</p>
+                                        <h5 class="fw-bold mb-0 text-white text-truncate">{{ $barbershop->judul_hero_galeri }}</h5>
+                                        <p class="small mb-0 text-white-50 text-truncate" style="font-size: 0.75rem;">{{ $barbershop->deskripsi_hero_galeri }}</p>
                                     </div>
                                 </div>
                                 <div class="card-body p-3">
                                     <div class="info-label mb-1">Judul & Deskripsi</div>
                                     <p class="text-secondary small mb-3 text-clamp" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 38px; line-height: 1.4;">
-                                        <strong>{{ $design->judul_hero_galeri }}</strong> — {{ $design->deskripsi_hero_galeri }}
+                                        <strong>{{ $barbershop->judul_hero_galeri }}</strong> — {{ $barbershop->deskripsi_hero_galeri }}
                                     </p>
                                     <div class="border-top pt-2 d-flex justify-content-between align-items-center">
                                         <span class="text-muted small">Gambar Latar</span>
-                                        @if($design->gambar_hero_galeri)
+                                        @if($barbershop->gambar_hero_galeri)
                                             <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2.5">Kustom</span>
                                         @else
                                             <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2.5">Default (Assets)</span>
@@ -389,21 +389,21 @@
                         <!-- Hero Menu Café -->
                         <div class="col-md-6">
                             <div class="hero-preview-card card h-100">
-                                <div class="hero-preview-banner" style="background-image: url('{{ $design->gambar_hero_menu ? asset($design->gambar_hero_menu) : 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=600&auto=format&fit=cover' }}');">
+                                <div class="hero-preview-banner" style="background-image: url('{{ $barbershop->gambar_hero_menu ? asset($barbershop->gambar_hero_menu) : 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=600&auto=format&fit=cover' }}');">
                                     <div class="hero-preview-content">
                                         <span class="badge bg-danger-subtle text-danger border border-danger-subtle mb-1 rounded-pill">Cafe Menu Hero</span>
-                                        <h5 class="fw-bold mb-0 text-white text-truncate">{{ $design->judul_hero_menu }}</h5>
-                                        <p class="small mb-0 text-white-50 text-truncate" style="font-size: 0.75rem;">{{ $design->deskripsi_hero_menu }}</p>
+                                        <h5 class="fw-bold mb-0 text-white text-truncate">{{ $barbershop->judul_hero_menu }}</h5>
+                                        <p class="small mb-0 text-white-50 text-truncate" style="font-size: 0.75rem;">{{ $barbershop->deskripsi_hero_menu }}</p>
                                     </div>
                                 </div>
                                 <div class="card-body p-3">
                                     <div class="info-label mb-1">Judul & Deskripsi</div>
                                     <p class="text-secondary small mb-3 text-clamp" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 38px; line-height: 1.4;">
-                                        <strong>{{ $design->judul_hero_menu }}</strong> — {{ $design->deskripsi_hero_menu }}
+                                        <strong>{{ $barbershop->judul_hero_menu }}</strong> — {{ $barbershop->deskripsi_hero_menu }}
                                     </p>
                                     <div class="border-top pt-2 d-flex justify-content-between align-items-center">
                                         <span class="text-muted small">Gambar Latar</span>
-                                        @if($design->gambar_hero_menu)
+                                        @if($barbershop->gambar_hero_menu)
                                             <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2.5">Kustom</span>
                                         @else
                                             <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2.5">Default (Unsplash)</span>
@@ -430,7 +430,7 @@
                                     </div>
                                     <div>
                                         <div class="text-muted small fw-bold">WhatsApp</div>
-                                        <div class="info-value mt-0.5">{{ $design->kontak['whatsapp'] ?? '-' }}</div>
+                                        <div class="info-value mt-0.5">{{ $barbershop->kontak['whatsapp'] ?? '-' }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -443,8 +443,8 @@
                                     </div>
                                     <div>
                                         <div class="text-muted small fw-bold">Instagram</div>
-                                        @if(isset($design->kontak['instagram']) && !empty($design->kontak['instagram']))
-                                            <div class="info-value mt-0.5"><a href="{{ $design->kontak['instagram'] }}" target="_blank" class="text-decoration-none fw-semibold" style="color: {{ $design->warna_primer ?? '#e8a53a' }};">Buka Instagram <i class="fas fa-external-link-alt ms-1 small"></i></a></div>
+                                        @if(isset($barbershop->kontak['instagram']) && !empty($barbershop->kontak['instagram']))
+                                            <div class="info-value mt-0.5"><a href="{{ $barbershop->kontak['instagram'] }}" target="_blank" class="text-decoration-none fw-semibold" style="color: {{ $barbershop->warna_primer ?? '#e8a53a' }};">Buka Instagram <i class="fas fa-external-link-alt ms-1 small"></i></a></div>
                                         @else
                                             <div class="info-value mt-0.5">-</div>
                                         @endif
@@ -460,8 +460,8 @@
                                     </div>
                                     <div>
                                         <div class="text-muted small fw-bold">Facebook</div>
-                                        @if(isset($design->kontak['facebook']) && !empty($design->kontak['facebook']))
-                                            <div class="info-value mt-0.5"><a href="{{ $design->kontak['facebook'] }}" target="_blank" class="text-decoration-none fw-semibold" style="color: {{ $design->warna_primer ?? '#e8a53a' }};">Buka Facebook <i class="fas fa-external-link-alt ms-1 small"></i></a></div>
+                                        @if(isset($barbershop->kontak['facebook']) && !empty($barbershop->kontak['facebook']))
+                                            <div class="info-value mt-0.5"><a href="{{ $barbershop->kontak['facebook'] }}" target="_blank" class="text-decoration-none fw-semibold" style="color: {{ $barbershop->warna_primer ?? '#e8a53a' }};">Buka Facebook <i class="fas fa-external-link-alt ms-1 small"></i></a></div>
                                         @else
                                             <div class="info-value mt-0.5">-</div>
                                         @endif
@@ -474,17 +474,17 @@
                         <div class="col-md-7 border-start ps-md-4" style="border-color: #f0f2f5 !important;">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="m-0 fw-bold text-dark" style="font-size: 1.1rem;">Google Maps Sematan</h5>
-                                @if(isset($design->kontak['link_map']) && !empty($design->kontak['link_map']))
-                                    <a href="{{ $design->kontak['link_map'] }}" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-3" style="font-size: 0.8rem;">
+                                @if(isset($barbershop->kontak['link_map']) && !empty($barbershop->kontak['link_map']))
+                                    <a href="{{ $barbershop->kontak['link_map'] }}" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-3" style="font-size: 0.8rem;">
                                         <i class="fas fa-map-marked-alt me-1"></i> Tautan Peta
                                     </a>
                                 @endif
                             </div>
 
-                            @if(isset($design->kontak['map_embed']) && !empty($design->kontak['map_embed']))
+                            @if(isset($barbershop->kontak['map_embed']) && !empty($barbershop->kontak['map_embed']))
                                 <div class="map-container">
                                     <iframe 
-                                        src="{{ $design->kontak['map_embed'] }}" 
+                                        src="{{ $barbershop->kontak['map_embed'] }}" 
                                         width="100%" 
                                         height="260" 
                                         style="border:0; display: block;" 

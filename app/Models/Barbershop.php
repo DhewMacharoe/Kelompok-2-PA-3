@@ -2,58 +2,36 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Barbershop extends Model
 {
-    use HasFactory;
-
-    protected $table = 'barber_shops';
-
     protected $fillable = [
-        'nama',
-        'slug',
-        'alamat',
-        'telepon',
-        'deskripsi',
-        'logo',
-        'latitude',
-        'longitude',
         'is_active',
+        'is_cafe_active',
+        'nama_brand',
+        'favicon',
+        'alaamat',
+        'kontak',
+        'email',
+        'warna_primer',
+        'slogan',
+        'deskripsi_hero',
+        'gambar_hero',
+        'judul_hero_layanan',
+        'deskripsi_hero_layanan',
+        'gambar_hero_layanan',
+        'judul_hero_galeri',
+        'deskripsi_hero_galeri',
+        'gambar_hero_galeri',
+        'judul_hero_menu',
+        'deskripsi_hero_menu',
+        'gambar_hero_menu',
     ];
 
     protected $casts = [
+        'kontak' => 'array',
         'is_active' => 'boolean',
+        'is_cafe_active' => 'boolean',
     ];
-
-    public function users()
-    {
-        return $this->hasMany(User::class, 'barbershop_id');
-    }
-
-    public function antreans()
-    {
-        return $this->hasMany(Antrean::class, 'barbershop_id');
-    }
-
-    public function layanans()
-    {
-        return $this->hasMany(Layanan::class, 'barbershop_id');
-    }
-
-    public function menus()
-    {
-        return $this->hasMany(Menu::class, 'barbershop_id');
-    }
-
-    public function galeris()
-    {
-        return $this->hasMany(Galeri::class, 'barbershop_id');
-    }
-
-    public function settings()
-    {
-        return $this->hasMany(Setting::class, 'barbershop_id');
-    }
 }

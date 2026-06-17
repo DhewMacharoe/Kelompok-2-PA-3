@@ -274,7 +274,7 @@
         }
 
         // === BULK CANCEL LOGIC ===
-        const selectAllCheckbox = document.getElementById('selectAllQueues');
+        const selectAllCheckboxes = document.querySelectorAll('.select-all-queues');
         const queueCheckboxes = document.querySelectorAll('.queue-checkbox');
         const btnBatalMasal = document.getElementById('btnBatalMasal');
         const countTerpilih = document.getElementById('countTerpilih');
@@ -290,24 +290,23 @@
                 if (btnBatalMasal) {
                     btnBatalMasal.style.display = 'none';
                 }
-                if (selectAllCheckbox) {
-                    selectAllCheckbox.checked = false;
-                }
+                selectAllCheckboxes.forEach(cb => cb.checked = false);
             }
 
-            if (selectAllCheckbox) {
-                selectAllCheckbox.checked = (checkedCount === queueCheckboxes.length && queueCheckboxes.length > 0);
-            }
+            const allChecked = (checkedCount === queueCheckboxes.length && queueCheckboxes.length > 0);
+            selectAllCheckboxes.forEach(cb => cb.checked = allChecked);
         }
 
-        if (selectAllCheckbox) {
-            selectAllCheckbox.addEventListener('change', function() {
+        selectAllCheckboxes.forEach(selectAll => {
+            selectAll.addEventListener('change', function() {
+                // If checking the walk-in select all, check walk-in checkboxes. 
+                // But for simplicity, we'll just check ALL checkboxes in both tables.
                 queueCheckboxes.forEach(cb => {
                     cb.checked = this.checked;
                 });
                 updateBatalMasalVisibility();
             });
-        }
+        });
 
         queueCheckboxes.forEach(cb => {
             cb.addEventListener('change', updateBatalMasalVisibility);

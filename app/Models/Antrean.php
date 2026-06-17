@@ -22,6 +22,9 @@ class Antrean extends Model
         'status',
         'alasan_batal',
         'waktu_masuk',
+        'is_booking',
+        'tanggal_booking',
+        'waktu_booking',
         'waktu_selesai',
         'user_id',
         'barbershop_id',
@@ -34,6 +37,7 @@ class Antrean extends Model
     protected $dates = [
         'waktu_masuk',
         'waktu_selesai',
+        'tanggal_booking',
         'created_at',
         'updated_at',
     ];
@@ -65,6 +69,84 @@ class Antrean extends Model
         return $now >= $jam_buka && $now <= $jam_tutup;
     }
 
+    public static function getAvailableTimeSlots($date, $durationMinutes = 30): array
+    {
+        $jam_buka = \App\Models\Setting::get('queue_jam_buka', '09:00');
+        $jam_tutup = \App\Models\Setting::get('queue_jam_tutup', '21:00');
+
+        $isToday = Carbon::parse($date)->isToday();
+        $dateObj = Carbon::parse($date);
+        $startTime = Carbon::parse($date . ' ' . $jam_buka);
+        $endTime = Carbon::parse($date . ' ' . $jam_tutup);
+
+        if ($isToday) {
+            // Check walk-in queues and active bookings for today to calculate when the shop will be free.
+            // But wait, the prompt asks for available slots.
+            // We should find the start time of availability.
+            $activeQueues = static::whereIn('status', ['menunggu', 'sedang dilayani'])
+                                  ->whereDate('created_at', Carbon::today())
+                                  ->where('is_booking', false)
+                                  ->get();
+
+            $totalMins = 0;
+            foreach ($activeQueues as $q) {
+                if ($q->status === 'sedang dilayani') {
+                    $elapsed = now()->diffInMinutes($q->updated_at);
+                    $totalMins += max(0, $q->total_estimasi_waktu - $elapsed);
+                } else {
+                    $totalMins += $q->total_estimasi_waktu;
+                }
+            }
+
+            $earliestAvailable = now()->addMinutes($totalMins);
+            if ($earliestAvailable->greaterThan($startTime)) {
+                $startTime = $earliestAvailable;
+            }
+        }
+
+        // Fetch bookings for that date
+        $bookings = static::where('is_booking', true)
+                          ->whereDate('tanggal_booking', $date)
+                          ->whereIn('status', ['menunggu', 'booking']) // Include future bookings
+                          ->get();
+
+        $slots = [];
+        $currentSlot = $startTime->copy();
+
+        // Round up to nearest 30 mins
+        $minute = $currentSlot->minute;
+        if ($minute > 0 && $minute <= 30) {
+            $currentSlot->minute(30)->second(0);
+        } elseif ($minute > 30) {
+            $currentSlot->addHour()->minute(0)->second(0);
+        }
+
+        while ($currentSlot->copy()->addMinutes($durationMinutes)->lessThanOrEqualTo($endTime)) {
+            $slotEnd = $currentSlot->copy()->addMinutes($durationMinutes);
+            $isConflict = false;
+
+            foreach ($bookings as $booking) {
+                $bStart = Carbon::parse($booking->tanggal_booking->format('Y-m-d') . ' ' . $booking->waktu_booking);
+                $bEnd = $bStart->copy()->addMinutes($booking->total_estimasi_waktu);
+
+                // If current slot overlaps with this booking
+                if ($currentSlot->lessThan($bEnd) && $slotEnd->greaterThan($bStart)) {
+                    $isConflict = true;
+                    break;
+                }
+            }
+
+            if (!$isConflict && $currentSlot->greaterThan(now())) {
+                $slots[] = $currentSlot->format('H:i');
+            }
+
+            // Move to next 30 min slot
+            $currentSlot->addMinutes(30);
+        }
+
+        return $slots;
+    }
+
 
     public function updateStatus(string $statusBaru): bool
     {
@@ -80,7 +162,7 @@ class Antrean extends Model
     public function getTotalEstimasiWaktuAttribute(): int
     {
         $total = 0;
-        
+
         $layanans = $this->layananUntukRekap();
         foreach ($layanans as $layanan) {
             if ($layanan && $layanan->estimasi_waktu) {
@@ -149,7 +231,7 @@ class Antrean extends Model
     public function scopeTodayWaitingQueues($query)
     {
         return $query->where('status', 'menunggu')
-            ->whereDate('created_at', Carbon::today())
+            ->whereDate('waktu_masuk', Carbon::today())
             ->orderBy('waktu_masuk', 'asc');
     }
 
@@ -159,7 +241,7 @@ class Antrean extends Model
     public function scopeTodayActiveQueues($query)
     {
         return $query->whereIn('status', ['menunggu', 'sedang dilayani'])
-            ->whereDate('created_at', Carbon::today());
+            ->whereDate('waktu_masuk', Carbon::today());
     }
 
     /**

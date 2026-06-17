@@ -8,6 +8,7 @@ use App\Http\Controllers\Concerns\ValidatesServiceCombination;
 use App\Http\Controllers\Controller;
 use App\Models\Antrean;
 use App\Models\Layanan;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -86,8 +87,8 @@ class AntreanController extends Controller
         $this->validateQueueRequest($request);
 
         if (!Antrean::isOperationalHour()) {
-            $jam_buka = \App\Models\Setting::get('queue_jam_buka', '09:00');
-            $jam_tutup = \App\Models\Setting::get('queue_jam_tutup', '21:00');
+            $jam_buka = Setting::get('queue_jam_buka', '09:00');
+            $jam_tutup =Setting::get('queue_jam_tutup', '21:00');
             return back()->with('error', 'Maaf, antrean ditutup. Jam operasional: '.$jam_buka.' - '.$jam_tutup);
         }
 
@@ -95,34 +96,39 @@ class AntreanController extends Controller
             return back()->with('error', 'Anda sudah berada di dalam daftar antrean saat ini.');
         }
 
-        $locationValidation = $request->validate([
-            'user_latitude' => 'required|numeric|between:-90,90',
-            'user_longitude' => 'required|numeric|between:-180,180',
-        ], [
-            'user_latitude.required' => 'Akses lokasi gagal. Silakan aktifkan GPS/location dan coba lagi.',
-            'user_longitude.required' => 'Akses lokasi gagal. Silakan aktifkan GPS/location dan coba lagi.',
-            'user_latitude.numeric' => 'Data lokasi tidak valid.',
-            'user_longitude.numeric' => 'Data lokasi tidak valid.',
-        ]);
+        // Menentukan apakah ini booking
+        $isBooking = $request->input('is_booking') === '1' || $request->input('is_booking') === 'true';
 
-        $queueLocation = $this->queueLocationConfig();
-        $targetLatitude = (float) ($queueLocation['latitude'] ?? 0);
-        $targetLongitude = (float) ($queueLocation['longitude'] ?? 0);
-        $radiusMeters = (int) ($queueLocation['radius_meters'] ?? 200);
+        if (!$isBooking) {
+            $locationValidation = $request->validate([
+                'user_latitude' => 'required|numeric|between:-90,90',
+                'user_longitude' => 'required|numeric|between:-180,180',
+            ], [
+                'user_latitude.required' => 'Akses lokasi gagal. Silakan aktifkan GPS/location dan coba lagi.',
+                'user_longitude.required' => 'Akses lokasi gagal. Silakan aktifkan GPS/location dan coba lagi.',
+                'user_latitude.numeric' => 'Data lokasi tidak valid.',
+                'user_longitude.numeric' => 'Data lokasi tidak valid.',
+            ]);
 
-        if ($targetLatitude === 0.0 && $targetLongitude === 0.0) {
-            return back()->with('error', 'Konfigurasi lokasi antrean belum tersedia.')->withInput();
-        }
+            $queueLocation = $this->queueLocationConfig();
+            $targetLatitude = (float) ($queueLocation['latitude'] ?? 0);
+            $targetLongitude = (float) ($queueLocation['longitude'] ?? 0);
+            $radiusMeters = (int) ($queueLocation['radius_meters'] ?? 200);
 
-        $distanceMeters = $this->distanceInMeters(
-            (float) $locationValidation['user_latitude'],
-            (float) $locationValidation['user_longitude'],
-            $targetLatitude,
-            $targetLongitude
-        );
+            if ($targetLatitude === 0.0 && $targetLongitude === 0.0) {
+                return back()->with('error', 'Konfigurasi lokasi antrean belum tersedia.')->withInput();
+            }
 
-        if ($distanceMeters > $radiusMeters) {
-            return back()->with('error', 'Anda harus berada dalam radius maksimal ' . $radiusMeters . ' meter dari lokasi antrean untuk mengambil antrean.')->withInput();
+            $distanceMeters = $this->distanceInMeters(
+                (float) $locationValidation['user_latitude'],
+                (float) $locationValidation['user_longitude'],
+                $targetLatitude,
+                $targetLongitude
+            );
+
+            if ($distanceMeters > $radiusMeters) {
+                return back()->with('error', 'Anda harus berada dalam radius maksimal ' . $radiusMeters . ' meter dari lokasi antrean untuk mengambil antrean.')->withInput();
+            }
         }
 
         $layananId1 = $request->input('layanan_id1');
@@ -136,21 +142,42 @@ class AntreanController extends Controller
         // Generate nomor antrean dengan format 2-digit yang auto-reset per hari
         $nomorFormat = Antrean::generateDailyQueueNumber();
 
-        $antrean = Antrean::create([
-            'nomor_antrean_seq' => $nomorFormat,
-            'nama_pelanggan' => $user->username,
-            'layanan_id1' => $layananId1,
-            'layanan_id2' => $layananId2,
-            'status' => 'menunggu',
-            'waktu_masuk' => now(),
-            'user_id' => $user->id,
-        ]);
+        if ($isBooking) {
+            $request->validate([
+                'tanggal_booking' => 'required|date|after_or_equal:today',
+                'waktu_booking' => 'required|date_format:H:i',
+            ]);
 
-        $antrean->layanans()->sync(array_values(array_filter([$layananId1, $layananId2])));
+            Antrean::create([
+                'is_booking' => true,
+                'tanggal_booking' => $request->tanggal_booking,
+                'waktu_booking' => $request->waktu_booking,
+                'nomor_antrean_seq' => $nomorFormat, // Nomor seq tetap digenerate tapi ini booking
+                'nama_pelanggan' => $user->username,
+                'user_id' => $user->id,
+                'layanan_id1' => $request->input('layanan_id1'),
+                'layanan_id2' => $request->input('layanan_id2'),
+                'status' => 'menunggu', // Status booking
+                'waktu_masuk' => $request->tanggal_booking . ' ' . $request->waktu_booking,
+            ]);
 
-        $this->broadcastQueueUpdate();
+            return back()->with('success', 'Booking berhasil dibuat untuk tanggal ' . $request->tanggal_booking . ' jam ' . $request->waktu_booking);
+        } else {
+            Antrean::create([
+                'is_booking' => false,
+                'nomor_antrean_seq' => $nomorFormat,
+                'nama_pelanggan' => $user->username,
+                'user_id' => $user->id,
+                'layanan_id1' => $request->input('layanan_id1'),
+                'layanan_id2' => $request->input('layanan_id2'),
+                'status' => 'menunggu',
+                'waktu_masuk' => now()
+            ]);
 
-        return back()->with('success', 'Antrean anda terdaftar silahkan tunggu.');
+            $this->broadcastQueueUpdate();
+
+            return back()->with('success', 'Antrean anda terdaftar silahkan tunggu.');
+        }
     }
 
     public function cancelMyQueue(Request $request)
@@ -184,6 +211,36 @@ class AntreanController extends Controller
         $this->broadcastQueueUpdate();
 
         return back()->with('success', 'Antrean Anda berhasil dibatalkan.');
+    }
+
+    public function getAvailableSlots(Request $request)
+    {
+        $request->validate([
+            'date' => 'required|date|after_or_equal:today',
+            'layanan_id1' => 'required|exists:layanans,id',
+            'layanan_id2' => 'nullable|exists:layanans,id|different:layanan_id1',
+        ]);
+
+        $layanan1 = Layanan::find($request->layanan_id1);
+        $layanan2 = Layanan::find($request->layanan_id2);
+
+        $duration = (int) $layanan1->estimasi_waktu;
+        if ($layanan2) {
+            $duration += (int) $layanan2->estimasi_waktu;
+        }
+
+        // If duration is 0 for some reason, default to 30
+        if ($duration <= 0) {
+            $duration = 30;
+        }
+
+        $slots = Antrean::getAvailableTimeSlots($request->date, $duration);
+
+        return response()->json([
+            'status' => 'success',
+            'slots' => $slots,
+            'duration' => $duration
+        ]);
     }
 
     // ============ PRIVATE HELPERS ============

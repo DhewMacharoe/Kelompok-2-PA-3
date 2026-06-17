@@ -9,9 +9,10 @@
 <section class="galeri-hero">
     <div class="galeri-hero-overlay">
         <div class="galeri-hero-text">
-            <h1>{{ $activeDesign->judul_hero_galeri ?? "Galeri " . ($activeDesign->nama_brand ?? "Arga Home's") }}</h1>
+            <h1>Galeri {{ $activeBarbershop->nama_brand ?? "Arga Home's" }}</h1>
             <p>
-                {{ $activeDesign->deskripsi_hero_galeri ?? "Lihat suasana barbershop, hasil potongan rambut, dan area coffee sebelum datang ke tempat." }}
+                Lihat suasana barbershop, hasil potongan rambut, dan area coffee
+                di {{ $activeBarbershop->nama_brand ?? "Arga Home's" }} sebelum datang ke tempat.
             </p>
         </div>
     </div>
@@ -19,7 +20,7 @@
 
 <section class="galeri-content">
     <div class="galeri-section-header">
-        <h2>Galeri {{ $activeDesign->nama_brand ?? "Arga Home's" }}</h2>
+        <h2>Galeri {{ $activeBarbershop->nama_brand ?? "Arga Home's" }}</h2>
         <div class="galeri-line"></div>
     </div>
 
@@ -28,7 +29,7 @@
             @foreach($galeris as $galeri)
                 <div class="galeri-card">
                     <div class="galeri-card-image">
-                            <img src="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}" 
+                            <img src="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
                              alt="{{ $galeri->judul }}">
                     </div>
 
@@ -38,7 +39,7 @@
                         @if($galeri->deskripsi)
                             <p>{{ $galeri->deskripsi }}</p>
                         @else
-                            <p>Dokumentasi visual {{ $activeDesign->nama_brand ?? "Arga Home's" }} {{ $activeDesign->slogan ?? 'Barber, Coffee & Food' }}.</p>
+                            <p>Dokumentasi visual {{ $activeBarbershop->nama_brand ?? "Arga Home's" }} Barber, Coffee & Food.</p>
                         @endif
                     </div>
                 </div>

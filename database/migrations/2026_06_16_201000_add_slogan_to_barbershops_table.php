@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('designs', function (Blueprint $table) {
+        Schema::table('barbershops', function (Blueprint $table) {
             $table->string('slogan')->default('Barber, Coffee & Food')->after('warna_primer');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('designs', function (Blueprint $table) {
+        Schema::table('barbershops', function (Blueprint $table) {
             $table->dropColumn('slogan');
         });
     }

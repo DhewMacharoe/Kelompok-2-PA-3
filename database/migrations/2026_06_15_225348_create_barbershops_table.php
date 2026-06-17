@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('designs', function (Blueprint $table) {
+        Schema::create('barbershops', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_active')->default(false);
             $table->string('nama_brand');
@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('alaamat');
             $table->json('kontak');
             $table->string('email');
+            $table->string('warna_primer', 7)->default('#e8a53a');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('designs');
+        Schema::dropIfExists('barbershops');
     }
 };

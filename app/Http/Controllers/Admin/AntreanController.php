@@ -90,16 +90,52 @@ class AntreanController extends Controller
             ]);
         }
 
+        $now = Carbon::now();
+
+        if ($antrean->is_booking) {
+            $waktuBooking = Carbon::parse($antrean->tanggal_booking . ' ' . $antrean->waktu_booking);
+            if ($now->lessThan($waktuBooking)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal memanggil. Antrean pertama adalah booking untuk jam ' . Carbon::parse($antrean->waktu_booking)->format('H:i') . ' (belum waktunya).'
+                ]);
+            }
+        } else {
+            // Ini antrean walk-in. Cek apakah ada booking yang akan bertabrakan dengan estimasi waktu walk-in ini.
+            $estimasiMenit = $antrean->total_estimasi_waktu ?? 30;
+            $waktuSelesaiMaks = $now->copy()->addMinutes($estimasiMenit);
+
+            $upcomingBooking = Antrean::where('is_booking', true)
+                ->where('status', 'menunggu')
+                ->whereDate('tanggal_booking', Carbon::today())
+                ->orderBy('waktu_booking', 'asc')
+                ->first();
+
+            if ($upcomingBooking) {
+                $waktuBookingNext = Carbon::parse($upcomingBooking->tanggal_booking . ' ' . $upcomingBooking->waktu_booking);
+                if ($waktuSelesaiMaks->greaterThan($waktuBookingNext)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Gagal memanggil antrean walk-in. Melayani pelanggan ini memakan waktu ' . $estimasiMenit . ' menit dan akan melewati jadwal booking pada jam ' . Carbon::parse($upcomingBooking->waktu_booking)->format('H:i') . '.'
+                    ]);
+                }
+            }
+        }
+
         $success = $antrean->markAsServing();
 
         if ($success) {
             $this->broadcastQueueStatusUpdate($antrean);
             $this->broadcastQueueListUpdate();
+
+            if ($antrean->user && $antrean->user->no_whatsapp) {
+                WhatsAppService::sendPanggilan($antrean->user->no_whatsapp, $antrean);
+            }
         }
 
         return response()->json([
             'success' => $success,
-            'message' => $success 
+            'message' => $success
                 ? 'Antrean ' . $antrean->nomor_antrean_seq . ' sedang dilayani.'
                 : 'Gagal memanggil antrean.',
             'antrean' => $antrean
@@ -139,6 +175,10 @@ class AntreanController extends Controller
                 ]);
                 $success = true;
                 $message = 'Status antrean ' . $antrean->nomor_antrean_seq . ' berhasil diubah menjadi batal.';
+
+                if ($antrean->user && $antrean->user->no_whatsapp) {
+                    WhatsAppService::sendBatal($antrean->user->no_whatsapp, $antrean, $request->alasan_batal ?? 'Dibatalkan oleh Admin');
+                }
             }
         }
 
@@ -166,13 +206,21 @@ class AntreanController extends Controller
         $alasan = $request->alasan_batal;
 
         // Cancel the selected queues
-        $updatedCount = Antrean::whereIn('id', $ids)
-            ->whereIn('status', ['menunggu'])
-            ->update([
+        $antreans = Antrean::whereIn('id', $ids)->whereIn('status', ['menunggu'])->get();
+
+        $updatedCount = 0;
+        foreach ($antreans as $antrean) {
+            $antrean->update([
                 'status' => 'batal',
                 'alasan_batal' => $alasan,
                 'waktu_selesai' => now(),
             ]);
+            $updatedCount++;
+
+            if ($antrean->user && $antrean->user->no_whatsapp) {
+                WhatsAppService::sendBatal($antrean->user->no_whatsapp, $antrean, $alasan);
+            }
+        }
 
         if ($updatedCount > 0) {
             $this->broadcastQueueListUpdate();

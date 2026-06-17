@@ -27,8 +27,8 @@
 
     .pelanggan-navbar .nav-link:hover,
     .pelanggan-navbar .nav-link.active {
-        color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
-        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}18 !important;
+        color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
+        background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}14 !important;
     }
 
     .pelanggan-navbar .navbar-toggler {
@@ -53,54 +53,28 @@
         transition: all 0.25s ease;
     }
 
-    .btn-gold {
-        color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
-        border: 1px solid {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
+    .pelanggan-navbar .navbar-nav a[href*="login"] {
+        background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
+        color: #ffffff !important;
+        border: 1px solid {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
+    }
+
+    .pelanggan-navbar .navbar-nav a[href*="login"]:hover {
+        background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}e6 !important;
+        border-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}e6 !important;
+    }
+
+    .pelanggan-navbar .navbar-nav a[href*="profile"],
+    .pelanggan-navbar .navbar-nav button[type="submit"] {
+        color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
+        border: 1px solid {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
         background: transparent !important;
     }
 
-    .btn-gold:hover {
-        background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
-        color: #1a1a1a !important;
-    }
-
-    /* Garis pemisah Logo | Nama */
-    .pelanggan-navbar .brand-divider {
-        display: inline-block;
-        width: 1px;
-        height: 20px;
-        background: #ddd;
-        margin: 0 10px;
-        vertical-align: middle;
-        flex-shrink: 0;
-    }
-
-    .pelanggan-navbar .brand-name {
-        font-weight: 700;
-        color: #1a1a1a;
-        font-size: 1rem;
-        vertical-align: middle;
-        white-space: nowrap;
-    }
-
-    /* Ubah Lokasi — pill badge kecil di sebelah brand */
-    .lokasi-badge {
-        font-size: 0.72rem;
-        font-weight: 500;
-        color: #888 !important;
-        border: 1px solid #ddd;
-        border-radius: 20px;
-        padding: 3px 10px;
-        white-space: nowrap;
-        transition: all 0.2s ease;
-        text-decoration: none !important;
-        line-height: 1.4;
-        flex-shrink: 0;
-    }
-
-    .lokasi-badge:hover {
-        color: {{ $activeDesign->warna_primer ?? '#d4af37' }} !important;
-        border-color: {{ $activeDesign->warna_primer ?? '#d4af37' }};
+    .pelanggan-navbar .navbar-nav a[href*="profile"]:hover,
+    .pelanggan-navbar .navbar-nav button[type="submit"]:hover {
+        background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
+        color: #ffffff !important;
     }
 
     @media (max-width: 991.98px) {
@@ -146,29 +120,14 @@
 
 <nav class="navbar navbar-expand-lg pelanggan-navbar">
     <div class="container">
-        <div class="d-flex align-items-center justify-content-between w-100 py-1 gap-2">
-
-            {{-- KIRI: Logo | Nama Brand --}}
-            <a href="{{ route('barbershop.home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center flex-shrink-0">
-                @if(isset($activeDesign) && $activeDesign->favicon)
-                    <img src="{{ asset($activeDesign->favicon) }}"
-                         alt="{{ $activeDesign->nama_brand ?? 'Logo' }}"
-                         class="img-fluid"
-                         style="max-height: 40px;">
+        <div class="d-flex align-items-center justify-content-between w-100 py-2">
+            <a href="{{ route('home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center gap-2">
+                @if(isset($activeBarbershop) && $activeBarbershop->favicon)
+                    <img src="{{ asset($activeBarbershop->favicon) }}" alt="{{ $activeBarbershop->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
                 @else
-                    <img src="{{ asset('assets/images/logo.png') }}"
-                         alt="{{ $activeDesign->nama_brand ?? 'Logo' }}"
-                         class="img-fluid"
-                         style="max-height: 40px;">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="{{ $activeBarbershop->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
                 @endif
-
-                {{-- Garis "|" pemisah --}}
-                <span class="brand-divider d-none d-sm-inline-block"></span>
-
-                {{-- Nama brand --}}
-                <span class="brand-name d-none d-sm-inline">
-                    {{ $activeDesign->nama_brand ?? '' }}
-                </span>
+                <span style="font-weight: 700; color: #fff; font-size: 1.2rem; display: none;" class="d-none d-sm-block">{{ $activeBarbershop->nama_brand ?? '' }}</span>
             </a>
 
             {{-- TENGAH: Ubah Lokasi badge (desktop only) --}}
@@ -248,7 +207,7 @@
                 @guest
                     <li class="nav-item d-flex align-items-center justify-content-center">
                         <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3"
-                            style="background-color: {{ $activeDesign->warna_primer ?? '#d4af37' }}; color: #1a1a1a; border-radius: 8px;">
+                            style="background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}; color: #1a1a1a; border-radius: 8px;">
                             Masuk
                         </a>
                     </li>

@@ -99,7 +99,15 @@
         </div>
     </form>
 
+    @php
+        $walkInAntreans = $antreans->where('is_booking', false);
+        $bookingAntreans = $antreans->where('is_booking', true);
+    @endphp
+
     <div class="table-container">
+        <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; color: #333; padding-bottom: 10px; border-bottom: 2px solid #eaeaea;">
+            <i class="fas fa-walking" style="color: #e8a53a; margin-right: 8px;"></i> Antrean Langsung (Walk-in)
+        </h3>
         @if (($selectedStatus ?? 'all') === 'menunggu')
         <div style="margin-bottom: 15px; display: flex; justify-content: flex-start;">
             <button type="button" class="btn-batal shadow-sm" id="btnBatalMasal" style="display: none; padding: 8px 16px;">
@@ -111,7 +119,7 @@
             <thead>
                 <tr>
                     @if (($selectedStatus ?? 'all') === 'menunggu')
-                    <th style="width: 40px; text-align: center;"><input type="checkbox" id="selectAllQueues"></th>
+                    <th style="width: 40px; text-align: center;"><input type="checkbox" id="selectAllQueues" class="select-all-queues"></th>
                     @endif
                     <th>Nomor Antrean</th>
                     <th>Nama</th>
@@ -126,8 +134,8 @@
                     @endif
                 </tr>
             </thead>
-            <tbody id="antreanTableBody">
-                @forelse($antreans as $item)
+            <tbody>
+                @forelse($walkInAntreans as $item)
                 <tr class="{{ $item->status == 'sedang dilayani' ? 'row-highlight' : '' }}"
                     data-status="{{ $item->status }}"
                     data-date-created="{{ \Carbon\Carbon::parse($item->created_at)->toDateString() }}"
@@ -177,7 +185,87 @@
                             $colspan = 6;
                         }
                     @endphp
-                    <td colspan="{{ $colspan }}" class="empty-row-cell" style="padding: 40px; color: #999;">Tidak ada antrean pada filter ini.
+                    <td colspan="{{ $colspan }}" class="empty-row-cell" style="padding: 40px; color: #999;">Tidak ada antrean walk-in pada filter ini.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-container" style="margin-top: 30px;">
+        <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; color: #333; padding-bottom: 10px; border-bottom: 2px solid #eaeaea;">
+            <i class="far fa-calendar-check" style="color: #17a2b8; margin-right: 8px;"></i> Antrean Booking (Reservasi)
+        </h3>
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    @if (($selectedStatus ?? 'all') === 'menunggu')
+                    <th style="width: 40px; text-align: center;"><input type="checkbox" id="selectAllBookingQueues" class="select-all-queues"></th>
+                    @endif
+                    <th>Nomor Antrean</th>
+                    <th>Nama</th>
+                    <th>Tanggal Booking</th>
+                    <th>Jam Booking</th>
+                    <th>Status</th>
+                    @if (($selectedStatus ?? 'all') === 'menunggu')
+                    <th>Aksi</th>
+                    @endif
+                    @if (($selectedStatus ?? 'all') === 'batal')
+                    <th>Alasan Dibatalkan</th>
+                    @endif
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($bookingAntreans as $item)
+                <tr class="{{ $item->status == 'sedang dilayani' ? 'row-highlight' : '' }}"
+                    data-status="{{ $item->status }}">
+                    @if (($selectedStatus ?? 'all') === 'menunggu')
+                    <td style="text-align: center;">
+                        @if ($item->status === 'menunggu')
+                        <input type="checkbox" class="queue-checkbox" value="{{ $item->id }}">
+                        @endif
+                    </td>
+                    @endif
+                    <td data-label="Nomor Antrean">{{ $item->nomor_antrean_seq }}</td>
+                    <td data-label="Nama">{{ $item->nama_pelanggan }}</td>
+                    <td data-label="Tanggal Booking">
+                        <span style="color: #17a2b8; font-weight: bold;">{{ \Carbon\Carbon::parse($item->tanggal_booking)->translatedFormat('d M Y') }}</span>
+                    </td>
+                    <td data-label="Jam Booking">
+                        <span style="color: #17a2b8; font-weight: bold;">{{ \Carbon\Carbon::parse($item->waktu_booking)->format('H:i') }} WIB</span>
+                    </td>
+                    <td data-label="Status">
+                        <span class="status-text">
+                            {{ $item->status == 'sedang dilayani' ? 'Sedang Dilayani' : ucfirst($item->status) }}
+                        </span>
+                    </td>
+                    @if (($selectedStatus ?? 'all') === 'menunggu')
+                    <td data-label="Aksi">
+                        <button type="button" class="btn-batal queue-action-btn"
+                            data-queue-id="{{ $item->id }}" data-queue-status="batal"
+                            data-loading-text="Membatalkan...">
+                            Batalkan
+                        </button>
+                    </td>
+                    @endif
+                    @if (($selectedStatus ?? 'all') === 'batal')
+                    <td data-label="Alasan Dibatalkan">
+                        {{ $item->alasan_batal ?? '-' }}
+                    </td>
+                    @endif
+                </tr>
+                @empty
+                <tr class="empty-row-row">
+                    @php
+                        $colspan = 5;
+                        if (($selectedStatus ?? 'all') === 'menunggu') {
+                            $colspan = 7;
+                        } elseif (($selectedStatus ?? 'all') === 'batal') {
+                            $colspan = 6;
+                        }
+                    @endphp
+                    <td colspan="{{ $colspan }}" class="empty-row-cell" style="padding: 40px; color: #999;">Tidak ada antrean booking pada filter ini.
                     </td>
                 </tr>
                 @endforelse

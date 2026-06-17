@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Design;
+use App\Models\Barbershop;
 use Illuminate\Http\Request;
 
-class DesignController extends Controller
+class BarbershopController extends Controller
 {
     public function index()
     {
-        $design = Design::first();
-        if (!$design) {
-            $design = Design::create([
+        $barbershop = Barbershop::first();
+        if (!$barbershop) {
+            $barbershop = Barbershop::create([
                 'is_active' => true,
                 'is_cafe_active' => true,
                 'nama_brand' => "Arga Home's",
@@ -40,12 +40,12 @@ class DesignController extends Controller
                 'gambar_hero_menu' => null,
             ]);
         }
-        return view('admin.design_web.index', compact('design'));
+        return view('admin.barbershop.index', compact('barbershop'));
     }
 
     public function create()
     {
-        return view('admin.design_web.create');
+        return view('admin.barbershop.create');
     }
 
     public function store(Request $request)
@@ -63,7 +63,6 @@ class DesignController extends Controller
             'warna_primer' => 'nullable|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/',
             'slogan' => 'nullable|string|max:255',
             'is_cafe_active' => 'nullable|boolean',
-            
             // Home Hero
             'deskripsi_hero' => 'required|string',
             'gambar_hero' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,ico|max:2048',
@@ -127,10 +126,10 @@ class DesignController extends Controller
             'map_embed' => $request->map_embed,
         ];
 
-        // Jika ini design pertama, set sebagai aktif
-        $isActive = Design::count() === 0 ? true : false;
+        // Jika ini barbershop pertama, set sebagai aktif
+        $isActive = Barbershop::count() === 0 ? true : false;
 
-        Design::create([
+        Barbershop::create([
             'is_active' => $isActive,
             'is_cafe_active' => $request->has('is_cafe_active'),
             'nama_brand' => $request->nama_brand,
@@ -140,7 +139,7 @@ class DesignController extends Controller
             'kontak' => $kontak,
             'warna_primer' => $request->warna_primer ?? '#e8a53a',
             'slogan' => $request->slogan ?? 'Barber, Coffee & Food',
-            
+
             'deskripsi_hero' => $request->deskripsi_hero,
             'gambar_hero' => $gambarHeroPath,
             'judul_hero_layanan' => $request->judul_hero_layanan,
@@ -154,15 +153,15 @@ class DesignController extends Controller
             'gambar_hero_menu' => $gambarHeroMenuPath,
         ]);
 
-        return redirect()->route('admin.design.index')->with('success', 'Design berhasil ditambahkan!');
+        return redirect()->route('admin.barbershop.index')->with('success', 'Barbershop berhasil ditambahkan!');
     }
 
-    public function edit(Design $design)
+    public function edit(Barbershop $barbershop)
     {
-        return view('admin.design_web.edit', compact('design'));
+        return view('admin.barbershop.edit', compact('barbershop'));
     }
 
-    public function update(Request $request, Design $design)
+    public function update(Request $request, Barbershop $barbershop)
     {
         $request->validate([
             'nama_brand' => 'required|string|max:255',
@@ -177,7 +176,6 @@ class DesignController extends Controller
             'warna_primer' => 'nullable|string|size:7|regex:/^#[0-9A-Fa-f]{6}$/',
             'slogan' => 'nullable|string|max:255',
             'is_cafe_active' => 'nullable|boolean',
-            
             // Home Hero
             'deskripsi_hero' => 'required|string',
             'gambar_hero' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,ico|max:2048',
@@ -198,47 +196,47 @@ class DesignController extends Controller
             'gambar_hero_menu' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,ico|max:2048',
         ]);
 
-        $faviconPath = $design->favicon;
+        $faviconPath = $barbershop->favicon;
         if ($request->hasFile('favicon')) {
             $faviconName = time() . '.' . $request->favicon->extension();
             $request->favicon->move(public_path('assets/images'), $faviconName);
             $faviconPath = 'assets/images/' . $faviconName;
         }
 
-        $gambarHeroPath = $design->gambar_hero;
+        $gambarHeroPath = $barbershop->gambar_hero;
         if ($request->hasFile('gambar_hero')) {
-            if ($design->gambar_hero && file_exists(public_path($design->gambar_hero))) {
-                @unlink(public_path($design->gambar_hero));
+            if ($barbershop->gambar_hero && file_exists(public_path($barbershop->gambar_hero))) {
+                @unlink(public_path($barbershop->gambar_hero));
             }
             $heroName = time() . '_' . uniqid() . '.' . $request->gambar_hero->extension();
             $request->gambar_hero->move(public_path('assets/images/hero'), $heroName);
             $gambarHeroPath = 'assets/images/hero/' . $heroName;
         }
 
-        $gambarHeroLayananPath = $design->gambar_hero_layanan;
+        $gambarHeroLayananPath = $barbershop->gambar_hero_layanan;
         if ($request->hasFile('gambar_hero_layanan')) {
-            if ($design->gambar_hero_layanan && file_exists(public_path($design->gambar_hero_layanan))) {
-                @unlink(public_path($design->gambar_hero_layanan));
+            if ($barbershop->gambar_hero_layanan && file_exists(public_path($barbershop->gambar_hero_layanan))) {
+                @unlink(public_path($barbershop->gambar_hero_layanan));
             }
             $heroName = time() . '_layanan_' . uniqid() . '.' . $request->gambar_hero_layanan->extension();
             $request->gambar_hero_layanan->move(public_path('assets/images/hero'), $heroName);
             $gambarHeroLayananPath = 'assets/images/hero/' . $heroName;
         }
 
-        $gambarHeroGaleriPath = $design->gambar_hero_galeri;
+        $gambarHeroGaleriPath = $barbershop->gambar_hero_galeri;
         if ($request->hasFile('gambar_hero_galeri')) {
-            if ($design->gambar_hero_galeri && file_exists(public_path($design->gambar_hero_galeri))) {
-                @unlink(public_path($design->gambar_hero_galeri));
+            if ($barbershop->gambar_hero_galeri && file_exists(public_path($barbershop->gambar_hero_galeri))) {
+                @unlink(public_path($barbershop->gambar_hero_galeri));
             }
             $heroName = time() . '_galeri_' . uniqid() . '.' . $request->gambar_hero_galeri->extension();
             $request->gambar_hero_galeri->move(public_path('assets/images/hero'), $heroName);
             $gambarHeroGaleriPath = 'assets/images/hero/' . $heroName;
         }
 
-        $gambarHeroMenuPath = $design->gambar_hero_menu;
+        $gambarHeroMenuPath = $barbershop->gambar_hero_menu;
         if ($request->hasFile('gambar_hero_menu')) {
-            if ($design->gambar_hero_menu && file_exists(public_path($design->gambar_hero_menu))) {
-                @unlink(public_path($design->gambar_hero_menu));
+            if ($barbershop->gambar_hero_menu && file_exists(public_path($barbershop->gambar_hero_menu))) {
+                @unlink(public_path($barbershop->gambar_hero_menu));
             }
             $heroName = time() . '_menu_' . uniqid() . '.' . $request->gambar_hero_menu->extension();
             $request->gambar_hero_menu->move(public_path('assets/images/hero'), $heroName);
@@ -253,7 +251,7 @@ class DesignController extends Controller
             'map_embed' => $request->map_embed,
         ];
 
-        $design->update([
+        $barbershop->update([
             'nama_brand' => $request->nama_brand,
             'is_cafe_active' => $request->has('is_cafe_active'),
             'favicon' => $faviconPath,
@@ -262,7 +260,7 @@ class DesignController extends Controller
             'kontak' => $kontak,
             'warna_primer' => $request->warna_primer ?? '#e8a53a',
             'slogan' => $request->slogan ?? 'Barber, Coffee & Food',
-            
+
             'deskripsi_hero' => $request->deskripsi_hero,
             'gambar_hero' => $gambarHeroPath,
             'judul_hero_layanan' => $request->judul_hero_layanan,
@@ -276,41 +274,41 @@ class DesignController extends Controller
             'gambar_hero_menu' => $gambarHeroMenuPath,
         ]);
 
-        return redirect()->route('admin.design.index')->with('success', 'Design berhasil diperbarui!');
+        return redirect()->route('admin.barbershop.index')->with('success', 'Barbershop berhasil diperbarui!');
     }
 
-    public function destroy(Design $design)
+    public function destroy(Barbershop $barbershop)
     {
-        if ($design->is_active) {
-            return redirect()->route('admin.design.index')->with('error', 'Design yang aktif tidak dapat dihapus!');
+        if ($barbershop->is_active) {
+            return redirect()->route('admin.barbershop.index')->with('error', 'Barbershop yang aktif tidak dapat dihapus!');
         }
-        $design->delete();
-        return redirect()->route('admin.design.index')->with('success', 'Design berhasil dihapus!');
+        $barbershop->delete();
+        return redirect()->route('admin.barbershop.index')->with('success', 'Barbershop berhasil dihapus!');
     }
 
-    public function activateDesign(Request $request)
+    public function activateBarbershop(Request $request)
     {
-        $activeDesign = Design::where('is_active', true)->first();
-        if ($activeDesign) {
-            $activeDesign->is_active = false;
-            $activeDesign->save();
+        $activeBarbershop = Barbershop::where('is_active', true)->first();
+        if ($activeBarbershop) {
+            $activeBarbershop->is_active = false;
+            $activeBarbershop->save();
         }
 
-        $design = Design::findOrFail($request->id);
-        $design->is_active = true;
-        $design->save();
+        $barbershop = Barbershop::findOrFail($request->id);
+        $barbershop->is_active = true;
+        $barbershop->save();
 
-        return redirect()->route('admin.design.index')->with('success', 'Design berhasil diaktifkan!');
+        return redirect()->route('admin.barbershop.index')->with('success', 'Barbershop berhasil diaktifkan!');
     }
 
-    public function deactivateDesign(Request $request)
+    public function deactivateBarbershop(Request $request)
     {
-        $design = Design::findOrFail($request->id);
-        if ($design->is_active) {
-            $design->is_active = false;
-            $design->save();
+        $barbershop = Barbershop::findOrFail($request->id);
+        if ($barbershop->is_active) {
+            $barbershop->is_active = false;
+            $barbershop->save();
         }
 
-        return redirect()->route('admin.design.index')->with('success', 'Design berhasil dinonaktifkan!');
+        return redirect()->route('admin.barbershop.index')->with('success', 'Barbershop berhasil dinonaktifkan!');
     }
 }

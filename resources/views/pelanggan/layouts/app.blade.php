@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', $activeDesign->nama_brand ?? 'Arga Home\'s')</title>
-    <link rel="icon" type="image/png" href="{{ isset($activeDesign) && $activeDesign->favicon ? asset($activeDesign->favicon) : asset('favicon.png') }}">
+    <title>@yield('title', $activeBarbershop->nama_brand ?? 'Arga Home\'s')</title>
+    <link rel="icon" type="image/png" href="{{ isset($activeBarbershop) && $activeBarbershop->favicon ? asset($activeBarbershop->favicon) : asset('favicon.png') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -19,7 +19,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Arga Barbershop">
-    <link rel="apple-touch-icon" href="{{ isset($activeDesign) && $activeDesign->favicon ? asset($activeDesign->favicon) : asset('assets/images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ isset($activeBarbershop) && $activeBarbershop->favicon ? asset($activeBarbershop->favicon) : asset('assets/images/logo.png') }}">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,39 +28,39 @@
 
     @vite(['resources/js/app.js'])
 
-    @if(isset($activeDesign) && $activeDesign->warna_primer)
+    @if(isset($activeBarbershop) && $activeBarbershop->warna_primer)
     <style>
         :root {
-            --accent-gold: {{ $activeDesign->warna_primer }} !important;
-            --gold: {{ $activeDesign->warna_primer }} !important;
-            --primary: {{ $activeDesign->warna_primer }} !important;
+            --accent-gold: {{ $activeBarbershop->warna_primer }} !important;
+            --gold: {{ $activeBarbershop->warna_primer }} !important;
+            --primary: {{ $activeBarbershop->warna_primer }} !important;
         }
     </style>
     @endif
 
     @stack('styles')
 
-    @if(isset($activeDesign) && $activeDesign->warna_primer)
+    @if(isset($activeBarbershop) && $activeBarbershop->warna_primer)
     <style>
         /* Background & Borders */
         .btn-primary, .bg-primary, .btn-submit, .btn-edit-profile, .btn-tambah,
         .btn-gold, .btn-gold-accent, .bg-gold-accent, .border-gold-accent,
         .hero-cta-btn, .service-icon-wrapper, .btn-buat-antrean-layanan {
-            background-color: {{ $activeDesign->warna_primer }} !important;
-            border-color: {{ $activeDesign->warna_primer }} !important;
+            background-color: {{ $activeBarbershop->warna_primer }} !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         
         .btn-buat-antrean-layanan {
-            background: {{ $activeDesign->warna_primer }} !important;
-            box-shadow: 0 4px 12px {{ $activeDesign->warna_primer }}4d !important;
+            background: {{ $activeBarbershop->warna_primer }} !important;
+            box-shadow: 0 4px 12px {{ $activeBarbershop->warna_primer }}4d !important;
         }
         
         /* Hover Background & Borders */
         .btn-gold-accent:hover, .hero-cta-btn:hover, .btn-buat-antrean-layanan:hover {
-            background-color: {{ $activeDesign->warna_primer }}e6 !important;
-            border-color: {{ $activeDesign->warna_primer }}e6 !important;
-            background: {{ $activeDesign->warna_primer }}e6 !important;
-            box-shadow: 0 6px 18px {{ $activeDesign->warna_primer }}73 !important;
+            background-color: {{ $activeBarbershop->warna_primer }}e6 !important;
+            border-color: {{ $activeBarbershop->warna_primer }}e6 !important;
+            background: {{ $activeBarbershop->warna_primer }}e6 !important;
+            box-shadow: 0 6px 18px {{ $activeBarbershop->warna_primer }}73 !important;
         }
         
         /* Text & Icons */
@@ -68,98 +68,98 @@
         .service-price-text, .detail-modal-price, .footer-custom h5, .footer-custom .icon-gold,
         .hero-divider-text, .hero-subtitle, .footer-custom a:hover, .layanan-price, .modal-price,
         .modal-back:hover, .btn-back-bottom:hover {
-            color: {{ $activeDesign->warna_primer }} !important;
+            color: {{ $activeBarbershop->warna_primer }} !important;
         }
         
         #btn-cancel-my-queue {
-            border-color: {{ $activeDesign->warna_primer }} !important;
-            color: {{ $activeDesign->warna_primer }} !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
+            color: {{ $activeBarbershop->warna_primer }} !important;
             background: transparent !important;
         }
         
         #btn-cancel-my-queue:hover {
-            background: {{ $activeDesign->warna_primer }} !important;
+            background: {{ $activeBarbershop->warna_primer }} !important;
             color: #ffffff !important;
         }
         
         .btn-back-bottom:hover {
-            border-color: {{ $activeDesign->warna_primer }} !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         
         .hero-divider-line {
-            background-color: {{ $activeDesign->warna_primer }} !important;
+            background-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         
         .footer-custom {
-            border-top-color: {{ $activeDesign->warna_primer }} !important;
+            border-top-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         
         /* Cards hover border */
         .menu-grid-card:hover {
-            border-color: {{ $activeDesign->warna_primer }} !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         .menu-grid-card:hover .menu-grid-icon,
         .menu-grid-card:hover .menu-grid-text {
-            color: {{ $activeDesign->warna_primer }} !important;
+            color: {{ $activeBarbershop->warna_primer }} !important;
         }
         .service-custom-card:hover {
-            border-color: {{ $activeDesign->warna_primer }} !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         
         /* Navbar custom styles overrides */
         .pelanggan-navbar .nav-link:hover,
         .pelanggan-navbar .nav-link.active {
-            color: {{ $activeDesign->warna_primer }} !important;
-            background-color: {{ $activeDesign->warna_primer }}14 !important;
+            color: {{ $activeBarbershop->warna_primer }} !important;
+            background-color: {{ $activeBarbershop->warna_primer }}14 !important;
         }
         .pelanggan-navbar .navbar-nav a[href*="login"] {
-            background-color: {{ $activeDesign->warna_primer }} !important;
-            border-color: {{ $activeDesign->warna_primer }} !important;
+            background-color: {{ $activeBarbershop->warna_primer }} !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         .pelanggan-navbar .navbar-nav a[href*="login"]:hover {
-            background-color: {{ $activeDesign->warna_primer }}e6 !important;
-            border-color: {{ $activeDesign->warna_primer }}e6 !important;
+            background-color: {{ $activeBarbershop->warna_primer }}e6 !important;
+            border-color: {{ $activeBarbershop->warna_primer }}e6 !important;
         }
         .pelanggan-navbar .navbar-nav a[href*="profile"],
         .pelanggan-navbar .navbar-nav button[type="submit"] {
-            color: {{ $activeDesign->warna_primer }} !important;
-            border-color: {{ $activeDesign->warna_primer }} !important;
+            color: {{ $activeBarbershop->warna_primer }} !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         .pelanggan-navbar .navbar-nav a[href*="profile"]:hover,
         .pelanggan-navbar .navbar-nav button[type="submit"]:hover {
-            background-color: {{ $activeDesign->warna_primer }} !important;
+            background-color: {{ $activeBarbershop->warna_primer }} !important;
             color: #ffffff !important;
         }
         
         /* Cafe Menu Page Overrides */
         .menu-line {
-            background-color: {{ $activeDesign->warna_primer }} !important;
+            background-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         .filter-btn:hover {
-            border-color: {{ $activeDesign->warna_primer }} !important;
-            color: {{ $activeDesign->warna_primer }} !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
+            color: {{ $activeBarbershop->warna_primer }} !important;
         }
         .filter-btn.active {
-            background-color: {{ $activeDesign->warna_primer }} !important;
-            border-color: {{ $activeDesign->warna_primer }} !important;
+            background-color: {{ $activeBarbershop->warna_primer }} !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
             color: #ffffff !important;
         }
         .item-price, .menu-note-icon, .modal-price {
-            color: {{ $activeDesign->warna_primer }} !important;
+            color: {{ $activeBarbershop->warna_primer }} !important;
         }
         .category-title {
-            border-bottom-color: {{ $activeDesign->warna_primer }} !important;
+            border-bottom-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         .menu-item:hover {
-            border-color: {{ $activeDesign->warna_primer }} !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         
         /* Gallery Page Overrides */
         .galeri-line {
-            background-color: {{ $activeDesign->warna_primer }} !important;
+            background-color: {{ $activeBarbershop->warna_primer }} !important;
         }
         .galeri-card:hover {
-            border-color: {{ $activeDesign->warna_primer }} !important;
+            border-color: {{ $activeBarbershop->warna_primer }} !important;
         }
     </style>
     @endif
@@ -267,27 +267,27 @@
 
                 <div class="col-lg-3 col-md-6">
                     <h5 class="mb-3 d-flex align-items-center">
-                        <i class="fas fa-cut me-2" style="color:#e8a53a;"></i> {{ strtoupper($activeDesign->nama_brand ?? "ARGA HOME'S") }}
+                        <i class="fas fa-cut me-2" style="color:#e8a53a;"></i> {{ strtoupper($activeBarbershop->nama_brand ?? "ARGA HOME'S") }}
                     </h5>
                     <p style="font-size: 0.95rem; line-height: 1.6;">
                         {{ $activeDesign->deskripsi_hero ?? 'Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!' }}
                     </p>
                     <div class="mt-3">
-                        @if(isset($activeDesign) && isset($activeDesign->kontak['instagram']))
-                            <a href="{{ $activeDesign->kontak['instagram'] }}" target="_blank" class="me-3 fs-5"><i class="fab fa-instagram"></i></a>
+                        @if(isset($activeBarbershop) && isset($activeBarbershop->kontak['instagram']))
+                            <a href="{{ $activeBarbershop->kontak['instagram'] }}" target="_blank" class="me-3 fs-5"><i class="fab fa-instagram"></i></a>
                         @else
                             <a href="#" class="me-3 fs-5"><i class="fab fa-instagram"></i></a>
                         @endif
                         
-                        @if(isset($activeDesign) && isset($activeDesign->kontak['facebook']))
-                            <a href="{{ $activeDesign->kontak['facebook'] }}" target="_blank" class="me-3 fs-5"><i class="fab fa-facebook"></i></a>
+                        @if(isset($activeBarbershop) && isset($activeBarbershop->kontak['facebook']))
+                            <a href="{{ $activeBarbershop->kontak['facebook'] }}" target="_blank" class="me-3 fs-5"><i class="fab fa-facebook"></i></a>
                         @else
                             <a href="#" class="me-3 fs-5"><i class="fab fa-facebook"></i></a>
                         @endif
                         
-                        @if(isset($activeDesign) && isset($activeDesign->kontak['whatsapp']))
+                        @if(isset($activeBarbershop) && isset($activeBarbershop->kontak['whatsapp']))
                             @php
-                                $wa = preg_replace('/[^0-9]/', '', $activeDesign->kontak['whatsapp']);
+                                $wa = preg_replace('/[^0-9]/', '', $activeBarbershop->kontak['whatsapp']);
                                 if(str_starts_with($wa, '0')) $wa = '62' . substr($wa, 1);
                             @endphp
                             <a href="https://wa.me/{{ $wa }}" target="_blank" class="fs-5"><i class="fab fa-whatsapp"></i></a>
@@ -332,10 +332,10 @@
                     <ul class="list-unstyled footer-list">
                         <li class="d-flex align-items-start">
                             <i class="fas fa-map-marker-alt icon-gold mt-1"></i> 
-                            <span>{{ $activeDesign->alaamat ?? 'Jl.P.Siantar Km 2, Tampubolon, Sibolahotangaso Kec. Balige, Tobasa, Sumatera Utara' }}</span>
+                            <span>{{ $activeBarbershop->alaamat ?? 'Jl.P.Siantar Km 2, Tampubolon, Sibolahotangaso Kec. Balige, Tobasa, Sumatera Utara' }}</span>
                         </li>
-                        <li><i class="fas fa-phone-alt icon-gold"></i> {{ isset($activeDesign) && isset($activeDesign->kontak['whatsapp']) ? $activeDesign->kontak['whatsapp'] : '0821-6789-3019' }}</li>
-                        <li><i class="fas fa-envelope icon-gold"></i> {{ $activeDesign->email ?? 'joebarberid@gmail.com' }}</li>
+                        <li><i class="fas fa-phone-alt icon-gold"></i> {{ isset($activeBarbershop) && isset($activeBarbershop->kontak['whatsapp']) ? $activeBarbershop->kontak['whatsapp'] : '0821-6789-3019' }}</li>
+                        <li><i class="fas fa-envelope icon-gold"></i> {{ $activeBarbershop->email ?? 'joebarberid@gmail.com' }}</li>
                     </ul>
                 </div>
 
@@ -346,14 +346,14 @@
                         $longitude = \App\Models\Setting::get('queue_longitude', 99.079255);
                     @endphp
                     <div class="map-container mb-2">
-                        @if(isset($activeDesign) && !empty($activeDesign->kontak['map_embed']))
-                            <iframe src="{{ $activeDesign->kontak['map_embed'] }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        @if(isset($activeBarbershop) && !empty($activeBarbershop->kontak['map_embed']))
+                            <iframe src="{{ $activeBarbershop->kontak['map_embed'] }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         @else
                             <iframe src="https://maps.google.com/maps?q={{ $latitude }},{{ $longitude }}&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         @endif
                     </div>
-                    <a id="footer-maps-btn" href="{{ isset($activeDesign) && !empty($activeDesign->kontak['link_map']) ? $activeDesign->kontak['link_map'] : 'https://www.google.com/maps/search/?api=1&query='.$latitude.','.$longitude }}" target="_blank" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2" style="border-color: #444; font-size: 0.85rem; border-radius: 6px;">
-                        Lihat di Maps <i class="fas fa-external-link-alt" style="color: {{ $activeDesign->warna_primer ?? '#e8a53a' }};"></i>
+                    <a id="footer-maps-btn" href="{{ isset($activeBarbershop) && !empty($activeBarbershop->kontak['link_map']) ? $activeBarbershop->kontak['link_map'] : 'https://www.google.com/maps/search/?api=1&query='.$latitude.','.$longitude }}" target="_blank" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2" style="border-color: #444; font-size: 0.85rem; border-radius: 6px;">
+                        Lihat di Maps <i class="fas fa-external-link-alt" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }};"></i>
                     </a>
                 </div>
 
@@ -362,7 +362,7 @@
 
         <div class="footer-bottom">
             <div class="container">
-                <p class="mb-0">&copy; {{ date('Y') }} {{ $activeDesign->nama_brand ?? "Arga Home's" }} Barbershop & Cafe. All rights reserved.</p>
+                <p class="mb-0">&copy; {{ date('Y') }} {{ $activeBarbershop->nama_brand ?? "Arga Home's" }} Barbershop & Cafe. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -413,7 +413,7 @@
                                                 text: 'Versi baru aplikasi telah diunduh. Silakan muat ulang halaman untuk mengaktifkan fitur terbaru.',
                                                 icon: 'info',
                                                 showCancelButton: true,
-                                                confirmButtonColor: '{{ $activeDesign->warna_primer ?? "#d4af37" }}',
+                                                confirmButtonColor: '{{ $activeBarbershop->warna_primer ?? "#d4af37" }}',
                                                 cancelButtonColor: '#6c757d',
                                                 confirmButtonText: 'Muat Ulang',
                                                 cancelButtonText: 'Nanti'

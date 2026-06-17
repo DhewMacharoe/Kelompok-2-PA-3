@@ -5,15 +5,13 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DesignSeeder extends Seeder
+class BarbershopSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('designs')->truncate();
+        DB::table('barbershops')->truncate();
 
-        // Seeder design untuk Barbershop 1 (Arga Barbershop)
-        DB::table('designs')->insert([
-            'barbershop_id' => 1,
+        DB::table('barbershops')->insert([
             'is_active' => true,
             'is_cafe_active' => true,
             'nama_brand' => "Arga Barbershop",

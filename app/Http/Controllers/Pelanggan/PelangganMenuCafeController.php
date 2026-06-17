@@ -10,7 +10,7 @@ class PelangganMenuCafeController extends Controller
 {
     public function index()
     {
-        $activeDesign = \App\Models\Design::where('is_active', true)->first();
+        $activeDesign = \App\Models\Barbershop::where('is_active', true)->first();
         if ($activeDesign && !$activeDesign->is_cafe_active) {
             abort(404);
         }

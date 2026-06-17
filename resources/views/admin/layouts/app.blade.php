@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard') - Antrean App</title>
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <title>@yield('title', 'Dashboard') - {{ $activeBarbershop->nama_brand ?? 'Antrean App' }}</title>
+    <link rel="icon" type="image/png" href="{{ isset($activeBarbershop) && $activeBarbershop->favicon ? asset($activeBarbershop->favicon) : asset('favicon.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -14,8 +14,8 @@
     <meta name="theme-color" content="#fdfbf8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Arga Barbershop Admin">
-    <link rel="apple-touch-icon" href="{{ asset('assets/images/logo.png') }}">
+    <meta name="apple-mobile-web-app-title" content="{{ $activeBarbershop->nama_brand ?? 'Arga Barbershop Admin' }}">
+    <link rel="apple-touch-icon" href="{{ isset($activeBarbershop) && $activeBarbershop->favicon ? asset($activeBarbershop->favicon) : asset('assets/images/logo.png') }}">
     @vite(['resources/js/app.js'])
 
     <style>

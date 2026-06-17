@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('designs', function (Blueprint $table) {
-            $table->string('warna_primer', 7)->default('#e8a53a')->after('email');
+        Schema::table('barbershops', function (Blueprint $table) {
+            $table->text('deskripsi_hero')->nullable()->after('slogan');
+            $table->string('gambar_hero')->nullable()->after('deskripsi_hero');
         });
     }
 
@@ -21,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('designs', function (Blueprint $table) {
-            $table->dropColumn('warna_primer');
+        Schema::table('barbershops', function (Blueprint $table) {
+            $table->dropColumn(['deskripsi_hero', 'gambar_hero']);
         });
     }
 };
