@@ -184,13 +184,16 @@
                                 @enderror
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                             <div class="col-md-6 mb-3">
                                 <div class="card p-3 bg-light border-0 h-100 d-flex flex-column justify-content-center">
-                                    <label for="warna_primer" class="form-label mb-1">Warna Dasar / Aksen Web</label>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <input type="color" class="form-control form-control-color border-0" id="warna_primer" name="warna_primer" value="{{ old('warna_primer', $barbershop->warna_primer ?? '#e8a53a') }}" title="Pilih warna dasar" style="width: 50px; height: 40px; padding: 2px; border-radius: 6px;">
-                                        <span class="text-muted small">Pilih warna dasar kustom untuk tombol, badge, dan ikon (Default: Emas/Gold #e8a53a)</span>
+                                    <label class="form-label mb-2 fw-semibold">Warna Dasar / Aksen Web</label>
+                                    <div id="color-options-container" class="d-flex flex-wrap gap-2 p-2 border rounded-3 bg-white" style="min-height: 40px; align-items: center;">
+                                        <!-- Prepopulated by JS -->
                                     </div>
+                                    <input type="hidden" name="warna_primer" id="warna_primer" value="{{ old('warna_primer', $barbershop->warna_primer ?? '#E8A53A') }}">
+                                    <span class="text-muted mt-2" style="font-size: 0.75rem;">
+                                        Pilihan warna kontras tinggi yang disesuaikan dengan kategori <strong>{{ $barbershop->kategori === 'barbershop' ? 'Barbershop' : 'Salon' }}</strong>.
+                                    </span>
                                     @error('warna_primer')
                                         <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
                                     @enderror
@@ -449,6 +452,64 @@
                 }
             }
         }, true);
+
+        // Predefined color choices by category
+        const colors = {
+            barbershop: [
+                { name: 'Emas (Gold)', hex: '#E8A53A' },
+                { name: 'Biru (Vibrant Blue)', hex: '#0578FB' },
+                { name: 'Hijau (Teal Mint)', hex: '#10B981' }
+            ],
+            salon: [
+                { name: 'Merah Muda (Rose Pink)', hex: '#EC4899' },
+                { name: 'Ungu (Violet Purple)', hex: '#A78BFA' },
+                { name: 'Oranye (Coral Peach)', hex: '#F97316' },
+                { name: 'Magenta (Orchid)', hex: '#E040FB' }
+            ]
+        };
+
+        const kategori = '{{ $barbershop->kategori ?? "barbershop" }}';
+        const container = document.getElementById('color-options-container');
+        const inputWarna = document.getElementById('warna_primer');
+        
+        if (container && inputWarna) {
+            const options = colors[kategori] || [];
+            let selectedHex = inputWarna.value.toUpperCase();
+            
+            const matchesOption = options.some(opt => opt.hex.toUpperCase() === selectedHex);
+            if (!matchesOption && options.length > 0) {
+                selectedHex = options[0].hex;
+                inputWarna.value = selectedHex;
+            }
+            
+            options.forEach(opt => {
+                const isSelected = opt.hex.toUpperCase() === selectedHex.toUpperCase();
+                const swatch = document.createElement('div');
+                swatch.className = `d-flex align-items-center gap-1 px-2 py-1 border rounded-2 color-swatch-item ${isSelected ? 'border-primary bg-white shadow-sm' : 'border-secondary-subtle bg-white'}`;
+                swatch.style.cursor = 'pointer';
+                swatch.style.transition = 'all 0.15s';
+                swatch.style.borderWidth = isSelected ? '2px' : '1px';
+                
+                swatch.onclick = () => {
+                    inputWarna.value = opt.hex;
+                    document.querySelectorAll('.color-swatch-item').forEach(el => {
+                        el.classList.remove('border-primary', 'shadow-sm');
+                        el.classList.add('border-secondary-subtle');
+                        el.style.borderWidth = '1px';
+                    });
+                    swatch.classList.remove('border-secondary-subtle');
+                    swatch.classList.add('border-primary', 'shadow-sm');
+                    swatch.style.borderWidth = '2px';
+                };
+                
+                swatch.innerHTML = `
+                    <span style="display:inline-block; width: 14px; height: 14px; border-radius: 50%; background-color: ${opt.hex}; border: 1px solid rgba(0,0,0,0.15);"></span>
+                    <span class="fw-semibold text-dark" style="font-size: 0.75rem;">${opt.name}</span>
+                `;
+                
+                container.appendChild(swatch);
+            });
+        }
     });
 </script>
 @endsection

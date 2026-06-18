@@ -1,13 +1,13 @@
 @extends('layouts.super_admin')
 
-@section('title', 'Tambah Admin Barbershop')
+@section('title', 'Tambah Admin Tenant')
 
 @section('content')
 <div class="row justify-content-center">
     <div class="col-lg-8">
         <div class="card shadow-sm border-0 rounded-3">
             <div class="card-header bg-white py-3 border-0">
-                <h5 class="m-0 fw-bold text-dark"><i class="bi bi-person-plus-fill me-2 text-warning"></i>Tambah Admin Barbershop</h5>
+                <h5 class="m-0 fw-bold text-dark"><i class="bi bi-person-plus-fill me-2 text-warning"></i>Tambah Admin Tenant</h5>
             </div>
             <div class="card-body p-4">
                 <form action="{{ route('super-admin.admins.store') }}" method="POST">
@@ -47,9 +47,9 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="barbershop_id" class="form-label fw-bold">Asosiasi Tenant Barbershop <span class="text-danger">*</span></label>
+                        <label for="barbershop_id" class="form-label fw-bold">Asosiasi Tenant <span class="text-danger">*</span></label>
                         <select class="form-select @error('barbershop_id') is-invalid @enderror" id="barbershop_id" name="barbershop_id" required>
-                            <option value="" disabled selected>Pilih Barbershop...</option>
+                            <option value="" disabled selected>Pilih Tenant...</option>
                             @foreach($barbershops as $barber)
                                 <option value="{{ $barber->id }}" {{ old('barbershop_id') == $barber->id ? 'selected' : '' }}>
                                     {{ $barber->nama }} (ID: {{ $barber->id }})

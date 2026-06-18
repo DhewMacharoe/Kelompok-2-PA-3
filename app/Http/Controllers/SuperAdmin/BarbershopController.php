@@ -40,6 +40,8 @@ class BarbershopController extends Controller
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
             'is_active' => 'nullable|boolean',
+            'kategori' => 'required|string|in:barbershop,salon',
+            'warna_primer' => 'required|string|max:7',
         ]);
 
         $data = $request->all();
@@ -50,7 +52,7 @@ class BarbershopController extends Controller
 
         Barbershop::create($data);
 
-        return redirect()->route('super-admin.barbershops.index')->with('success', 'Barbershop berhasil ditambahkan.');
+        return redirect()->route('super-admin.barbershops.index')->with('success', 'Tenant berhasil ditambahkan.');
     }
 
     /**
@@ -75,6 +77,8 @@ class BarbershopController extends Controller
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
             'is_active' => 'nullable|boolean',
+            'kategori' => 'required|string|in:barbershop,salon',
+            'warna_primer' => 'required|string|max:7',
         ]);
 
         $data = $request->all();
@@ -85,7 +89,7 @@ class BarbershopController extends Controller
 
         $barbershop->update($data);
 
-        return redirect()->route('super-admin.barbershops.index')->with('success', 'Barbershop berhasil diperbarui.');
+        return redirect()->route('super-admin.barbershops.index')->with('success', 'Tenant berhasil diperbarui.');
     }
 
     /**
@@ -94,6 +98,6 @@ class BarbershopController extends Controller
     public function destroy(Barbershop $barbershop)
     {
         $barbershop->delete();
-        return redirect()->route('super-admin.barbershops.index')->with('success', 'Barbershop berhasil dihapus.');
+        return redirect()->route('super-admin.barbershops.index')->with('success', 'Tenant berhasil dihapus.');
     }
 }

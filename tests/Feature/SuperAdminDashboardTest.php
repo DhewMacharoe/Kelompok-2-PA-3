@@ -92,6 +92,8 @@ class SuperAdminDashboardTest extends TestCase
                 'latitude' => 2.3833,
                 'longitude' => 99.1488,
                 'is_active' => '1',
+                'kategori' => 'barbershop',
+                'warna_primer' => '#E8A53A',
             ]);
 
         $response->assertRedirect(route('super-admin.barbershops.index'));
@@ -99,6 +101,8 @@ class SuperAdminDashboardTest extends TestCase
             'nama' => 'Cabang Toba',
             'slug' => 'cabang-toba',
             'is_active' => true,
+            'kategori' => 'barbershop',
+            'warna_primer' => '#E8A53A',
         ]);
     }
 
@@ -110,6 +114,8 @@ class SuperAdminDashboardTest extends TestCase
                 'slug' => 'cabang-balige-updated',
                 'alamat' => 'Alamat baru',
                 'is_active' => '1',
+                'kategori' => 'salon',
+                'warna_primer' => '#EC4899',
             ]);
 
         $response->assertRedirect(route('super-admin.barbershops.index'));
@@ -117,6 +123,8 @@ class SuperAdminDashboardTest extends TestCase
             'id' => $this->barbershop->id,
             'nama' => 'Cabang Balige Updated',
             'slug' => 'cabang-balige-updated',
+            'kategori' => 'salon',
+            'warna_primer' => '#EC4899',
         ]);
     }
 

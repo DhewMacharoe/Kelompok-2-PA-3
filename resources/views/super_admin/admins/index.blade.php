@@ -1,11 +1,11 @@
 @extends('layouts.super_admin')
 
-@section('title', 'Kelola Admin Barbershop')
+@section('title', 'Kelola Admin Tenant')
 
 @section('content')
 <div class="card shadow-sm border-0 rounded-3">
     <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
-        <h5 class="m-0 fw-bold text-dark"><i class="bi bi-people me-2"></i>Daftar Admin Barbershop</h5>
+        <h5 class="m-0 fw-bold text-dark"><i class="bi bi-people me-2"></i>Daftar Admin Tenant</h5>
         <a href="{{ route('super-admin.admins.create') }}" class="btn btn-sm btn-gold px-3"><i class="bi bi-plus-lg me-1"></i>Tambah Admin</a>
     </div>
     <div class="card-body p-0">
@@ -17,7 +17,7 @@
                         <th class="py-3">Nama Lengkap</th>
                         <th class="py-3">Username</th>
                         <th class="py-3">Email</th>
-                        <th class="py-3">Mengelola Barbershop</th>
+                        <th class="py-3">Mengelola Tenant</th>
                         <th class="py-3 text-end px-4" style="width: 250px;">Aksi</th>
                     </tr>
                 </thead>
@@ -55,7 +55,7 @@
                         <tr>
                             <td colspan="6" class="text-center py-5 text-muted">
                                 <i class="bi bi-people fs-1 d-block mb-3"></i>
-                                Belum ada admin barbershop terdaftar.
+                                Belum ada admin tenant terdaftar.
                             </td>
                         </tr>
                     @endforelse

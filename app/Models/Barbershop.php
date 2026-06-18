@@ -16,6 +16,7 @@ class Barbershop extends Model
         'latitude',
         'longitude',
         'is_active',
+        'kategori',
         'nama_brand',
         'favicon',
         'alaamat',

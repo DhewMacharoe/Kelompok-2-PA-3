@@ -20,6 +20,7 @@ class BarbershopSeeder extends Seeder
             'latitude' => 2.386130,
             'longitude' => 99.147852,
             'is_active' => true,
+            'kategori' => 'barbershop',
             'nama_brand' => "Arga Barbershop",
             'favicon' => 'assets/images/logo.png',
             'alaamat' => 'Jl.P.Siantar Km 2, Tampubolon, Sibolahotangaso Kec. Balige, Tobasa, Sumatera Utara',
@@ -40,18 +41,19 @@ class BarbershopSeeder extends Seeder
             'deskripsi_hero_galeri' => 'Lihat suasana barbershop, hasil potongan rambut, dan area cafe sebelum datang ke tempat.',
         ]);
 
-        // Seeder design settings untuk Barbershop 2 (Toba Barbershop) - Cafe Nonaktif
+        // Seeder design settings untuk Barbershop 2 (Toba Salon) - Cafe Nonaktif
         DB::table('barbershops')->insert([
             'id' => 2,
-            'nama' => 'Toba Barbershop',
+            'nama' => 'Toba Salon',
             'slug' => 'toba-barbershop',
             'alamat' => 'Jl. Sisingamangaraja No. 45, Balige',
             'telepon' => '082198765432',
-            'deskripsi' => 'Barbershop premium dengan pemandangan Danau Toba.',
+            'deskripsi' => 'Salon premium dengan pelayanan kecantikan dan perawatan rambut terbaik.',
             'latitude' => 2.383120,
             'longitude' => 99.148810,
             'is_active' => true,
-            'nama_brand' => "Toba Barbershop",
+            'kategori' => 'salon',
+            'nama_brand' => "Toba Salon",
             'favicon' => 'assets/images/logo.png',
             'alaamat' => 'Jl. Sisingamangaraja No. 45, Balige',
             'kontak' => json_encode([
@@ -62,13 +64,13 @@ class BarbershopSeeder extends Seeder
                 'link_map' => 'https://www.google.com/maps/search/?api=1&query=2.383120,99.148810'
             ]),
             'email' => 'tobabarber@gmail.com',
-            'warna_primer' => '#3498db', // Biru
-            'slogan' => 'Premium Grooming Experience',
-            'deskripsi_hero' => 'Nikmati layanan pangkas rambut kelas satu dengan pemandangan Danau Toba yang indah.',
+            'warna_primer' => '#EC4899', // Pink untuk Salon
+            'slogan' => 'Premium Beauty Experience',
+            'deskripsi_hero' => 'Nikmati layanan perawatan kecantikan dan rambut premium oleh stylist profesional kami.',
             'judul_hero_layanan' => 'Layanan Kami',
-            'deskripsi_hero_layanan' => 'Daftar perawatan rambut premium untuk penampilan maksimal Anda.',
-            'judul_hero_galeri' => 'Galeri Toba Barbershop',
-            'deskripsi_hero_galeri' => 'Dokumentasi visual kenyamanan dan hasil potongan rambut di Toba Barbershop.',
+            'deskripsi_hero_layanan' => 'Daftar perawatan kecantikan dan rambut premium untuk penampilan maksimal Anda.',
+            'judul_hero_galeri' => 'Galeri Toba Salon',
+            'deskripsi_hero_galeri' => 'Dokumentasi visual kenyamanan dan hasil perawatan rambut di Toba Salon.',
         ]);
 
         // Seeder design settings untuk Barbershop 3 (Laguboti Barbershop)
@@ -82,6 +84,7 @@ class BarbershopSeeder extends Seeder
             'latitude' => 2.378900,
             'longitude' => 99.124500,
             'is_active' => true,
+            'kategori' => 'barbershop',
             'nama_brand' => "Laguboti Barbershop",
             'favicon' => 'assets/images/logo.png',
             'alaamat' => 'Jl. Sisingamangaraja No. 102, Laguboti',
@@ -93,7 +96,7 @@ class BarbershopSeeder extends Seeder
                 'link_map' => 'https://www.google.com/maps/search/?api=1&query=2.378900,99.124500'
             ]),
             'email' => 'lagubotibarber@gmail.com',
-            'warna_primer' => '#2ecc71', // Hijau
+            'warna_primer' => '#0578FB', // Biru Maskulin
             'slogan' => 'Gentlemen Haircut & Cafe',
             'deskripsi_hero' => 'Solusi ketampanan pria modern di Laguboti. Cepat, rapi, dan terjangkau.',
             'judul_hero_layanan' => 'Pilihan Layanan',

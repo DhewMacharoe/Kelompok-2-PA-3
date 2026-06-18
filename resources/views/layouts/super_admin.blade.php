@@ -168,7 +168,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('super-admin.barbershops.*') ? 'active' : '' }}" href="{{ route('super-admin.barbershops.index') }}">
-                        <i class="bi bi-shop me-2"></i> Kelola Barbershop
+                        <i class="bi bi-shop me-2"></i> Kelola Tenant
                     </a>
                 </li>
                 <li class="nav-item">
