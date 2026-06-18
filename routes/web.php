@@ -45,7 +45,7 @@ Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('tes
 // ==========================================
 // RUTE CABANG (TENANT SCOPE)
 // ==========================================
-Route::prefix('{slug}')->where(['slug' => '^(?!login|logout|admin|super-admin|firebase-login|test-firebase|images).*$'])->group(function () {
+Route::prefix('{slug}')->where(['slug' => '^(?!login|logout|admin|super-admin|firebase-login|test-firebase|images)[a-zA-Z0-9_-]+$'])->group(function () {
     Route::get('/', [\App\Http\Controllers\HomePageController::class, 'index'])->name('barbershop.home');
     Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
     Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
