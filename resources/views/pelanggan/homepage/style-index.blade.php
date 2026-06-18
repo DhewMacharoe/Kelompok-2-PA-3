@@ -357,51 +357,7 @@
         color: {{ $activeDesign->warna_primer ?? '#e8a53a' }} !important;
     }
 
-    /* Cafe Menu Card styling */
-    .cafe-menu-card {
-        border-radius: 12px;
-        overflow: hidden;
-        border: 1px solid #f0f0f0 !important;
-        transition: all 0.25s ease;
-    }
 
-    .cafe-menu-card:hover {
-        transform: translateY(-5px);
-        border-color: {{ $activeDesign->warna_primer ?? '#e8a53a' }} !important;
-        box-shadow: 0 8px 25px {{ $activeDesign->warna_primer ?? '#e8a53a' }}14 !important;
-    }
-
-    .cafe-menu-card:hover img {
-        transform: scale(1.08);
-    }
-
-    /* Modal styling */
-    .detail-modal .modal-content {
-        border-radius: 16px;
-        border: 0;
-    }
-
-    .detail-modal-img {
-        width: 100%;
-        height: 240px;
-        object-fit: cover;
-        border-radius: 12px;
-    }
-
-    .detail-modal-price {
-        color: {{ $activeDesign->warna_primer ?? '#e8a53a' }} !important;
-        font-weight: 800;
-        font-size: 1.35rem;
-    }
-
-    .detail-modal-text {
-        line-height: 1.6;
-        font-size: 0.9rem;
-    }
-
-    .detail-modal .modal-header .btn-close:focus {
-        box-shadow: none;
-    }
 
     /* Global Footer Override for Homepage */
     .footer-custom {
@@ -625,18 +581,7 @@
             margin-top: 4px !important;
         }
 
-        /* Cafe Menu Mobile Spacing (2x2 grid) */
-        .cafe-menu-card .p-3 {
-            padding: 12px !important;
-        }
-        .cafe-menu-title {
-            font-size: 0.88rem !important;
-            line-height: 1.3 !important;
-            margin-bottom: 4px !important;
-        }
-        .cafe-menu-price {
-            font-size: 0.95rem !important;
-        }
+
 
         .section-title {
             font-size: 1.15rem;

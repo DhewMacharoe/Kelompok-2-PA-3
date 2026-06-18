@@ -7,7 +7,6 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\Pelanggan\PelangganLayananController;
 use App\Http\Controllers\Pelanggan\PelangganGaleriController;
 use App\Http\Controllers\Pelanggan\PelangganRekomendasiController;
-use App\Http\Controllers\Pelanggan\PelangganMenuCafeController;
 use App\Http\Controllers\Pelanggan\ProfileController;
 
 /*

@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\MenuCafeController;
 use App\Http\Controllers\Admin\AntreanController;
 use App\Http\Controllers\Admin\BarbershopController;
 use App\Http\Controllers\Admin\LayananController;

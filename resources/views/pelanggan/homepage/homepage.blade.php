@@ -200,47 +200,6 @@
 
 </div>
 
-<!-- Beautiful Bootstrap Detail Modal -->
-<div class="modal fade detail-modal" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content shadow-lg border-0 bg-white" style="border-radius: 16px; overflow: hidden;">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold text-dark" id="detailModalTitle">-</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body pt-3 text-center">
-                <img id="detailModalImage" src="" alt="Detail Image" class="detail-modal-img mb-3 shadow-sm">
-
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span id="detailModalPrice" class="detail-modal-price">-</span>
-                    <span id="detailModalType" class="badge bg-dark px-3 py-2 rounded-pill">-</span>
-                </div>
-
-                <div class="detail-modal-card p-3 rounded mb-3 bg-light border">
-                    <div class="row g-2 text-start">
-                        <div class="col-6">
-                            <span class="text-secondary small d-block">Status</span>
-                            <strong id="detailModalStatus" class="text-success">-</strong>
-                        </div>
-                        <div class="col-6" id="detailModalMetaRow">
-                            <span class="text-secondary small d-block" id="detailModalMetaLabel">Detail</span>
-                            <strong id="detailModalMeta">-</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="text-start">
-                    <h6 class="fw-bold text-dark mb-2">Deskripsi</h6>
-                    <p id="detailModalDescription" class="detail-modal-text text-secondary mb-0">-</p>
-                </div>
-            </div>
-            <div class="modal-footer border-0 pt-0">
-                <span id="detailModalExtra" class="d-none">-</span>
-                <button type="button" class="btn btn-secondary w-100 py-2 fw-semibold" data-bs-dismiss="modal" style="border-radius: 8px;">Tutup</button>
-            </div>
-        </div>
-    </div>
-</div>
 @include('pelanggan.partials.layanan-detail-modal')
 @endsection
 
