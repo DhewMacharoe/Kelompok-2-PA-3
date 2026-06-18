@@ -57,18 +57,23 @@ class ProfileController extends Controller
 
         $request->merge([
             'username' => trim((string) $request->input('username')),
+            'no_whatsapp' => trim((string) $request->input('no_whatsapp')),
         ]);
 
         $validated = $request->validate([
             'username' => 'required|string|min:3|max:20|unique:users,username,' . $user->id,
+            'no_whatsapp' => 'required|string|regex:/^08[0-9]{8,13}$/',
         ], [
             'username.required' => 'Username wajib diisi.',
             'username.min' => 'Username minimal 3 karakter.',
             'username.max' => 'Username maksimal 20 karakter.',
             'username.unique' => 'Username sudah digunakan, silakan pilih yang lain.',
+            'no_whatsapp.required' => 'Nomor WhatsApp wajib diisi.',
+            'no_whatsapp.regex' => 'Format nomor WhatsApp tidak valid (harus diawali 08 dan berisi 10-15 angka).',
         ]);
 
         $user->username = $validated['username'];
+        $user->no_whatsapp = $validated['no_whatsapp'];
         $user->save();
 
         return redirect()->route('profile.edit')->with('success', 'Profil berhasil diperbarui!');

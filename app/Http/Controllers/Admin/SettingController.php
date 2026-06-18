@@ -17,10 +17,15 @@ class SettingController extends Controller
         $jam_buka = \App\Models\Setting::get('queue_jam_buka', '09:00');
         $jam_tutup = \App\Models\Setting::get('queue_jam_tutup', '21:00');
         $keterangan_libur = \App\Models\Setting::get('queue_libur_note', 'libur');
+<<<<<<< Updated upstream
         $tenantId = app()->bound('currentTenantId') ? app('currentTenantId') : 1;
         $activeDesign = \App\Models\Barbershop::find($tenantId) ?? \App\Models\Barbershop::where('is_active', true)->first();
+=======
+        $is_booking_enabled = \App\Models\Setting::get('is_booking_enabled', '1');
+        $activeDesign = \App\Models\Barbershop::where('is_active', true)->first();
+>>>>>>> Stashed changes
 
-        return view('admin.lokasi.index', compact('latitude', 'longitude', 'radius', 'jam_buka', 'jam_tutup', 'keterangan_libur', 'activeDesign'));
+        return view('admin.lokasi.index', compact('latitude', 'longitude', 'radius', 'jam_buka', 'jam_tutup', 'keterangan_libur', 'is_booking_enabled', 'activeDesign'));
     }
 
     public function simpanLokasi(Request $request)
@@ -32,6 +37,7 @@ class SettingController extends Controller
             'jam_buka' => 'required|date_format:H:i',
             'jam_tutup' => 'required|date_format:H:i',
             'keterangan_libur' => 'required|in:libur,buka',
+            'is_booking_enabled' => 'required|in:1,0',
         ]);
 
         \App\Models\Setting::set('queue_latitude', $request->input('latitude'));
@@ -40,6 +46,7 @@ class SettingController extends Controller
         \App\Models\Setting::set('queue_jam_buka', $request->input('jam_buka'));
         \App\Models\Setting::set('queue_jam_tutup', $request->input('jam_tutup'));
         \App\Models\Setting::set('queue_libur_note', $request->input('keterangan_libur'));
+        \App\Models\Setting::set('is_booking_enabled', $request->input('is_booking_enabled'));
 
         return redirect()->back()->with('success', 'Pengaturan antrean berhasil diperbarui.');
     }

@@ -49,9 +49,22 @@
                             @enderror
                         </div>
 
+                        <div class="mb-4">
+                            <label for="no_whatsapp" class="form-label fw-bold text-secondary">Nomor WhatsApp</label>
+                            <input type="text" class="form-control form-control-lg @error('no_whatsapp') is-invalid @enderror" 
+                                id="no_whatsapp" name="no_whatsapp" value="{{ old('no_whatsapp', $user->no_whatsapp) }}" 
+                                placeholder="Contoh: 081234567890" pattern="^08[0-9]{8,13}$" required readonly>
+                            <div class="form-text">Digunakan untuk menerima notifikasi antrean secara real-time.</div>
+                            @error('no_whatsapp')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
                         <div class="d-grid gap-2 mt-5" id="action-buttons">
                             <button type="button" id="btn-edit" class="btn btn-secondary btn-lg fw-bold">
-                                <i class="fas fa-edit me-2"></i>Ubah Username
+                                <i class="fas fa-edit me-2"></i>Ubah Profil
                             </button>
                             <button type="submit" id="btn-save" class="btn btn-gold btn-lg fw-bold d-none">
                                 Simpan Perubahan
@@ -75,9 +88,11 @@
         const btnSave = document.getElementById('btn-save');
         const btnCancel = document.getElementById('btn-cancel');
         const usernameInput = document.getElementById('username');
+        const whatsappInput = document.getElementById('no_whatsapp');
         const originalUsername = usernameInput.value;
+        const originalWhatsapp = whatsappInput.value;
 
-        @if($errors->has('username'))
+        @if($errors->has('username') || $errors->has('no_whatsapp'))
             enableEditMode();
         @endif
 
@@ -89,10 +104,12 @@
         btnCancel.addEventListener('click', function() {
             disableEditMode();
             usernameInput.value = originalUsername;
+            whatsappInput.value = originalWhatsapp;
         });
 
         function enableEditMode() {
             usernameInput.removeAttribute('readonly');
+            whatsappInput.removeAttribute('readonly');
             btnEdit.classList.add('d-none');
             btnSave.classList.remove('d-none');
             btnCancel.classList.remove('d-none');
@@ -100,12 +117,14 @@
 
         function disableEditMode() {
             usernameInput.setAttribute('readonly', 'true');
+            whatsappInput.setAttribute('readonly', 'true');
             btnEdit.classList.remove('d-none');
             btnSave.classList.add('d-none');
             btnCancel.classList.add('d-none');
             usernameInput.classList.remove('is-invalid');
-            const feedback = document.querySelector('.invalid-feedback');
-            if (feedback) feedback.style.display = 'none';
+            whatsappInput.classList.remove('is-invalid');
+            const feedbacks = document.querySelectorAll('.invalid-feedback');
+            feedbacks.forEach(f => f.style.display = 'none');
         }
     });
 </script>

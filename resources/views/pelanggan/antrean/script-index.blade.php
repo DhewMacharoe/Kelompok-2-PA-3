@@ -476,7 +476,8 @@
                 id: id,
                 name: option.getAttribute('data-nama'),
                 price: option.getAttribute('data-harga'),
-                time: option.getAttribute('data-waktu')
+                time: option.getAttribute('data-waktu'),
+                deskripsi: option.getAttribute('data-deskripsi')
             };
 
             window.selectedServices.push(service);
@@ -523,6 +524,15 @@
 
             const activeIds = [...selectedIds, ...packageConstituentIds];
 
+            // Extract selected features for overlap check
+            const selectedFeatures = [];
+            window.selectedServices.forEach(s => {
+                if (s.deskripsi) {
+                    const features = s.deskripsi.split(',').map(f => f.trim().toLowerCase());
+                    selectedFeatures.push(...features);
+                }
+            });
+
             // Reset cards
             document.querySelectorAll('.service-card').forEach(card => {
                 card.classList.remove('selected', 'disabled', 'included-disabled', 'incompatible-disabled');
@@ -535,6 +545,8 @@
 
                 const id = parseInt(card.getAttribute('data-id'));
                 const meta = card.querySelector('.service-meta');
+                const option = document.querySelector(`#layanan_id1 option[value="${id}"]`);
+                const deskripsi = option ? option.getAttribute('data-deskripsi') : null;
 
                 // 1. If currently selected
                 if (selectedIds.includes(id)) {
@@ -574,6 +586,22 @@
                             meta.appendChild(badge);
                         }
                         return;
+                    }
+
+                    // Check for overlapping features
+                    if (selectedFeatures.length > 0 && deskripsi) {
+                        const cardFeatures = deskripsi.split(',').map(f => f.trim().toLowerCase());
+                        const overlap = cardFeatures.filter(f => selectedFeatures.includes(f));
+                        if (overlap.length > 0 && !selectedIds.includes(id)) {
+                            card.classList.add('incompatible-disabled');
+                            const badge = document.createElement('div');
+                            badge.className = 'badge-container-custom mt-2';
+                            badge.innerHTML = `<span class="incompatible-badge" title="Terdapat layanan yang sama: ${overlap.join(', ')}"><i class="fas fa-exclamation-circle"></i> Konflik Fitur</span>`;
+                            if (meta) {
+                                meta.appendChild(badge);
+                            }
+                            return;
+                        }
                     }
                 }
             });
@@ -643,6 +671,11 @@
                     waktuBooking.value = "";
                 }
             });
+
+            // Trigger change event if initially checked (e.g. forced by server)
+            if (bookingToggle.checked) {
+                bookingToggle.dispatchEvent(new Event('change'));
+            }
         }
 
         if(tanggalBooking) {
@@ -664,14 +697,26 @@
             let layanan1 = window.selectedServices[0]?.id;
             let layanan2 = window.selectedServices[1]?.id;
 
-            let url = `/antrean/available-slots?date=${tanggalBooking.value}&layanan_id1=${layanan1}`;
+            const currentSlug = "{{ session('current_barbershop_slug') }}";
+            let url = `/${currentSlug}/antrean/available-slots?date=${tanggalBooking.value}&layanan_id1=${layanan1}`;
             if(layanan2) url += `&layanan_id2=${layanan2}`;
 
-            fetch(url)
-                .then(response => response.json())
+            fetch(url, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+                .then(async response => {
+                    if (!response.ok && response.status !== 422) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return await response.json();
+                })
                 .then(data => {
                     if(data.status === 'success') {
                         renderSlots(data.slots);
+                    } else if (data.errors) {
+                        slotsContainer.innerHTML = '<span class="text-danger small">Jadwal tidak tersedia untuk layanan ini.</span>';
                     } else {
                         slotsContainer.innerHTML = '<span class="text-danger small">Gagal mengambil jadwal.</span>';
                     }

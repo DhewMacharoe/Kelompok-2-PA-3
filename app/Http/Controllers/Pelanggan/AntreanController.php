@@ -11,6 +11,7 @@ use App\Models\Layanan;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Barbershop;
+use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -53,6 +54,8 @@ class AntreanController extends Controller
             }
         }
 
+        $isBookingEnabled = Setting::get('is_booking_enabled', '1');
+
         return view('pelanggan.antrean.antrean', compact(
             'data_antrean',
             'dipanggil',
@@ -61,7 +64,8 @@ class AntreanController extends Controller
             'antreanSayaAktif',
             'posisiAntreanSaya',
             'incompatibilities',
-            'packageMap'
+            'packageMap',
+            'isBookingEnabled'
         ));
     }
 
@@ -89,18 +93,25 @@ class AntreanController extends Controller
 
         $this->validateQueueRequest($request);
 
-        if (!Antrean::isOperationalHour()) {
+        // Menentukan apakah ini booking
+        $isBooking = $request->input('is_booking') === '1' || $request->input('is_booking') === 'true';
+
+        if (!$isBooking && !Antrean::isOperationalHour()) {
             $jam_buka = Setting::get('queue_jam_buka', '09:00');
             $jam_tutup =Setting::get('queue_jam_tutup', '21:00');
-            return back()->with('error', 'Maaf, antrean ditutup. Jam operasional: '.$jam_buka.' - '.$jam_tutup);
+            return back()->with('error', 'Maaf, antrean langsung (Walk-in) saat ini ditutup. Jam operasional: '.$jam_buka.' - '.$jam_tutup.'. Silakan gunakan fitur Booking untuk jadwal ke depan.');
         }
 
         if (Antrean::customerHasActiveQueue($user->username)) {
             return back()->with('error', 'Anda sudah berada di dalam daftar antrean saat ini.');
         }
 
-        // Menentukan apakah ini booking
-        $isBooking = $request->input('is_booking') === '1' || $request->input('is_booking') === 'true';
+        if ($isBooking) {
+            $isBookingEnabled = Setting::get('is_booking_enabled', '1');
+            if ($isBookingEnabled !== '1') {
+                return back()->with('error', 'Maaf, fitur booking antrean sedang dinonaktifkan.');
+            }
+        }
 
         if (!$isBooking) {
             $locationValidation = $request->validate([
@@ -155,7 +166,7 @@ class AntreanController extends Controller
                 'waktu_booking' => 'required|date_format:H:i',
             ]);
 
-            Antrean::create([
+            $antrean = Antrean::create([
                 'is_booking' => true,
                 'tanggal_booking' => $request->tanggal_booking,
                 'waktu_booking' => $request->waktu_booking,
@@ -169,10 +180,15 @@ class AntreanController extends Controller
                 'barbershop_id' => $barbershopId,
             ]);
 
+            if ($user->no_whatsapp) {
+                $sisaAntrean = max(0, $antrean->calculateQueuePosition() - 1);
+                WhatsAppService::sendSuksesBooking($user->no_whatsapp, $antrean, $sisaAntrean);
+            }
+
             return back()->with('success', 'Booking berhasil dibuat untuk tanggal ' . $request->tanggal_booking . ' jam ' . $request->waktu_booking);
         } else {
             
-            Antrean::create([
+            $antrean = Antrean::create([
                 'is_booking' => false,
                 'nomor_antrean_seq' => $nomorFormat,
                 'nama_pelanggan' => $user->username,
@@ -183,6 +199,11 @@ class AntreanController extends Controller
                 'waktu_masuk' => now(),
                 'barbershop_id' => $barbershopId,
             ]);
+
+            if ($user->no_whatsapp) {
+                $sisaAntrean = max(0, $antrean->calculateQueuePosition() - 1);
+                WhatsAppService::sendSuksesBooking($user->no_whatsapp, $antrean, $sisaAntrean);
+            }
 
             $this->broadcastQueueUpdate();
 

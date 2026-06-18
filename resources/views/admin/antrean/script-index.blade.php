@@ -225,6 +225,101 @@
             syncLayananDropdown();
         }
 
+        // === LOGIKA BOOKING ADMIN ===
+        const adminBookingToggle = document.getElementById('admin_is_booking_toggle');
+        const adminBookingFields = document.getElementById('admin-booking-fields-container');
+        const adminBookingDesc = document.getElementById('admin-booking-desc-text');
+        const adminTanggalBooking = document.getElementById('tanggal_booking');
+        const adminWaktuBooking = document.getElementById('waktu_booking');
+        const adminSlotsContainer = document.getElementById('admin-available-slots-container');
+
+        if (adminBookingToggle && adminBookingFields) {
+            adminBookingToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    adminBookingFields.style.display = 'block';
+                    adminBookingDesc.textContent = 'Mendaftar untuk antrean di waktu dan tanggal tertentu (Reservasi).';
+                    adminTanggalBooking.required = true;
+                    adminWaktuBooking.required = true;
+                } else {
+                    adminBookingFields.style.display = 'none';
+                    adminBookingDesc.textContent = 'Mendaftar untuk antrean langsung saat ini juga (Walk-in).';
+                    adminTanggalBooking.required = false;
+                    adminWaktuBooking.required = false;
+                    adminWaktuBooking.value = '';
+                    adminSlotsContainer.innerHTML = '<span class="text-muted small">Pilih tanggal dan layanan terlebih dahulu.</span>';
+                }
+            });
+
+            // Trigger change event if initially checked (e.g. forced by server)
+            if (adminBookingToggle.checked) {
+                adminBookingToggle.dispatchEvent(new Event('change'));
+            }
+        }
+
+        async function fetchAdminAvailableSlots() {
+            if (!adminTanggalBooking || !layananSelect1 || !adminWaktuBooking) return;
+            
+            const date = adminTanggalBooking.value;
+            const l1 = layananSelect1.value;
+            const l2 = layananSelect2.value;
+
+            if (!date || !l1) {
+                adminSlotsContainer.innerHTML = '<span class="text-muted small">Pilih tanggal dan layanan terlebih dahulu.</span>';
+                adminWaktuBooking.value = '';
+                return;
+            }
+
+            adminSlotsContainer.innerHTML = '<span class="text-muted small"><i class="fas fa-spinner fa-spin me-1"></i> Memuat jadwal...</span>';
+            adminWaktuBooking.value = '';
+
+            try {
+                const response = await fetch(`/admin/antrean/available-slots?date=${date}&layanan_id1=${l1}&layanan_id2=${l2}`, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    adminSlotsContainer.innerHTML = '';
+                    
+                    if (data.slots.length === 0) {
+                        adminSlotsContainer.innerHTML = '<span class="text-danger small">Tidak ada jadwal tersedia untuk tanggal ini.</span>';
+                        return;
+                    }
+
+                    data.slots.forEach(slot => {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'btn btn-sm btn-outline-primary mb-1 me-1';
+                        btn.style.borderRadius = '20px';
+                        btn.style.padding = '4px 12px';
+                        btn.textContent = slot;
+                        
+                        btn.onclick = () => {
+                            document.querySelectorAll('#admin-available-slots-container .btn-primary').forEach(b => {
+                                b.classList.remove('btn-primary', 'text-white');
+                                b.classList.add('btn-outline-primary');
+                            });
+                            btn.classList.remove('btn-outline-primary');
+                            btn.classList.add('btn-primary', 'text-white');
+                            adminWaktuBooking.value = slot;
+                            adminWaktuBooking.disabled = false;
+                        };
+                        
+                        adminSlotsContainer.appendChild(btn);
+                    });
+                } else if (data.errors) {
+                    adminSlotsContainer.innerHTML = '<span class="text-danger small">Pilihan tanggal/layanan tidak valid.</span>';
+                }
+            } catch (err) {
+                console.error(err);
+                adminSlotsContainer.innerHTML = '<span class="text-danger small">Gagal memuat jadwal.</span>';
+            }
+        }
+
+        if (adminTanggalBooking) adminTanggalBooking.addEventListener('change', fetchAdminAvailableSlots);
+        if (layananSelect1) layananSelect1.addEventListener('change', fetchAdminAvailableSlots);
+        if (layananSelect2) layananSelect2.addEventListener('change', fetchAdminAvailableSlots);
+
         // === PERUBAHAN SWEETALERT: Validasi Form ===
         function restoreSubmitButtons(form) {
             if (!form) {

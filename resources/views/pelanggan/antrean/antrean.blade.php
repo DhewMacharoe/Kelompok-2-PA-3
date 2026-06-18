@@ -232,7 +232,11 @@
              <!-- Action Buttons -->
             @auth
                 @if (!$punyaAntreanAktif)
-                    @if (\App\Models\Antrean::isOperationalHour())
+                    @php
+                        $isOperationalHour = \App\Models\Antrean::isOperationalHour();
+                        $isBookingEnabledGlobal = ($isBookingEnabled ?? '1') === '1';
+                    @endphp
+                    @if ($isOperationalHour || $isBookingEnabledGlobal)
                         <div class="d-grid gap-3 mb-4">
                             @if (auth()->user()->hasRole('admin'))
                                 <button class="btn btn-disabled w-100 fw-bold shadow-sm" disabled
@@ -243,7 +247,7 @@
                                 <button class="btn btn-gold w-100 btn-add-queue fw-bold shadow-sm" data-bs-toggle="modal"
                                     data-bs-target="#modalTambahAntrean"
                                     data-loading-text="Membuka form..." style="border-radius: 12px; padding: 14px 20px; font-size: 1rem;">
-                                    Tambah Antrean
+                                    {{ $isOperationalHour ? 'Tambah Antrean' : 'Booking Antrean' }}
                                 </button>
                             @endif
                         </div>
@@ -261,7 +265,7 @@
 
     <!-- Modal Tambah Antrean -->
     <div class="modal fade modal-tambah-antrean" id="modalTambahAntrean" tabindex="-1" aria-labelledby="modalTambahAntreanLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTambahAntreanLabel">Pilih Layanan</h5>
@@ -310,13 +314,13 @@
                         <select id="layanan_id1" name="layanan_id1" class="d-none" required>
                             <option value="">Pilih layanan 1</option>
                             @foreach ($layananAktif as $layanan)
-                                <option value="{{ $layanan->id }}" data-nama="{{ $layanan->nama }}" data-harga="{{ $layanan->harga }}" data-waktu="{{ $layanan->estimasi_waktu }}">{{ $layanan->nama }}</option>
+                                <option value="{{ $layanan->id }}" data-nama="{{ $layanan->nama }}" data-harga="{{ $layanan->harga }}" data-waktu="{{ $layanan->estimasi_waktu }}" data-deskripsi="{{ $layanan->deskripsi }}">{{ $layanan->nama }}</option>
                             @endforeach
                         </select>
                         <select id="layanan_id2" name="layanan_id2" class="d-none">
                             <option value="">Pilih layanan 2</option>
                             @foreach ($layananAktif as $layanan)
-                                <option value="{{ $layanan->id }}" data-nama="{{ $layanan->nama }}" data-harga="{{ $layanan->harga }}" data-waktu="{{ $layanan->estimasi_waktu }}">{{ $layanan->nama }}</option>
+                                <option value="{{ $layanan->id }}" data-nama="{{ $layanan->nama }}" data-harga="{{ $layanan->harga }}" data-waktu="{{ $layanan->estimasi_waktu }}" data-deskripsi="{{ $layanan->deskripsi }}">{{ $layanan->nama }}</option>
                             @endforeach
                         </select>
 
@@ -344,13 +348,30 @@
                         <div id="step-review" class="step-container">
                             <div class="review-section">
                                 <div class="review-title">Tipe Antrean</div>
+                                @if(($isBookingEnabled ?? '1') === '1')
                                 <div class="mb-3">
                                     <div class="form-check form-switch mb-2">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="is_booking_toggle" name="is_booking" value="1">
+                                        @php
+                                            $isOperationalHour = \App\Models\Antrean::isOperationalHour();
+                                        @endphp
+                                        <input class="form-check-input" type="checkbox" role="switch" id="is_booking_toggle" name="is_booking" value="1" {{ !$isOperationalHour ? 'checked disabled' : '' }}>
+                                        @if(!$isOperationalHour)
+                                            <input type="hidden" name="is_booking" value="1">
+                                        @endif
                                         <label class="form-check-label fw-bold text-dark" for="is_booking_toggle">Booking Jadwal Ke Depan</label>
                                     </div>
-                                    <p class="small text-muted mb-0" id="booking-desc-text">Mendaftar untuk antrean langsung saat ini juga (Walk-in).</p>
+                                    <p class="small text-muted mb-0" id="booking-desc-text">
+                                        {{ !$isOperationalHour ? 'Sistem akan mencari waktu kosong berdasarkan durasi layanan.' : 'Mendaftar untuk antrean langsung saat ini juga (Walk-in).' }}
+                                    </p>
+                                    @if(!$isOperationalHour)
+                                        <div class="alert alert-warning small mt-2 p-2"><i class="fas fa-info-circle me-1"></i> Antrean langsung (Walk-in) sedang tutup. Anda hanya dapat melakukan booking jadwal.</div>
+                                    @endif
                                 </div>
+                                @else
+                                    @if(!\App\Models\Antrean::isOperationalHour())
+                                        <div class="alert alert-warning small mt-2 p-2"><i class="fas fa-info-circle me-1"></i> Antrean tutup dan fitur booking sedang dinonaktifkan.</div>
+                                    @endif
+                                @endif
 
                                 <div id="booking-fields-container" style="display: none; background: #fdfbf8; border: 1px solid #e8a53a; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                                     <div class="mb-3">
@@ -359,7 +380,7 @@
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label small fw-bold">Pilih Waktu (Jadwal Tersedia)</label>
-                                        <div id="available-slots-container" class="d-flex flex-wrap gap-2">
+                                        <div id="available-slots-container" class="d-flex flex-wrap gap-2" style="max-height: 180px; overflow-y: auto; padding-right: 5px;">
                                             <span class="text-muted small">Pilih tanggal terlebih dahulu.</span>
                                         </div>
                                         <input type="hidden" id="waktu_booking" name="waktu_booking" disabled>

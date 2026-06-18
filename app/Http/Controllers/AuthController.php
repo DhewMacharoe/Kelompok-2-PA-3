@@ -25,7 +25,13 @@ class AuthController extends Controller
         }
 
         if (Auth::check()) {
-            return redirect('/');
+            return redirect()->intended('/');
+        }
+
+        // Simpan URL sebelumnya ke intended URL jika bukan halaman auth
+        $previousUrl = url()->previous();
+        if ($previousUrl && !Str::contains($previousUrl, ['login', 'register', 'firebase-login', 'set-username'])) {
+            session()->put('url.intended', $previousUrl);
         }
 
         return view('auth.LoginUser');
@@ -44,6 +50,10 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
+            'no_whatsapp' => 'required|string|regex:/^08[0-9]{8,13}$/',
+        ], [
+            'no_whatsapp.required' => 'Nomor WhatsApp wajib diisi.',
+            'no_whatsapp.regex' => 'Format nomor WhatsApp tidak valid (harus diawali 08 dan berisi 10-15 angka).',
         ]);
 
         try {
@@ -62,6 +72,7 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password), // Still hash for potential local use
+                'no_whatsapp' => $request->no_whatsapp,
                 'firebase_uid' => $firebaseUser->uid,
                 'email_verified_at' => now(),
             ]);
@@ -90,10 +101,24 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            
+            $intended = session()->pull('url.intended', '');
+
             if (Auth::user()->hasRole('super_admin')) {
-                return redirect()->intended('super-admin/dashboard');
+                if ($intended && \Illuminate\Support\Str::contains($intended, '/super-admin')) {
+                    return redirect($intended);
+                }
+                return redirect('super-admin/dashboard');
             }
-            return redirect()->intended('admin/dashboard'); // Arahkan ke dashboard jika sukses
+
+            if (Auth::user()->hasRole('admin')) {
+                if ($intended && \Illuminate\Support\Str::contains($intended, '/admin')) {
+                    return redirect($intended);
+                }
+                return redirect('admin/dashboard');
+            }
+
+            return redirect($intended ?: '/');
         }
 
         // Ditambahkan ->withInput() agar email yang sudah diketik tidak hilang saat password salah
@@ -156,8 +181,8 @@ class AuthController extends Controller
             }
         }
 
-        // If user doesn't have username, redirect to set username
-        if (!$user->username) {
+        // If user doesn't have username or no_whatsapp, redirect to set profile
+        if (!$user->username || !$user->no_whatsapp) {
             Auth::login($user);
             $request->session()->regenerate();
             return redirect()->route('set.username');
@@ -181,8 +206,8 @@ class AuthController extends Controller
                 ->with('error', 'Admin tidak memerlukan pengaturan username pelanggan.');
         }
 
-        if (Auth::user()->username) {
-            return redirect('/');
+        if (Auth::user()->username && Auth::user()->no_whatsapp) {
+            return redirect()->intended('/');
         }
 
         return view('auth.set_username');
@@ -201,29 +226,34 @@ class AuthController extends Controller
                 ->with('error', 'Admin tidak dapat mengubah username pelanggan.');
         }
 
-        if (Auth::user()->username) {
-            return redirect('/')
-                ->with('info', 'Username sudah diatur sebelumnya.');
+        if (Auth::user()->username && Auth::user()->no_whatsapp) {
+            return redirect()->intended('/')
+                ->with('info', 'Profil sudah lengkap.');
         }
 
         $request->merge([
             'username' => trim((string) $request->input('username')),
+            'no_whatsapp' => trim((string) $request->input('no_whatsapp')),
         ]);
 
         $validated = $request->validate([
-            'username' => 'required|string|min:3|max:20|unique:users,username',
+            'username' => 'required|string|min:3|max:20|unique:users,username,' . Auth::id(),
+            'no_whatsapp' => 'required|string|regex:/^08[0-9]{8,13}$/',
         ], [
             'username.required' => 'Username wajib diisi.',
             'username.min' => 'Username minimal 3 karakter.',
             'username.max' => 'Username maksimal 20 karakter.',
             'username.unique' => 'Username sudah digunakan, silakan pilih yang lain.',
+            'no_whatsapp.required' => 'Nomor WhatsApp wajib diisi.',
+            'no_whatsapp.regex' => 'Format nomor WhatsApp tidak valid (harus diawali 08 dan berisi 10-15 angka).',
         ]);
 
         $user = Auth::user();
         $user->username = $validated['username'];
+        $user->no_whatsapp = $validated['no_whatsapp'];
         $user->save();
 
-        return redirect('/')->with('success', 'Username berhasil diset!');
+        return redirect()->intended('/')->with('success', 'Profil berhasil dilengkapi!');
     }
 
     // Proses logout

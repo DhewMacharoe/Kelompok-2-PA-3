@@ -20,3 +20,4 @@ Schedule::call(function () {
     }
 })->dailyAt('00:01')->name('antrean:auto-cancel-expired-menunggu');
 
+Schedule::command('app:send-queue-reminders')->everyFiveMinutes();

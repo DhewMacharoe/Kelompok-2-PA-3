@@ -207,14 +207,20 @@
 
                             <!-- Status Hari Raya -->
                             <div class="mb-4 pt-3 border-top">
-                                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-calendar-event text-primary me-2"></i>Hari Raya</h6>
-                                <label for="keterangan_libur" class="form-label fw-semibold text-muted mb-1">Status Operasional</label>
-                                <select name="keterangan_libur" id="keterangan_libur" class="form-select form-control-premium" required>
+                                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-calendar-event text-primary me-2"></i>Hari Raya & Fitur</h6>
+                                <label for="keterangan_libur" class="form-label fw-semibold text-muted mb-1">Status Operasional Hari Raya</label>
+                                <select name="keterangan_libur" id="keterangan_libur" class="form-select form-control-premium mb-3" required>
                                     <option value="libur" {{ ($keterangan_libur ?? 'libur') === 'libur' ? 'selected' : '' }}>Libur pada Hari Raya</option>
                                     <option value="buka" {{ ($keterangan_libur ?? 'libur') === 'buka' ? 'selected' : '' }}>Tetap Buka pada Hari Raya</option>
                                 </select>
-                                <span class="text-muted small">Status ini akan tampil di bagian footer pelanggan.</span>
-                                @error('keterangan_libur')
+                                
+                                <label for="is_booking_enabled" class="form-label fw-semibold text-muted mb-1">Fitur Booking Antrean</label>
+                                <select name="is_booking_enabled" id="is_booking_enabled" class="form-select form-control-premium" required>
+                                    <option value="1" {{ ($is_booking_enabled ?? '1') === '1' ? 'selected' : '' }}>Aktif (Bisa Booking)</option>
+                                    <option value="0" {{ ($is_booking_enabled ?? '1') === '0' ? 'selected' : '' }}>Nonaktif (Hanya Walk-in)</option>
+                                </select>
+                                <span class="text-muted small d-block mt-1">Status ini menentukan apakah pelanggan bisa memesan antrean untuk hari ke depan.</span>
+                                @error('is_booking_enabled')
                                     <span class="text-danger small">{{ $message }}</span>
                                 @enderror
                             </div>

@@ -42,14 +42,14 @@ class SettingSeeder extends Seeder
             [
                 'id' => 4,
                 'key' => 'queue_jam_buka',
-                'value' => '00:00',
+                'value' => '08:00',
                 'created_at' => '2026-06-10 08:11:40',
                 'updated_at' => '2026-06-11 18:16:20',
             ],
             [
                 'id' => 5,
                 'key' => 'queue_jam_tutup',
-                'value' => '23:00',
+                'value' => '21:00',
                 'created_at' => '2026-06-10 08:11:40',
                 'updated_at' => '2026-06-11 18:16:05',
             ],

@@ -10,6 +10,7 @@ use App\Models\Layanan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Services\WhatsAppService;
 
 class AntreanController extends Controller
 {
@@ -131,6 +132,21 @@ class AntreanController extends Controller
             if ($antrean->user && $antrean->user->no_whatsapp) {
                 WhatsAppService::sendPanggilan($antrean->user->no_whatsapp, $antrean);
             }
+
+            // Notify next 1-2 queues
+            $nextQueues = Antrean::todayWaitingQueues()
+                ->where('is_notified_near', false)
+                ->take(2)
+                ->get();
+
+            foreach ($nextQueues as $index => $nextQueue) {
+                if ($nextQueue->user && $nextQueue->user->no_whatsapp) {
+                    $jarak = $index + 1; // 1 or 2
+                    WhatsAppService::sendPengingatDekat($nextQueue->user->no_whatsapp, $nextQueue, $jarak);
+                }
+                // Mark as notified whether they have whatsapp or not to prevent retries
+                $nextQueue->update(['is_notified_near' => true]);
+            }
         }
 
         return response()->json([
@@ -161,6 +177,9 @@ class AntreanController extends Controller
                 $message = 'Antrean hanya bisa diselesaikan jika sedang dilayani.';
             } else {
                 $message = 'Status antrean ' . $antrean->nomor_antrean_seq . ' berhasil diubah menjadi selesai.';
+                if ($antrean->user && $antrean->user->no_whatsapp) {
+                    WhatsAppService::sendSelesai($antrean->user->no_whatsapp, $antrean);
+                }
             }
         } else {
             // Cancel queue manually
@@ -247,8 +266,10 @@ class AntreanController extends Controller
 
     public function simpanPelanggan(Request $request)
     {
-        if (!Antrean::isOperationalHour()) {
-            return redirect()->back()->withErrors(['nama_pelanggan' => 'Antrean tidak dapat ditambah di luar jam operasional.'])->withInput();
+        $isBooking = $request->input('is_booking') === '1' || $request->input('is_booking') === 'true';
+
+        if (!$isBooking && !Antrean::isOperationalHour()) {
+            return redirect()->back()->withErrors(['nama_pelanggan' => 'Antrean langsung (Walk-in) tidak dapat ditambah di luar jam operasional.'])->withInput();
         }
 
         $request->validate([
@@ -272,26 +293,82 @@ class AntreanController extends Controller
         ]);
 
         // Generate nomor antrean dengan format 2-digit yang auto-reset per hari
+        // Generate nomor antrean dengan format 2-digit yang auto-reset per hari
         $nomorFormat = Antrean::generateDailyQueueNumber();
 
         // Simpan ke database
         $layananId1 = $request->input('layanan_id1');
         $layananId2 = $request->input('layanan_id2');
 
-        $antrean = Antrean::create([
-            'nomor_antrean_seq' => $nomorFormat,
-            'nama_pelanggan' => $request->nama_pelanggan,
-            'layanan_id1' => $layananId1,
-            'layanan_id2' => $layananId2,
-            'status' => 'menunggu',
-            'waktu_masuk' => now()
+        if ($isBooking) {
+            $request->validate([
+                'tanggal_booking' => 'required|date|after_or_equal:today',
+                'waktu_booking' => 'required|date_format:H:i',
+            ]);
+
+            $antrean = Antrean::create([
+                'is_booking' => true,
+                'tanggal_booking' => $request->tanggal_booking,
+                'waktu_booking' => $request->waktu_booking,
+                'nomor_antrean_seq' => $nomorFormat,
+                'nama_pelanggan' => $request->nama_pelanggan,
+                'layanan_id1' => $layananId1,
+                'layanan_id2' => $layananId2,
+                'status' => 'menunggu',
+                'waktu_masuk' => $request->tanggal_booking . ' ' . $request->waktu_booking
+            ]);
+
+            $antrean->layanans()->sync(array_values(array_filter([$layananId1, $layananId2])));
+            
+            $this->broadcastQueueListUpdate();
+            
+            return redirect()->route('admin.antrean')->with('success', 'Booking atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan untuk tanggal ' . $request->tanggal_booking . ' jam ' . $request->waktu_booking . '.');
+        } else {
+            $antrean = Antrean::create([
+                'is_booking' => false,
+                'nomor_antrean_seq' => $nomorFormat,
+                'nama_pelanggan' => $request->nama_pelanggan,
+                'layanan_id1' => $layananId1,
+                'layanan_id2' => $layananId2,
+                'status' => 'menunggu',
+                'waktu_masuk' => now()
+            ]);
+
+            $antrean->layanans()->sync(array_values(array_filter([$layananId1, $layananId2])));
+
+            $this->broadcastQueueListUpdate();
+
+            return redirect()->route('admin.antrean')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrean walk-in.');
+        }
+    }
+
+    public function getAvailableSlots(Request $request)
+    {
+        $request->validate([
+            'date' => 'required|date|after_or_equal:today',
+            'layanan_id1' => 'required|exists:layanans,id',
+            'layanan_id2' => 'nullable|exists:layanans,id|different:layanan_id1',
         ]);
 
-        $antrean->layanans()->sync(array_values(array_filter([$layananId1, $layananId2])));
+        $layanan1 = \App\Models\Layanan::find($request->layanan_id1);
+        $layanan2 = \App\Models\Layanan::find($request->layanan_id2);
 
-        $this->broadcastQueueListUpdate();
+        $duration = (int) $layanan1->estimasi_waktu;
+        if ($layanan2) {
+            $duration += (int) $layanan2->estimasi_waktu;
+        }
 
-        return redirect()->route('admin.antrean')->with('success', 'Pelanggan atas nama ' . $request->nama_pelanggan . ' berhasil ditambahkan ke antrean.');
+        if ($duration <= 0) {
+            $duration = 30;
+        }
+
+        $slots = Antrean::getAvailableTimeSlots($request->date, $duration);
+
+        return response()->json([
+            'status' => 'success',
+            'slots' => $slots,
+            'duration' => $duration
+        ]);
     }
 
     // ============ PRIVATE HELPERS ============

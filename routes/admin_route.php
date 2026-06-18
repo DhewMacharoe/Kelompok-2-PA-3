@@ -22,6 +22,7 @@ Route::middleware(['auth', 'role:super_admin|admin'])->prefix('admin')->name('ad
     // Tambah Pelanggan Manual
     Route::get('/tambah-pelanggan', [AntreanController::class, 'tambahPelanggan'])->name('tambah-pelanggan');
     Route::post('/tambah-pelanggan', [AntreanController::class, 'simpanPelanggan'])->name('simpan-pelanggan');
+    Route::get('/antrean/available-slots', [AntreanController::class, 'getAvailableSlots'])->name('antrean.available_slots');
 
     // Kelola Lokasi Antrean (Settings)
     Route::get('/lokasi', [SettingController::class, 'lokasi'])->name('lokasi.index');

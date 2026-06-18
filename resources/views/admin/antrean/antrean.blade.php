@@ -50,22 +50,29 @@
         </div>
         @else
         <p>Tidak ada antrean yang sedang dilayani saat ini.</p>
-        @if (($jumlahMenungguHariIni ?? 0) > 0)
+        @if (\App\Models\Antrean::isOperationalHour() && ($jumlahMenungguHariIni ?? 0) > 0)
             <button type="button" class="btn-panggil shadow-sm" onclick="panggil()" data-loading-text="Memanggil...">
                 Panggil
             </button>
         @else
             <button type="button" class="btn-panggil shadow-sm" disabled aria-disabled="true"
-                data-loading-text="Memanggil..." style="opacity: 0.65; cursor: not-allowed;">
+                data-loading-text="Memanggil..." style="opacity: 0.65; cursor: not-allowed;"
+                title="{{ \App\Models\Antrean::isOperationalHour() ? 'Tidak ada antrean menunggu' : 'Di luar jam operasional' }}">
                 Panggil
             </button>
         @endif
         @endif
     </div>
 
-    @if (\App\Models\Antrean::isOperationalHour())
+    @php
+        $isOperationalHour = \App\Models\Antrean::isOperationalHour();
+        // Cek apakah booking secara global aktif (bisa dari setting, misal true)
+        // Jika tidak ada setting isBookingEnabled di-pass ke view, default true
+    @endphp
+    @if ($isOperationalHour || true) 
+        {{-- Kita asumsikan true karena admin form-card sudah membatasi ke mode booking jika di luar jam operasional --}}
         <button onclick="toggleModal()" class="btn-tambah shadow-sm" data-loading-text="Membuka form...">
-            + Tambah
+            + {{ $isOperationalHour ? 'Tambah' : 'Tambah Booking' }}
         </button>
     @else
         <button class="btn-tambah shadow-sm" disabled style="opacity: 0.6; cursor: not-allowed;" title="Di luar jam operasional">
@@ -336,6 +343,40 @@
                 @error('layanan_id2')
                 <div class="form-error">{{ $message }}</div>
                 @enderror
+            </div>
+
+            <div class="form-group mb-4" style="border-top: 1px solid #eaeaea; padding-top: 15px; margin-top: 15px;">
+                <label style="font-weight: bold; margin-bottom: 10px; display: block;">Tipe Antrean</label>
+                <div class="form-check form-switch mb-2">
+                    @php
+                        $isOperationalHour = \App\Models\Antrean::isOperationalHour();
+                    @endphp
+                    <input class="form-check-input" type="checkbox" role="switch" id="admin_is_booking_toggle" name="is_booking" value="1" {{ !$isOperationalHour ? 'checked disabled' : '' }}>
+                    @if(!$isOperationalHour)
+                        <input type="hidden" name="is_booking" value="1">
+                    @endif
+                    <label class="form-check-label fw-bold text-dark" for="admin_is_booking_toggle">Booking Jadwal</label>
+                </div>
+                <p class="small text-muted mb-0" id="admin-booking-desc-text">
+                    {{ !$isOperationalHour ? 'Sistem akan mencari waktu kosong berdasarkan durasi layanan.' : 'Mendaftar untuk antrean langsung saat ini juga (Walk-in).' }}
+                </p>
+                @if(!$isOperationalHour)
+                    <div class="alert alert-warning small mt-2 p-2"><i class="fas fa-info-circle me-1"></i> Antrean langsung (Walk-in) sedang tutup. Anda hanya dapat menambahkan booking jadwal.</div>
+                @endif
+            </div>
+
+            <div id="admin-booking-fields-container" style="display: none; background: #fdfbf8; border: 1px solid #e8a53a; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                <div class="form-group mb-3">
+                    <label for="tanggal_booking" class="form-label small fw-bold">Pilih Tanggal</label>
+                    <input type="date" class="form-control" id="tanggal_booking" name="tanggal_booking" min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('+7 days')) }}">
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label small fw-bold">Pilih Waktu (Jadwal Tersedia)</label>
+                    <div id="admin-available-slots-container" class="d-flex flex-wrap gap-2" style="max-height: 180px; overflow-y: auto; padding-right: 5px;">
+                        <span class="text-muted small">Pilih tanggal dan layanan terlebih dahulu.</span>
+                    </div>
+                    <input type="hidden" id="waktu_booking" name="waktu_booking" disabled>
+                </div>
             </div>
 
             <div class="form-actions">
