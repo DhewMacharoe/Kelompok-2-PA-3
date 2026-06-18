@@ -16,7 +16,6 @@ class Barbershop extends Model
         'latitude',
         'longitude',
         'is_active',
-        'is_cafe_active',
         'nama_brand',
         'favicon',
         'alaamat',
@@ -32,14 +31,10 @@ class Barbershop extends Model
         'judul_hero_galeri',
         'deskripsi_hero_galeri',
         'gambar_hero_galeri',
-        'judul_hero_menu',
-        'deskripsi_hero_menu',
-        'gambar_hero_menu',
     ];
 
     protected $casts = [
         'kontak' => 'array',
         'is_active' => 'boolean',
-        'is_cafe_active' => 'boolean',
     ];
 }

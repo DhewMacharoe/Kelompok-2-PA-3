@@ -30,8 +30,6 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('warna_primer', 7)->default('#e8a53a');
             
-            // New design fields
-            $table->boolean('is_cafe_active')->default(true);
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
             
@@ -47,10 +45,6 @@ return new class extends Migration
             $table->string('judul_hero_galeri')->default('Galeri Kami');
             $table->text('deskripsi_hero_galeri')->nullable();
             $table->string('gambar_hero_galeri')->nullable();
-            
-            $table->string('judul_hero_menu')->default('Menu Café');
-            $table->text('deskripsi_hero_menu')->nullable();
-            $table->string('gambar_hero_menu')->nullable();
 
             $table->timestamps();
         });

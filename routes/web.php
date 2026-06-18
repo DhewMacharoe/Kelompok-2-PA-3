@@ -53,7 +53,6 @@ Route::prefix('{slug}')->where(['slug' => '^(?!login|logout|admin|super-admin|fi
     Route::get('/rekomendasi', [PelangganRekomendasiController::class, 'rekomendasi'])->name('rekomendasi.index');
     Route::post('/rekomendasi/process', [PelangganRekomendasiController::class, 'process'])->name('rekomendasi.process');
     Route::get('/galeri', [PelangganGaleriController::class, 'index'])->name('galeri');
-    Route::get('/menu', [PelangganMenuCafeController::class, 'index'])->name('menu');
     Route::post('/antrean', [AntreanController::class, 'store'])->name('antrean.store');
     Route::patch('/antrean/saya/batal', [AntreanController::class, 'cancelMyQueue'])
         ->name('antrean.cancel')

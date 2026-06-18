@@ -85,8 +85,7 @@ class DatabaseSeeder extends Seeder
         // 1. Data Layanan
         $this->call(LayananSeeder::class);
 
-        // 2. Data Menu Kafe
-        $this->call(MenuSeeder::class);
+
 
         // 3. Data Settings
         $this->call(SettingSeeder::class);

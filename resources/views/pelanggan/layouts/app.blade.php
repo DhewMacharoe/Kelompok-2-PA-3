@@ -131,28 +131,7 @@
             color: #ffffff !important;
         }
         
-        /* Cafe Menu Page Overrides */
-        .menu-line {
-            background-color: {{ $activeBarbershop->warna_primer }} !important;
-        }
-        .filter-btn:hover {
-            border-color: {{ $activeBarbershop->warna_primer }} !important;
-            color: {{ $activeBarbershop->warna_primer }} !important;
-        }
-        .filter-btn.active {
-            background-color: {{ $activeBarbershop->warna_primer }} !important;
-            border-color: {{ $activeBarbershop->warna_primer }} !important;
-            color: #ffffff !important;
-        }
-        .item-price, .menu-note-icon, .modal-price {
-            color: {{ $activeBarbershop->warna_primer }} !important;
-        }
-        .category-title {
-            border-bottom-color: {{ $activeBarbershop->warna_primer }} !important;
-        }
-        .menu-item:hover {
-            border-color: {{ $activeBarbershop->warna_primer }} !important;
-        }
+
         
         /* Gallery Page Overrides */
         .galeri-line {
@@ -362,7 +341,7 @@
 
         <div class="footer-bottom">
             <div class="container">
-                <p class="mb-0">&copy; {{ date('Y') }} {{ $activeBarbershop->nama_brand ?? "Arga Home's" }} Barbershop & Cafe. All rights reserved.</p>
+                <p class="mb-0">&copy; {{ date('Y') }} {{ $activeBarbershop->nama_brand ?? "Arga Home's" }} Barbershop. All rights reserved.</p>
             </div>
         </div>
     </footer>

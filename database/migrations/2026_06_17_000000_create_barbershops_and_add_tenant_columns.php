@@ -25,7 +25,7 @@ return new class extends Migration
         DB::table('users')->where('email', 'arga@gmail.com')->update(['barbershop_id' => 1]);
 
         // 3. Tambahkan barbershop_id ke tabel operasional (antreans, layanans, menus, galeris, settings)
-        $tables = ['antreans', 'layanans', 'menus', 'galeris', 'settings'];
+        $tables = ['antreans', 'layanans', 'galeris', 'settings'];
 
         foreach ($tables as $tableName) {
             // Tambah kolom sebagai nullable terlebih dahulu
@@ -67,7 +67,7 @@ return new class extends Migration
         });
 
         // 2. Hapus foreign key dan kolom barbershop_id dari tabel operasional
-        $tables = ['settings', 'galeris', 'menus', 'layanans', 'antreans'];
+        $tables = ['settings', 'galeris', 'layanans', 'antreans'];
         foreach ($tables as $tableName) {
             Schema::table($tableName, function (Blueprint $table) use ($tableName) {
                 $table->dropForeign([$tableName . '_barbershop_id_foreign']);

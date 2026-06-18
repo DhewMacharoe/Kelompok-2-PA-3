@@ -100,7 +100,7 @@
 
     <!-- Navigation Menu Grid -->
     <div class="row g-3 mb-5 text-center justify-content-center">
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-md-4">
             <a href="{{ route('antrean') }}" class="text-decoration-none menu-grid-item d-block h-100">
                 <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
                     <i class="far fa-address-card menu-grid-icon"></i>
@@ -108,7 +108,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-md-4">
             <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none menu-grid-item d-block h-100">
                 <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
                     <i class="fas fa-cut menu-grid-icon"></i>
@@ -116,7 +116,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-md-4">
             <a href="{{ route('galeri') }}" class="text-decoration-none menu-grid-item d-block h-100">
                 <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
                     <i class="far fa-image menu-grid-icon"></i>
@@ -124,16 +124,6 @@
                 </div>
             </a>
         </div>
-        @if($activeDesign->is_cafe_active ?? true)
-        <div class="col-6 col-md-3">
-            <a href="{{ route('menu') }}" class="text-decoration-none menu-grid-item d-block h-100">
-                <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
-                    <i class="fas fa-coffee menu-grid-icon"></i>
-                    <div class="menu-grid-text">Menu Café</div>
-                </div>
-            </a>
-        </div>
-        @endif
     </div>
 
     <!-- Layanan yang Ditawarkan Section -->
@@ -207,65 +197,7 @@
             @endforeach
         </div>
 
-        <!-- Menu Café Favorit Section -->
-        @if($activeDesign->is_cafe_active ?? true)
-        @php
-        $combinedMenus = collect($menus)->take(4);
-        @endphp
 
-        @if($combinedMenus->isNotEmpty())
-        <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
-            <h4 class="section-title ps-1 mb-0 fw-bold d-flex align-items-center gap-2">
-                <i class="fas fa-coffee text-gold-accent"></i> Menu Café Favorit
-            </h4>
-            <a href="{{ route('menu') }}" class="text-decoration-none text-gold-accent fw-bold small link-hover-effect">
-                Lihat Menu Lengkap <i class="fas fa-arrow-right ms-1"></i>
-            </a>
-        </div>
-
-        <div class="row g-3 mb-5 justify-content-center">
-            @foreach ($combinedMenus as $menu)
-            <div class="col-6 col-md-3">
-                @php
-                $fotoMenu = null;
-                if (!empty($menu->foto)) {
-                $fotoMenu = \Illuminate\Support\Str::startsWith($menu->foto, ['http://', 'https://'])
-                ? $menu->foto
-                : asset('images/' . $menu->foto);
-                }
-                @endphp
-                <div role="button" tabindex="0" class="detail-card-button text-decoration-none d-block h-100" data-bs-toggle="modal"
-                    data-bs-target="#detailModal" data-type="menu" data-title="{{ $menu->nama }}"
-                    data-image="{{ $fotoMenu ?? 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=600&auto=format&fit=crop' }}"
-                    data-price="Rp{{ number_format($menu->harga, 0, ',', '.') }}"
-                    data-description="{{ e($menu->deskripsi ?? 'Tidak ada deskripsi.') }}"
-                    data-category="{{ $menu->kategori ?? '-' }}"
-                    data-availability="{{ $menu->is_available ? 'Tersedia' : 'Habis' }}" data-extra="Menu Cafe"
-                    data-show-meta="0">
-                    <div class="cafe-menu-card border-0 shadow-sm rounded bg-white transition-hover h-100 overflow-hidden d-flex flex-column text-center">
-                        <div class="cafe-menu-img-wrapper position-relative overflow-hidden" style="padding-top: 75%;">
-                            <img src="{{ $fotoMenu ?? 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=600&auto=format&fit=crop' }}"
-                                class="w-100 h-100 position-absolute top-0 start-0" style="object-fit: cover; transition: transform 0.3s;" alt="{{ $menu->nama }}">
-                        </div>
-                        <div class="p-3 d-flex flex-column justify-content-between flex-grow-1">
-                            <h6 class="cafe-menu-title mb-1 text-dark text-truncate fw-bold" style="font-size: 0.95rem;">{{ $menu->nama }}</h6>
-                            <p class="cafe-menu-price fw-bold mb-0 text-gold-accent" style="font-size: 1rem;">
-                                Rp{{ number_format($menu->harga, 0, ',', '.') }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-        @else
-        <div class="col-12">
-            <div class="alert alert-light border text-center mb-0 mt-4 shadow-sm">
-                <i class="fas fa-info-circle text-muted me-2"></i> Menu cafe belum tersedia saat ini.
-            </div>
-        </div>
-        @endif
-        @endif
 </div>
 
 <!-- Beautiful Bootstrap Detail Modal -->

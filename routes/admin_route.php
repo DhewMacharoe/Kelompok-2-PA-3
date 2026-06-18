@@ -48,12 +48,6 @@ Route::middleware(['auth', 'role:super_admin|admin'])->prefix('admin')->name('ad
     Route::patch('/galeri/{galeri}/toggle-status', [GaleriController::class, 'toggleStatus'])->name('galeri.toggleStatus');
     Route::delete('/galeri/{galeri}', [GaleriController::class, 'destroy'])->name('galeri.destroy');
 
-    // Kelola Menu Kafe
-    Route::get('/menu', [MenuCafeController::class, 'index'])->name('menu.index');
-    Route::post('/menu', [MenuCafeController::class, 'store'])->name('menu.store');
-    Route::put('/menu/{menu}', [MenuCafeController::class, 'update'])->name('menu.update');
-    Route::delete('/menu/{menu}', [MenuCafeController::class, 'destroy'])->name('menu.destroy');
-
     // Rekap Laporan
     Route::get('/rekap', [RekapController::class, 'rekapPemasukan'])->name('rekap');
 

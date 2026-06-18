@@ -205,18 +205,7 @@
                                 @enderror
                             </div>
 
-                            <div class="col-12 mb-3">
-                                <div class="card p-3 bg-light border-0">
-                                    <div class="form-check form-switch m-0">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="is_cafe_active" name="is_cafe_active" value="1" {{ old('is_cafe_active', $barbershop->is_cafe_active ?? true) ? 'checked' : '' }}>
-                                        <label class="form-check-label fw-bold text-dark" for="is_cafe_active">Aktifkan Fitur Café</label>
-                                        <small class="text-muted d-block mt-1">Jika dinonaktifkan, halaman Menu Café publik, tautan navigasi, dan section Café di halaman depan akan disembunyikan dari pelanggan.</small>
-                                    </div>
-                                    @error('is_cafe_active')
-                                        <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
+
                         </div>
 
                         <div class="d-flex justify-content-end mt-4">
@@ -335,43 +324,7 @@
                             </div>
                         </div>
 
-                        <!-- 4. Hero Menu Café -->
-                        <div class="hero-config-card p-3 mb-4">
-                            <h6 class="fw-bold mb-3 d-flex align-items-center gap-2 text-dark border-bottom pb-2">
-                                <i class="fas fa-coffee text-muted"></i> Hero Halaman Menu Café
-                            </h6>
-                            <div class="row g-3">
-                                <div class="col-md-7">
-                                    <div class="mb-3">
-                                        <label for="judul_hero_menu" class="form-label">Judul Hero Menu <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control @error('judul_hero_menu') is-invalid @enderror" id="judul_hero_menu" name="judul_hero_menu" value="{{ old('judul_hero_menu', $barbershop->judul_hero_menu) }}" required placeholder="Contoh: Menu Café">
-                                        @error('judul_hero_menu')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div>
-                                        <label for="deskripsi_hero_menu" class="form-label">Deskripsi Hero Menu <span class="text-danger">*</span></label>
-                                        <textarea class="form-control @error('deskripsi_hero_menu') is-invalid @enderror" id="deskripsi_hero_menu" name="deskripsi_hero_menu" rows="2" required placeholder="Nikmati pilihan minuman kopi...">{{ old('deskripsi_hero_menu', $barbershop->deskripsi_hero_menu) }}</textarea>
-                                        @error('deskripsi_hero_menu')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <label class="form-label">Gambar Hero Menu</label>
-                                    @if($barbershop->gambar_hero_menu)
-                                        <div class="mb-2">
-                                            <img src="{{ asset($barbershop->gambar_hero_menu) }}" alt="Current Menu Hero" class="img-thumbnail rounded shadow-sm" style="max-height: 80px; object-fit: cover; width: 100%;">
-                                        </div>
-                                    @endif
-                                    <input type="file" class="form-control form-control-sm @error('gambar_hero_menu') is-invalid @enderror" id="gambar_hero_menu" name="gambar_hero_menu" accept="image/*">
-                                    <small class="text-muted">Format: JPG, PNG, GIF, SVG. Maks 2MB.</small>
-                                    @error('gambar_hero_menu')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
+
 
                         <div class="d-flex justify-content-between mt-4">
                             <button type="button" class="btn btn-outline-secondary px-4 py-2 fw-semibold next-tab-btn" data-next="#profile-tab">

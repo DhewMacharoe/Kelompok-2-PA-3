@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Layanan;
 use App\Models\Galeri;
-use App\Models\Menu;
+
 use App\Models\Antrean;
 use Illuminate\Http\Request;
 use App\Events\AntreanUpdate;
@@ -48,14 +48,7 @@ class PublicController extends Controller
         return view('pelanggan.galeri.galeri', compact('galeris'));
     }
 
-    public function menu()
-    {
-        // Ambil hanya menu yang tersedia untuk halaman pelanggan
-        $menus = \Illuminate\Support\Facades\Cache::remember('active_menus', 3600, function () {
-            return Menu::where('is_available', true)->get();
-        });
-        return view('pelanggan.menu.menu', compact('menus'));
-    }
+
     public function daftarAntrean(Request $request)
     {
         $user = Auth::user();

@@ -185,14 +185,7 @@
                     </a>
                 </li>
 
-                @if($activeDesign->is_cafe_active ?? true)
-                <li class="nav-item">
-                    <a class="nav-link fw-bold {{ request()->routeIs('menu') ? 'active' : '' }}"
-                        href="{{ route('menu') }}">
-                        Menu Café
-                    </a>
-                </li>
-                @endif
+
 
                 {{-- Ubah Lokasi — mobile only (dalam collapse) --}}
                 <li class="nav-item d-lg-none">

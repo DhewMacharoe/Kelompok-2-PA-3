@@ -283,16 +283,7 @@
                                 </div>
                             </div>
 
-                            <div class="info-card p-3 mb-3">
-                                <div class="info-label mb-1">Status Fitur Café</div>
-                                <div class="info-value mt-1">
-                                    @if($barbershop->is_cafe_active ?? true)
-                                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1.5 fw-semibold" style="font-size: 0.85rem;"><i class="fas fa-check-circle me-1"></i> Aktif</span>
-                                    @else
-                                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-3 py-1.5 fw-semibold" style="font-size: 0.85rem;"><i class="fas fa-times-circle me-1"></i> Nonaktif</span>
-                                    @endif
-                                </div>
-                            </div>
+
 
                             <div class="info-card p-3">
                                 <div class="info-label mb-1">Alamat Lengkap</div>
@@ -386,32 +377,7 @@
                             </div>
                         </div>
 
-                        <!-- Hero Menu Café -->
-                        <div class="col-md-6">
-                            <div class="hero-preview-card card h-100">
-                                <div class="hero-preview-banner" style="background-image: url('{{ $barbershop->gambar_hero_menu ? asset($barbershop->gambar_hero_menu) : 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=600&auto=format&fit=cover' }}');">
-                                    <div class="hero-preview-content">
-                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle mb-1 rounded-pill">Cafe Menu Hero</span>
-                                        <h5 class="fw-bold mb-0 text-white text-truncate">{{ $barbershop->judul_hero_menu }}</h5>
-                                        <p class="small mb-0 text-white-50 text-truncate" style="font-size: 0.75rem;">{{ $barbershop->deskripsi_hero_menu }}</p>
-                                    </div>
-                                </div>
-                                <div class="card-body p-3">
-                                    <div class="info-label mb-1">Judul & Deskripsi</div>
-                                    <p class="text-secondary small mb-3 text-clamp" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 38px; line-height: 1.4;">
-                                        <strong>{{ $barbershop->judul_hero_menu }}</strong> — {{ $barbershop->deskripsi_hero_menu }}
-                                    </p>
-                                    <div class="border-top pt-2 d-flex justify-content-between align-items-center">
-                                        <span class="text-muted small">Gambar Latar</span>
-                                        @if($barbershop->gambar_hero_menu)
-                                            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2.5">Kustom</span>
-                                        @else
-                                            <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2.5">Default (Unsplash)</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 

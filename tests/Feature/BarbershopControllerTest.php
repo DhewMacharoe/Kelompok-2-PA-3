@@ -103,8 +103,7 @@ class BarbershopControllerTest extends TestCase
                 'deskripsi_hero_layanan' => 'New Layanan Hero Desc',
                 'judul_hero_galeri' => 'New Galeri Hero Title',
                 'deskripsi_hero_galeri' => 'New Galeri Hero Desc',
-                'judul_hero_menu' => 'New Menu Hero Title',
-                'deskripsi_hero_menu' => 'New Menu Hero Desc',
+
             ]);
 
         $response->assertRedirect(route('admin.barbershop.index'));
@@ -144,8 +143,7 @@ class BarbershopControllerTest extends TestCase
                 'gambar_hero_layanan' => $fileLayanan,
                 'judul_hero_galeri' => 'New Galeri Hero Title',
                 'deskripsi_hero_galeri' => 'New Galeri Hero Desc',
-                'judul_hero_menu' => 'New Menu Hero Title',
-                'deskripsi_hero_menu' => 'New Menu Hero Desc',
+
             ]);
 
         $response->assertRedirect(route('admin.barbershop.index'));
