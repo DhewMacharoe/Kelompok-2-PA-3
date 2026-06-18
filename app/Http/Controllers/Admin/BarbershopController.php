@@ -10,7 +10,8 @@ class BarbershopController extends Controller
 {
     public function index()
     {
-        $barbershop = Barbershop::first();
+        $tenantId = app()->bound('currentTenantId') ? app('currentTenantId') : 1;
+        $barbershop = Barbershop::find($tenantId);
         if (!$barbershop) {
             $barbershop = Barbershop::create([
                 'is_active' => true,

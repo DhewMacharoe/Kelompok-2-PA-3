@@ -51,12 +51,15 @@ class IdentifyTenant
         }
 
         // 4. Admin yang login mengesampingkan context session (menggunakan barbershop_id milik admin)
+        //    Super Admin yang login menggunakan context session yang aktif saat mengakses rute admin.
         //    HANYA berlaku untuk rute admin, bukan halaman publik/pelanggan.
         $isAdminRoute = str_starts_with($path, 'admin') || str_starts_with($path, 'super-admin');
         if ($isAdminRoute && Auth::check()) {
             $user = Auth::user();
             if ($user->hasRole('admin') && $user->barbershop_id) {
                 app()->instance('currentTenantId', $user->barbershop_id);
+            } elseif ($user->hasRole('super_admin') && session()->has('current_barbershop_id')) {
+                app()->instance('currentTenantId', session('current_barbershop_id'));
             }
         }
 
