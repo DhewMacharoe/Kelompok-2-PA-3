@@ -5,7 +5,12 @@
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
-        <h4 class="fw-bold m-0 text-white"><span style="color: var(--primary-blue)"></span></h4>
+        <h4 class="fw-bold m-0 text-white" style="font-size: 1.15rem; letter-spacing: -0.01em;">
+            <span style="color: var(--primary-blue)">{{ $activeBarbershop->nama_brand ?? 'Barbershop' }}</span>
+        </h4>
+        <div class="mt-2 small text-white-50" style="font-size: 0.75rem;">
+            <i class="bi bi-shield-lock-fill text-success"></i> Panel Admin
+        </div>
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">

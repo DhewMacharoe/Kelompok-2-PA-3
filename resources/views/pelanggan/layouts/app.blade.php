@@ -325,13 +325,9 @@
                         $longitude = \App\Models\Setting::get('queue_longitude', 99.079255);
                     @endphp
                     <div class="map-container mb-2">
-                        @if(isset($activeBarbershop) && !empty($activeBarbershop->kontak['map_embed']))
-                            <iframe src="{{ $activeBarbershop->kontak['map_embed'] }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        @else
-                            <iframe src="https://maps.google.com/maps?q={{ $latitude }},{{ $longitude }}&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        @endif
+                        <iframe src="https://maps.google.com/maps?q={{ $latitude }},{{ $longitude }}&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
-                    <a id="footer-maps-btn" href="{{ isset($activeBarbershop) && !empty($activeBarbershop->kontak['link_map']) ? $activeBarbershop->kontak['link_map'] : 'https://www.google.com/maps/search/?api=1&query='.$latitude.','.$longitude }}" target="_blank" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2" style="border-color: #444; font-size: 0.85rem; border-radius: 6px;">
+                    <a id="footer-maps-btn" href="https://www.google.com/maps/search/?api=1&query={{ $latitude }},{{ $longitude }}" target="_blank" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2" style="border-color: #444; font-size: 0.85rem; border-radius: 6px;">
                         Lihat di Maps <i class="fas fa-external-link-alt" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }};"></i>
                     </a>
                 </div>

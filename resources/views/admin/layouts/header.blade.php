@@ -7,6 +7,10 @@
         <h5 class="mb-0 fw-bold text-truncate">@yield('title', 'Dashboard')</h5>
     </div>
     <div class="ms-auto d-flex align-items-center gap-3">
+        <div class="d-flex flex-column text-end d-none d-sm-flex" style="line-height: 1.2;">
+            <span class="text-muted" style="font-size: 0.75rem;">Masuk sebagai:</span>
+            <span class="fw-bold text-primary" style="font-size: 0.85rem;">Admin {{ $activeBarbershop->nama_brand ?? 'Barbershop' }}</span>
+        </div>
         <img src="https://ui-avatars.com/api/?name=Admin&background=0578FB&color=fff" class="rounded-circle" width="35" alt="Profile">
         <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
             @csrf

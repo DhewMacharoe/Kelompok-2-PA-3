@@ -8,8 +8,154 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <!-- Google Fonts Inter for clean and premium UI -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium UI Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
+        /* Custom Dropdown Styling */
+        .auth-widget {
+            position: relative;
+            z-index: 1000;
+        }
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .custom-dropdown-btn {
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 9px 15px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .custom-dropdown-btn:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+        .custom-dropdown-btn.login-btn {
+            background: #1e1e24;
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+            font-weight: 700;
+        }
+        .custom-dropdown-btn.login-btn:hover {
+            background: #2d2d35;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.14);
+        }
+        .auth-icon {
+            font-size: 1.15rem;
+            color: #64748b;
+        }
+        .custom-dropdown-btn.login-btn .chevron-icon {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .chevron-icon {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-left: 4px;
+            transition: transform 0.2s ease;
+        }
+        .custom-dropdown-btn.active .chevron-icon {
+            transform: rotate(180deg);
+        }
+        .custom-dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            min-width: 210px;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.1);
+            padding: 8px;
+            animation: slideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1001;
+            box-sizing: border-box;
+        }
+        .custom-dropdown-menu.show {
+            display: block;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .dropdown-header {
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .user-name {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 0.85rem;
+        }
+        .user-email {
+            color: #64748b;
+            font-size: 0.75rem;
+            margin-top: 2px;
+            word-break: break-all;
+        }
+        .dropdown-divider {
+            height: 1px;
+            background: #f1f5f9;
+            margin: 8px 0;
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            color: #334155;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-sizing: border-box;
+        }
+        .dropdown-item:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+        .dropdown-item.text-danger {
+            color: #ef4444;
+        }
+        .dropdown-item.text-danger:hover {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+        .icon-pelanggan {
+            color: #10b981;
+        }
+        .icon-admin {
+            color: #ef4444;
+        }
+
         /* Base reset & overrides to guarantee full screen layout */
         body {
             margin: 0 !important;
@@ -750,9 +896,46 @@
         <div class="bottom-sheet-drag-handle" id="sheetHandle"></div>
         
         <div class="sidebar-header">
-            <div class="sidebar-title-container">
-                <h1>Temukan Layanan</h1>
-                <p>Pilih barbershop atau salon terbaik di sekitar Anda</p>
+            <div class="header-top-row" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div class="sidebar-title-container" style="flex: 1; padding-right: 12px; text-align: left;">
+                    <h1 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.02em;">Temukan Layanan</h1>
+                    <p style="font-size: 0.85rem; color: #64748b; margin: 0;">Pilih barbershop terbaik di sekitar Anda</p>
+                </div>
+                
+                <!-- Auth Widget -->
+                <div class="auth-widget">
+                    @if(auth()->check())
+                        <div class="custom-dropdown" id="customAuthDropdown">
+                            <button type="button" class="custom-dropdown-btn" onclick="toggleDropdown('authMenu')">
+                                <i class="fas fa-user-circle auth-icon"></i>
+                                <span class="username-text" style="max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ explode(' ', auth()->user()->name)[0] }}</span>
+                                <i class="fas fa-chevron-down chevron-icon"></i>
+                            </button>
+                            <div class="custom-dropdown-menu" id="authMenu">
+                                <div class="dropdown-header">
+                                    <div class="user-name">{{ auth()->user()->name }}</div>
+                                    <div class="user-email">{{ auth()->user()->email }}</div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                @if(auth()->user()->hasRole('super_admin') || auth()->user()->hasRole('admin'))
+                                    <a href="{{ route('admin.dashboard') }}" class="dropdown-item">
+                                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                                    </a>
+                                @endif
+                                <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="fas fa-sign-out-alt"></i> Keluar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @else
+                        <a href="{{ route('login.user') }}" class="custom-dropdown-btn login-btn" style="text-decoration: none;">
+                            <i class="fas fa-sign-in-alt"></i> Masuk
+                        </a>
+                    @endif
+                </div>
             </div>
 
             <!-- Search box -->
@@ -798,6 +981,33 @@
     <!-- LeafletJS Script -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
+        // Custom Dropdown JS
+        window.toggleDropdown = function(menuId) {
+            const menu = document.getElementById(menuId);
+            const btn = menu.previousElementSibling;
+            
+            // Close all other custom dropdowns
+            document.querySelectorAll('.custom-dropdown-menu').forEach(m => {
+                if (m.id !== menuId) {
+                    m.classList.remove('show');
+                    m.previousElementSibling.classList.remove('active');
+                }
+            });
+            
+            // Toggle current
+            menu.classList.toggle('show');
+            btn.classList.toggle('active');
+        };
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.custom-dropdown')) {
+                document.querySelectorAll('.custom-dropdown-menu').forEach(m => {
+                    m.classList.remove('show');
+                    m.previousElementSibling.classList.remove('active');
+                });
+            }
+        });
         // Set data barbershops dari backend
         const originalBarbershops = @json($barberData);
         let barbershops = [...originalBarbershops];

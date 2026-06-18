@@ -25,4 +25,16 @@ class Setting extends Model
             ['value' => $value]
         );
     }
+
+    protected static function booted()
+    {
+        static::saved(function ($setting) {
+            if ($setting->barbershop_id && in_array($setting->key, ['queue_latitude', 'queue_longitude'])) {
+                $column = $setting->key === 'queue_latitude' ? 'latitude' : 'longitude';
+                \Illuminate\Support\Facades\DB::table('barbershops')
+                    ->where('id', $setting->barbershop_id)
+                    ->update([$column => $setting->value]);
+            }
+        });
+    }
 }

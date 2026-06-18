@@ -37,4 +37,24 @@ class Barbershop extends Model
         'kontak' => 'array',
         'is_active' => 'boolean',
     ];
+
+    protected static function booted()
+    {
+        static::saved(function ($barbershop) {
+            if ($barbershop->wasChanged('latitude') || $barbershop->wasRecentlyCreated) {
+                \Illuminate\Support\Facades\DB::table('settings')
+                    ->updateOrInsert(
+                        ['barbershop_id' => $barbershop->id, 'key' => 'queue_latitude'],
+                        ['value' => $barbershop->latitude]
+                    );
+            }
+            if ($barbershop->wasChanged('longitude') || $barbershop->wasRecentlyCreated) {
+                \Illuminate\Support\Facades\DB::table('settings')
+                    ->updateOrInsert(
+                        ['barbershop_id' => $barbershop->id, 'key' => 'queue_longitude'],
+                        ['value' => $barbershop->longitude]
+                    );
+            }
+        });
+    }
 }
