@@ -13,12 +13,12 @@ class Layanan extends Model
     protected static function booted()
     {
         static::saved(function ($model) {
-            $tenantId = $model->barbershop_id ?? app('currentTenantId') ?? 1;
+            $tenantId = $model->barbershop_id ?? (app()->bound('currentTenantId') ? app('currentTenantId') : 1);
             \Illuminate\Support\Facades\Cache::forget("active_layanans_tenant_{$tenantId}");
         });
 
         static::deleted(function ($model) {
-            $tenantId = $model->barbershop_id ?? app('currentTenantId') ?? 1;
+            $tenantId = $model->barbershop_id ?? (app()->bound('currentTenantId') ? app('currentTenantId') : 1);
             \Illuminate\Support\Facades\Cache::forget("active_layanans_tenant_{$tenantId}");
         });
     }

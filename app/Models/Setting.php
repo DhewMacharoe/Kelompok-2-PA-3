@@ -19,7 +19,7 @@ class Setting extends Model
 
     public static function set(string $key, $value): void
     {
-        $tenantId = app('currentTenantId') ?? null;
+        $tenantId = app()->bound('currentTenantId') ? app('currentTenantId') : null;
         static::updateOrCreate(
             ['key' => $key, 'barbershop_id' => $tenantId],
             ['value' => $value]

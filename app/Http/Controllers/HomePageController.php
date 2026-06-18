@@ -21,7 +21,7 @@ class HomePageController extends Controller
             ->whereDate('created_at', Carbon::today())
             ->count();
 
-        $tenantId = app('currentTenantId') ?? 1;
+        $tenantId = app()->bound('currentTenantId') ? app('currentTenantId') : 1;
         $layanans = \Illuminate\Support\Facades\Cache::remember("active_layanans_tenant_{$tenantId}", 3600, function () {
             return Layanan::where('is_active', true)->get();
         });
