@@ -27,7 +27,25 @@ require __DIR__ . '/admin_route.php';
 
 Route::get('/', [\App\Http\Controllers\BarbershopMapController::class, 'index'])->name('home');
 
-Route::prefix('{slug}')->group(function () {
+// ==========================================
+// RUTE OTENTIKASI
+// ==========================================
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'doLogin'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/login-user', [AuthController::class, 'showUserLogin'])->name('login.user');
+Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])->name('firebase.login');
+Route::get('/set-username', [AuthController::class, 'showSetUsername'])->name('set.username')->middleware('auth');
+Route::post('/set-username', [AuthController::class, 'doSetUsername'])->name('set.username.post')->middleware('auth');
+
+// Test Firebase connection
+Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('test.firebase');
+
+// ==========================================
+// RUTE CABANG (TENANT SCOPE)
+// ==========================================
+Route::prefix('{slug}')->where(['slug' => '^(?!login|logout|admin|super-admin|firebase-login|test-firebase|images).*$'])->group(function () {
     Route::get('/', [\App\Http\Controllers\HomePageController::class, 'index'])->name('barbershop.home');
     Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
     Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
@@ -53,21 +71,6 @@ Route::prefix('{slug}')->group(function () {
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     });
 });
-
-// ==========================================
-// RUTE OTENTIKASI
-// ==========================================
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'doLogin'])->name('login.post');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-Route::get('/login-user', [AuthController::class, 'showUserLogin'])->name('login.user');
-Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])->name('firebase.login');
-Route::get('/set-username', [AuthController::class, 'showSetUsername'])->name('set.username')->middleware('auth');
-Route::post('/set-username', [AuthController::class, 'doSetUsername'])->name('set.username.post')->middleware('auth');
-
-// Test Firebase connection
-Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('test.firebase');
 
 
 // Serve image files stored in project-root /images for local/dev access.
