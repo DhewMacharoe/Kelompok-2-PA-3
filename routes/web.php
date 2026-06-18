@@ -26,29 +26,33 @@ use App\Http\Controllers\Pelanggan\ProfileController;
 require __DIR__ . '/admin_route.php';
 
 Route::get('/', [\App\Http\Controllers\BarbershopMapController::class, 'index'])->name('home');
-Route::get('/barbershop/{slug}', function ($slug) {
-    $barbershop = \App\Models\Barbershop::where('slug', $slug)->firstOrFail();
-    session([
-        'current_barbershop_id' => $barbershop->id,
-        'current_barbershop_slug' => $barbershop->slug,
-        'current_barbershop_nama' => $barbershop->nama,
-    ]);
-    return redirect('/home');
-})->name('barbershop.select');
-Route::get('/home', [\App\Http\Controllers\HomePageController::class, 'index'])->name('barbershop.home');
 
-Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
-Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
-Route::get('/antrean/available-slots', [AntreanController::class, 'getAvailableSlots'])->name('antrean.available_slots');
-Route::get('/rekomendasi', [PelangganRekomendasiController::class, 'rekomendasi'])->name('rekomendasi.index');
-Route::post('/rekomendasi/process', [PelangganRekomendasiController::class, 'process'])->name('rekomendasi.process');
-Route::get('/galeri', [PelangganGaleriController::class, 'index'])->name('galeri');
-Route::get('/menu', [PelangganMenuCafeController::class, 'index'])->name('menu');
-Route::post('/antrean', [AntreanController::class, 'store'])->name('antrean.store');
-Route::patch('/antrean/saya/batal', [AntreanController::class, 'cancelMyQueue'])
-    ->name('antrean.cancel')
-    ->middleware('auth');
+Route::prefix('{slug}')->group(function () {
+    Route::get('/', [\App\Http\Controllers\HomePageController::class, 'index'])->name('barbershop.home');
+    Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
+    Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
+    Route::get('/antrean/available-slots', [AntreanController::class, 'getAvailableSlots'])->name('antrean.available_slots');
+    Route::get('/rekomendasi', [PelangganRekomendasiController::class, 'rekomendasi'])->name('rekomendasi.index');
+    Route::post('/rekomendasi/process', [PelangganRekomendasiController::class, 'process'])->name('rekomendasi.process');
+    Route::get('/galeri', [PelangganGaleriController::class, 'index'])->name('galeri');
+    Route::get('/menu', [PelangganMenuCafeController::class, 'index'])->name('menu');
+    Route::post('/antrean', [AntreanController::class, 'store'])->name('antrean.store');
+    Route::patch('/antrean/saya/batal', [AntreanController::class, 'cancelMyQueue'])
+        ->name('antrean.cancel')
+        ->middleware('auth');
 
+    // Rute untuk pelanggan mengambil antrean
+    Route::post('/antrean/daftar', [AntreanController::class, 'store'])
+        ->name('antrean.daftar')
+        ->middleware('auth');
+
+    // Rute untuk profil pelanggan
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    });
+});
 
 // ==========================================
 // RUTE OTENTIKASI
@@ -64,19 +68,6 @@ Route::post('/set-username', [AuthController::class, 'doSetUsername'])->name('se
 
 // Test Firebase connection
 Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('test.firebase');
-
-
-// Rute untuk pelanggan mengambil antrean
-Route::post('/antrean/daftar', [AntreanController::class, 'store'])
-    ->name('antrean.daftar')
-    ->middleware('auth');
-
-// Rute untuk profil pelanggan
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-});
 
 
 // Serve image files stored in project-root /images for local/dev access.

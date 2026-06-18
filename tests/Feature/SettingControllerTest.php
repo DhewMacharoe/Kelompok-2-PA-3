@@ -93,11 +93,8 @@ class SettingControllerTest extends TestCase
 
     public function test_landing_page_displays_correct_status_note(): void
     {
-        // Select barbershop
-        $this->get('/barbershop/arga-barbershop');
-
         // Default (libur)
-        $response = $this->get('/home');
+        $response = $this->get('/arga-barbershop');
         $response->assertStatus(200);
         $response->assertSee('Libur pada Hari Raya');
         $response->assertDontSee('Tetap Buka pada Hari Raya');
@@ -105,7 +102,7 @@ class SettingControllerTest extends TestCase
         // Set to buka
         Setting::set('queue_libur_note', 'buka');
 
-        $response = $this->get('/home');
+        $response = $this->get('/arga-barbershop');
         $response->assertStatus(200);
         $response->assertSee('Tetap Buka pada Hari Raya');
         $response->assertDontSee('Libur pada Hari Raya');
