@@ -31,11 +31,6 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link {{ request()->is('admin/rekap*') ? 'active' : '' }}" href="{{ route('admin.rekap') }}">
-                <i class="bi bi-receipt"></i> Rekap Pemasukan
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.lokasi.index') ? 'active' : '' }}" href="{{ route('admin.lokasi.index') }}">
                 <i class="bi bi-geo-alt"></i> Jam & Lokasi
             </a>

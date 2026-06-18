@@ -8,7 +8,6 @@ use App\Http\Controllers\Admin\AntreanController;
 use App\Http\Controllers\Admin\BarbershopController;
 use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\GaleriController;
-use App\Http\Controllers\Admin\RekapController;
 use App\Http\Controllers\Admin\SettingController;
 
 Route::middleware(['auth', 'role:super_admin|admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -48,8 +47,7 @@ Route::middleware(['auth', 'role:super_admin|admin'])->prefix('admin')->name('ad
     Route::patch('/galeri/{galeri}/toggle-status', [GaleriController::class, 'toggleStatus'])->name('galeri.toggleStatus');
     Route::delete('/galeri/{galeri}', [GaleriController::class, 'destroy'])->name('galeri.destroy');
 
-    // Rekap Laporan
-    Route::get('/rekap', [RekapController::class, 'rekapPemasukan'])->name('rekap');
+
 
     //barbershop
     Route::resource('barbershop', BarbershopController::class);
