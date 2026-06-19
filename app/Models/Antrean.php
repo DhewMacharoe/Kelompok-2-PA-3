@@ -126,7 +126,10 @@ class Antrean extends Model
             $isConflict = false;
 
             foreach ($bookings as $booking) {
-                $bStart = Carbon::parse($booking->tanggal_booking->format('Y-m-d') . ' ' . $booking->waktu_booking);
+                $tanggalStr = is_string($booking->tanggal_booking) 
+                    ? $booking->tanggal_booking 
+                    : $booking->tanggal_booking->format('Y-m-d');
+                $bStart = Carbon::parse(substr($tanggalStr, 0, 10) . ' ' . $booking->waktu_booking);
                 $bEnd = $bStart->copy()->addMinutes($booking->total_estimasi_waktu);
 
                 // If current slot overlaps with this booking
