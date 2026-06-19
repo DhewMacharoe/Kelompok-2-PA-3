@@ -33,8 +33,13 @@ class AntreanUpdate implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
+        $channel = 'Antrean-channel';
+        if ($this->antrean->barbershop_id) {
+            $channel .= '.' . $this->antrean->barbershop_id;
+        }
+        
         return [
-            new Channel('Antrean-channel'),
+            new Channel($channel),
         ];
     }
 

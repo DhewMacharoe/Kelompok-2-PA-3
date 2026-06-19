@@ -245,12 +245,19 @@ class Antrean extends Model
     }
 
     /**
+     * Scope untuk mengambil antrean aktif (menunggu atau sedang dilayani)
+     */
+    public function scopeActiveQueues($query)
+    {
+        return $query->whereIn('status', ['menunggu', 'sedang dilayani']);
+    }
+
+    /**
      * Scope untuk mengambil antrean berdasarkan nama pelanggan hari ini
      */
     public function scopeByCustomerName($query, $nama)
     {
-        return $query->where('nama_pelanggan', $nama)
-            ->whereDate('created_at', Carbon::today());
+        return $query->where('nama_pelanggan', $nama);
     }
 
     // ============ QUERY METHODS ============
@@ -271,11 +278,12 @@ class Antrean extends Model
     }
 
     /**
-     * Cek apakah pelanggan sudah punya antrean aktif hari ini
+     * Cek apakah pelanggan sudah punya antrean aktif di seluruh cabang barbershop
      */
     public static function customerHasActiveQueue(string $namaCustomer): bool
     {
-        return static::byCustomerName($namaCustomer)
+        return static::withoutGlobalScopes()
+            ->byCustomerName($namaCustomer)
             ->whereIn('status', ['menunggu', 'sedang dilayani'])
             ->exists();
     }
@@ -285,7 +293,8 @@ class Antrean extends Model
      */
     public static function getCustomerActiveQueue(string $namaCustomer)
     {
-        return static::byCustomerName($namaCustomer)
+        return static::withoutGlobalScopes()
+            ->byCustomerName($namaCustomer)
             ->whereIn('status', ['menunggu', 'sedang dilayani'])
             ->orderBy('waktu_masuk', 'asc')
             ->first();
@@ -338,8 +347,10 @@ class Antrean extends Model
             return 0;
         }
 
-        return static::where('status', 'menunggu')
-            ->whereDate('created_at', Carbon::today())
+        return static::withoutGlobalScopes()
+            ->where('barbershop_id', $this->barbershop_id)
+            ->where('status', 'menunggu')
+            ->whereDate('waktu_masuk', Carbon::parse($this->waktu_masuk)->toDateString())
             ->where(function ($query) {
                 $query->where('waktu_masuk', '<', $this->waktu_masuk)
                     ->orWhere(function ($sameTimeQuery) {

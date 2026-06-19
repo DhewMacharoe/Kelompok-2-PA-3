@@ -43,11 +43,11 @@ class AntreanController extends Controller
         if (Auth::check() && Auth::user()->username) {
             $antreanSayaAktif = Antrean::with(['layanan1', 'layanan2'])
                 ->byCustomerName(Auth::user()->username)
-                ->todayActiveQueues()
+                ->activeQueues()
                 ->orderBy('waktu_masuk', 'asc')
                 ->first();
 
-            $punyaAntreanAktif = (bool) $antreanSayaAktif;
+            $punyaAntreanAktif = Antrean::customerHasActiveQueue(Auth::user()->username);
 
             if ($antreanSayaAktif && $antreanSayaAktif->status === 'menunggu') {
                 $posisiAntreanSaya = $antreanSayaAktif->calculateQueuePosition();
@@ -103,7 +103,7 @@ class AntreanController extends Controller
         }
 
         if (Antrean::customerHasActiveQueue($user->username)) {
-            return back()->with('error', 'Anda sudah berada di dalam daftar antrean saat ini.');
+            return back()->with('error', 'Anda sudah memiliki antrean atau booking aktif. Silakan selesaikan atau batalkan terlebih dahulu sebelum mengambil antrean baru.');
         }
 
         if ($isBooking) {

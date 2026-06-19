@@ -134,7 +134,7 @@
         }
 
         checkEcho(() => {
-            window.Echo.channel('Antrean-channel').listen('AntreanUpdate', async (e) => {
+            window.Echo.channel('Antrean-channel.{{ session("current_barbershop_id") }}').listen('AntreanUpdate', async (e) => {
                 if (!window.isActionInProgress) {
                     const antrean = e.antrean || {};
                     await playQueueAudio(antrean);
@@ -142,7 +142,7 @@
                 }
             });
 
-            window.Echo.channel('AntreanList-channel').listen('AntreanListUpdate', async (e) => {
+            window.Echo.channel('AntreanList-channel.{{ session("current_barbershop_id") }}').listen('AntreanListUpdate', async (e) => {
                 if (!window.isActionInProgress) {
                     // Wait briefly to allow any simultaneous AntreanUpdate event to trigger and set isSpeaking
                     await new Promise(r => setTimeout(r, 100));

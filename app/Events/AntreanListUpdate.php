@@ -34,8 +34,26 @@ class AntreanListUpdate implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
+        $channel = 'AntreanList-channel';
+        
+        $barbershopId = null;
+        if (is_iterable($this->antreanList) && count($this->antreanList) > 0) {
+            $first = $this->antreanList->first();
+            if ($first && isset($first->barbershop_id)) {
+                $barbershopId = $first->barbershop_id;
+            }
+        }
+        
+        if (!$barbershopId) {
+            $barbershopId = app()->bound('currentTenantId') ? app('currentTenantId') : session('current_barbershop_id');
+        }
+
+        if ($barbershopId) {
+            $channel .= '.' . $barbershopId;
+        }
+
         return [
-            new Channel('AntreanList-channel'),
+            new Channel($channel),
         ];
     }
 

@@ -997,7 +997,7 @@
 
         checkEcho(() => {
             try {
-                window.Echo.channel('AntreanList-channel').listen('AntreanListUpdate', (e) => {
+                window.Echo.channel('AntreanList-channel.{{ $activeBarbershop->id ?? "" }}').listen('AntreanListUpdate', (e) => {
                     const antreanList = (e.antreanList || []).filter(item =>
                         normalizeStatus(item.status) === 'menunggu'
                     );
@@ -1093,7 +1093,7 @@
             };
 
             // Kompatibilitas: dengarkan nama event baru dan lama.
-            window.Echo.channel('Antrean-channel')
+            window.Echo.channel('Antrean-channel.{{ $activeBarbershop->id ?? "" }}')
                 .listen('AntreanUpdate', handleQueueStatusUpdate)
                 .listen('AntreanUpadate', handleQueueStatusUpdate);
         });

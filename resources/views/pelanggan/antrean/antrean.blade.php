@@ -109,6 +109,26 @@
                                 <h5 class="fw-bold mb-0">Antrean Anda Aktif</h5>
                             </div>
 
+                            @if($antreanSayaAktif->is_booking)
+                            <div class="row mb-2 align-items-center">
+                                <div class="col-6">
+                                    <span class="text-muted small">Jadwal Booking</span>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="fw-bold text-primary" style="font-size: 0.9rem;">{{ \Carbon\Carbon::parse($antreanSayaAktif->tanggal_booking)->format('d M Y') }} ({{ \Carbon\Carbon::parse($antreanSayaAktif->waktu_booking)->format('H:i') }})</span>
+                                </div>
+                            </div>
+                            @endif
+                            @if($antreanSayaAktif->barbershop)
+                            <div class="row mb-2 align-items-center">
+                                <div class="col-6">
+                                    <span class="text-muted small">Cabang Barbershop</span>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <span class="fw-bold text-dark" style="font-size: 0.9rem;">{{ $antreanSayaAktif->barbershop->nama }}</span>
+                                </div>
+                            </div>
+                            @endif
                             <div class="row mb-2 align-items-center">
                                 <div class="col-6">
                                     <span class="text-muted small">Nomor Antrean Anda</span>
@@ -148,7 +168,11 @@
                                     <i class="fas fa-info-circle mt-1" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }};"></i>
                                     <div>
                                         <p class="mb-1 small fw-bold" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }};">Estimasi Waktu Pelayanan Anda: {{ $antreanSayaAktif->total_estimasi_waktu }} mnt</p>
-                                        <p class="mb-0 small text-muted" style="line-height: 1.4;">Saat ini No. {{ $dipanggil ? $dipanggil->nomor_antrean_seq : '-' }} sedang dilayani. Anda akan dipanggil setelah layanan selesai.</p>
+                                        @if($antreanSayaAktif->is_booking && \Carbon\Carbon::parse($antreanSayaAktif->tanggal_booking)->isFuture() && !\Carbon\Carbon::parse($antreanSayaAktif->tanggal_booking)->isToday())
+                                            <p class="mb-0 small text-muted" style="line-height: 1.4;">Silakan datang pada tanggal {{ \Carbon\Carbon::parse($antreanSayaAktif->tanggal_booking)->format('d M Y') }} jam {{ \Carbon\Carbon::parse($antreanSayaAktif->waktu_booking)->format('H:i') }} sesuai jadwal booking Anda.</p>
+                                        @else
+                                            <p class="mb-0 small text-muted" style="line-height: 1.4;">Saat ini No. {{ $dipanggil ? $dipanggil->nomor_antrean_seq : '-' }} sedang dilayani. Anda akan dipanggil setelah layanan selesai.</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -256,6 +280,15 @@
                             style="border-radius: 12px; padding: 14px 20px; font-size: 1rem;" title="Di luar jam operasional">
                             Antrean Tutup
                         </button>
+                    @endif
+                @else
+                    @if (!$antreanSayaAktif)
+                        <div class="d-grid gap-3 mb-4">
+                            <button class="btn btn-disabled w-100 fw-bold shadow-sm" disabled
+                                style="border-radius: 12px; padding: 14px 20px; font-size: 1rem;" title="Anda memiliki antrean aktif di cabang lain">
+                                Punya Antrean di barbershop Lain
+                            </button>
+                        </div>
                     @endif
                 @endif
             @endauth
@@ -412,10 +445,10 @@
 @push('scripts')
     <script>
         window.barberIncompatibilities = @json($incompatibilities);
-        
+
         let layanans = @json($layananAktif);
         let packageMap = @json($packageMap);
-        
+
         window.barberLayananList = layanans.map(l => {
             if (packageMap[l.id]) {
                 l.included_service_ids = packageMap[l.id];

@@ -272,6 +272,10 @@ class AntreanController extends Controller
             return redirect()->back()->withErrors(['nama_pelanggan' => 'Antrean langsung (Walk-in) tidak dapat ditambah di luar jam operasional.'])->withInput();
         }
 
+        if (Antrean::customerHasActiveQueue($request->input('nama_pelanggan'))) {
+            return redirect()->back()->withErrors(['nama_pelanggan' => 'Pelanggan atas nama ini sudah memiliki antrean atau booking aktif.'])->withInput();
+        }
+
         $request->validate([
             'nama_pelanggan' => 'required|string|max:255',
             'layanan_id1' => [
