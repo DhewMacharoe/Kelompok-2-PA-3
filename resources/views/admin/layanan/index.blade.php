@@ -30,8 +30,8 @@
             </script>
         @endif
 
-        <a href="{{ route('admin.layanan.create') }}" class="btn-tambah shadow-sm">
-            + Tambah
+        <a href="{{ route('admin.layanan.create') }}" class="btn-tambah shadow-sm d-inline-flex align-items-center gap-1">
+            <i class="bi bi-plus-lg"></i> Tambah Layanan
         </a>
 
         <div class="filter-bar" role="tablist" aria-label="Filter status layanan">
@@ -86,8 +86,8 @@
                                 @endif
                             </td>
                             <td data-label="Aksi">
-                                <div style="display: flex; gap: 5px; flex-wrap: nowrap; justify-content: center;">
-                                    <button type="button" class="btn-action btn-view shadow-sm btn-view-layanan"
+                                <div style="display: flex; gap: 5px; flex-wrap: nowrap; justify-content: center; align-items: center;">
+                                    <button type="button" class="btn-action btn-view shadow-sm btn-view-layanan d-inline-flex align-items-center gap-1"
                                         data-nama="{{ $item->nama }}"
                                         data-harga="Rp {{ number_format($item->harga, 0, ',', '.') }}"
                                         data-estimasi="{{ $item->estimasi_waktu ?? '-' }}"
@@ -96,7 +96,7 @@
                                         data-deskripsi="{{ str_replace(["\r", "\n"], ' ', e($item->deskripsi ?? 'Tidak ada deskripsi tambahan.')) }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#viewLayananModal" style="margin: 0;">
-                                        Lihat
+                                        <i class="bi bi-eye"></i> Lihat
                                     </button>
 
                                     <form action="{{ route('admin.layanan.toggleStatus', $item->id) }}" method="POST"
@@ -106,19 +106,23 @@
                                         @csrf
                                         @method('PATCH')
                                         <button type="button"
-                                            class="btn-action btn-toggle-status shadow-sm btn-toggle-alert" style="margin: 0;">
-                                            {{ $item->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
+                                            class="btn-action btn-toggle-status shadow-sm btn-toggle-alert d-inline-flex align-items-center gap-1" style="margin: 0;">
+                                            @if ($item->is_active)
+                                                <i class="bi bi-toggle2-off"></i> Nonaktifkan
+                                            @else
+                                                <i class="bi bi-toggle2-on"></i> Aktifkan
+                                            @endif
                                         </button>
                                     </form>
 
                                     <a href="{{ route('admin.layanan.edit', $item->id) }}"
-                                        class="btn-action btn-edit shadow-sm" style="margin: 0;">
-                                        Ubah
+                                        class="btn-action btn-edit shadow-sm d-inline-flex align-items-center gap-1" style="margin: 0;">
+                                        <i class="bi bi-pencil-square"></i> Ubah
                                     </a>
 
-                                    <button type="button" class="btn-action btn-hapus shadow-sm btn-delete-alert"
+                                    <button type="button" class="btn-action btn-hapus shadow-sm btn-delete-alert d-inline-flex align-items-center gap-1"
                                         data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" style="margin: 0;">
-                                        Hapus
+                                        <i class="bi bi-trash"></i> Hapus
                                     </button>
 
                                     <form id="delete-form-{{ $item->id }}"
@@ -132,7 +136,8 @@
                         </tr>
                     @empty
                         <tr class="empty-row-row">
-                            <td colspan="3" class="empty-row-cell" style="padding: 40px; color: #999;">
+                            <td colspan="4" class="text-center py-5 text-muted">
+                                <i class="bi bi-scissors fs-2 mb-2 d-block text-secondary opacity-50"></i>
                                 Belum ada data layanan.
                             </td>
                         </tr>

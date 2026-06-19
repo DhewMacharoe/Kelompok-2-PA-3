@@ -257,24 +257,24 @@
                     <div class="row g-4">
                         <div class="col-md-6">
                             <div class="info-card p-3 mb-3">
-                                <div class="info-label mb-1">Nama Brand / Judul Web</div>
-                                <div class="info-value">{{ $barbershop->nama_brand }}</div>
+                                <div class="info-label mb-1"><i class="bi bi-tag-fill text-primary me-1"></i> Nama Brand / Judul Web</div>
+                                <div class="info-value fw-bold">{{ $barbershop->nama_brand }}</div>
                             </div>
                             
                             <div class="info-card p-3 mb-3">
-                                <div class="info-label mb-1">Slogan / Tagline Brand</div>
+                                <div class="info-label mb-1"><i class="bi bi-chat-quote-fill text-primary me-1"></i> Slogan / Tagline Brand</div>
                                 <div class="info-value"><em>{{ $barbershop->slogan ?? 'Barber, Coffee & Food' }}</em></div>
                             </div>
 
                             <div class="info-card p-3">
-                                <div class="info-label mb-1">Email Kontak</div>
+                                <div class="info-label mb-1"><i class="bi bi-envelope-fill text-primary me-1"></i> Email Kontak</div>
                                 <div class="info-value">{{ $barbershop->email }}</div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="info-card p-3 mb-3">
-                                <div class="info-label mb-1">Warna Dasar / Aksen Web</div>
+                                <div class="info-label mb-1"><i class="bi bi-palette-fill text-primary me-1"></i> Warna Dasar / Aksen Web</div>
                                 <div class="info-value mt-1">
                                     <div class="color-pill">
                                         <span style="display: inline-block; width: 18px; height: 18px; border-radius: 50%; background-color: {{ $barbershop->warna_primer ?? '#e8a53a' }}; border: 1px solid rgba(0,0,0,0.1);"></span>
@@ -283,10 +283,8 @@
                                 </div>
                             </div>
 
-
-
                             <div class="info-card p-3">
-                                <div class="info-label mb-1">Alamat Lengkap</div>
+                                <div class="info-label mb-1"><i class="bi bi-geo-alt-fill text-primary me-1"></i> Alamat Lengkap</div>
                                 <div class="info-value" style="line-height: 1.6; font-size: 0.95rem;">{{ $barbershop->alaamat }}</div>
                             </div>
                         </div>

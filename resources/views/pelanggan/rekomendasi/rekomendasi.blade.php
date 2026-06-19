@@ -496,11 +496,15 @@
                 btnCamera.classList.remove('btn-dark');
                 btnCamera.classList.add('btn-danger', 'text-white');
             } catch (error) {
+                let userFriendlyMsg = 'Gagal mengakses kamera. Harap pastikan izin kamera diaktifkan di peramban (browser) Anda dan coba lagi.';
+                if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                    userFriendlyMsg = 'Akses kamera ditolak. Harap berikan izin akses kamera untuk situs ini melalui pengaturan peramban Anda.';
+                }
                 Swal.fire({
                     icon: 'error',
-                    title: 'Gagal',
-                    text: "Gagal mengakses kamera: " + error.message,
-                    confirmButtonText: 'OK'
+                    title: 'Akses Kamera Gagal',
+                    text: userFriendlyMsg,
+                    confirmButtonText: 'Mengerti'
                 });
             }
         };
@@ -848,7 +852,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Gagal',
-                        text: 'Terjadi kesalahan server.',
+                        text: 'Terjadi kendala saat menghubungkan ke server. Silakan periksa koneksi internet Anda atau coba sesaat lagi.',
                         confirmButtonText: 'OK'
                     });
                 });

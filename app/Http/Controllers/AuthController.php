@@ -83,7 +83,11 @@ class AuthController extends Controller
 
             return redirect()->route('login.user')->with('success', 'Registrasi berhasil! Silakan login dengan email dan password Anda.');
         } catch (\Throwable $exception) {
-            return back()->with('error', 'Registrasi gagal: ' . $exception->getMessage())->withInput();
+            $message = 'Registrasi gagal. Terjadi kendala saat mendaftarkan akun Anda. Silakan coba lagi.';
+            if (str_contains(strtolower($exception->getMessage()), 'email_exists') || str_contains(strtolower($exception->getMessage()), 'already in use')) {
+                $message = 'Registrasi gagal. Alamat email tersebut sudah terdaftar.';
+            }
+            return back()->with('error', $message)->withInput();
         }
     }
 
@@ -143,7 +147,7 @@ class AuthController extends Controller
             $auth = $this->createFirebaseFactory()->createAuth();
             $verifiedToken = $auth->verifyIdToken($request->input('idToken'));
         } catch (\Throwable $exception) {
-            return back()->with('error', 'Verifikasi token Firebase gagal: ' . $exception->getMessage());
+            return back()->with('error', 'Gagal memverifikasi akun Anda. Silakan coba masuk kembali.');
         }
 
         /** @var \Kreait\Firebase\JWT\Contract\Token $verifiedToken */

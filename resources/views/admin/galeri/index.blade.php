@@ -29,8 +29,8 @@
         </script>
     @endif
 
-    <a href="{{ route('admin.galeri.create') }}" class="btn-tambah shadow-sm">
-        + Tambah
+    <a href="{{ route('admin.galeri.create') }}" class="btn-tambah shadow-sm d-inline-flex align-items-center gap-1">
+        <i class="bi bi-plus-lg"></i> Tambah Foto
     </a>
 
     <div class="filter-bar" role="tablist" aria-label="Filter status galeri">
@@ -79,14 +79,14 @@
                     </td>
 
                     <td data-label="Aksi">
-                        <div style="display: flex; gap: 5px; flex-wrap: nowrap; justify-content: center;">
-                            <button type="button" class="btn-action btn-view shadow-sm btn-view-galeri"
+                        <div style="display: flex; gap: 5px; flex-wrap: nowrap; justify-content: center; align-items: center;">
+                            <button type="button" class="btn-action btn-view shadow-sm btn-view-galeri d-inline-flex align-items-center gap-1"
                                 data-judul="{{ $galeri->judul }}"
                                 data-deskripsi="{{ $galeri->deskripsi }}"
                                 data-gambar="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
                                 data-bs-toggle="modal"
                                 data-bs-target="#viewGaleriModal" style="margin: 0;">
-                                Lihat
+                                <i class="bi bi-eye"></i> Lihat
                             </button>
 
                             <form action="{{ route('admin.galeri.toggleStatus', $galeri) }}"
@@ -98,29 +98,34 @@
                                 @csrf
                                 @method('PATCH')
                                 <button type="button"
-                                    class="btn-action btn-toggle-status shadow-sm btn-toggle-galeri-alert"
+                                    class="btn-action btn-toggle-status shadow-sm btn-toggle-galeri-alert d-inline-flex align-items-center gap-1"
                                     style="margin: 0;">
-                                    {{ $galeri->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
+                                    @if ($galeri->is_active)
+                                        <i class="bi bi-toggle2-off"></i> Nonaktifkan
+                                    @else
+                                        <i class="bi bi-toggle2-on"></i> Aktifkan
+                                    @endif
                                 </button>
                             </form>
 
                             <a href="{{ route('admin.galeri.edit', $galeri) }}"
-                                class="btn-action btn-edit shadow-sm" style="margin: 0;">
-                                Ubah
+                                class="btn-action btn-edit shadow-sm d-inline-flex align-items-center gap-1" style="margin: 0;">
+                                <i class="bi bi-pencil-square"></i> Ubah
                             </a>
 
                             <button type="button"
-                                class="btn-action btn-hapus shadow-sm btn-delete-galeri-alert"
+                                class="btn-action btn-hapus shadow-sm btn-delete-galeri-alert d-inline-flex align-items-center gap-1"
                                 data-action="{{ route('admin.galeri.destroy', $galeri) }}"
                                 data-judul="{{ $galeri->judul }}" style="margin: 0;">
-                                Hapus
+                                <i class="bi bi-trash"></i> Hapus
                             </button>
                         </div>
                     </td>
                 </tr>
                 @empty
                 <tr class="empty-row-row">
-                    <td colspan="4" class="empty-row-cell" style="padding: 40px; color: #999;">
+                    <td colspan="4" class="text-center py-5 text-muted">
+                        <i class="bi bi-images fs-2 mb-2 d-block text-secondary opacity-50"></i>
                         Belum ada foto galeri.
                     </td>
                 </tr>

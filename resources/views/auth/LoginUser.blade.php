@@ -122,12 +122,16 @@
                                 document.getElementById('firebaseLoginForm').submit();
                             } catch (error) {
                                 console.error('Firebase Google login failed:', error);
-                                loginStatus.textContent = 'Masuk gagal: ' + error.message;
+                                let userFriendlyMsg = 'Masuk dengan Google gagal. Pastikan koneksi internet Anda stabil dan coba lagi.';
+                                if (error.code === 'auth/popup-closed-by-user') {
+                                    userFriendlyMsg = 'Proses masuk dibatalkan karena jendela masuk Google ditutup.';
+                                }
+                                loginStatus.textContent = userFriendlyMsg;
                                 loginButton.disabled = false;
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Gagal',
-                                    text: 'Masuk dengan Google gagal: ' + error.message,
+                                    title: 'Gagal Masuk',
+                                    text: userFriendlyMsg,
                                     confirmButtonText: 'OK'
                                 });
                             }

@@ -63,6 +63,7 @@ class SettingControllerTest extends TestCase
                 'jam_buka' => '09:00',
                 'jam_tutup' => '21:00',
                 'keterangan_libur' => 'buka',
+                'is_booking_enabled' => '1',
             ]);
 
         $response->assertRedirect();
@@ -86,6 +87,7 @@ class SettingControllerTest extends TestCase
                 'jam_buka' => '09:00',
                 'jam_tutup' => '21:00',
                 'keterangan_libur' => 'invalid_value',
+                'is_booking_enabled' => '1',
             ]);
 
         $response->assertSessionHasErrors('keterangan_libur');
