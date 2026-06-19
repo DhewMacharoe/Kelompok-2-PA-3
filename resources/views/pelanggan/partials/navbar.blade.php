@@ -115,25 +115,42 @@
         .pelanggan-navbar .navbar-toggler i {
             font-size: 1.2rem !important;
         }
+
+        .brand-text {
+            font-size: 0.85rem !important;
+            padding: 0.4rem 0.6rem !important;
+        }
     }
+
+    .brand-text {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 600;
+        font-size: 0.92rem;
+        color: #2b2b2b !important;
+        padding: 0.5rem 0.75rem !important;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        white-space: nowrap !important;
+        display: inline-block;
+    }
+
+    .brand-text:hover {
+        color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;
+        background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}14 !important;
+    }
+
 </style>
 
 <nav class="navbar navbar-expand-lg pelanggan-navbar">
     <div class="container">
         <div class="d-flex align-items-center justify-content-between w-100 py-2">
-            <a href="{{ route('home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center gap-2">
+            <a href="{{ route('barbershop.home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center gap-2">
                 @if(isset($activeBarbershop) && $activeBarbershop->favicon)
-                    <img src="{{ asset($activeBarbershop->favicon) }}" alt="{{ $activeBarbershop->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
+                    <img src="{{ asset($activeBarbershop->favicon) }}" alt="{{ $activeBarbershop->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid" style="max-height: 40px;">
                 @else
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="{{ $activeBarbershop->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid " style="max-height: 40px;">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="{{ $activeBarbershop->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid" style="max-height: 40px;">
                 @endif
-                <span style="font-weight: 700; color: #fff; font-size: 1.2rem; display: none;" class="d-none d-sm-block">{{ $activeBarbershop->nama_brand ?? '' }}</span>
-            </a>
-
-            {{-- TENGAH: Ubah Lokasi badge (desktop only) --}}
-            <a href="{{ route('home') }}" class="lokasi-badge d-none d-lg-inline-flex align-items-center gap-1">
-                <i class="fas fa-map-marker-alt me-1" style="color: {{ $activeDesign->warna_primer ?? '#d4af37' }};"></i>
-                {{ session('current_barbershop_nama') ?? 'Pilih Lokasi' }}
+                <span class="brand-text">{{ $activeBarbershop->nama_brand ?? 'Arga Barbershop' }}</span>
             </a>
 
             {{-- Mobile toggler --}}
@@ -185,18 +202,6 @@
                     </a>
                 </li>
 
-
-
-                {{-- Ubah Lokasi — mobile only (dalam collapse) --}}
-                <li class="nav-item d-lg-none">
-                    <a class="nav-link fw-bold" href="{{ route('home') }}"
-                        style="color: #888 !important; font-size: 0.85rem;">
-                        <i class="fas fa-map-marker-alt me-1"
-                           style="color: {{ $activeDesign->warna_primer ?? '#d4af37' }};"></i>
-                        Ubah Lokasi
-                    </a>
-                </li>
-
                 @guest
                     <li class="nav-item d-flex align-items-center justify-content-center">
                         <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3"
@@ -227,6 +232,13 @@
                         @endif
                     </li>
                 @endauth
+
+                <li class="nav-item">
+                    <a class="nav-link fw-bold" href="{{ route('home') }}">
+                        <i class="fas fa-map-marker-alt me-1" style="color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }};"></i>
+                        Lihat Lokasi Lain
+                    </a>
+                </li>
 
             </ul>
         </div>

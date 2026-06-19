@@ -12,27 +12,22 @@
             <p class="modal-category" id="modalLayananTime"></p>
             <p class="modal-description" id="modalLayananDescription"></p>
             <div class="modal-footer">
-                <button type="button" class="btn-back-bottom" id="modalBackBottomBtn">
-                    <i class="fas fa-arrow-left"></i> Kembali
-                </button>
-                <div class="modal-footer-right">
-                    <span class="modal-price" id="modalLayananPrice"></span>
-                    @auth
-                        @if ($punyaAntreanAktif)
-                            <span class="btn-buat-antrean-layanan disabled" title="Anda sudah memiliki antrean aktif">
-                                <i class="fas fa-ticket-alt"></i> Sudah Ada Antrean
-                            </span>
-                        @else
-                            <a href="#" id="btnBuatAntreanDariLayanan" class="btn-buat-antrean-layanan">
-                                <i class="fas fa-ticket-alt"></i> Buat Antrean
-                            </a>
-                        @endif
+                <span class="modal-price" id="modalLayananPrice"></span>
+                @auth
+                    @if ($punyaAntreanAktif)
+                        <span class="btn-buat-antrean-layanan disabled" title="Anda sudah memiliki antrean aktif">
+                            <i class="fas fa-ticket-alt"></i> Sudah Ada Antrean
+                        </span>
                     @else
-                        <a href="{{ route('login.user') }}" class="btn-buat-antrean-layanan">
-                            <i class="fas fa-sign-in-alt"></i> Login untuk Antrean
+                        <a href="#" id="btnBuatAntreanDariLayanan" class="btn-buat-antrean-layanan">
+                            <i class="fas fa-ticket-alt"></i> Buat Antrean
                         </a>
-                    @endauth
-                </div>
+                    @endif
+                @else
+                    <a href="{{ route('login.user') }}" class="btn-buat-antrean-layanan">
+                        <i class="fas fa-sign-in-alt"></i> Login untuk Antrean
+                    </a>
+                @endauth
             </div>
         </div>
     </div>

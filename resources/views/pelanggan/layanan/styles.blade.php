@@ -331,23 +331,17 @@
         gap: 12px;
     }
 
-    .modal-footer-right {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .modal-price {
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 4px;
     }
 
     .btn-buat-antrean-layanan {
+        width: 100%;
         justify-content: center;
         padding: 12px 16px;
         font-size: 14px;
-    }
-
-    .btn-back-bottom {
-        width: 100%;
-        justify-content: center;
-        order: 2;
     }
 }
 
@@ -382,33 +376,7 @@
     transform: translateY(0);
 }
 
-.btn-back-bottom {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background: transparent;
-    border: 1px solid #ece6da;
-    color: #333;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
 
-.btn-back-bottom:hover {
-    background: #fdfaf5;
-    border-color: #c9a24f;
-    color: #c9a24f;
-}
-
-.modal-footer-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
 
 @media (max-width: 480px) {
     .modal-back {

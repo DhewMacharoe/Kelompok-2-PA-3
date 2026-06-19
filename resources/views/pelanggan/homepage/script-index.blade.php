@@ -29,7 +29,7 @@
                 const layananId = this.dataset.id;
                 const ikon = this.dataset.ikon;
                 modalName.textContent = this.dataset.name;
-                modalTime.innerHTML = '<i class="far fa-clock"></i> ' + this.dataset.time;
+                modalTime.innerHTML = '<i class="far fa-clock"></i> ' + (this.dataset.time ? this.dataset.time + ' Menit' : '-');
                 modalDescription.textContent = this.dataset.description;
                 modalPrice.textContent = 'Rp ' + this.dataset.price;
 

@@ -82,8 +82,13 @@
             color: #ffffff !important;
         }
         
-        .btn-back-bottom:hover {
+        .btn-back-bottom:hover, .modal-back:hover {
             border-color: {{ $activeBarbershop->warna_primer }} !important;
+        }
+
+        #layananDetailModal .modal-image-wrapper {
+            color: {{ $activeBarbershop->warna_primer }} !important;
+            background-color: {{ $activeBarbershop->warna_primer }}14 !important;
         }
         
         .hero-divider-line {
