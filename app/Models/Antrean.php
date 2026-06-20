@@ -28,6 +28,7 @@ class Antrean extends Model
         'waktu_selesai',
         'user_id',
         'barbershop_id',
+        'batal_oleh',
     ];
 
     protected $appends = [

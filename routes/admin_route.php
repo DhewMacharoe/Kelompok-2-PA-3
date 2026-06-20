@@ -8,10 +8,18 @@ use App\Http\Controllers\Admin\BarbershopController;
 use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\ModerasiPelangganController;
 
 Route::middleware(['auth', 'role:super_admin|admin'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // Moderasi Pelanggan
+    Route::get('/moderasi', [ModerasiPelangganController::class, 'index'])->name('moderasi.index');
+    Route::get('/moderasi/{id}', [ModerasiPelangganController::class, 'show'])->name('moderasi.show');
+    Route::post('/moderasi/{id}/block', [ModerasiPelangganController::class, 'block'])->name('moderasi.block');
+    Route::post('/moderasi/{id}/unblock', [ModerasiPelangganController::class, 'unblock'])->name('moderasi.unblock');
+    Route::post('/moderasi/{id}/reset-risk', [ModerasiPelangganController::class, 'resetRisk'])->name('moderasi.resetRisk');
 
     // Kelola Antrean
     Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');

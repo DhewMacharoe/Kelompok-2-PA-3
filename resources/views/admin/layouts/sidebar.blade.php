@@ -24,6 +24,11 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link {{ request()->is('admin/moderasi*') ? 'active' : '' }}" href="{{ route('admin.moderasi.index') }}">
+                <i class="bi bi-shield-exclamation"></i> Moderasi Pelanggan
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link {{ request()->is('admin/galeri*') ? 'active' : '' }}"
                 href="{{ route('admin.galeri.index') }}">
                 <i class="bi bi-images"></i> Galeri

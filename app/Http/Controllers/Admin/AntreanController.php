@@ -163,6 +163,7 @@ class AntreanController extends Controller
         $request->validate([
             'status' => 'required|in:selesai,batal',
             'alasan_batal' => 'nullable|string',
+            'batal_oleh' => 'nullable|in:admin,no_show',
         ]);
 
         $antrean = Antrean::findOrFail($id);
@@ -185,12 +186,13 @@ class AntreanController extends Controller
             // Cancel queue manually
             if (!in_array($antrean->status, ['menunggu', 'sedang dilayani'])) {
                 $success = false;
-                $message = 'Antrean hanya bisa dibatalkan jika menunggu atau sedang dilayani.';
+                $message = 'Antrean hanya bisa dibatalkan jika menunggu or sedang dilayani.';
             } else {
                 $antrean->update([
                     'status' => 'batal',
                     'alasan_batal' => $request->alasan_batal,
                     'waktu_selesai' => now(),
+                    'batal_oleh' => $request->input('batal_oleh', 'admin'),
                 ]);
                 $success = true;
                 $message = 'Status antrean ' . $antrean->nomor_antrean_seq . ' berhasil diubah menjadi batal.';

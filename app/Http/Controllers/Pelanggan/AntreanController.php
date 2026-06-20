@@ -81,6 +81,10 @@ class AntreanController extends Controller
         }
         $user = Auth::user();
 
+        if ($user->is_blocked) {
+            return back()->with('error', 'Akun Anda ditangguhkan karena: ' . ($user->blocked_reason ?? 'pelanggaran ketentuan sistem.') . '. Anda tidak dapat membuat booking atau antrean baru.');
+        }
+
         if ($user->hasRole('admin')) {
             return back()->with('error', 'Admin tidak diperbolehkan mengambil antrean.');
         }
@@ -238,6 +242,7 @@ class AntreanController extends Controller
             'status' => 'batal',
             'alasan_batal' => $request->alasan_batal,
             'waktu_selesai' => now(),
+            'batal_oleh' => 'pelanggan',
         ]);
         $this->broadcastQueueUpdate();
 

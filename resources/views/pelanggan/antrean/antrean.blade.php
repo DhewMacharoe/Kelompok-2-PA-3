@@ -34,6 +34,17 @@
             <div class="alert alert-danger mt-3">{{ session('error') }}</div>
         @endif
 
+        @if (auth()->check() && auth()->user()->is_blocked)
+            <div class="alert alert-danger mt-3 p-4 border-0 shadow-sm" role="alert" style="background-color: #F8D7DA; border-left: 5px solid #DC3545 !important;">
+                <h5 class="alert-heading text-dark fw-bold mb-2"><i class="bi bi-exclamation-triangle-fill me-2 text-danger"></i>Akun Ditangguhkan (Diblokir)</h5>
+                <p class="m-0 text-dark">Mohon maaf, akun Anda sedang ditangguhkan oleh moderator.</p>
+                <hr class="border-danger opacity-25">
+                <p class="mb-1 text-muted"><strong>Alasan Pemblokiran:</strong> {{ auth()->user()->blocked_reason ?? 'Pelanggaran ketentuan sistem.' }}</p>
+                <p class="mb-0 text-muted"><strong>Tanggal Diblokir:</strong> {{ \Carbon\Carbon::parse(auth()->user()->blocked_at)->translatedFormat('d M Y, H:i') }} WIB</p>
+                <p class="mt-2 mb-0 fw-semibold text-dark" style="font-size: 0.9rem;">Anda tidak dapat melakukan pemesanan antrean baru atau booking jadwal hingga pemblokiran dibuka.</p>
+            </div>
+        @endif
+
         <div class="app-card mx-auto" style="max-width: 600px; background: transparent; box-shadow: none;"
             data-logged-in-username="{{ auth()->check() ? auth()->user()->username : '' }}"
             data-queue-latitude="{{ $queueLocation['latitude'] ?? '' }}"
@@ -430,7 +441,15 @@
                             </div>
                             <div id="lokasi-feedback" class="alert alert-danger d-none" role="alert"></div>
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-submit-bottom btn-lg" id="btn-submit-antrean" data-loading-text="Mengambil antrean...">Ambil Antrean</button>
+                                <button type="submit" class="btn btn-submit-bottom btn-lg" id="btn-submit-antrean" 
+                                    data-loading-text="Mengambil antrean..."
+                                    @if(auth()->check() && auth()->user()->is_blocked) disabled style="opacity: 0.6; cursor: not-allowed; background-color: #6c757d; border-color: #6c757d;" @endif>
+                                    @if(auth()->check() && auth()->user()->is_blocked)
+                                        Sesi Booking Terkunci (Diblokir)
+                                    @else
+                                        Ambil Antrean
+                                    @endif
+                                </button>
                             </div>
                         </div>
 

@@ -575,26 +575,39 @@
     function ubahStatus(button, id, targetStatus) {
         if (targetStatus === 'batal') {
             Swal.fire({
-                title: 'Alasan Pembatalan',
-                input: 'textarea',
-                inputPlaceholder: 'Tuliskan alasan pembatalan di sini...',
-                inputAttributes: {
-                    'aria-label': 'Tuliskan alasan pembatalan'
-                },
+                title: 'Alasan & Tipe Pembatalan',
+                html: `
+                    <div class="text-start mb-3">
+                        <label class="form-label fw-bold text-dark">Tipe Pembatalan</label>
+                        <select id="swal-batal-oleh" class="form-select mb-3">
+                            <option value="admin">Dibatalkan oleh Admin</option>
+                            <option value="no_show">Tidak Hadir / No-Show</option>
+                        </select>
+                        
+                        <label class="form-label fw-bold text-dark">Alasan Pembatalan</label>
+                        <textarea id="swal-alasan-batal" class="form-control" rows="3" placeholder="Tuliskan alasan pembatalan di sini..."></textarea>
+                    </div>
+                `,
                 showCancelButton: true,
                 confirmButtonColor: '#EB5757',
                 cancelButtonColor: '#6c757d',
                 confirmButtonText: 'Batalkan Antrean',
                 cancelButtonText: 'Kembali',
-                preConfirm: (alasan) => {
-                    if (!alasan) {
+                preConfirm: () => {
+                    const batalOleh = document.getElementById('swal-batal-oleh').value;
+                    const alasan = document.getElementById('swal-alasan-batal').value;
+                    if (!alasan && batalOleh === 'admin') {
                         Swal.showValidationMessage('Alasan pembatalan wajib diisi');
+                        return false;
                     }
-                    return alasan;
+                    if (!alasan && batalOleh === 'no_show') {
+                        return { batal_oleh: batalOleh, alasan: 'Pelanggan tidak hadir di lokasi saat dipanggil' };
+                    }
+                    return { batal_oleh: batalOleh, alasan: alasan };
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    processUbahStatus(button, id, targetStatus, result.value);
+                    processUbahStatus(button, id, targetStatus, result.value.alasan, result.value.batal_oleh);
                 }
             });
         } else {
@@ -609,13 +622,13 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    processUbahStatus(button, id, targetStatus, null);
+                    processUbahStatus(button, id, targetStatus, null, null);
                 }
             });
         }
     }
 
-    function processUbahStatus(button, id, targetStatus, alasan) {
+    function processUbahStatus(button, id, targetStatus, alasan, batalOleh) {
         window.isActionInProgress = true;
         let originalText = button.innerHTML;
         button.innerHTML = 'Memproses...';
@@ -629,7 +642,8 @@
                 },
                 body: JSON.stringify({
                     status: targetStatus,
-                    alasan_batal: alasan
+                    alasan_batal: alasan,
+                    batal_oleh: batalOleh
                 })
             })
             .then(response => {
