@@ -37,8 +37,13 @@ class AppServiceProvider extends ServiceProvider
                     $activeBarbershop = Barbershop::where('is_active', true)->first();
                 }
 
-                $view->with('activeBarbershop', $activeBarbershop);
-                $view->with('activeDesign', $activeBarbershop);
+                $viewData = $view->getData();
+                if (!array_key_exists('activeBarbershop', $viewData)) {
+                    $view->with('activeBarbershop', $activeBarbershop);
+                }
+                if (!array_key_exists('activeDesign', $viewData)) {
+                    $view->with('activeDesign', $activeBarbershop);
+                }
             });
         } catch (\Exception $e) {
             // Fallback in case tables are not migrated yet

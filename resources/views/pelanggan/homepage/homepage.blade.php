@@ -63,12 +63,33 @@
                 <!-- Col 3: Status Pelayanan -->
                 <div class="col-12 col-md-5 p-3 border-start-md d-flex">
                     <div class="status-pelayanan-box p-3 rounded border w-100 bg-white d-flex flex-column justify-content-center">
+                        @if(auth()->check() && isset($antreanSayaAktif) && $antreanSayaAktif)
+                            @if($antreanSayaAktif->barbershop_id !== $activeBarbershop->id)
+                                <a href="{{ route('profile.index') }}" class="btn w-100 text-white fw-bold mb-2 py-2.5 d-flex align-items-center justify-content-center gap-2" style="background-color: #6c757d; font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
+                                    <i class="fas fa-exclamation-circle"></i> Antrean di Cabang Lain
+                                </a>
+                            @elseif($antreanSayaAktif->is_booking)
+                                <a href="{{ route('profile.index') }}" class="btn btn-gold-accent w-100 text-white fw-bold mb-2 py-2.5 d-flex align-items-center justify-content-center gap-2" style="font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
+                                    <i class="fas fa-calendar-check"></i> Cek Booking Anda
+                                </a>
+                            @else
+                                <a href="{{ route('antrean') }}" class="btn btn-gold-accent w-100 text-white fw-bold mb-2 py-2.5 d-flex align-items-center justify-content-center gap-2" id="antrean-status" style="font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
+                                    <i class="fas fa-ticket-alt"></i> Cek Detail Antrean
+                                </a>
+                            @endif
+                        @else
                         <a href="{{ route('antrean') }}" class="btn btn-gold-accent w-100 text-white fw-bold mb-2 py-2.5 d-flex align-items-center justify-content-center gap-2" id="antrean-status" style="font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
                             <i class="fas fa-ticket-alt"></i> Cek Detail Antrean
                         </a>
+                        @endif
                         <div class="text-center mt-2">
                             @if (auth()->check() && isset($antreanSayaAktif) && $antreanSayaAktif)
-                                @if ($antreanSayaAktif->status === 'sedang dilayani')
+                                @if ($antreanSayaAktif->barbershop_id !== $activeBarbershop->id)
+                                    <span class="text-secondary small d-block mb-1" style="font-size: 0.72rem; letter-spacing: 0.2px;">Anda memiliki antrean/booking di cabang lain</span>
+                                    <div class="d-flex align-items-center justify-content-center gap-2">
+                                        <a href="{{ route('profile.index') }}" class="fw-bold text-decoration-none" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; font-size: 0.85rem;">Lihat di Profil <i class="fas fa-arrow-right"></i></a>
+                                    </div>
+                                @elseif ($antreanSayaAktif->status === 'sedang dilayani')
                                     <span class="text-secondary small d-block mb-1" style="font-size: 0.72rem; letter-spacing: 0.2px;">Durasi Pelayanan Anda</span>
                                     <div class="d-flex align-items-center justify-content-center gap-2">
                                         <strong id="stopwatch-dipanggil" data-start="{{ $antreanSayaAktif->updated_at->timestamp * 1000 }}" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}; font-family: monospace; font-size: 1.1rem; letter-spacing: 0.5px;">00:00:00</strong>
@@ -100,7 +121,7 @@
 
     <!-- Navigation Menu Grid -->
     <div class="row g-3 mb-5 text-center justify-content-center">
-        <div class="col-6 col-md-4">
+        <div class="col-6 col-md-3">
             <a href="{{ route('antrean') }}" class="text-decoration-none menu-grid-item d-block h-100">
                 <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
                     <i class="far fa-address-card menu-grid-icon"></i>
@@ -108,7 +129,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-6 col-md-4">
+        <div class="col-6 col-md-3">
             <a href="{{ route('pelanggan.layanan') }}" class="text-decoration-none menu-grid-item d-block h-100">
                 <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
                     <i class="fas fa-cut menu-grid-icon"></i>
@@ -116,11 +137,19 @@
                 </div>
             </a>
         </div>
-        <div class="col-6 col-md-4">
+        <div class="col-6 col-md-3">
             <a href="{{ route('galeri') }}" class="text-decoration-none menu-grid-item d-block h-100">
                 <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
                     <i class="far fa-image menu-grid-icon"></i>
                     <div class="menu-grid-text">Galeri</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{{ auth()->check() ? route('profile.index') : route('login.user') }}" class="text-decoration-none menu-grid-item d-block h-100">
+                <div class="menu-grid-card p-3 rounded shadow-sm border bg-white transition-hover h-100 d-flex flex-column align-items-center justify-content-center">
+                    <i class="far fa-user menu-grid-icon"></i>
+                    <div class="menu-grid-text">Profil & Booking</div>
                 </div>
             </a>
         </div>

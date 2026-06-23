@@ -358,7 +358,6 @@ class AntreanController extends Controller
 
         $layanan1 = \App\Models\Layanan::find($request->layanan_id1);
         $layanan2 = \App\Models\Layanan::find($request->layanan_id2);
-
         $duration = (int) $layanan1->estimasi_waktu;
         if ($layanan2) {
             $duration += (int) $layanan2->estimasi_waktu;

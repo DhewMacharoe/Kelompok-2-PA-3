@@ -144,7 +144,7 @@
 <nav class="navbar navbar-expand-lg pelanggan-navbar">
     <div class="container">
         <div class="d-flex align-items-center justify-content-between w-100 py-2">
-            <a href="{{ route('barbershop.home') }}" class="navbar-brand m-0 p-0 d-flex align-items-center gap-2">
+            <a href="{{ route('barbershop.home', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop']) }}" class="navbar-brand m-0 p-0 d-flex align-items-center gap-2">
                 @if(isset($activeBarbershop) && $activeBarbershop->favicon)
                     <img src="{{ asset($activeBarbershop->favicon) }}" alt="{{ $activeBarbershop->nama_brand ?? 'Arga Home\'s Logo' }}" class="img-fluid" style="max-height: 40px;">
                 @else
@@ -169,35 +169,35 @@
 
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('barbershop.home') ? 'active' : '' }}"
-                        href="{{ route('barbershop.home') }}">
+                        href="{{ route('barbershop.home', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop']) }}">
                         Beranda
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('antrean') ? 'active' : '' }}"
-                        href="{{ route('antrean') }}">
+                        href="{{ route('antrean', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop']) }}">
                         Antrean
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('pelanggan.layanan') ? 'active' : '' }}"
-                        href="{{ route('pelanggan.layanan') }}">
+                        href="{{ route('pelanggan.layanan', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop']) }}">
                         Layanan
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('rekomendasi.index') ? 'active' : '' }}"
-                        href="{{ route('rekomendasi.index') }}">
+                        href="{{ route('rekomendasi.index', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop']) }}">
                         Rekomendasi
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link fw-bold {{ request()->routeIs('galeri') ? 'active' : '' }}"
-                        href="{{ route('galeri') }}">
+                        href="{{ route('galeri', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop']) }}">
                         Galeri
                     </a>
                 </li>

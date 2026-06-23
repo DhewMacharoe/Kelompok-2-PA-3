@@ -124,6 +124,16 @@
         color: #03543f;
     }
 
+    .status-menunggu {
+        background: #fdf6b2;
+        color: #723b13;
+    }
+
+    .status-sedang {
+        background: #e1effe;
+        color: #1e429f;
+    }
+
     .status-batal {
         background: #fde8e8;
         color: #9b1c1c;
@@ -239,7 +249,12 @@
 
     <ul class="nav nav-tabs custom-tabs mb-4" id="historyTab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="selesai-tab" data-bs-toggle="tab" data-bs-target="#selesai" type="button" role="tab" aria-controls="selesai" aria-selected="true">
+            <button class="nav-link active" id="booking-tab" data-bs-toggle="tab" data-bs-target="#booking" type="button" role="tab" aria-controls="booking" aria-selected="true">
+                <i class="bi bi-calendar-check me-1"></i> Booking Aktif ({{ $bookingAktif->count() }})
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="selesai-tab" data-bs-toggle="tab" data-bs-target="#selesai" type="button" role="tab" aria-controls="selesai" aria-selected="false">
                 <i class="bi bi-check-circle me-1"></i> Selesai ({{ $riwayatSelesai->count() }})
             </button>
         </li>
@@ -251,8 +266,69 @@
     </ul>
 
     <div class="tab-content" id="historyTabContent">
+        <!-- Tab Booking Aktif -->
+        <div class="tab-pane fade show active" id="booking" role="tabpanel" aria-labelledby="booking-tab">
+            @forelse($bookingAktif as $antrean)
+                <div class="history-card" style="border-left: 4px solid #f2901f;">
+                    <div class="history-header">
+                        <div>
+                            <div class="history-date text-dark font-weight-bold">
+                                <i class="bi bi-calendar-event me-1 text-primary"></i>
+                                {{ \Carbon\Carbon::parse($antrean->tanggal_booking)->translatedFormat('l, d F Y') }} - Jam {{ \Carbon\Carbon::parse($antrean->waktu_booking)->format('H:i') }} WIB
+                            </div>
+                            <div class="text-muted mt-1" style="font-size: 0.8rem;">
+                                No. Antrean: <strong class="text-primary">{{ $antrean->nomor_antrean_seq }}</strong> | Cabang: <strong>{{ optional($antrean->barbershop)->nama ?? 'Cabang Utama' }}</strong>
+                            </div>
+                        </div>
+                        <span class="history-status {{ $antrean->status == 'menunggu' ? 'status-menunggu' : 'status-sedang' }}">
+                            {{ $antrean->status }}
+                        </span>
+                    </div>
+
+                    <div class="service-list">
+                        @if($antrean->layanan1)
+                        <div class="service-item">
+                            <div class="service-icon">
+                                @if ($antrean->layanan1->ikon === 'paint')
+                                    <i class="fas fa-paint-brush"></i>
+                                @elseif ($antrean->layanan1->ikon === 'face')
+                                    <i class="fas fa-smile"></i>
+                                @else
+                                    <i class="fas fa-cut"></i>
+                                @endif
+                            </div>
+                            <span class="service-name">{{ $antrean->layanan1->nama }}</span>
+                        </div>
+                        @endif
+                        
+                        @if($antrean->layanan2)
+                        <div class="service-item">
+                            <div class="service-icon">
+                                @if ($antrean->layanan2->ikon === 'paint')
+                                    <i class="fas fa-paint-brush"></i>
+                                @elseif ($antrean->layanan2->ikon === 'face')
+                                    <i class="fas fa-smile"></i>
+                                @else
+                                    <i class="fas fa-cut"></i>
+                                @endif
+                            </div>
+                            <span class="service-name">{{ $antrean->layanan2->nama }}</span>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            @empty
+                <div class="empty-state">
+                    <i class="bi bi-calendar-x empty-icon"></i>
+                    <h3 class="fw-bold text-dark h5 mb-2">Belum ada booking aktif</h3>
+                    <p class="text-muted mb-4">Jadwal reservasi yang telah Anda buat akan muncul di sini.</p>
+                    <a href="{{ route('barbershop.home', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop']) }}" class="btn btn-outline-primary rounded-pill px-4">Buat Antrean Sekarang</a>
+                </div>
+            @endforelse
+        </div>
+
         <!-- Tab Selesai -->
-        <div class="tab-pane fade show active" id="selesai" role="tabpanel" aria-labelledby="selesai-tab">
+        <div class="tab-pane fade" id="selesai" role="tabpanel" aria-labelledby="selesai-tab">
             @forelse($riwayatSelesai as $antrean)
                 <div class="history-card">
                     <div class="history-header">

@@ -19,13 +19,28 @@ class ProfileController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        $riwayatAntrean = \App\Models\Antrean::with(['layanan1', 'layanan2'])
+        $riwayatAntrean = \App\Models\Antrean::withoutGlobalScopes()
+            ->with(['layanan1', 'layanan2', 'barbershop'])
             ->where('nama_pelanggan', $user->username)
             ->whereIn('status', ['selesai', 'batal'])
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('pelanggan.profile.index', compact('user', 'riwayatAntrean'));
+        $bookingAktif = \App\Models\Antrean::withoutGlobalScopes()
+            ->with(['layanan1', 'layanan2', 'barbershop'])
+            ->where('nama_pelanggan', $user->username)
+            ->where('is_booking', true)
+            ->whereIn('status', ['menunggu', 'sedang dilayani'])
+            ->orderBy('tanggal_booking', 'asc')
+            ->orderBy('waktu_booking', 'asc')
+            ->get();
+
+        $activeBarbershop = new \App\Models\Barbershop();
+        $activeBarbershop->nama_brand = 'Arga Barbershop';
+        $activeBarbershop->warna_primer = '#d4af37'; // Warna general
+        $activeDesign = $activeBarbershop;
+
+        return view('pelanggan.profile.index', compact('user', 'riwayatAntrean', 'bookingAktif', 'activeBarbershop', 'activeDesign'));
     }
     /**
      * Menampilkan form edit profil pelanggan.
@@ -40,7 +55,12 @@ class ProfileController extends Controller
                 ->with('error', 'Admin tidak dapat mengedit profil dari halaman pelanggan.');
         }
 
-        return view('pelanggan.profile.edit', compact('user'));
+        $activeBarbershop = new \App\Models\Barbershop();
+        $activeBarbershop->nama_brand = 'Arga Barbershop';
+        $activeBarbershop->warna_primer = '#d4af37';
+        $activeDesign = $activeBarbershop;
+
+        return view('pelanggan.profile.edit', compact('user', 'activeBarbershop', 'activeDesign'));
     }
 
     /**

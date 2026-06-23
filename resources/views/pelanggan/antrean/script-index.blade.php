@@ -636,6 +636,7 @@
                 stepReview.classList.add('active');
             } else {
                 btnAddMore.style.display = 'block';
+                btnAddMore.textContent = '+ Tambah Layanan Lain (Maks 2)';
                 stepLayanan.classList.remove('active');
                 stepReview.classList.add('active');
             }
@@ -665,7 +666,14 @@
                     bookingDescText.textContent = "Mendaftar untuk antrean langsung saat ini juga (Walk-in).";
                     bookingContainer.style.display = 'none';
                     const locPreview = document.querySelector('.queue-location-preview');
-                    if (locPreview) locPreview.style.display = 'flex'; // or block depending on css
+                    if (locPreview) {
+                        locPreview.style.display = 'block'; // restore as block element
+                        if (leafletMap) {
+                            setTimeout(() => {
+                                leafletMap.invalidateSize();
+                            }, 100);
+                        }
+                    }
                     waktuBooking.disabled = true;
                     tanggalBooking.required = false;
                     waktuBooking.value = "";

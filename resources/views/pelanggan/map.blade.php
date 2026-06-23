@@ -922,6 +922,9 @@
                                         <i class="fas fa-tachometer-alt"></i> Dashboard
                                     </a>
                                 @endif
+                                <a href="{{ route('profile.index') }}" class="dropdown-item">
+                                    <i class="fas fa-user-circle"></i> Profil & Booking
+                                </a>
                                 <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
                                     @csrf
                                     <button type="submit" class="dropdown-item text-danger">

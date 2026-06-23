@@ -42,9 +42,18 @@ Route::post('/set-username', [AuthController::class, 'doSetUsername'])->name('se
 Route::get('/test-firebase', [AuthController::class, 'testFirebase'])->name('test.firebase');
 
 // ==========================================
+// RUTE PROFIL PELANGGAN (GLOBAL)
+// ==========================================
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+// ==========================================
 // RUTE CABANG (TENANT SCOPE)
 // ==========================================
-Route::prefix('{slug}')->where(['slug' => '^(?!login|logout|admin|super-admin|firebase-login|test-firebase|images)[a-zA-Z0-9_-]+$'])->group(function () {
+Route::prefix('{slug}')->where(['slug' => '^(?!login|logout|admin|super-admin|profile|firebase-login|test-firebase|images)[a-zA-Z0-9_-]+$'])->group(function () {
     Route::get('/', [\App\Http\Controllers\HomePageController::class, 'index'])->name('barbershop.home');
     Route::get('/layanan', [PelangganLayananController::class, 'index'])->name('pelanggan.layanan');
     Route::get('/antrean', [AntreanController::class, 'index'])->name('antrean');
@@ -61,14 +70,9 @@ Route::prefix('{slug}')->where(['slug' => '^(?!login|logout|admin|super-admin|fi
     Route::post('/antrean/daftar', [AntreanController::class, 'store'])
         ->name('antrean.daftar')
         ->middleware('auth');
-
-    // Rute untuk profil pelanggan
-    Route::middleware('auth')->group(function () {
-        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    });
 });
+
+
 
 
 // Serve image files stored in project-root /images for local/dev access.

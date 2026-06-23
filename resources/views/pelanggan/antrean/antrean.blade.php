@@ -111,6 +111,20 @@
             <!-- User Status Card -->
             @auth
                 @if ($antreanSayaAktif)
+                    @if ($antreanSayaAktif->barbershop_id !== $activeBarbershop->id)
+                        <div class="card shadow-sm mb-4" style="border: 1px solid #6c757d; border-radius: 16px; background-color: #ffffff;">
+                            <div class="card-body p-4 text-center">
+                                <div class="mb-3">
+                                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 60px; height: 60px; background: #f8f9fa;">
+                                        <i class="fas fa-exclamation-triangle" style="color: #6c757d; font-size: 1.5rem;"></i>
+                                    </div>
+                                </div>
+                                <h5 class="fw-bold mb-2">Antrean di Cabang Lain</h5>
+                                <p class="text-muted small mb-4" style="line-height: 1.5;">Anda saat ini memiliki antrean atau booking aktif di cabang barbershop lain. Anda tidak dapat membuat antrean baru di cabang ini sebelum menyelesaikan antrean sebelumnya.</p>
+                                <a href="{{ route('profile.index') }}" class="btn w-100 fw-bold text-white" style="background-color: #6c757d; border-radius: 10px; padding: 12px;">Lihat Profil & Booking</a>
+                            </div>
+                        </div>
+                    @else
                     <div class="card shadow-sm mb-4" style="border: 1px solid {{ $activeBarbershop->warna_primer ?? '#e8a53a' }}80 !important; border-radius: 16px; background-color: #ffffff;">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-3">
@@ -200,6 +214,7 @@
                             @endif
                         </div>
                     </div>
+                    @endif
                 @endif
             @else
                 <div class="card shadow-sm mb-4" style="border: 1px solid #eaeaea; border-radius: 16px; background-color: #ffffff;">
@@ -291,15 +306,6 @@
                             style="border-radius: 12px; padding: 14px 20px; font-size: 1rem;" title="Di luar jam operasional">
                             Antrean Tutup
                         </button>
-                    @endif
-                @else
-                    @if (!$antreanSayaAktif)
-                        <div class="d-grid gap-3 mb-4">
-                            <button class="btn btn-disabled w-100 fw-bold shadow-sm" disabled
-                                style="border-radius: 12px; padding: 14px 20px; font-size: 1rem;" title="Anda memiliki antrean aktif di cabang lain">
-                                Punya Antrean di barbershop Lain
-                            </button>
-                        </div>
                     @endif
                 @endif
             @endauth

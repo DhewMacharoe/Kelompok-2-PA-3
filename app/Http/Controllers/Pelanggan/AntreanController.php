@@ -41,7 +41,8 @@ class AntreanController extends Controller
         $posisiAntreanSaya = null;
 
         if (Auth::check() && Auth::user()->username) {
-            $antreanSayaAktif = Antrean::with(['layanan1', 'layanan2'])
+            $antreanSayaAktif = Antrean::withoutGlobalScopes()
+                ->with(['layanan1', 'layanan2'])
                 ->byCustomerName(Auth::user()->username)
                 ->activeQueues()
                 ->orderBy('waktu_masuk', 'asc')
