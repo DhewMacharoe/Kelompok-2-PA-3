@@ -133,8 +133,8 @@
 
                 <div class="mb-3">
                     <div class="d-flex justify-content-between mb-1">
-                        <span class="text-muted small">Total Booking</span>
-                        <span class="fw-bold text-dark"><?php echo e($user->totalBookings()); ?></span>
+                        <span class="text-muted small">Total Antrean</span>
+                        <span class="fw-bold text-dark"><?php echo e($user->totalQueues()); ?></span>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -253,9 +253,9 @@
                                                         <span class="badge bg-danger-subtle text-danger" data-bs-toggle="tooltip" title="Alasan: <?php echo e($booking->alasan_batal ?? '-'); ?>">
                                                             <i class="bi bi-x-circle-fill me-1"></i>Dibatalkan Pelanggan
                                                         </span>
-                                                    <?php elseif($booking->batal_oleh === 'salon'): ?>
+                                                    <?php elseif($booking->batal_oleh === 'admin'): ?>
                                                         <span class="badge bg-secondary-subtle text-dark" data-bs-toggle="tooltip" title="Alasan: <?php echo e($booking->alasan_batal ?? '-'); ?>">
-                                                            <i class="bi bi-x-circle-fill me-1"></i>Dibatalkan Salon
+                                                            <i class="bi bi-x-circle-fill me-1"></i>Dibatalkan Admin
                                                         </span>
                                                     <?php elseif($booking->batal_oleh === 'no_show'): ?>
                                                         <span class="badge bg-danger text-white" data-bs-toggle="tooltip" title="Alasan: <?php echo e($booking->alasan_batal ?? '-'); ?>">

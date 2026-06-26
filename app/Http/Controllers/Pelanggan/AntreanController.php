@@ -229,7 +229,7 @@ class AntreanController extends Controller
         ]);
 
         $user = Auth::user();
-        if (!$user->username || !$user->no_whatsapp) {
+        if (!$user->username) {
             return redirect()->route('set.username')->with('error', 'Silakan lengkapi profil terlebih dahulu.');
         }
 

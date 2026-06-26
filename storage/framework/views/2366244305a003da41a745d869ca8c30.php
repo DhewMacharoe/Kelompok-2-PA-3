@@ -920,6 +920,9 @@
                                         <i class="fas fa-tachometer-alt"></i> Dashboard
                                     </a>
                                 <?php endif; ?>
+                                <a href="<?php echo e(route('profile.index')); ?>" class="dropdown-item">
+                                    <i class="fas fa-user-circle"></i> Profil & Booking
+                                </a>
                                 <form action="<?php echo e(route('logout')); ?>" method="POST" style="margin: 0;">
                                     <?php echo csrf_field(); ?>
                                     <button type="submit" class="dropdown-item text-danger">

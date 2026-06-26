@@ -99,9 +99,9 @@ class User extends Authenticatable
         return $query;
     }
 
-    public function totalBookings()
+    public function totalQueues()
     {
-        return $this->scopedAntreans()->where('is_booking', true)->count();
+        return $this->scopedAntreans()->count();
     }
 
     public function customerCancellationsCount()
@@ -116,7 +116,7 @@ class User extends Authenticatable
 
     public function cancellationPercentage()
     {
-        $total = $this->totalBookings();
+        $total = $this->totalQueues();
         if ($total === 0) {
             return 0.0;
         }
@@ -132,7 +132,7 @@ class User extends Authenticatable
 
     public function riskLevel()
     {
-        $total = $this->totalBookings();
+        $total = $this->totalQueues();
         $violations = $this->customerCancellationsCount() + $this->noShowsCount();
         $percentage = $this->cancellationPercentage();
 

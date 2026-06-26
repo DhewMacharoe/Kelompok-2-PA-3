@@ -133,8 +133,8 @@
 
                 <div class="mb-3">
                     <div class="d-flex justify-content-between mb-1">
-                        <span class="text-muted small">Total Booking</span>
-                        <span class="fw-bold text-dark">{{ $user->totalBookings() }}</span>
+                        <span class="text-muted small">Total Antrean</span>
+                        <span class="fw-bold text-dark">{{ $user->totalQueues() }}</span>
                     </div>
                 </div>
                 <div class="mb-3">

@@ -18,7 +18,7 @@ class ModerasiPelangganController extends Controller
     {
         $search = $request->input('search');
 
-        $query = User::role('user');
+        $query = User::role('user')->whereHas('antreans');
 
         if ($search) {
             $query->where(function ($q) use ($search) {

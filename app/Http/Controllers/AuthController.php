@@ -77,6 +77,8 @@ class AuthController extends Controller
                 'email_verified_at' => now(),
             ]);
 
+            $user->assignRole('user');
+
             // For now, don't auto-login since Firebase handles auth
             // Auth::login($user);
             // $request->session()->regenerate();
@@ -182,6 +184,7 @@ class AuthController extends Controller
                     'email_verified_at' => now(),
                     'password' => bcrypt(Str::random(32)), // Random password since auth is via Firebase
                 ]);
+                $user->assignRole('user');
             }
         }
 

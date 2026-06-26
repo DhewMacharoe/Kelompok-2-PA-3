@@ -50,7 +50,7 @@
                     <tr>
                         <th scope="col" class="py-3 px-3">Nama Pelanggan</th>
                         <th scope="col" class="py-3">Info Kontak</th>
-                        <th scope="col" class="py-3 text-center">Total Booking</th>
+                        <th scope="col" class="py-3 text-center">Total Antrean</th>
                         <th scope="col" class="py-3 text-center">Batal (Pelanggan)</th>
                         <th scope="col" class="py-3 text-center">No-Show</th>
                         <th scope="col" class="py-3 text-center">Persentase Batal</th>
@@ -64,7 +64,7 @@
                     @forelse($users as $user)
                         @php
                             $risk = $user->riskLevel();
-                            $total = $user->totalBookings();
+                            $total = $user->totalQueues();
                             $cancel = $user->customerCancellationsCount();
                             $noshow = $user->noShowsCount();
                             $pct = $user->cancellationPercentage();

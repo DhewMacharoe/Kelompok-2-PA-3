@@ -26,7 +26,9 @@ class IdentifyTenant
                       $path === 'logout' ||
                       str_starts_with($path, 'barbershop') ||
                       $path === 'test-firebase' ||
-                      str_starts_with($path, 'images');
+                      str_starts_with($path, 'images') ||
+                      str_starts_with($path, 'set-username') ||
+                      str_starts_with($path, 'profile');
 
         // 2. Resolve tenant dari parameter rute 'slug' (jika ada) dan simpan ke session
         $slug = $request->route('slug');

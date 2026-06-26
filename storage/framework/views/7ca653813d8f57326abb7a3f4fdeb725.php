@@ -356,20 +356,23 @@
             const forms = document.querySelectorAll('form');
 
             forms.forEach(function(form) {
-                form.addEventListener('submit', function() {
-                    const submitButtons = form.querySelectorAll('button[type="submit"]');
+                form.addEventListener('submit', function(event) {
+                    setTimeout(() => {
+                        if (event.defaultPrevented) return;
+                        const submitButtons = form.querySelectorAll('button[type="submit"]');
 
-                    submitButtons.forEach(function(button) {
-                        if (!button.closest('.navbar') && !button.closest('nav')) {
-                            const originalText = button.textContent.trim();
-                            const loadingText = button.dataset.loadingText ||
-                                'Memproses...';
+                        submitButtons.forEach(function(button) {
+                            if (!button.closest('.navbar') && !button.closest('nav')) {
+                                const originalText = button.textContent.trim();
+                                const loadingText = button.dataset.loadingText ||
+                                    'Memproses...';
 
-                            button.disabled = true;
-                            button.textContent = loadingText;
-                            button.dataset.originalText = originalText;
-                        }
-                    });
+                                button.disabled = true;
+                                button.textContent = loadingText;
+                                button.dataset.originalText = originalText;
+                            }
+                        });
+                    }, 0);
                 });
             });
         });

@@ -144,7 +144,7 @@
 <nav class="navbar navbar-expand-lg pelanggan-navbar">
     <div class="container">
         <div class="d-flex align-items-center justify-content-between w-100 py-2">
-            <a href="<?php echo e(route('barbershop.home')); ?>" class="navbar-brand m-0 p-0 d-flex align-items-center gap-2">
+            <a href="<?php echo e(route('barbershop.home', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop'])); ?>" class="navbar-brand m-0 p-0 d-flex align-items-center gap-2">
                 <?php if(isset($activeBarbershop) && $activeBarbershop->favicon): ?>
                     <img src="<?php echo e(asset($activeBarbershop->favicon)); ?>" alt="<?php echo e($activeBarbershop->nama_brand ?? 'Arga Home\'s Logo'); ?>" class="img-fluid" style="max-height: 40px;">
                 <?php else: ?>
@@ -169,35 +169,35 @@
 
                 <li class="nav-item">
                     <a class="nav-link fw-bold <?php echo e(request()->routeIs('barbershop.home') ? 'active' : ''); ?>"
-                        href="<?php echo e(route('barbershop.home')); ?>">
+                        href="<?php echo e(route('barbershop.home', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop'])); ?>">
                         Beranda
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link fw-bold <?php echo e(request()->routeIs('antrean') ? 'active' : ''); ?>"
-                        href="<?php echo e(route('antrean')); ?>">
+                        href="<?php echo e(route('antrean', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop'])); ?>">
                         Antrean
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link fw-bold <?php echo e(request()->routeIs('pelanggan.layanan') ? 'active' : ''); ?>"
-                        href="<?php echo e(route('pelanggan.layanan')); ?>">
+                        href="<?php echo e(route('pelanggan.layanan', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop'])); ?>">
                         Layanan
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link fw-bold <?php echo e(request()->routeIs('rekomendasi.index') ? 'active' : ''); ?>"
-                        href="<?php echo e(route('rekomendasi.index')); ?>">
+                        href="<?php echo e(route('rekomendasi.index', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop'])); ?>">
                         Rekomendasi
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link fw-bold <?php echo e(request()->routeIs('galeri') ? 'active' : ''); ?>"
-                        href="<?php echo e(route('galeri')); ?>">
+                        href="<?php echo e(route('galeri', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop'])); ?>">
                         Galeri
                     </a>
                 </li>
