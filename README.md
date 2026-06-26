@@ -4,7 +4,7 @@
 
 ## Deskripsi Produk
 
-Sistem ini memudahkan pemilik usaha *barbershop* (Super Admin) untuk mengelola berbagai cabang, sementara setiap cabang memiliki ruang kerja (Admin Tenant) mereka sendiri yang terisolasi. Pelanggan dapat dengan mudah mencari lokasi *barbershop* terdekat melalui peta interaktif dan mengambil nomor antrean.
+Sistem ini memudahkan pemilik usaha *barbershop dan Salon* dalam mengelola bisnisnya dan setiap barbershop dan salon memiliki ruang kerja (Admin Tenant) mereka sendiri yang terisolasi. Pelanggan dapat dengan mudah mencari lokasi *barbershop* terdekat melalui peta interaktif dan mengambil nomor antrean.
 
 ### Fitur Utama
 
@@ -26,7 +26,7 @@ Sistem ini memudahkan pemilik usaha *barbershop* (Super Admin) untuk mengelola b
 
 ## 🚀 Panduan Menjalankan Proyek (Wajib Baca)
 
-Bagi pengembang yang ingin berkontribusi atau menjalankan *source code* ini secara lokal, **sangat diwajibkan** untuk membaca panduan instalasi yang telah kami sediakan. Panduan tersebut memuat langkah-langkah *setup* dari nol, termasuk konfigurasi *Database* dan *Firebase*.
+Bagi pengembang yang ingin berkontribusi atau menjalankan *source code* ini secara lokal, **sangat disarankan** untuk membaca panduan instalasi yang telah kami sediakan. Panduan tersebut memuat langkah-langkah *setup* dari nol, termasuk konfigurasi *Database* dan *Firebase*.
 
 👉 **[KLIK DI SINI UNTUK MEMBACA PANDUAN INSTALASI (instalasi.md)](./instalasi.md)**
 
