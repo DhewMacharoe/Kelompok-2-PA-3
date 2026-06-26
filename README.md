@@ -1,4 +1,5 @@
-# MargayaTOBA - Sistem Manajemen Barbershop Multi-Tenant
+# MargayaTOBA  
+# Sistem Manajemen Barbershop Multi-Tenant
 
 **MargayaTOBA** adalah sebuah platform manajemen *barbershop dan Salon* berskala besar (multi-tenant) yang dibangun menggunakan framework **Laravel 12**. Aplikasi ini dirancang agar satu sistem dapat melayani banyak cabang *barbershop* secara bersamaan dengan isolasi data yang aman, efisien, dan *real-time*.
 
