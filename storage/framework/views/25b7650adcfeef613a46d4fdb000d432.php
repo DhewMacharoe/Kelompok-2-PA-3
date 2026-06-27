@@ -44,8 +44,8 @@
             <button type="button" class="btn-reset-filter" onclick="resetLayananFilter()">Reset Pencarian</button>
         </div>
 
-        <div class="table-container">
-            <table class="custom-table">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle custom-table">
                 <thead>
                     <tr>
                         <th>Nama</th>

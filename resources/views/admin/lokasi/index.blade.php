@@ -214,7 +214,7 @@
                                     <option value="buka" {{ ($keterangan_libur ?? 'libur') === 'buka' ? 'selected' : '' }}>Tetap Buka pada Hari Raya</option>
                                 </select>
                                 
-                                <label for="is_booking_enabled" class="form-label fw-semibold text-muted mb-1">Fitur Booking Antrean</label>
+                                <label for="is_booking_enabled" class="form-label fw-semibold text-muted mb-1">Fitur Ambil Antrean</label>
                                 <select name="is_booking_enabled" id="is_booking_enabled" class="form-select form-control-premium" required>
                                     <option value="1" {{ ($is_booking_enabled ?? '1') === '1' ? 'selected' : '' }}>Aktif (Bisa Booking)</option>
                                     <option value="0" {{ ($is_booking_enabled ?? '1') === '0' ? 'selected' : '' }}>Nonaktif (Hanya Walk-in)</option>

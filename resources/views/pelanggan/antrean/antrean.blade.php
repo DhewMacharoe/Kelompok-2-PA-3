@@ -297,7 +297,7 @@
                                 <button class="btn btn-gold w-100 btn-add-queue fw-bold shadow-sm" data-bs-toggle="modal"
                                     data-bs-target="#modalTambahAntrean"
                                     data-loading-text="Membuka form..." style="border-radius: 12px; padding: 14px 20px; font-size: 1rem;">
-                                    {{ $isOperationalHour ? 'Tambah Antrean' : 'Booking Antrean' }}
+                                    {{ $isOperationalHour ? 'Tambah Antrean' : 'Ambil Antrean' }}
                                 </button>
                             @endif
                         </div>

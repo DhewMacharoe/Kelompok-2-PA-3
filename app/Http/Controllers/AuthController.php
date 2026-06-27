@@ -127,9 +127,9 @@ class AuthController extends Controller
             return redirect($intended ?: '/');
         }
 
-        // Ditambahkan ->withInput() agar email yang sudah diketik tidak hilang saat password salah
+        // Ditambahkan ->withInput() agar email yang sudah diketik tidak hilang saat kata sandi salah
         return back()
-            ->with('error', 'Email atau password salah.')
+            ->with('error', 'Email atau kata sandi salah.')
             ->withInput($request->only('email'));
     }
 
