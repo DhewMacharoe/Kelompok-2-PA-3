@@ -1,7 +1,6 @@
-@extends('pelanggan.layouts.app')
-@section('title', 'Rekomendasi & Try-On Gaya Rambut')
+<?php $__env->startSection('title', 'Rekomendasi & Try-On Gaya Rambut'); ?>
 
-@push('styles')
+<?php $__env->startPush('styles'); ?>
     <style>
         .rekomendasi-shell {
             position: relative;
@@ -52,7 +51,7 @@
             margin: 0 auto;
             border-radius: 24px;
             background: #fdfbf7;
-            border: 2px dashed {{ $activeBarbershop->warna_primer ?? '#d4af37' }};
+            border: 2px dashed <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>;
             overflow: hidden;
             position: relative;
             display: flex;
@@ -83,8 +82,8 @@
         }
 
         .analysis-box {
-            background: linear-gradient(180deg, #fff, {{ $activeBarbershop->warna_primer ?? '#d4af37' }}0d);
-            border: 1px solid {{ $activeBarbershop->warna_primer ?? '#d4af37' }}33;
+            background: linear-gradient(180deg, #fff, <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>0d);
+            border: 1px solid <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>33;
             border-radius: 18px;
         }
 
@@ -96,12 +95,12 @@
         }
 
         .analysis-progress .progress-bar {
-            background: linear-gradient(90deg, {{ $activeBarbershop->warna_primer ?? '#d4af37' }}, {{ $activeBarbershop->warna_primer ?? '#d4af37' }}bb);
+            background: linear-gradient(90deg, <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>, <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>bb);
         }
 
         .result-banner {
-            background: linear-gradient(135deg, #fff, {{ $activeBarbershop->warna_primer ?? '#d4af37' }}14);
-            border: 1px solid {{ $activeBarbershop->warna_primer ?? '#d4af37' }}40;
+            background: linear-gradient(135deg, #fff, <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>14);
+            border: 1px solid <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>40;
             border-radius: 18px;
         }
 
@@ -112,7 +111,7 @@
         }
 
         .tip-card {
-            border: 1px solid {{ $activeBarbershop->warna_primer ?? '#d4af37' }}40;
+            border: 1px solid <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>40;
             border-radius: 18px;
             background: #fff;
             padding: 16px;
@@ -120,7 +119,7 @@
         }
 
         .tip-card i {
-            color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }};
+            color: <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>;
         }
 
         .recommendation-card {
@@ -133,7 +132,7 @@
             .recommendation-card:hover {
                 transform: translateY(-4px);
                 box-shadow: 0 18px 32px rgba(22, 28, 45, 0.11);
-                border-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }};
+                border-color: <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>;
             }
         }
 
@@ -155,10 +154,10 @@
         }
 
         .recommendation-note {
-            background: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}14;
+            background: <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>14;
             border-radius: 14px;
             padding: 12px 14px;
-            color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }};
+            color: <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>;
         }
 
         .thumb-img {
@@ -236,9 +235,9 @@
             }
         }
     </style>
-@endpush
+<?php $__env->stopPush(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container py-4 py-md-5 rekomendasi-shell">
 
 
@@ -257,7 +256,7 @@
                                 <!-- AI Loading Overlay inside preview box -->
                                 <div id="ai-loading-overlay" class="position-absolute d-flex flex-column align-items-center justify-content-center" 
                                      style="top:0; left:0; width:100%; height:100%; background: rgba(255, 255, 255, 0.96); z-index: 100; transition: opacity 0.5s ease, visibility 0.5s;">
-                                    <div class="spinner-border mb-2" role="status" style="width: 2rem; height: 2rem; color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;">
+                                    <div class="spinner-border mb-2" role="status" style="width: 2rem; height: 2rem; color: <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?> !important;">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
                                     <div class="fw-bold small text-dark mb-1">Menyiapkan AI Wajah</div>
@@ -285,7 +284,7 @@
                             <button type="button" id="btn-camera" class="btn btn-dark btn-lg shadow-sm" style="border-radius: 12px; transition: 0.3s;">
                                 <i class="fas fa-camera me-2"></i>Aktifkan Kamera
                             </button>
-                            <button type="button" id="btn-capture" class="btn btn-lg shadow-sm fw-bold text-white" style="display:none; border-radius: 12px; transition: 0.3s; background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important; border-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important;">
+                            <button type="button" id="btn-capture" class="btn btn-lg shadow-sm fw-bold text-white" style="display:none; border-radius: 12px; transition: 0.3s; background-color: <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?> !important; border-color: <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?> !important;">
                                 <i class="fas fa-dot-circle me-2"></i>Ambil Foto
                             </button>
                             <input type="file" id="file-upload" accept="image/*" class="d-none">
@@ -299,7 +298,7 @@
                             <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
                                 <div>
                                     <div class="text-muted small fw-semibold text-uppercase mb-1">Hasil deteksi</div>
-                                    <h3 id="live-bentuk-wajah" class="fw-bold text-uppercase mb-1" style="color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }};">Menganalisis...</h3>
+                                    <h3 id="live-bentuk-wajah" class="fw-bold text-uppercase mb-1" style="color: <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>;">Menganalisis...</h3>
                                     
                                     <div id="live-attributes" class="d-none mt-2">
                                         <span class="badge bg-secondary me-1" id="live-gender" style="opacity: 0.9"><i class="fas fa-venus-mars me-1"></i><span></span></span>
@@ -370,7 +369,7 @@
                                     </div>
                                 </div>
                                 <div class="text-end">
-                                    <span class="badge py-2 px-3 mb-2 fs-6 shadow-sm rounded-pill" style="background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }} !important; color: #fff !important;"><i class="fas fa-user-tag me-1"></i> Bentuk Wajah: <span id="label-bentuk-wajah" class="fw-bold"></span></span>
+                                    <span class="badge py-2 px-3 mb-2 fs-6 shadow-sm rounded-pill" style="background-color: <?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?> !important; color: #fff !important;"><i class="fas fa-user-tag me-1"></i> Bentuk Wajah: <span id="label-bentuk-wajah" class="fw-bold"></span></span>
                                     <div class="small text-muted bg-white px-3 py-1 rounded-pill border d-inline-block shadow-sm">Akurasi AI: <span id="label-akurasi-hasil" class="fw-bold text-success">0%</span></div>
                                 </div>
                             </div>
@@ -396,12 +395,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
 
     <script>
-        const warnaPrimer = "{{ $activeBarbershop->warna_primer ?? '#d4af37' }}";
+        const warnaPrimer = "<?php echo e($activeBarbershop->warna_primer ?? '#d4af37'); ?>";
         const CLASS_NAMES = ['Heart', 'Oblong', 'Oval', 'Round', 'Square'];
         // Pemetaan kelas untuk model rambut berdasarkan model pelatihan (Keras/TF)
         // Indeks: 0=Bergelombang, 1=Gimbal, 2=Keriting, 3=Kribo, 4=Lurus
         const HAIR_CLASSES_RAW = ['Bergelombang', 'Gimbal', 'Keriting', 'Kribo', 'Lurus'];
-        const fallbackImageUrl = "{{ asset('assets/images/rambut/buzz_cut.png') }}";
+        const fallbackImageUrl = "<?php echo e(asset('assets/images/rambut/buzz_cut.png')); ?>";
         let aiModel = null,
             hairModel = null,
             faceDetector = null;
@@ -788,7 +787,7 @@
                 }
                 
                 // --- VALIDASI GENDER BERDASARKAN KATEGORI TENANT ---
-                const tenantKategori = "{{ strtolower($activeBarbershop->kategori ?? 'barbershop') }}";
+                const tenantKategori = "<?php echo e(strtolower($activeBarbershop->kategori ?? 'barbershop')); ?>";
                 
                 if (tenantKategori === 'barbershop' && detectedGender === 'female') {
                     showError('Akses Ditolak', 'Mohon maaf, Barbershop ini khusus melayani pelanggan pria.');
@@ -973,11 +972,11 @@
             btnKirim.disabled = true;
             btnKirim.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Memuat...';
 
-            fetch("{{ route('rekomendasi.process') }}", {
+            fetch("<?php echo e(route('rekomendasi.process')); ?>", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        "X-CSRF-TOKEN": "<?php echo e(csrf_token()); ?>"
                     },
                     body: JSON.stringify({
                         bentuk_wajah: currentBentukWajah,
@@ -1141,15 +1140,15 @@
                     <div class="row g-3">
                         <div class="col-md-4 text-center">
                             <div class="mb-2 small text-muted">Depan</div>
-                            <img id="modal-img-front" src="{{ asset('assets/images/rambut/buzz_cut.png') }}" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
+                            <img id="modal-img-front" src="<?php echo e(asset('assets/images/rambut/buzz_cut.png')); ?>" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
                         </div>
                         <div class="col-md-4 text-center">
                             <div class="mb-2 small text-muted">Samping</div>
-                            <img id="modal-img-side" src="{{ asset('assets/images/rambut/buzz_cut.png') }}" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
+                            <img id="modal-img-side" src="<?php echo e(asset('assets/images/rambut/buzz_cut.png')); ?>" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
                         </div>
                         <div class="col-md-4 text-center">
                             <div class="mb-2 small text-muted">Belakang</div>
-                            <img id="modal-img-back" src="{{ asset('assets/images/rambut/buzz_cut.png') }}" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
+                            <img id="modal-img-back" src="<?php echo e(asset('assets/images/rambut/buzz_cut.png')); ?>" class="img-fluid rounded" style="max-height:260px; object-fit:cover;">
                         </div>
                     </div>
                 </div>
@@ -1159,4 +1158,6 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('pelanggan.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\s6\pa 3\pa_3v3\Kelompok-2-PA-3\resources\views/pelanggan/rekomendasi/rekomendasi.blade.php ENDPATH**/ ?>
