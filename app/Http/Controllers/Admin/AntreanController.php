@@ -279,7 +279,7 @@ class AntreanController extends Controller
         }
 
         $request->validate([
-            'nama_pelanggan' => 'required|string|max:255',
+            'nama_pelanggan' => 'required|string|max:25',
             'layanan_id1' => [
                 'required',
                 Rule::exists('layanans', 'id')->where(function ($query) {

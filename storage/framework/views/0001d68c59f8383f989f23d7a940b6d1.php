@@ -1,8 +1,6 @@
-@extends('admin.layouts.app')
+<?php $__env->startSection('title', 'Moderasi Pelanggan'); ?>
 
-@section('title', 'Moderasi Pelanggan')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h4 class="fw-bold text-dark m-0">Moderasi Pelanggan</h4>
@@ -10,41 +8,42 @@
     </div>
 </div>
 
-@if(session('success'))
+<?php if(session('success')): ?>
     <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
         <i class="bi bi-check-circle-fill me-2"></i>
-        {{ session('success') }}
+        <?php echo e(session('success')); ?>
+
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-@endif
+<?php endif; ?>
 
 <div class="card border-0 shadow-sm mb-4">
     <div class="card-body p-4">
         <!-- Filter dan Search -->
-        <form action="{{ route('admin.moderasi.index') }}" method="GET" class="row g-3 mb-4">
+        <form action="<?php echo e(route('admin.moderasi.index')); ?>" method="GET" class="row g-3 mb-4">
             <div class="col-md-6 col-lg-4">
                 <div class="input-group">
                     <span class="input-group-text bg-white border-end-0 text-muted">
                         <i class="bi bi-search"></i>
                     </span>
                     <input type="text" name="search" class="form-control border-start-0 ps-0" 
-                           placeholder="Cari nama, username, email..." value="{{ $search ?? '' }}" aria-label="Cari nama, username, email pelanggan">
+                           placeholder="Cari nama, username, email..." value="<?php echo e($search ?? ''); ?>" aria-label="Cari nama, username, email pelanggan">
                 </div>
             </div>
             <div class="col-md-3">
                 <button type="submit" class="btn btn-primary px-4 py-2" style="background-color: var(--primary-blue); border: none;" aria-label="Cari Pelanggan">
                     Cari
                 </button>
-                @if($search)
-                    <a href="{{ route('admin.moderasi.index') }}" class="btn btn-outline-secondary px-3 py-2 ms-2" aria-label="Reset Pencarian">
+                <?php if($search): ?>
+                    <a href="<?php echo e(route('admin.moderasi.index')); ?>" class="btn btn-outline-secondary px-3 py-2 ms-2" aria-label="Reset Pencarian">
                         Reset
                     </a>
-                @endif
+                <?php endif; ?>
             </div>
         </form>
 
         <!-- Tabel Pelanggan -->
-        @include('admin.galeri.style-index')
+        <?php echo $__env->make('admin.galeri.style-index', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
         <div class="table-responsive">
             <table class="table table-hover align-middle custom-table">
                 <thead class="table-light">
@@ -62,76 +61,80 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($users as $user)
-                        @php
+                    <?php $__empty_1 = true; $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <?php
                             $risk = $user->riskLevel();
                             $total = $user->totalQueues();
                             $cancel = $user->customerCancellationsCount();
                             $noshow = $user->noShowsCount();
                             $pct = $user->cancellationPercentage();
-                        @endphp
+                        ?>
                         <tr>
                             <td data-label="Nama Pelanggan">
                                 <div>
-                                    <div class="fw-bold text-dark">{{ $user->name }}</div>
-                                    <div class="text-muted small">&#64;{{ $user->username ?? 'belum-set' }}</div>
+                                    <div class="fw-bold text-dark"><?php echo e($user->name); ?></div>
+                                    <div class="text-muted small">&#64;<?php echo e($user->username ?? 'belum-set'); ?></div>
                                 </div>
                             </td>
                             <td data-label="Info Kontak">
                                 <div>
-                                    <div class="small"><i class="bi bi-envelope-fill text-muted me-1"></i> {{ $user->email }}</div>
-                                    <div class="small mt-1"><i class="bi bi-whatsapp text-success me-1"></i> {{ $user->no_whatsapp ?? '-' }}</div>
+                                    <div class="small"><i class="bi bi-envelope-fill text-muted me-1"></i> <?php echo e($user->email); ?></div>
+                                    <div class="small mt-1"><i class="bi bi-whatsapp text-success me-1"></i> <?php echo e($user->no_whatsapp ?? '-'); ?></div>
                                 </div>
                             </td>
-                            <td data-label="Total Antrean" class="fw-semibold text-dark">{{ $total }}</td>
-                            <td data-label="Batal (Pelanggan)" class="fw-semibold text-danger">{{ $cancel }}</td>
-                            <td data-label="No-Show" class="fw-semibold text-danger">{{ $noshow }}</td>
+                            <td data-label="Total Antrean" class="fw-semibold text-dark"><?php echo e($total); ?></td>
+                            <td data-label="Batal (Pelanggan)" class="fw-semibold text-danger"><?php echo e($cancel); ?></td>
+                            <td data-label="No-Show" class="fw-semibold text-danger"><?php echo e($noshow); ?></td>
                             <td data-label="Persentase Batal">
-                                <span class="fw-semibold text-dark">{{ $pct }}%</span>
+                                <span class="fw-semibold text-dark"><?php echo e($pct); ?>%</span>
                             </td>
                             <td data-label="Aktivitas Terakhir" class="small">
-                                {{ $user->lastActivity() ? \Carbon\Carbon::parse($user->lastActivity())->translatedFormat('d M Y, H:i') : '-' }}
+                                <?php echo e($user->lastActivity() ? \Carbon\Carbon::parse($user->lastActivity())->translatedFormat('d M Y, H:i') : '-'); ?>
+
                             </td>
                             <td data-label="Risiko">
-                                @if($risk === 'high')
+                                <?php if($risk === 'high'): ?>
                                     <span class="badge rounded-pill bg-danger px-3 py-2">Tinggi</span>
-                                @elseif($risk === 'medium')
+                                <?php elseif($risk === 'medium'): ?>
                                     <span class="badge rounded-pill bg-warning text-dark px-3 py-2">Sedang</span>
-                                @else
+                                <?php else: ?>
                                     <span class="badge rounded-pill bg-success px-3 py-2">Rendah</span>
-                                @endif
+                                <?php endif; ?>
                             </td>
                             <td data-label="Status">
-                                @if($user->is_blocked)
+                                <?php if($user->is_blocked): ?>
                                     <span class="badge bg-secondary px-2.5 py-1.5"><i class="bi bi-lock-fill me-1"></i>Diblokir</span>
-                                @else
+                                <?php else: ?>
                                     <span class="badge bg-success-subtle text-success px-2.5 py-1.5"><i class="bi bi-patch-check-fill me-1"></i>Aktif</span>
-                                @endif
+                                <?php endif; ?>
                             </td>
                             <td data-label="Aksi">
                                 <div>
-                                    <a href="{{ route('admin.moderasi.show', $user->id) }}" class="btn btn-sm btn-outline-primary px-3 py-2" aria-label="Lihat Detail Pelanggan">
+                                    <a href="<?php echo e(route('admin.moderasi.show', $user->id)); ?>" class="btn btn-sm btn-outline-primary px-3 py-2" aria-label="Lihat Detail Pelanggan">
                                         <i class="bi bi-eye-fill me-1" aria-hidden="true"></i>Detail
                                     </a>
                                 </div>
                             </td>
                         </tr>
-                    @empty
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <tr class="empty-row-row">
                             <td colspan="10" class="text-center py-5 text-muted">
                                 <i class="bi bi-people fs-1 d-block mb-3 opacity-50"></i>
                                 Tidak ada data pelanggan ditemukan.
                             </td>
                         </tr>
-                    @endforelse
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
 
         <!-- Pagination -->
         <div class="mt-4">
-            {{ $users->links() }}
+            <?php echo e($users->links()); ?>
+
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH K:\Deploy-Argahomes\resources\views/admin/moderasi/index.blade.php ENDPATH**/ ?>

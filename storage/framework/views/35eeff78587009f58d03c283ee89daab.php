@@ -391,3 +391,4 @@
         }
     </style>
 
+<?php /**PATH K:\Deploy-Argahomes\resources\views/admin/galeri/style-index.blade.php ENDPATH**/ ?>

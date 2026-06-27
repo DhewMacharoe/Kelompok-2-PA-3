@@ -1,20 +1,18 @@
-@extends('admin.layouts.app')
+<?php $__env->startSection('title', 'Layanan'); ?>
 
-@section('title', 'Layanan')
-
-@section('header_title')
+<?php $__env->startSection('header_title'); ?>
     <div class="header-title">Layanan</div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
-@push('styles')
-    @include('admin.galeri.style-index')
-@endpush
+<?php $__env->startPush('styles'); ?>
+    <?php echo $__env->make('admin.galeri.style-index', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+<?php $__env->stopPush(); ?>
 
     <div class="main-container">
-        @if (session('success'))
-            <div id="flash-success" data-message="{{ session('success') }}" hidden></div>
+        <?php if(session('success')): ?>
+            <div id="flash-success" data-message="<?php echo e(session('success')); ?>" hidden></div>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     const flashSuccess = document.getElementById('flash-success');
@@ -28,9 +26,9 @@
                     }
                 });
             </script>
-        @endif
+        <?php endif; ?>
 
-        <a href="{{ route('admin.layanan.create') }}" class="btn-tambah shadow-sm d-inline-flex align-items-center gap-1">
+        <a href="<?php echo e(route('admin.layanan.create')); ?>" class="btn-tambah shadow-sm d-inline-flex align-items-center gap-1">
             <i class="bi bi-plus-lg"></i> Tambah Layanan
         </a>
 
@@ -46,8 +44,8 @@
             <button type="button" class="btn-reset-filter" onclick="resetLayananFilter()">Reset Pencarian</button>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-hover align-middle custom-table">
+        <div class="table-container">
+            <table class="custom-table">
                 <thead>
                     <tr>
                         <th>Nama</th>
@@ -57,97 +55,98 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($layanans as $item)
-                        <tr class="layanan-row" data-name="{{ strtolower($item->nama) }}"
-                            data-status="{{ $item->is_active ? 'aktif' : 'nonaktif' }}"
-                            data-description="{{ strtolower($item->deskripsi ?? '') }}">
+                    <?php $__empty_1 = true; $__currentLoopData = $layanans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <tr class="layanan-row" data-name="<?php echo e(strtolower($item->nama)); ?>"
+                            data-status="<?php echo e($item->is_active ? 'aktif' : 'nonaktif'); ?>"
+                            data-description="<?php echo e(strtolower($item->deskripsi ?? '')); ?>">
                             <td data-label="Nama">
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="icon-circle shadow-sm" style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; background-color: #f8f9fa; border-radius: 50%; font-size: 14px; color: #2C3E50; border: 1px solid #e7ecf6;">
-                                        @if ($item->ikon === 'paint')
+                                        <?php if($item->ikon === 'paint'): ?>
                                             <i class="fas fa-paint-brush"></i>
-                                        @elseif ($item->ikon === 'face')
+                                        <?php elseif($item->ikon === 'face'): ?>
                                             <i class="fas fa-smile"></i>
-                                        @else
+                                        <?php else: ?>
                                             <i class="fas fa-cut"></i>
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
-                                    <strong>{{ $item->nama }}</strong>
+                                    <strong><?php echo e($item->nama); ?></strong>
                                 </div>
                             </td>
                             <td data-label="Estimasi">
-                                {{ $item->estimasi_waktu ? $item->estimasi_waktu . ' Menit' : '-' }}
+                                <?php echo e($item->estimasi_waktu ? $item->estimasi_waktu . ' Menit' : '-'); ?>
+
                             </td>
                             <td data-label="Status">
-                                @if ($item->is_active)
+                                <?php if($item->is_active): ?>
                                     <span class="status-badge status-aktif">Aktif</span>
-                                @else
+                                <?php else: ?>
                                     <span class="status-badge status-nonaktif">Nonaktif</span>
-                                @endif
+                                <?php endif; ?>
                             </td>
                             <td data-label="Aksi">
                                 <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; align-items: center;">
                                     <button type="button" class="btn-action btn-view shadow-sm btn-view-layanan d-inline-flex align-items-center gap-1"
-                                        data-nama="{{ $item->nama }}"
-                                        data-harga="Rp {{ number_format($item->harga, 0, ',', '.') }}"
-                                        data-estimasi="{{ $item->estimasi_waktu ?? '-' }}"
-                                        data-status="{{ $item->is_active ? 'Aktif' : 'Nonaktif' }}"
-                                        data-ikon="{{ $item->ikon }}"
-                                        data-deskripsi="{{ str_replace(["\r", "\n"], ' ', e($item->deskripsi ?? 'Tidak ada deskripsi tambahan.')) }}"
+                                        data-nama="<?php echo e($item->nama); ?>"
+                                        data-harga="Rp <?php echo e(number_format($item->harga, 0, ',', '.')); ?>"
+                                        data-estimasi="<?php echo e($item->estimasi_waktu ?? '-'); ?>"
+                                        data-status="<?php echo e($item->is_active ? 'Aktif' : 'Nonaktif'); ?>"
+                                        data-ikon="<?php echo e($item->ikon); ?>"
+                                        data-deskripsi="<?php echo e(str_replace(["\r", "\n"], ' ', e($item->deskripsi ?? 'Tidak ada deskripsi tambahan.'))); ?>"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#viewLayananModal" style="margin: 0;" aria-label="Lihat Layanan {{ $item->nama }}">
+                                        data-bs-target="#viewLayananModal" style="margin: 0;" aria-label="Lihat Layanan <?php echo e($item->nama); ?>">
                                         <i class="bi bi-eye" aria-hidden="true"></i> Lihat
                                     </button>
 
-                                    <form action="{{ route('admin.layanan.toggleStatus', $item->id) }}" method="POST"
-                                        class="form-toggle" data-nama="{{ $item->nama }}"
-                                        data-status="{{ $item->is_active ? 'nonaktifkan' : 'aktifkan' }}"
+                                    <form action="<?php echo e(route('admin.layanan.toggleStatus', $item->id)); ?>" method="POST"
+                                        class="form-toggle" data-nama="<?php echo e($item->nama); ?>"
+                                        data-status="<?php echo e($item->is_active ? 'nonaktifkan' : 'aktifkan'); ?>"
                                         style="display: inline; margin: 0;">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="button" aria-label="{{ $item->is_active ? 'Nonaktifkan' : 'Aktifkan' }} Layanan {{ $item->nama }}"
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('PATCH'); ?>
+                                        <button type="button" aria-label="<?php echo e($item->is_active ? 'Nonaktifkan' : 'Aktifkan'); ?> Layanan <?php echo e($item->nama); ?>"
                                             class="btn-action btn-toggle-status shadow-sm btn-toggle-alert d-inline-flex align-items-center gap-1" style="margin: 0;">
-                                            @if ($item->is_active)
+                                            <?php if($item->is_active): ?>
                                                 <i class="bi bi-toggle2-off" aria-hidden="true"></i> Nonaktifkan
-                                            @else
+                                            <?php else: ?>
                                                 <i class="bi bi-toggle2-on" aria-hidden="true"></i> Aktifkan
-                                            @endif
+                                            <?php endif; ?>
                                         </button>
                                     </form>
 
-                                    <a href="{{ route('admin.layanan.edit', $item->id) }}" aria-label="Ubah Layanan {{ $item->nama }}"
+                                    <a href="<?php echo e(route('admin.layanan.edit', $item->id)); ?>" aria-label="Ubah Layanan <?php echo e($item->nama); ?>"
                                         class="btn-action btn-edit shadow-sm d-inline-flex align-items-center gap-1" style="margin: 0;">
                                         <i class="bi bi-pencil-square" aria-hidden="true"></i> Ubah
                                     </a>
 
                                     <button type="button" class="btn-action btn-hapus shadow-sm btn-delete-alert d-inline-flex align-items-center gap-1"
-                                        data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" style="margin: 0;" aria-label="Hapus Layanan {{ $item->nama }}">
+                                        data-id="<?php echo e($item->id); ?>" data-nama="<?php echo e($item->nama); ?>" style="margin: 0;" aria-label="Hapus Layanan <?php echo e($item->nama); ?>">
                                         <i class="bi bi-trash" aria-hidden="true"></i> Hapus
                                     </button>
 
-                                    <form id="delete-form-{{ $item->id }}"
-                                        action="{{ route('admin.layanan.destroy', $item->id) }}" method="POST"
+                                    <form id="delete-form-<?php echo e($item->id); ?>"
+                                        action="<?php echo e(route('admin.layanan.destroy', $item->id)); ?>" method="POST"
                                         style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
                                     </form>
                                 </div>
                             </td>
                         </tr>
-                    @empty
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <tr class="empty-row-row">
                             <td colspan="4" class="text-center py-5 text-muted">
                                 <i class="bi bi-scissors fs-2 mb-2 d-block text-secondary opacity-50"></i>
                                 Belum ada data layanan.
                             </td>
                         </tr>
-                    @endforelse
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
     </div>
 
-    {{-- Modal View Layanan --}}
+    
     <div class="modal fade" id="viewLayananModal" tabindex="-1" aria-labelledby="viewLayananModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow" style="border-radius: 12px; animation: slideDown 0.3s ease-out;">
@@ -377,4 +376,6 @@
     </script>
 
     <div style="height:50px;"></div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH K:\Deploy-Argahomes\resources\views/admin/layanan/index.blade.php ENDPATH**/ ?>

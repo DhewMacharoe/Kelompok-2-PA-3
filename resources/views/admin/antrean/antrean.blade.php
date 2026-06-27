@@ -111,7 +111,7 @@
         $bookingAntreans = $antreans->where('is_booking', true);
     @endphp
 
-    <div class="table-container">
+    <div class="table-responsive">
         <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; color: #333; padding-bottom: 10px; border-bottom: 2px solid #eaeaea;">
             <i class="fas fa-walking" style="color: #e8a53a; margin-right: 8px;"></i> Antrean Langsung (Walk-in)
         </h3>
@@ -122,7 +122,7 @@
             </button>
         </div>
         @endif
-        <table class="custom-table">
+        <table class="table table-hover align-middle custom-table">
             <thead>
                 <tr>
                     @if (($selectedStatus ?? 'all') === 'menunggu')
@@ -202,11 +202,11 @@
         </table>
     </div>
 
-    <div class="table-container" style="margin-top: 30px;">
+    <div class="table-responsive" style="margin-top: 20px;">
         <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 1.1rem; color: #333; padding-bottom: 10px; border-bottom: 2px solid #eaeaea;">
             <i class="far fa-calendar-check" style="color: #17a2b8; margin-right: 8px;"></i> Antrean Booking (Reservasi)
         </h3>
-        <table class="custom-table">
+        <table class="table table-hover align-middle custom-table">
             <thead>
                 <tr>
                     @if (($selectedStatus ?? 'all') === 'menunggu')

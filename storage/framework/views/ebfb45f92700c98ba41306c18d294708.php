@@ -1,7 +1,56 @@
     <style>
+        /* CSS Khusus Halaman Ini (Tetap sama seperti aslinya) */
         .main-container {
             padding: 20px;
             font-family: 'Inter', sans-serif;
+        }
+
+        /* Penampil Antrean Utama (Top Card) */
+        .serving-display {
+            background-color: #2C3E50;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+
+        .serving-display p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        .serving-display .queue-number-big {
+            font-size: 80px;
+            font-weight: bold;
+            margin: 10px 0;
+            display: block;
+        }
+
+        .btn-group-serving {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-panggil {
+            background-color: #2F80ED;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-batal {
+            background-color: #EB5757;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            cursor: pointer;
         }
 
         /* Tombol Tambah */
@@ -18,7 +67,6 @@
             cursor: pointer;
         }
 
-        /* Styling Filter & Search */
         .filter-bar {
             display: flex;
             flex-wrap: wrap;
@@ -35,7 +83,6 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            text-decoration: none;
             transition: all 0.2s ease;
         }
 
@@ -50,7 +97,15 @@
             color: white;
         }
 
-        .search-filter-wrap {
+        .filter-btn.filter-btn-disabled,
+        .filter-btn.filter-btn-disabled:hover {
+            background: #e5e7eb;
+            border-color: #d1d5db;
+            color: #9ca3af;
+            box-shadow: none;
+        }
+
+        .date-filter-wrap {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -58,13 +113,13 @@
             flex-wrap: wrap;
         }
 
-        .search-filter-wrap label {
+        .date-filter-wrap label {
             font-size: 14px;
             font-weight: 600;
             color: #2C3E50;
         }
 
-        .search-filter-input {
+        .date-filter-input {
             border: 1px solid #dfe3e8;
             border-radius: 8px;
             padding: 10px 12px;
@@ -131,7 +186,7 @@
         .custom-table td {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             gap: 10px;
             padding: 10px 0;
             font-size: 14px;
@@ -181,9 +236,7 @@
         }
 
         .custom-table th:nth-child(2),
-        .custom-table td:nth-child(2),
-        .custom-table th:nth-child(3),
-        .custom-table td:nth-child(3) {
+        .custom-table td:nth-child(2) {
             text-align: right;
         }
 
@@ -210,57 +263,27 @@
         }
         }
 
+        .row-highlight {
+            background-color: #2196F3 !important;
+            color: white !important;
+        }
 
+        .row-highlight td {
+            border-color: transparent;
+        }
 
         /* Status Badge */
-        .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+        .status-text {
+            font-weight: 500;
+        }
+
+        .action-link {
+            color: #4a80da;
+            text-decoration: none;
             font-weight: 600;
         }
 
-        .status-aktif {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .status-nonaktif {
-            background-color: #f5f5f5;
-            color: #757575;
-        }
-
-        /* Action Buttons */
-        .btn-action {
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-right: 5px;
-            color: white;
-        }
-
-        .btn-view {
-            background-color: #64748b;
-        }
-
-        .btn-edit {
-            background-color: #3b82f6;
-        }
-
-        .btn-hapus {
-            background-color: #ef4444;
-        }
-
-        .btn-toggle-status {
-            background-color: #f59e0b;
-        }
-
-        /* Modal Custom Styling (if needed later) */
+        /* --- CSS BARU UNTUK CARD FORM (MODAL) --- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -280,6 +303,8 @@
             border-radius: 12px;
             width: 100%;
             max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             animation: slideDown 0.3s ease-out;
         }
@@ -309,7 +334,7 @@
             color: #2C3E50;
         }
 
-        .btn-close-custom {
+        .btn-close {
             background: none;
             border: none;
             font-size: 24px;
@@ -318,6 +343,54 @@
             padding: 10px;
             min-width: 44px;
             min-height: 44px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-control[multiple] {
+            min-height: 130px;
+        }
+
+        .form-help {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .form-error {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #d93025;
+        }
+
+        .error-box {
+            background: #fff4f4;
+            border: 1px solid #ffd8d8;
+            color: #8a1c1c;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
         }
 
         .form-actions {
@@ -337,25 +410,30 @@
             font-weight: 500;
         }
 
-        .btn-batal {
-            background-color: #EB5757;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
         @media (max-width: 768px) {
             .main-container {
                 padding: 12px;
             }
 
+            .serving-display {
+                border-radius: 14px;
+                padding: 24px 14px;
+            }
+
+            .serving-display .queue-number-big {
+                font-size: 58px;
+                line-height: 1;
+            }
+
+            .btn-group-serving {
+                width: 100%;
+                gap: 8px;
+            }
+
+            .btn-group-serving button,
             .btn-tambah,
             .btn-reset-filter {
                 width: 100%;
-                text-align: center;
             }
 
             .filter-bar {
@@ -368,26 +446,38 @@
                 padding: 9px 10px;
             }
 
-            .search-filter-wrap {
+            .date-filter-wrap {
                 align-items: stretch;
             }
 
-            .search-filter-wrap label {
+            .date-filter-wrap label {
                 width: 100%;
                 margin-bottom: 0;
             }
 
-            .search-filter-input {
+            .date-filter-input,
+            .btn-reset-filter {
                 width: 100%;
                 min-width: 0;
             }
 
 
-            
-            .btn-action {
-                margin-bottom: 5px;
-                padding: 10px 14px;
-            }
+        }
+
+        button:disabled {
+            /* Mengurangi kontras agar terlihat "redup" */
+            background-color: #cccccc;
+            color: #666666;
+            border: 1px solid #999999;
+
+            /* Mengubah kursor untuk memberi sinyal dilarang */
+            cursor: not-allowed;
+
+            /* Menghilangkan bayangan atau efek elevasi */
+            box-shadow: none;
+
+            /* Menurunkan opasitas (opsional) */
+            opacity: 0.6;
         }
     </style>
-
+<?php /**PATH K:\Deploy-Argahomes\resources\views/admin/antrean/style-index.blade.php ENDPATH**/ ?>

@@ -26,8 +26,8 @@ class GaleriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
+            'judul' => 'required|string|max:30',
+            'deskripsi' => 'nullable|string|max:100',
             'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'is_active' => 'required|boolean',
         ]);
@@ -54,8 +54,8 @@ class GaleriController extends Controller
     public function update(Request $request, Galeri $galeri)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
+            'judul' => 'required|string|max:30',
+            'deskripsi' => 'nullable|string|max:100',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'is_active' => 'required|boolean',
         ]);

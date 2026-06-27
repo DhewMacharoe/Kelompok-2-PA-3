@@ -1,19 +1,17 @@
-@extends('admin.layouts.app')
+<?php $__env->startSection('title', 'Galeri'); ?>
 
-@section('title', 'Galeri')
-
-@section('header_title')
+<?php $__env->startSection('header_title'); ?>
 <div class="header-title">Galeri</div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('styles')
-@include('admin.galeri.style-index')
-@endpush
+<?php $__env->startPush('styles'); ?>
+<?php echo $__env->make('admin.galeri.style-index', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+<?php $__env->stopPush(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="main-container">
-    @if (session('success'))
-        <div id="flash-success" data-message="{{ session('success') }}" hidden></div>
+    <?php if(session('success')): ?>
+        <div id="flash-success" data-message="<?php echo e(session('success')); ?>" hidden></div>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const flashSuccess = document.getElementById('flash-success');
@@ -27,9 +25,9 @@
                 }
             });
         </script>
-    @endif
+    <?php endif; ?>
 
-    <a href="{{ route('admin.galeri.create') }}" class="btn-tambah shadow-sm d-inline-flex align-items-center gap-1">
+    <a href="<?php echo e(route('admin.galeri.create')); ?>" class="btn-tambah shadow-sm d-inline-flex align-items-center gap-1">
         <i class="bi bi-plus-lg"></i> Tambah Foto
     </a>
 
@@ -56,86 +54,86 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($galeris as $galeri)
-                <tr class="galeri-row" data-status="{{ $galeri->is_active ? 'aktif' : 'nonaktif' }}">
+                <?php $__empty_1 = true; $__currentLoopData = $galeris; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $galeri): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                <tr class="galeri-row" data-status="<?php echo e($galeri->is_active ? 'aktif' : 'nonaktif'); ?>">
                     <td data-label="Foto">
-                        <img src="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
-                            alt="{{ $galeri->judul }}"
+                        <img src="<?php echo e(\Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar)); ?>"
+                            alt="<?php echo e($galeri->judul); ?>"
                             style="width: 120px; height: 80px; object-fit: cover; border-radius: 8px;">
                     </td>
 
                     <td data-label="Judul">
                         <div>
-                            <strong>{{ $galeri->judul }}</strong>
+                            <strong><?php echo e($galeri->judul); ?></strong>
                         </div>
                     </td>
 
                     <td data-label="Status">
-                        @if($galeri->is_active)
+                        <?php if($galeri->is_active): ?>
                         <span class="status-badge status-aktif">Aktif</span>
-                        @else
+                        <?php else: ?>
                         <span class="status-badge status-nonaktif">Nonaktif</span>
-                        @endif
+                        <?php endif; ?>
                     </td>
 
                     <td data-label="Aksi">
                         <div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; align-items: center;">
                             <button type="button" class="btn-action btn-view shadow-sm btn-view-galeri d-inline-flex align-items-center gap-1"
-                                data-judul="{{ $galeri->judul }}"
-                                data-deskripsi="{{ $galeri->deskripsi }}"
-                                data-gambar="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
+                                data-judul="<?php echo e($galeri->judul); ?>"
+                                data-deskripsi="<?php echo e($galeri->deskripsi); ?>"
+                                data-gambar="<?php echo e(\Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar)); ?>"
                                 data-bs-toggle="modal"
-                                data-bs-target="#viewGaleriModal" style="margin: 0;" aria-label="Lihat Foto {{ $galeri->judul }}">
+                                data-bs-target="#viewGaleriModal" style="margin: 0;" aria-label="Lihat Foto <?php echo e($galeri->judul); ?>">
                                 <i class="bi bi-eye" aria-hidden="true"></i> Lihat
                             </button>
 
-                            <form action="{{ route('admin.galeri.toggleStatus', $galeri) }}"
+                            <form action="<?php echo e(route('admin.galeri.toggleStatus', $galeri)); ?>"
                                 method="POST"
                                 class="form-toggle-galeri"
-                                data-judul="{{ $galeri->judul }}"
-                                data-status="{{ $galeri->is_active ? 'nonaktifkan' : 'aktifkan' }}"
+                                data-judul="<?php echo e($galeri->judul); ?>"
+                                data-status="<?php echo e($galeri->is_active ? 'nonaktifkan' : 'aktifkan'); ?>"
                                 style="display: inline; margin: 0;">
-                                @csrf
-                                @method('PATCH')
-                                <button type="button" aria-label="{{ $galeri->is_active ? 'Nonaktifkan' : 'Aktifkan' }} Foto {{ $galeri->judul }}"
+                                <?php echo csrf_field(); ?>
+                                <?php echo method_field('PATCH'); ?>
+                                <button type="button" aria-label="<?php echo e($galeri->is_active ? 'Nonaktifkan' : 'Aktifkan'); ?> Foto <?php echo e($galeri->judul); ?>"
                                     class="btn-action btn-toggle-status shadow-sm btn-toggle-galeri-alert d-inline-flex align-items-center gap-1"
                                     style="margin: 0;">
-                                    @if ($galeri->is_active)
+                                    <?php if($galeri->is_active): ?>
                                         <i class="bi bi-toggle2-off" aria-hidden="true"></i> Nonaktifkan
-                                    @else
+                                    <?php else: ?>
                                         <i class="bi bi-toggle2-on" aria-hidden="true"></i> Aktifkan
-                                    @endif
+                                    <?php endif; ?>
                                 </button>
                             </form>
 
-                            <a href="{{ route('admin.galeri.edit', $galeri) }}" aria-label="Ubah Foto {{ $galeri->judul }}"
+                            <a href="<?php echo e(route('admin.galeri.edit', $galeri)); ?>" aria-label="Ubah Foto <?php echo e($galeri->judul); ?>"
                                 class="btn-action btn-edit shadow-sm d-inline-flex align-items-center gap-1" style="margin: 0;">
                                 <i class="bi bi-pencil-square" aria-hidden="true"></i> Ubah
                             </a>
 
-                            <button type="button" aria-label="Hapus Foto {{ $galeri->judul }}"
+                            <button type="button" aria-label="Hapus Foto <?php echo e($galeri->judul); ?>"
                                 class="btn-action btn-hapus shadow-sm btn-delete-galeri-alert d-inline-flex align-items-center gap-1"
-                                data-action="{{ route('admin.galeri.destroy', $galeri) }}"
-                                data-judul="{{ $galeri->judul }}" style="margin: 0;">
+                                data-action="<?php echo e(route('admin.galeri.destroy', $galeri)); ?>"
+                                data-judul="<?php echo e($galeri->judul); ?>" style="margin: 0;">
                                 <i class="bi bi-trash" aria-hidden="true"></i> Hapus
                             </button>
                         </div>
                     </td>
                 </tr>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                 <tr class="empty-row-row">
                     <td colspan="4" class="text-center py-5 text-muted">
                         <i class="bi bi-images fs-2 mb-2 d-block text-secondary opacity-50"></i>
                         Belum ada foto galeri.
                     </td>
                 </tr>
-                @endforelse
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
 </div>
 
-{{-- Modal View Galeri --}}
+
 <div class="modal fade" id="viewGaleriModal" tabindex="-1" aria-labelledby="viewGaleriModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow" style="border-radius: 12px; animation: slideDown 0.3s ease-out;">
@@ -214,7 +212,7 @@
                         const csrfInput = document.createElement('input');
                         csrfInput.setAttribute('type', 'hidden');
                         csrfInput.setAttribute('name', '_token');
-                        csrfInput.setAttribute('value', '{{ csrf_token() }}');
+                        csrfInput.setAttribute('value', '<?php echo e(csrf_token()); ?>');
                         
                         const methodInput = document.createElement('input');
                         methodInput.setAttribute('type', 'hidden');
@@ -317,4 +315,5 @@
         }
     }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH K:\Deploy-Argahomes\resources\views/admin/galeri/index.blade.php ENDPATH**/ ?>

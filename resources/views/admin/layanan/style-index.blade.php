@@ -81,42 +81,132 @@
             font-weight: 600;
         }
 
-        /* Styling Tabel */
+        /* Styling Tabel menjadi Grid Card Responsive */
         .table-container {
-            background: white;
-            border-radius: 12px;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            background: transparent;
+            border-radius: 0;
+            overflow: visible;
+            box-shadow: none;
+            padding: 5px;
         }
 
-        .custom-table {
+        @media (max-width: 768px) {
+            .table-responsive { overflow: visible !important; border: none !important; }
+
+.custom-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
             width: 100%;
-            min-width: 760px;
+            min-width: 0;
             border-collapse: collapse;
-            text-align: center;
+            text-align: left;
         }
 
         .custom-table thead {
-            background-color: #2C3E50;
-            color: white;
+            display: none;
         }
 
-        .custom-table th,
+        .custom-table tbody {
+            display: contents;
+        }
+
+        .custom-table tr {
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border: 1px solid #e9edf2;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .custom-table tr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(15, 23, 42, 0.1);
+        }
+
         .custom-table td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            white-space: nowrap;
-            vertical-align: middle;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            font-size: 14px;
+            text-align: right;
+            white-space: normal;
+            border-bottom: 1px dashed #edf1f6;
+        }
+
+        .custom-table td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            color: #2C3E50;
+            text-align: left;
+            min-width: 100px;
+        }
+
+        .custom-table td:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            padding-top: 14px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .custom-table td:last-child::before {
+            align-self: flex-start;
+        }
+
+        .custom-table td:last-child > div {
+            width: 100%;
+            justify-content: flex-start !important;
+            gap: 8px !important;
+        }
+
+        .custom-table td:last-child > div > *,
+        .custom-table td:last-child > button,
+        .custom-table td:last-child > form,
+        .custom-table td:last-child > a {
+            flex: 1 1 calc(50% - 5px);
+        }
+
+        .custom-table td:last-child .btn-action,
+        .custom-table td:last-child .btn-batal {
+            width: 100%;
+            justify-content: center;
         }
 
         .custom-table th:nth-child(2),
         .custom-table td:nth-child(2),
         .custom-table th:nth-child(3),
         .custom-table td:nth-child(3) {
-            text-align: left;
-            white-space: normal;
+            text-align: right;
+        }
+
+        .custom-table tr.empty-row-row {
+            border: none;
+            background: transparent;
+            padding: 0;
+            box-shadow: none;
+            grid-column: 1 / -1;
+        }
+
+        .custom-table tr.empty-row-row td {
+            display: block;
+            text-align: center;
+            border: 1px dashed #d8dee8;
+            background: #fff;
+            border-radius: 12px;
+            padding: 40px 20px !important;
+            width: 100%;
+        }
+
+        .custom-table tr.empty-row-row td::before {
+            content: none;
+        }
         }
 
         /* Status Badge */
@@ -289,94 +379,7 @@
                 min-width: 0;
             }
 
-            .table-container {
-                overflow: visible;
-                background: transparent;
-                box-shadow: none;
-            }
 
-            .custom-table,
-            .custom-table thead,
-            .custom-table tbody,
-            .custom-table tr,
-            .custom-table td {
-                display: block;
-                width: 100%;
-            }
-
-            .custom-table {
-                min-width: 0;
-            }
-
-            .custom-table thead {
-                display: none;
-            }
-
-            .custom-table tbody {
-                display: grid;
-                gap: 10px;
-            }
-
-            .custom-table tr {
-                background: #fff;
-                border: 1px solid #e9edf2;
-                border-radius: 12px;
-                padding: 10px 12px;
-                box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
-            }
-
-            .custom-table td {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 10px;
-                padding: 9px 0;
-                font-size: 13px;
-                text-align: right;
-                white-space: normal;
-                border-bottom: 1px dashed #edf1f6;
-            }
-
-            .custom-table td::before {
-                content: attr(data-label);
-                font-weight: 600;
-                color: #2C3E50;
-                text-align: left;
-                min-width: 120px;
-            }
-
-            .custom-table td:last-child {
-                border-bottom: none;
-                padding-bottom: 0;
-                justify-content: flex-end;
-            }
-
-            .custom-table th:nth-child(2),
-            .custom-table td:nth-child(2),
-            .custom-table th:nth-child(3),
-            .custom-table td:nth-child(3) {
-                text-align: right;
-            }
-
-            .custom-table tr.empty-row-row {
-                border: none;
-                background: transparent;
-                padding: 0;
-                box-shadow: none;
-            }
-
-            .custom-table td.empty-row-cell {
-                display: block;
-                text-align: center;
-                border: 1px dashed #d8dee8;
-                background: #fff;
-                border-radius: 12px;
-                padding: 20px 12px !important;
-            }
-
-            .custom-table td.empty-row-cell::before {
-                content: none;
-            }
             
             .btn-action {
                 margin-bottom: 5px;
@@ -384,3 +387,4 @@
             }
         }
     </style>
+

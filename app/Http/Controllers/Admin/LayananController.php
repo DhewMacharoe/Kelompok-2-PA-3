@@ -42,9 +42,9 @@ class LayananController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'nama' => 'required|string|max:255',
+            'nama' => 'required|string|max:25',
             'harga' => 'required|numeric',
-            'estimasi_waktu' => 'nullable|string|max:255',
+            'estimasi_waktu' => 'nullable|string|max:10',
             'deskripsi' => 'nullable|string',
             'ikon' => 'required|string|in:scissors,paint,face',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -70,9 +70,9 @@ class LayananController extends Controller
     public function update(Request $request, Layanan $layanan)
     {
         $data = $request->validate([
-            'nama' => 'required|string|max:255',
+            'nama' => 'required|string|max:25',
             'harga' => 'required|numeric',
-            'estimasi_waktu' => 'nullable|string|max:255',
+            'estimasi_waktu' => 'nullable|string|max:10',
             'deskripsi' => 'nullable|string',
             'ikon' => 'required|string|in:scissors,paint,face',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',

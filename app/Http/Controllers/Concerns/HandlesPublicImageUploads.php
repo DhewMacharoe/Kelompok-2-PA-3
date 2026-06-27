@@ -18,7 +18,7 @@ trait HandlesPublicImageUploads
         }
 
         $extension = strtolower($file->getClientOriginalExtension() ?: $file->extension() ?: 'jpg');
-        $fileName = now()->format('YmdHis') . '_' . Str::uuid() . '.' . $extension;
+        $fileName = now()->format('YmdHis') . '_' . Str::random(10) . '.' . $extension;
 
         $file->move($destinationPath, $fileName);
 

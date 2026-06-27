@@ -32,8 +32,8 @@ class BarbershopController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:barbershops,slug',
+            'nama' => 'required|string|max:100',
+            'slug' => 'nullable|string|max:100|unique:barbershops,slug',
             'alamat' => 'nullable|string',
             'telepon' => 'nullable|string|max:20',
             'deskripsi' => 'nullable|string',
@@ -69,8 +69,8 @@ class BarbershopController extends Controller
     public function update(Request $request, Barbershop $barbershop)
     {
         $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:barbershops,slug,' . $barbershop->id,
+            'nama' => 'required|string|max:100',
+            'slug' => 'nullable|string|max:100|unique:barbershops,slug,' . $barbershop->id,
             'alamat' => 'nullable|string',
             'telepon' => 'nullable|string|max:20',
             'deskripsi' => 'nullable|string',
