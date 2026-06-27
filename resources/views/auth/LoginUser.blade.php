@@ -47,7 +47,7 @@
                         </div>
                     @endif
 
-                    <button id="googleLoginButton" type="button"
+                    <button id="googleLoginButton" type="button" aria-label="Masuk dengan Google"
                         class="auth-button auth-button--google d-flex align-items-center justify-content-center gap-2">
                         <svg width="20" height="20" viewBox="0 0 18 18" aria-hidden="true" focusable="false">
                             <path fill="#EA4335"

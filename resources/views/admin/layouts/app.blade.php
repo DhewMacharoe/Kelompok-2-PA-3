@@ -221,7 +221,7 @@
             <div class="col-md-9 col-lg-10 main-wrapper">
                 @include('admin.layouts.header')
 
-                <main class="content-area">
+                <main class="content-area" role="main">
                     @yield('content')
                 </main>
 

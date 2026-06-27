@@ -23,6 +23,7 @@
         <div class="layanan-grid">
             @forelse($layanans as $layanan)
                 <div class="layanan-card" id="layanan-{{ $layanan->id }}" style="cursor: pointer;"
+                     role="button" tabindex="0" aria-label="Lihat detail layanan {{ $layanan->nama }}"
                      data-id="{{ $layanan->id }}"
                      data-name="{{ $layanan->nama }}"
                      data-description="{{ e($layanan->deskripsi ?? 'Tidak ada deskripsi.') }}"
@@ -96,6 +97,14 @@
                     }
 
                     modalOverlay.classList.add('active');
+                });
+
+                // Keyboard accessibility
+                item.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
                 });
             });
 

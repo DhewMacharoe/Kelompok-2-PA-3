@@ -80,7 +80,7 @@
             @endif
             <div class="mb-3 text-start">
                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                    id="email" placeholder="Email" value="{{ old('email') }}">
+                    id="email" aria-label="Alamat Email" placeholder="Email" value="{{ old('email') }}">
 
                 @error('email')
                     <div class="invalid-feedback">
@@ -91,7 +91,7 @@
 
             <div class="mb-3 text-start">
                 <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                    id="password" placeholder="Kata Sandi">
+                    id="password" aria-label="Kata Sandi" placeholder="Kata Sandi">
                 @error('password')
                     <div class="invalid-feedback">
                         {{ $message }}

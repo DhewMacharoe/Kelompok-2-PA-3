@@ -298,7 +298,7 @@
     function ubahStatus(button, id, targetStatus) {
         const executeUpdate = () => {
             let originalText = button.innerHTML;
-            button.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+            button.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
             button.disabled = true;
 
             fetch(`/admin/antrean/${id}/ubah-status`, {

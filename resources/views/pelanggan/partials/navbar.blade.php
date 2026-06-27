@@ -204,8 +204,8 @@
 
                 @guest
                     <li class="nav-item d-flex align-items-center justify-content-center">
-                        <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3"
-                            style="background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}; color: #1a1a1a; border-radius: 8px;">
+                        <a href="{{ route('login.user') }}" class="btn btn-sm fw-bold px-3 py-2"
+                            style="background-color: {{ $activeBarbershop->warna_primer ?? '#d4af37' }}; color: #1a1a1a; border-radius: 8px;" aria-label="Masuk ke Akun Pelanggan">
                             Masuk
                         </a>
                     </li>
@@ -214,17 +214,17 @@
                 @auth
                     <li class="nav-item d-flex align-items-center justify-content-center">
                         @if (auth()->user()->hasRole('admin'))
-                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-gold">
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-gold py-2" aria-label="Buka Dashboard Admin">
                                 Dasbor Admin
                             </a>
                         @else
                             <div class="d-flex gap-2 align-items-center">
-                                <a href="{{ route('profile.index') }}" class="btn btn-sm btn-gold">
+                                <a href="{{ route('profile.index') }}" class="btn btn-sm btn-gold py-2" aria-label="Buka Profil Pengguna">
                                     Profil
                                 </a>
                                 <form action="{{ route('logout') }}" method="POST" class="m-0">
                                     @csrf
-                                    <button type="submit" class="btn btn-sm btn-danger">
+                                    <button type="submit" class="btn btn-sm btn-danger py-2" aria-label="Keluar dari Aplikasi">
                                         Keluar
                                     </button>
                                 </form>

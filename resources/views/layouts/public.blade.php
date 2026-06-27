@@ -51,7 +51,7 @@
                         @else
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-danger">Keluar</button>
+                                <button type="submit" class="btn btn-sm btn-danger py-2 px-3" aria-label="Keluar dari Aplikasi">Keluar</button>
                             </form>
                         @endif
                     </div>

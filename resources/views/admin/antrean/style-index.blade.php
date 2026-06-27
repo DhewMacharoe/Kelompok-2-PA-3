@@ -251,6 +251,9 @@
             font-size: 24px;
             cursor: pointer;
             color: #999;
+            padding: 10px;
+            min-width: 44px;
+            min-height: 44px;
         }
 
         .form-group {

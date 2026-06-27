@@ -29,7 +29,7 @@
                 const layananId = this.dataset.id;
                 const ikon = this.dataset.ikon;
                 modalName.textContent = this.dataset.name;
-                modalTime.innerHTML = '<i class="far fa-clock"></i> ' + (this.dataset.time ? this.dataset.time + ' Menit' : '-');
+                modalTime.innerHTML = '<i class="far fa-clock" aria-hidden="true"></i> ' + (this.dataset.time ? this.dataset.time + ' Menit' : '-');
                 modalDescription.textContent = this.dataset.description;
                 modalPrice.textContent = 'Rp ' + this.dataset.price;
 
@@ -39,7 +39,7 @@
                     let iconClass = 'fas fa-cut';
                     if (ikon === 'paint') iconClass = 'fas fa-paint-brush';
                     if (ikon === 'face') iconClass = 'fas fa-smile';
-                    modalIconWrapper.innerHTML = `<i class="${iconClass}"></i>`;
+                    modalIconWrapper.innerHTML = `<i class="${iconClass}" aria-hidden="true"></i>`;
                 }
 
                 // Update href tombol Buat Antrean

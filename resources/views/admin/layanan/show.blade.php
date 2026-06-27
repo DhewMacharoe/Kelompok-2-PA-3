@@ -83,10 +83,17 @@
             display: inline-block;
             background-color: #2F80ED;
             color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
             text-decoration: none;
             font-weight: 600;
+            box-shadow: 0 4px 12px rgba(47, 128, 237, 0.2);
+            transition: all 0.2s ease;
+        }
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(47, 128, 237, 0.25);
+            color: white;
         }
     </style>
 
@@ -108,7 +115,7 @@
                         <p style="margin-top: 4px; margin-bottom: 0; color: #556673;">Detail lengkap layanan barbershop.</p>
                     </div>
                 </div>
-                <a href="{{ route('admin.layanan.index') }}" class="btn-back">Kembali</a>
+                <a href="{{ route('admin.layanan.index') }}" class="btn-back" aria-label="Kembali ke Daftar Layanan">Kembali</a>
             </div>
 
             <div class="detail-body">

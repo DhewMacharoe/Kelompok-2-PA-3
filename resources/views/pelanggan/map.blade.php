@@ -906,12 +906,12 @@
                 <div class="auth-widget">
                     @if(auth()->check())
                         <div class="custom-dropdown" id="customAuthDropdown">
-                            <button type="button" class="custom-dropdown-btn" onclick="toggleDropdown('authMenu')">
-                                <i class="fas fa-user-circle auth-icon"></i>
+                            <button type="button" class="custom-dropdown-btn" onclick="toggleDropdown('authMenu')" aria-haspopup="menu" aria-expanded="false" aria-label="Menu Pengguna">
+                                <i class="fas fa-user-circle auth-icon" aria-hidden="true"></i>
                                 <span class="username-text" style="max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ explode(' ', auth()->user()->name)[0] }}</span>
-                                <i class="fas fa-chevron-down chevron-icon"></i>
+                                <i class="fas fa-chevron-down chevron-icon" aria-hidden="true"></i>
                             </button>
-                            <div class="custom-dropdown-menu" id="authMenu">
+                            <div class="custom-dropdown-menu" id="authMenu" role="menu">
                                 <div class="dropdown-header">
                                     <div class="user-name">{{ auth()->user()->name }}</div>
                                     <div class="user-email">{{ auth()->user()->email }}</div>
@@ -943,11 +943,11 @@
 
             <!-- Search box -->
             <div class="search-wrapper">
-                <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <input type="text" id="searchInput" placeholder="Cari nama lokasi..." class="search-input">
+                <input type="text" id="searchInput" placeholder="Cari nama lokasi..." class="search-input" aria-label="Cari nama lokasi barbershop">
             </div>
 
             <!-- Filter Categories Row -->

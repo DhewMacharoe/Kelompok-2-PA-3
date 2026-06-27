@@ -258,15 +258,15 @@
                     </p>
                     <div class="mt-3">
                         @if(isset($activeBarbershop) && isset($activeBarbershop->kontak['instagram']))
-                            <a href="{{ $activeBarbershop->kontak['instagram'] }}" target="_blank" class="me-3 fs-5"><i class="fab fa-instagram"></i></a>
+                            <a href="{{ $activeBarbershop->kontak['instagram'] }}" target="_blank" class="me-3 fs-5" aria-label="Kunjungi Instagram {{ $activeBarbershop->nama_brand ?? 'Arga Home\'s' }}"><i class="fab fa-instagram" aria-hidden="true"></i></a>
                         @else
-                            <a href="#" class="me-3 fs-5"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="me-3 fs-5" aria-label="Kunjungi Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
                         @endif
                         
                         @if(isset($activeBarbershop) && isset($activeBarbershop->kontak['facebook']))
-                            <a href="{{ $activeBarbershop->kontak['facebook'] }}" target="_blank" class="me-3 fs-5"><i class="fab fa-facebook"></i></a>
+                            <a href="{{ $activeBarbershop->kontak['facebook'] }}" target="_blank" class="me-3 fs-5" aria-label="Kunjungi Facebook {{ $activeBarbershop->nama_brand ?? 'Arga Home\'s' }}"><i class="fab fa-facebook" aria-hidden="true"></i></a>
                         @else
-                            <a href="#" class="me-3 fs-5"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="me-3 fs-5" aria-label="Kunjungi Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
                         @endif
                         
                         @if(isset($activeBarbershop) && isset($activeBarbershop->kontak['whatsapp']))
@@ -274,9 +274,9 @@
                                 $wa = preg_replace('/[^0-9]/', '', $activeBarbershop->kontak['whatsapp']);
                                 if(str_starts_with($wa, '0')) $wa = '62' . substr($wa, 1);
                             @endphp
-                            <a href="https://wa.me/{{ $wa }}" target="_blank" class="fs-5"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://wa.me/{{ $wa }}" target="_blank" class="fs-5" aria-label="Hubungi WhatsApp {{ $activeBarbershop->nama_brand ?? 'Arga Home\'s' }}"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
                         @else
-                            <a href="#" class="fs-5"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#" class="fs-5" aria-label="Hubungi WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
                         @endif
                     </div>
                 </div>
@@ -332,8 +332,8 @@
                     <div class="map-container mb-2">
                         <iframe src="https://maps.google.com/maps?q={{ $latitude }},{{ $longitude }}&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
-                    <a id="footer-maps-btn" href="https://www.google.com/maps/search/?api=1&query={{ $latitude }},{{ $longitude }}" target="_blank" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2" style="border-color: #444; font-size: 0.85rem; border-radius: 6px;">
-                        Lihat di Maps <i class="fas fa-external-link-alt" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }};"></i>
+                    <a id="footer-maps-btn" href="https://www.google.com/maps/search/?api=1&query={{ $latitude }},{{ $longitude }}" target="_blank" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2 py-2" style="border-color: #444; font-size: 0.85rem; border-radius: 6px;" aria-label="Buka navigasi lokasi di Google Maps">
+                        Lihat di Maps <i class="fas fa-external-link-alt" style="color: {{ $activeBarbershop->warna_primer ?? '#e8a53a' }};" aria-hidden="true"></i>
                     </a>
                 </div>
 

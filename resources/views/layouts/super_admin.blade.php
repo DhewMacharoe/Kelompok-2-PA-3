@@ -155,8 +155,8 @@
         <div>
             <div class="px-4 mb-4 d-flex justify-content-between align-items-center">
                 <h4 class="fw-bold m-0 text-white"><i class="fa-solid fa-scissors me-2" style="color: var(--primary-gold)"></i>Super Admin</h4>
-                <button type="button" class="btn d-md-none text-white p-0" id="sidebarCloseBtn">
-                    <i class="bi bi-x-lg"></i>
+                <button type="button" class="btn d-md-none text-white p-0" id="sidebarCloseBtn" aria-label="Tutup Menu Navigasi">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
                 </button>
             </div>
             
@@ -181,7 +181,7 @@
         
         <div class="px-4">
             <div class="text-white-50 small mb-2">Portal Multi-Tenant</div>
-            <a href="/" class="btn btn-sm btn-outline-light w-100"><i class="bi bi-house-door me-1"></i> Ke Halaman Utama</a>
+            <a href="/" class="btn btn-sm btn-outline-light w-100 py-2" aria-label="Kembali ke Halaman Utama Publik"><i class="bi bi-house-door me-1" aria-hidden="true"></i> Ke Halaman Utama</a>
         </div>
     </nav>
 
@@ -190,8 +190,8 @@
         <!-- Header -->
         <header class="main-header d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center gap-3">
-                <button class="btn d-md-none p-0" id="sidebarToggleBtn" type="button">
-                    <i class="bi bi-list fs-3"></i>
+                <button class="btn d-md-none p-0" id="sidebarToggleBtn" type="button" aria-label="Buka Menu Navigasi">
+                    <i class="bi bi-list fs-3" aria-hidden="true"></i>
                 </button>
                 <h5 class="mb-0 fw-bold">@yield('title', 'Dasbor')</h5>
             </div>
@@ -199,7 +199,7 @@
                 <span class="d-none d-md-inline text-muted small"><i class="bi bi-person-circle me-1"></i> {{ auth()->user()->name }} (Super Admin)</span>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
-                    <button type="submit" class="btn btn-sm btn-danger px-3"><i class="bi bi-box-arrow-right me-1"></i>Keluar</button>
+                    <button type="submit" class="btn btn-sm btn-danger px-3 py-2" aria-label="Keluar dari Super Admin"><i class="bi bi-box-arrow-right me-1" aria-hidden="true"></i>Keluar</button>
                 </form>
             </div>
         </header>

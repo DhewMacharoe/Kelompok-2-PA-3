@@ -33,7 +33,7 @@
                         <div class="mb-4">
                             <label class="form-label fw-bold text-secondary">Email</label>
                             <input type="email" class="form-control form-control-lg bg-light" 
-                                value="{{ $user->email }}" readonly disabled>
+                                value="{{ $user->email }}" aria-label="Email (Hanya Baca)" readonly disabled>
                             <div class="form-text mt-1">Email Anda terhubung dengan Firebase dan tidak dapat diubah.</div>
                         </div>
 
@@ -41,7 +41,7 @@
                             <label for="username" class="form-label fw-bold text-secondary">Username</label>
                             <input type="text" class="form-control form-control-lg @error('username') is-invalid @enderror" 
                                 id="username" name="username" value="{{ old('username', $user->username) }}" 
-                                placeholder="Masukkan username baru..." required readonly>
+                                aria-label="Username" placeholder="Masukkan username baru..." required readonly>
                             @error('username')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -53,7 +53,7 @@
                             <label for="no_whatsapp" class="form-label fw-bold text-secondary">Nomor WhatsApp</label>
                             <input type="text" class="form-control form-control-lg @error('no_whatsapp') is-invalid @enderror" 
                                 id="no_whatsapp" name="no_whatsapp" value="{{ old('no_whatsapp', $user->no_whatsapp) }}" 
-                                placeholder="Contoh: 081234567890" pattern="^08[0-9]{8,13}$" required readonly>
+                                aria-label="Nomor WhatsApp" placeholder="Contoh: 081234567890" pattern="^08[0-9]{8,13}$" required readonly>
                             <div class="form-text">Digunakan untuk menerima notifikasi antrean secara real-time.</div>
                             @error('no_whatsapp')
                                 <div class="invalid-feedback">

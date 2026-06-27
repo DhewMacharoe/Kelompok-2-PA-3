@@ -223,8 +223,8 @@
                 </div>
             </div>
             <div>
-                <a href="{{ route('admin.barbershop.edit', $barbershop->id) }}" class="btn-edit-profile">
-                    <i class="fas fa-edit text-primary-color"></i> Edit Desain Web
+                <a href="{{ route('admin.barbershop.edit', $barbershop->id) }}" class="btn-edit-profile" aria-label="Edit Desain Web">
+                    <i class="fas fa-edit text-primary-color" aria-hidden="true"></i> Edit Desain Web
                 </a>
             </div>
         </div>
@@ -408,7 +408,7 @@
                                     <div>
                                         <div class="text-muted small fw-bold">Instagram</div>
                                         @if(isset($barbershop->kontak['instagram']) && !empty($barbershop->kontak['instagram']))
-                                            <div class="info-value mt-0.5"><a href="{{ $barbershop->kontak['instagram'] }}" target="_blank" class="text-decoration-none fw-semibold" style="color: {{ $barbershop->warna_primer ?? '#e8a53a' }};">Buka Instagram <i class="fas fa-external-link-alt ms-1 small"></i></a></div>
+                                            <div class="info-value mt-0.5"><a href="{{ $barbershop->kontak['instagram'] }}" target="_blank" class="text-decoration-none fw-semibold" style="color: {{ $barbershop->warna_primer ?? '#e8a53a' }};" aria-label="Buka profil Instagram">Buka Instagram <i class="fas fa-external-link-alt ms-1 small" aria-hidden="true"></i></a></div>
                                         @else
                                             <div class="info-value mt-0.5">-</div>
                                         @endif
@@ -425,7 +425,7 @@
                                     <div>
                                         <div class="text-muted small fw-bold">Facebook</div>
                                         @if(isset($barbershop->kontak['facebook']) && !empty($barbershop->kontak['facebook']))
-                                            <div class="info-value mt-0.5"><a href="{{ $barbershop->kontak['facebook'] }}" target="_blank" class="text-decoration-none fw-semibold" style="color: {{ $barbershop->warna_primer ?? '#e8a53a' }};">Buka Facebook <i class="fas fa-external-link-alt ms-1 small"></i></a></div>
+                                            <div class="info-value mt-0.5"><a href="{{ $barbershop->kontak['facebook'] }}" target="_blank" class="text-decoration-none fw-semibold" style="color: {{ $barbershop->warna_primer ?? '#e8a53a' }};" aria-label="Buka profil Facebook">Buka Facebook <i class="fas fa-external-link-alt ms-1 small" aria-hidden="true"></i></a></div>
                                         @else
                                             <div class="info-value mt-0.5">-</div>
                                         @endif

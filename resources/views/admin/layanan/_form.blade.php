@@ -70,7 +70,7 @@
             <div class="icon-picker-item text-center p-3 border rounded transition-hover" 
                  role="button" 
                  data-value="scissors" 
-                 style="cursor: pointer;">
+                 style="cursor: pointer;" aria-label="Pilih Ikon Gunting">
                 <div class="icon-display mb-2" style="font-size: 2rem; color: #2C3E50;">
                     <i class="fas fa-cut"></i>
                 </div>
@@ -84,7 +84,7 @@
             <div class="icon-picker-item text-center p-3 border rounded transition-hover" 
                  role="button" 
                  data-value="paint" 
-                 style="cursor: pointer;">
+                 style="cursor: pointer;" aria-label="Pilih Ikon Cat">
                 <div class="icon-display mb-2" style="font-size: 2rem; color: #2C3E50;">
                     <i class="fas fa-paint-brush"></i>
                 </div>
@@ -98,7 +98,7 @@
             <div class="icon-picker-item text-center p-3 border rounded transition-hover" 
                  role="button" 
                  data-value="face" 
-                 style="cursor: pointer;">
+                 style="cursor: pointer;" aria-label="Pilih Ikon Face">
                 <div class="icon-display mb-2" style="font-size: 2rem; color: #2C3E50;">
                     <i class="fas fa-smile"></i>
                 </div>
@@ -209,8 +209,8 @@
 </style>
 
 <div class="form-actions">
-    <a href="{{ route('admin.layanan.index') }}" class="btn-batal">Batal</a>
-    <button type="submit" class="btn-submit" data-loading-text="Menyimpan...">Simpan</button>
+    <a href="{{ route('admin.layanan.index') }}" class="btn-batal" aria-label="Batal Simpan Layanan">Batal</a>
+    <button type="submit" class="btn-submit" data-loading-text="Menyimpan..." aria-label="Simpan Layanan">Simpan</button>
 </div>
 
 <script>

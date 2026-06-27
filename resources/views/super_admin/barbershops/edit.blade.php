@@ -103,9 +103,9 @@
                         @enderror
                     </div>
 
-                    <div class="d-flex justify-content-end gap-2">
-                        <a href="{{ route('super-admin.barbershops.index') }}" class="btn btn-outline-secondary px-4">Batal</a>
-                        <button type="submit" class="btn btn-gold px-4">Simpan Perubahan</button>
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="{{ route('super-admin.barbershops.index') }}" class="btn btn-outline-secondary px-4 py-2" aria-label="Batal Edit Tenant">Batal</a>
+                        <button type="submit" class="btn btn-gold px-4 py-2" aria-label="Simpan Perubahan Tenant">Simpan Perubahan</button>
                     </div>
                 </form>
             </div>

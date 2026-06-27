@@ -241,6 +241,9 @@
     line-height: 1;
     cursor: pointer;
     color: #333;
+    padding: 8px;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .modal-content {
@@ -352,8 +355,8 @@
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid #ece6da;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     font-size: 16px;
     color: #333;
     cursor: pointer;
@@ -382,8 +385,8 @@
     .modal-back {
         top: 12px;
         left: 12px;
-        width: 36px;
-        height: 36px;
+        width: 44px;
+        height: 44px;
         font-size: 14px;
     }
 }

@@ -85,8 +85,8 @@
                                 data-deskripsi="{{ $galeri->deskripsi }}"
                                 data-gambar="{{ \Illuminate\Support\Str::startsWith($galeri->gambar, ['http://', 'https://']) ? $galeri->gambar : asset('images/' . $galeri->gambar) }}"
                                 data-bs-toggle="modal"
-                                data-bs-target="#viewGaleriModal" style="margin: 0;">
-                                <i class="bi bi-eye"></i> Lihat
+                                data-bs-target="#viewGaleriModal" style="margin: 0;" aria-label="Lihat Foto {{ $galeri->judul }}">
+                                <i class="bi bi-eye" aria-hidden="true"></i> Lihat
                             </button>
 
                             <form action="{{ route('admin.galeri.toggleStatus', $galeri) }}"
@@ -97,27 +97,27 @@
                                 style="display: inline; margin: 0;">
                                 @csrf
                                 @method('PATCH')
-                                <button type="button"
+                                <button type="button" aria-label="{{ $galeri->is_active ? 'Nonaktifkan' : 'Aktifkan' }} Foto {{ $galeri->judul }}"
                                     class="btn-action btn-toggle-status shadow-sm btn-toggle-galeri-alert d-inline-flex align-items-center gap-1"
                                     style="margin: 0;">
                                     @if ($galeri->is_active)
-                                        <i class="bi bi-toggle2-off"></i> Nonaktifkan
+                                        <i class="bi bi-toggle2-off" aria-hidden="true"></i> Nonaktifkan
                                     @else
-                                        <i class="bi bi-toggle2-on"></i> Aktifkan
+                                        <i class="bi bi-toggle2-on" aria-hidden="true"></i> Aktifkan
                                     @endif
                                 </button>
                             </form>
 
-                            <a href="{{ route('admin.galeri.edit', $galeri) }}"
+                            <a href="{{ route('admin.galeri.edit', $galeri) }}" aria-label="Ubah Foto {{ $galeri->judul }}"
                                 class="btn-action btn-edit shadow-sm d-inline-flex align-items-center gap-1" style="margin: 0;">
-                                <i class="bi bi-pencil-square"></i> Ubah
+                                <i class="bi bi-pencil-square" aria-hidden="true"></i> Ubah
                             </a>
 
-                            <button type="button"
+                            <button type="button" aria-label="Hapus Foto {{ $galeri->judul }}"
                                 class="btn-action btn-hapus shadow-sm btn-delete-galeri-alert d-inline-flex align-items-center gap-1"
                                 data-action="{{ route('admin.galeri.destroy', $galeri) }}"
                                 data-judul="{{ $galeri->judul }}" style="margin: 0;">
-                                <i class="bi bi-trash"></i> Hapus
+                                <i class="bi bi-trash" aria-hidden="true"></i> Hapus
                             </button>
                         </div>
                     </td>

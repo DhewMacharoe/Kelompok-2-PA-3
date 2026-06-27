@@ -28,15 +28,15 @@
                         <i class="bi bi-search"></i>
                     </span>
                     <input type="text" name="search" class="form-control border-start-0 ps-0" 
-                           placeholder="Cari nama, username, email..." value="{{ $search ?? '' }}">
+                           placeholder="Cari nama, username, email..." value="{{ $search ?? '' }}" aria-label="Cari nama, username, email pelanggan">
                 </div>
             </div>
             <div class="col-md-3">
-                <button type="submit" class="btn btn-primary px-4" style="background-color: var(--primary-blue); border: none;">
+                <button type="submit" class="btn btn-primary px-4 py-2" style="background-color: var(--primary-blue); border: none;" aria-label="Cari Pelanggan">
                     Cari
                 </button>
                 @if($search)
-                    <a href="{{ route('admin.moderasi.index') }}" class="btn btn-outline-secondary px-3 ms-2">
+                    <a href="{{ route('admin.moderasi.index') }}" class="btn btn-outline-secondary px-3 py-2 ms-2" aria-label="Reset Pencarian">
                         Reset
                     </a>
                 @endif
@@ -104,8 +104,8 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('admin.moderasi.show', $user->id) }}" class="btn btn-sm btn-outline-primary px-3">
-                                    <i class="bi bi-eye-fill me-1"></i>Detail
+                                <a href="{{ route('admin.moderasi.show', $user->id) }}" class="btn btn-sm btn-outline-primary px-3 py-2" aria-label="Lihat Detail Pelanggan">
+                                    <i class="bi bi-eye-fill me-1" aria-hidden="true"></i>Detail
                                 </a>
                             </td>
                         </tr>

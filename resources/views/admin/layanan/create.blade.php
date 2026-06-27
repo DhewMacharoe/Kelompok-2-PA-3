@@ -7,8 +7,8 @@
 @endsection
 
 @section('content')
-<div class="content-header">
-    <h2 style="margin-left: 20px; margin-top: 20px;">Tambah Layanan</h2>
+<div class="content-header px-4 py-3">
+    <h2 class="mb-0 fw-bold">Tambah Layanan</h2>
 </div>
 
 <div class="content-body">

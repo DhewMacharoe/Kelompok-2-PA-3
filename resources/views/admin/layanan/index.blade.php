@@ -95,8 +95,8 @@
                                         data-ikon="{{ $item->ikon }}"
                                         data-deskripsi="{{ str_replace(["\r", "\n"], ' ', e($item->deskripsi ?? 'Tidak ada deskripsi tambahan.')) }}"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#viewLayananModal" style="margin: 0;">
-                                        <i class="bi bi-eye"></i> Lihat
+                                        data-bs-target="#viewLayananModal" style="margin: 0;" aria-label="Lihat Layanan {{ $item->nama }}">
+                                        <i class="bi bi-eye" aria-hidden="true"></i> Lihat
                                     </button>
 
                                     <form action="{{ route('admin.layanan.toggleStatus', $item->id) }}" method="POST"
@@ -105,24 +105,24 @@
                                         style="display: inline; margin: 0;">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="button"
+                                        <button type="button" aria-label="{{ $item->is_active ? 'Nonaktifkan' : 'Aktifkan' }} Layanan {{ $item->nama }}"
                                             class="btn-action btn-toggle-status shadow-sm btn-toggle-alert d-inline-flex align-items-center gap-1" style="margin: 0;">
                                             @if ($item->is_active)
-                                                <i class="bi bi-toggle2-off"></i> Nonaktifkan
+                                                <i class="bi bi-toggle2-off" aria-hidden="true"></i> Nonaktifkan
                                             @else
-                                                <i class="bi bi-toggle2-on"></i> Aktifkan
+                                                <i class="bi bi-toggle2-on" aria-hidden="true"></i> Aktifkan
                                             @endif
                                         </button>
                                     </form>
 
-                                    <a href="{{ route('admin.layanan.edit', $item->id) }}"
+                                    <a href="{{ route('admin.layanan.edit', $item->id) }}" aria-label="Ubah Layanan {{ $item->nama }}"
                                         class="btn-action btn-edit shadow-sm d-inline-flex align-items-center gap-1" style="margin: 0;">
-                                        <i class="bi bi-pencil-square"></i> Ubah
+                                        <i class="bi bi-pencil-square" aria-hidden="true"></i> Ubah
                                     </a>
 
                                     <button type="button" class="btn-action btn-hapus shadow-sm btn-delete-alert d-inline-flex align-items-center gap-1"
-                                        data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" style="margin: 0;">
-                                        <i class="bi bi-trash"></i> Hapus
+                                        data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" style="margin: 0;" aria-label="Hapus Layanan {{ $item->nama }}">
+                                        <i class="bi bi-trash" aria-hidden="true"></i> Hapus
                                     </button>
 
                                     <form id="delete-form-{{ $item->id }}"

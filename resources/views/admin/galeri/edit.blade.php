@@ -85,12 +85,12 @@
                     @enderror
                 </div>
 
-                <div class="d-flex justify-content-end gap-2">
-                    <a href="{{ route('admin.galeri.index') }}" class="btn btn-danger">
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="{{ route('admin.galeri.index') }}" class="btn btn-danger py-2 px-4 shadow-sm" aria-label="Batal Ubah Foto">
                         Batal
                     </a>
 
-                    <button type="submit" class="btn btn-primary" data-loading-text="Menyimpan...">
+                    <button type="submit" class="btn btn-primary py-2 px-4 shadow-sm" data-loading-text="Menyimpan..." aria-label="Simpan Perubahan Foto">
                         Simpan
                     </button>
                 </div>

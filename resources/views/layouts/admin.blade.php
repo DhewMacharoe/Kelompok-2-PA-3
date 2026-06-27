@@ -20,7 +20,7 @@
     <div class="page-wrapper">
 
         <header class="header">
-            <button class="header-back" onclick="window.location='{{ url('/') }}'">← Dasbor</button>
+            <button class="header-back" onclick="window.location='{{ url('/') }}'" aria-label="Kembali ke Halaman Publik">← Dasbor</button>
             <div class="header-title">@yield('header_title', 'Kelola Barbershop')</div>
             <div style="width:80px;"></div>
             @yield('header_right')

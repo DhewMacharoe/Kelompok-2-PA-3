@@ -49,9 +49,9 @@
 </div>
 
 <div class="card shadow-sm border-0 rounded-3">
-    <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
-        <h5 class="m-0 fw-bold text-dark"><i class="bi bi-shop me-2"></i>Daftar Tenant</h5>
-        <a href="{{ route('super-admin.barbershops.create') }}" class="btn btn-sm btn-gold px-3"><i class="bi bi-plus-lg me-1"></i>Tambah Tenant</a>
+    <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h5 class="m-0 fw-bold text-dark"><i class="bi bi-shop me-2" aria-hidden="true"></i>Daftar Tenant</h5>
+        <a href="{{ route('super-admin.barbershops.create') }}" class="btn btn-sm btn-gold px-3 py-2" aria-label="Tambah Tenant Baru"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Tambah Tenant</a>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -100,18 +100,18 @@
                                 @endif
                             </td>
                             <td class="text-end px-4">
-                                <div class="d-inline-flex gap-2">
-                                    <a href="{{ route('super-admin.switch-tenant', $barber->id) }}" class="btn btn-sm btn-primary px-3" style="background-color: var(--primary-blue); border: none;">
-                                        <i class="bi bi-door-open me-1"></i>Kelola Data
+                                <div class="d-inline-flex gap-2 flex-wrap">
+                                    <a href="{{ route('super-admin.switch-tenant', $barber->id) }}" class="btn btn-sm btn-primary px-3 py-2" style="background-color: var(--primary-blue); border: none;" aria-label="Kelola Data Tenant">
+                                        <i class="bi bi-door-open me-1" aria-hidden="true"></i>Kelola Data
                                     </a>
-                                    <a href="{{ route('super-admin.barbershops.edit', $barber->id) }}" class="btn btn-sm btn-outline-secondary px-2">
-                                        <i class="bi bi-pencil"></i>
+                                    <a href="{{ route('super-admin.barbershops.edit', $barber->id) }}" class="btn btn-sm btn-outline-secondary px-3 py-2" aria-label="Edit Tenant">
+                                        <i class="bi bi-pencil" aria-hidden="true"></i>
                                     </a>
                                     <form action="{{ route('super-admin.barbershops.destroy', $barber->id) }}" method="POST" class="d-inline m-0" onsubmit="return confirm('Apakah Anda yakin ingin menghapus tenant ini beserta seluruh data di dalamnya?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger px-2">
-                                            <i class="bi bi-trash"></i>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger px-3 py-2" aria-label="Hapus Tenant">
+                                            <i class="bi bi-trash" aria-hidden="true"></i>
                                         </button>
                                     </form>
                                 </div>

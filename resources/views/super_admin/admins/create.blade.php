@@ -61,9 +61,9 @@
                         @enderror
                     </div>
 
-                    <div class="d-flex justify-content-end gap-2">
-                        <a href="{{ route('super-admin.admins.index') }}" class="btn btn-outline-secondary px-4">Batal</a>
-                        <button type="submit" class="btn btn-gold px-4">Simpan Admin</button>
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="{{ route('super-admin.admins.index') }}" class="btn btn-outline-secondary px-4 py-2" aria-label="Batal Simpan">Batal</a>
+                        <button type="submit" class="btn btn-gold px-4 py-2" aria-label="Simpan Admin">Simpan Admin</button>
                     </div>
                 </form>
             </div>

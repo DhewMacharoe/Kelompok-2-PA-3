@@ -40,25 +40,25 @@
         <p style="font-size: 14px; color: #e8a53a; margin-bottom: 15px;">Durasi: <span id="stopwatch-dipanggil" data-start="{{ $currentServing->updated_at->timestamp * 1000 }}" style="font-weight: bold; color: #e8a53a; font-family: monospace; font-size: 16px;">00:00:00</span></p>
         <div class="btn-group-serving">
             <button type="button" class="btn-panggil shadow-sm queue-action-btn d-inline-flex align-items-center gap-1" data-queue-id="{{ $currentServing->id }}"
-                data-queue-status="selesai" data-loading-text="Menyelesaikan...">
-                <i class="bi bi-check-circle-fill"></i> Selesai
+                data-queue-status="selesai" data-loading-text="Menyelesaikan..." aria-label="Selesaikan Antrean">
+                <i class="bi bi-check-circle-fill" aria-hidden="true"></i> Selesai
             </button>
             <button type="button" class="btn-batal shadow-sm queue-action-btn d-inline-flex align-items-center gap-1" data-queue-id="{{ $currentServing->id }}"
-                data-queue-status="batal" data-loading-text="Membatalkan...">
-                <i class="bi bi-x-circle-fill"></i> Batalkan
+                data-queue-status="batal" data-loading-text="Membatalkan..." aria-label="Batalkan Antrean">
+                <i class="bi bi-x-circle-fill" aria-hidden="true"></i> Batalkan
             </button>
         </div>
         @else
         <p>Tidak ada antrean yang sedang dilayani saat ini.</p>
         @if (\App\Models\Antrean::isOperationalHour() && ($jumlahMenungguHariIni ?? 0) > 0)
-            <button type="button" class="btn-panggil shadow-sm d-inline-flex align-items-center gap-1" onclick="panggil()" data-loading-text="Memanggil...">
-                <i class="bi bi-megaphone-fill"></i> Panggil
+            <button type="button" class="btn-panggil shadow-sm d-inline-flex align-items-center gap-1" onclick="panggil()" data-loading-text="Memanggil..." aria-label="Panggil Antrean Berikutnya">
+                <i class="bi bi-megaphone-fill" aria-hidden="true"></i> Panggil
             </button>
         @else
             <button type="button" class="btn-panggil shadow-sm d-inline-flex align-items-center gap-1" disabled aria-disabled="true"
                 data-loading-text="Memanggil..." style="opacity: 0.65; cursor: not-allowed;"
-                title="{{ \App\Models\Antrean::isOperationalHour() ? 'Tidak ada antrean menunggu' : 'Di luar jam operasional' }}">
-                <i class="bi bi-megaphone-fill"></i> Panggil
+                title="{{ \App\Models\Antrean::isOperationalHour() ? 'Tidak ada antrean menunggu' : 'Di luar jam operasional' }}" aria-label="Panggil Antrean (Tidak Tersedia)">
+                <i class="bi bi-megaphone-fill" aria-hidden="true"></i> Panggil
             </button>
         @endif
         @endif
@@ -86,16 +86,16 @@
         <div class="filter-bar" role="tablist" aria-label="Filter status antrean">
             <button type="button"
                 class="filter-btn {{ ($selectedStatus ?? 'all') === 'menunggu' ? 'active' : '' }}"
-                data-filter="menunggu" onclick="submitAntreanFilter('menunggu')">Menunggu</button>
+                data-filter="menunggu" onclick="submitAntreanFilter('menunggu')" aria-pressed="{{ ($selectedStatus ?? 'all') === 'menunggu' ? 'true' : 'false' }}">Menunggu</button>
             <button type="button"
                 class="filter-btn {{ ($selectedStatus ?? 'all') === 'selesai' ? 'active' : '' }}"
-                data-filter="selesai" onclick="submitAntreanFilter('selesai')">Selesai</button>
+                data-filter="selesai" onclick="submitAntreanFilter('selesai')" aria-pressed="{{ ($selectedStatus ?? 'all') === 'selesai' ? 'true' : 'false' }}">Selesai</button>
             <button type="button"
                 class="filter-btn {{ ($selectedStatus ?? 'all') === 'batal' ? 'active' : '' }}"
-                data-filter="batal" onclick="submitAntreanFilter('batal')">Batal</button>
+                data-filter="batal" onclick="submitAntreanFilter('batal')" aria-pressed="{{ ($selectedStatus ?? 'all') === 'batal' ? 'true' : 'false' }}">Batal</button>
             <button type="button"
                 class="filter-btn {{ ($selectedStatus ?? 'all') === 'all' ? 'active' : '' }}"
-                data-filter="all" onclick="submitAntreanFilter('all')">Semua</button>
+                data-filter="all" onclick="submitAntreanFilter('all')" aria-pressed="{{ ($selectedStatus ?? 'all') === 'all' ? 'true' : 'false' }}">Semua</button>
         </div>
 
         <div class="date-filter-wrap">

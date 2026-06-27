@@ -1,4 +1,4 @@
-<nav class="sidebar shadow py-4">
+<nav class="sidebar shadow py-4" aria-label="Sidebar Admin">
     <div class="px-4 mb-4">
         <div class="d-flex justify-content-end d-md-none mb-2">
             <button type="button" class="btn btn-sm btn-outline-light" id="mobileSidebarClose" aria-label="Tutup menu">

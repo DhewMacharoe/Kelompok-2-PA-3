@@ -562,7 +562,7 @@
                     card.classList.add('included-disabled');
                     const badge = document.createElement('div');
                     badge.className = 'badge-container-custom mt-2';
-                    badge.innerHTML = `<span class="included-badge"><i class="fas fa-check-circle"></i> Sudah Termasuk</span>`;
+                    badge.innerHTML = `<span class="included-badge"><i class="fas fa-check-circle" aria-hidden="true"></i> Sudah Termasuk</span>`;
                     if (meta) {
                         meta.appendChild(badge);
                     }
@@ -581,7 +581,7 @@
                         card.classList.add('incompatible-disabled');
                         const badge = document.createElement('div');
                         badge.className = 'badge-container-custom mt-2';
-                        badge.innerHTML = `<span class="incompatible-badge" title="${conflictRule.deskripsi_konflik}"><i class="fas fa-exclamation-circle"></i> Konflik</span>`;
+                        badge.innerHTML = `<span class="incompatible-badge" title="${conflictRule.deskripsi_konflik}"><i class="fas fa-exclamation-circle" aria-hidden="true"></i> Konflik</span>`;
                         if (meta) {
                             meta.appendChild(badge);
                         }
@@ -596,7 +596,7 @@
                             card.classList.add('incompatible-disabled');
                             const badge = document.createElement('div');
                             badge.className = 'badge-container-custom mt-2';
-                            badge.innerHTML = `<span class="incompatible-badge" title="Terdapat layanan yang sama: ${overlap.join(', ')}"><i class="fas fa-exclamation-circle"></i> Konflik Fitur</span>`;
+                            badge.innerHTML = `<span class="incompatible-badge" title="Terdapat layanan yang sama: ${overlap.join(', ')}"><i class="fas fa-exclamation-circle" aria-hidden="true"></i> Konflik Fitur</span>`;
                             if (meta) {
                                 meta.appendChild(badge);
                             }
@@ -624,7 +624,7 @@
                             <div class="selected-item-name">${service.name}</div>
                             <div class="text-muted" style="font-size: 0.8rem">Rp${parseInt(service.price).toLocaleString('id-ID')} • ${service.time} mnt</div>
                         </div>
-                        <button type="button" class="btn-remove-service" onclick="removeService(${index})"><i class="fas fa-times"></i> Hapus</button>
+                        <button type="button" class="btn-remove-service py-2 px-3" aria-label="Hapus layanan ini" onclick="removeService(${index})"><i class="fas fa-times" aria-hidden="true"></i> Hapus</button>
                     </div>
                 `;
             });

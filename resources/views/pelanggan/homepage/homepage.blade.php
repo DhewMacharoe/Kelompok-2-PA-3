@@ -22,8 +22,8 @@
         <p class="hero-desc mx-auto mb-4">
             {{ $activeDesign->deskripsi_hero ?? 'Tempat pangkas rambut premium dengan layanan walk-in queue. Dapatkan pengalaman grooming terbaik!' }}
         </p>
-        <a href="{{ route('antrean') }}" class="btn hero-cta-btn px-4 py-2.5 fw-semibold shadow-sm">
-            <i class="fas fa-users me-2"></i>Ambil Antrean
+        <a href="{{ route('antrean') }}" class="btn hero-cta-btn px-4 py-3 fw-semibold shadow-sm" aria-label="Ambil Antrean">
+            <i class="fas fa-users me-2" aria-hidden="true"></i>Ambil Antrean
         </a>
     </div>
 </section>
@@ -65,21 +65,21 @@
                     <div class="status-pelayanan-box p-3 rounded border w-100 bg-white d-flex flex-column justify-content-center">
                         @if(auth()->check() && isset($antreanSayaAktif) && $antreanSayaAktif)
                             @if($antreanSayaAktif->barbershop_id !== $activeBarbershop->id)
-                                <a href="{{ route('profile.index') }}" class="btn w-100 text-white fw-bold mb-2 py-2.5 d-flex align-items-center justify-content-center gap-2" style="background-color: #6c757d; font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
-                                    <i class="fas fa-exclamation-circle"></i> Antrean di Cabang Lain
+                                <a href="{{ route('profile.index') }}" class="btn w-100 text-white fw-bold mb-2 py-3 d-flex align-items-center justify-content-center gap-2" style="background-color: #6c757d; font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
+                                    <i class="fas fa-exclamation-circle" aria-hidden="true"></i> Antrean di Cabang Lain
                                 </a>
                             @elseif($antreanSayaAktif->is_booking)
-                                <a href="{{ route('profile.index') }}" class="btn btn-gold-accent w-100 text-white fw-bold mb-2 py-2.5 d-flex align-items-center justify-content-center gap-2" style="font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
-                                    <i class="fas fa-calendar-check"></i> Cek Booking Anda
+                                <a href="{{ route('profile.index') }}" class="btn btn-gold-accent w-100 text-white fw-bold mb-2 py-3 d-flex align-items-center justify-content-center gap-2" style="font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
+                                    <i class="fas fa-calendar-check" aria-hidden="true"></i> Cek Booking Anda
                                 </a>
                             @else
-                                <a href="{{ route('antrean') }}" class="btn btn-gold-accent w-100 text-white fw-bold mb-2 py-2.5 d-flex align-items-center justify-content-center gap-2" id="antrean-status" style="font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
-                                    <i class="fas fa-ticket-alt"></i> Cek Detail Antrean
+                                <a href="{{ route('antrean') }}" class="btn btn-gold-accent w-100 text-white fw-bold mb-2 py-3 d-flex align-items-center justify-content-center gap-2" id="antrean-status" style="font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
+                                    <i class="fas fa-ticket-alt" aria-hidden="true"></i> Cek Detail Antrean
                                 </a>
                             @endif
                         @else
-                        <a href="{{ route('antrean') }}" class="btn btn-gold-accent w-100 text-white fw-bold mb-2 py-2.5 d-flex align-items-center justify-content-center gap-2" id="antrean-status" style="font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
-                            <i class="fas fa-ticket-alt"></i> Cek Detail Antrean
+                        <a href="{{ route('antrean') }}" class="btn btn-gold-accent w-100 text-white fw-bold mb-2 py-3 d-flex align-items-center justify-content-center gap-2" id="antrean-status" style="font-size: 0.88rem; border-radius: 8px; letter-spacing: 0.2px;">
+                            <i class="fas fa-ticket-alt" aria-hidden="true"></i> Cek Detail Antrean
                         </a>
                         @endif
                         <div class="text-center mt-2">

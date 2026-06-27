@@ -1,10 +1,10 @@
 <div class="modal-overlay" id="layananDetailModal">
     <div class="modal-card">
-        <button class="modal-back" id="modalBackBtn" title="Kembali">
-            <i class="fas fa-arrow-left"></i>
+        <button class="modal-back" id="modalBackBtn" title="Kembali" aria-label="Tutup pratinjau layanan">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
         </button>
-        <button class="modal-close" id="modalCloseBtn">×</button>
-        <div class="modal-image-wrapper" style="display:flex; justify-content:center; align-items:center; background:#f5f2ed; font-size:80px; color:#c9a24f; height: 260px;">
+        <button class="modal-close" id="modalCloseBtn" aria-label="Tutup popup layanan">×</button>
+        <div class="modal-image-wrapper" style="display:flex; justify-content:center; align-items:center; background:#f5f2ed; font-size:80px; color:#c9a24f; height: 260px;" aria-hidden="true">
             <i class="fas fa-cut"></i>
         </div>
         <div class="modal-content">

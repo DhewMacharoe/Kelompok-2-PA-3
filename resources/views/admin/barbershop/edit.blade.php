@@ -212,8 +212,8 @@
                         </div>
 
                         <div class="d-flex justify-content-end mt-4">
-                            <button type="button" class="btn btn-primary next-tab-btn px-4 py-2 fw-semibold" style="background-color: {{ $barbershop->warna_primer ?? '#e8a53a' }}; border: none;" data-next="#heroes-tab">
-                                Lanjut ke Hero Halaman <i class="fas fa-arrow-right ms-2"></i>
+                            <button type="button" class="btn btn-primary next-tab-btn px-4 py-3 fw-semibold shadow-sm" style="background-color: {{ $barbershop->warna_primer ?? '#e8a53a' }}; border: none;" data-next="#heroes-tab" aria-label="Lanjut ke Tab Hero">
+                                Lanjut ke Hero Halaman <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
@@ -330,11 +330,11 @@
 
 
                         <div class="d-flex justify-content-between mt-4">
-                            <button type="button" class="btn btn-outline-secondary px-4 py-2 fw-semibold next-tab-btn" data-next="#profile-tab">
-                                <i class="fas fa-arrow-left me-2"></i> Sebelumnya
+                            <button type="button" class="btn btn-outline-secondary px-4 py-3 fw-semibold next-tab-btn shadow-sm" data-next="#profile-tab" aria-label="Kembali ke Tab Profil">
+                                <i class="fas fa-arrow-left me-2" aria-hidden="true"></i> Sebelumnya
                             </button>
-                            <button type="button" class="btn btn-primary px-4 py-2 fw-semibold next-tab-btn" style="background-color: {{ $barbershop->warna_primer ?? '#e8a53a' }}; border: none;" data-next="#contacts-tab">
-                                Lanjut ke Kontak & Peta <i class="fas fa-arrow-right ms-2"></i>
+                            <button type="button" class="btn btn-primary px-4 py-3 fw-semibold next-tab-btn shadow-sm" style="background-color: {{ $barbershop->warna_primer ?? '#e8a53a' }}; border: none;" data-next="#contacts-tab" aria-label="Lanjut ke Tab Kontak">
+                                Lanjut ke Kontak & Peta <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
@@ -401,12 +401,12 @@
                         </div>
 
                         <div class="d-flex justify-content-between mt-4">
-                            <button type="button" class="btn btn-outline-secondary px-4 py-2 fw-semibold next-tab-btn" data-next="#heroes-tab">
-                                <i class="fas fa-arrow-left me-2"></i> Sebelumnya
+                            <button type="button" class="btn btn-outline-secondary px-4 py-3 fw-semibold next-tab-btn shadow-sm" data-next="#heroes-tab" aria-label="Kembali ke Tab Hero">
+                                <i class="fas fa-arrow-left me-2" aria-hidden="true"></i> Sebelumnya
                             </button>
                             <div class="d-flex gap-2">
-                                <a href="{{ route('admin.barbershop.index') }}" class="btn-cancel px-4 py-2">Batal</a>
-                                <button type="submit" class="btn-submit">Simpan Perubahan</button>
+                                <a href="{{ route('admin.barbershop.index') }}" class="btn-cancel px-4 py-3 shadow-sm" aria-label="Batal Edit Profil">Batal</a>
+                                <button type="submit" class="btn-submit py-3 shadow-sm" aria-label="Simpan Perubahan Profil">Simpan Perubahan</button>
                             </div>
                         </div>
                     </div>

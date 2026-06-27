@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="card shadow-sm border-0 rounded-3">
-    <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
-        <h5 class="m-0 fw-bold text-dark"><i class="bi bi-people me-2"></i>Daftar Admin Tenant</h5>
-        <a href="{{ route('super-admin.admins.create') }}" class="btn btn-sm btn-gold px-3"><i class="bi bi-plus-lg me-1"></i>Tambah Admin</a>
+    <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h5 class="m-0 fw-bold text-dark"><i class="bi bi-people me-2" aria-hidden="true"></i>Daftar Admin Tenant</h5>
+        <a href="{{ route('super-admin.admins.create') }}" class="btn btn-sm btn-gold px-3 py-2" aria-label="Tambah Admin Baru"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Tambah Admin</a>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -37,15 +37,15 @@
                                 @endif
                             </td>
                             <td class="text-end px-4">
-                                <div class="d-inline-flex gap-2">
-                                    <a href="{{ route('super-admin.admins.edit', $adm->id) }}" class="btn btn-sm btn-outline-secondary px-2">
-                                        <i class="bi bi-pencil me-1"></i>Edit
+                                <div class="d-inline-flex gap-2 flex-wrap">
+                                    <a href="{{ route('super-admin.admins.edit', $adm->id) }}" class="btn btn-sm btn-outline-secondary px-3 py-2" aria-label="Edit Admin">
+                                        <i class="bi bi-pencil me-1" aria-hidden="true"></i>Edit
                                     </a>
                                     <form action="{{ route('super-admin.admins.destroy', $adm->id) }}" method="POST" class="d-inline m-0" onsubmit="return confirm('Apakah Anda yakin ingin menghapus admin ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger px-2">
-                                            <i class="bi bi-trash"></i>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger px-3 py-2" aria-label="Hapus Admin">
+                                            <i class="bi bi-trash" aria-hidden="true"></i>
                                         </button>
                                     </form>
                                 </div>

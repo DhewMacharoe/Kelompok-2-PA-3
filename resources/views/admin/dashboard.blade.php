@@ -45,26 +45,26 @@
 
                 <div class="d-flex justify-content-center gap-3 mb-4">
                     @if ($dipanggil)
-                        <button type="button" class="btn btn-success px-4 fw-bold shadow-sm btn-queue-action-dashboard d-inline-flex align-items-center gap-2"
+                        <button type="button" class="btn btn-success px-4 py-2 fw-bold shadow-sm btn-queue-action-dashboard d-inline-flex align-items-center gap-2"
                             style="background-color: #4CC779;" data-queue-id="{{ $dipanggil->id }}"
-                            data-queue-status="selesai">
-                            <i class="bi bi-check-circle-fill"></i> Selesai
+                            data-queue-status="selesai" aria-label="Selesaikan Antrean">
+                            <i class="bi bi-check-circle-fill" aria-hidden="true"></i> Selesai
                         </button>
-                        <button type="button" class="btn btn-danger px-4 fw-bold shadow-sm btn-queue-action-dashboard d-inline-flex align-items-center gap-2"
+                        <button type="button" class="btn btn-danger px-4 py-2 fw-bold shadow-sm btn-queue-action-dashboard d-inline-flex align-items-center gap-2"
                             style="background-color: #EB5757;" data-queue-id="{{ $dipanggil->id }}"
-                            data-queue-status="batal">
-                            <i class="bi bi-x-circle-fill"></i> Batalkan
+                            data-queue-status="batal" aria-label="Batalkan Antrean">
+                            <i class="bi bi-x-circle-fill" aria-hidden="true"></i> Batalkan
                         </button>
                     @else
                         @if (($jumlahMenungguHariIni ?? 0) > 0)
-                            <button type="button" class="btn btn-primary px-4 fw-bold shadow-sm btn-call-dashboard d-inline-flex align-items-center gap-2"
-                                style="background-color: var(--primary-blue); border:none;">
-                                <i class="bi bi-megaphone-fill"></i> Panggil
+                            <button type="button" class="btn btn-primary px-4 py-2 fw-bold shadow-sm btn-call-dashboard d-inline-flex align-items-center gap-2"
+                                style="background-color: var(--primary-blue); border:none;" aria-label="Panggil Antrean">
+                                <i class="bi bi-megaphone-fill" aria-hidden="true"></i> Panggil
                             </button>
                         @else
-                            <button type="button" class="btn btn-primary px-4 fw-bold shadow-sm d-inline-flex align-items-center gap-2" disabled aria-disabled="true"
-                                style="background-color: var(--primary-blue); border:none; opacity: 0.65; cursor: not-allowed;">
-                                <i class="bi bi-megaphone-fill"></i> Panggil
+                            <button type="button" class="btn btn-primary px-4 py-2 fw-bold shadow-sm d-inline-flex align-items-center gap-2" disabled aria-disabled="true"
+                                style="background-color: var(--primary-blue); border:none; opacity: 0.65; cursor: not-allowed;" aria-label="Tidak ada antrean">
+                                <i class="bi bi-megaphone-fill" aria-hidden="true"></i> Panggil
                             </button>
                         @endif
                     @endif

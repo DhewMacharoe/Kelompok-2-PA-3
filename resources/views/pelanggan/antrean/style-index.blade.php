@@ -30,7 +30,7 @@
          background-color: #0d6efd;
          /* Sesuaikan warna dengan tema Anda */
          color: white;
-         padding: 10px;
+         padding: 14px;
          font-weight: bold;
          border-radius: 8px;
      }
@@ -117,7 +117,7 @@
          width: 100%;
          border-radius: 10px;
          font-weight: 700;
-         padding: 9px 12px;
+         padding: 12px 16px;
      }
 
      .btn-cancel-my-queue:hover {

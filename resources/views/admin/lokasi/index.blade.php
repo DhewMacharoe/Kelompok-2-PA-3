@@ -125,8 +125,8 @@
                             <span class="input-group-text bg-light border-end-0" style="border-color: #cbd5e1;">
                                 <i class="bi bi-geo-alt text-primary"></i>
                             </span>
-                            <input type="text" id="search-input" class="form-control form-control-premium border-start-0 border-end-0" placeholder="Ketik alamat atau tempel tautan Google Maps..." autocomplete="off" style="border-color: #cbd5e1;">
-                            <button type="button" id="btn-search" class="btn btn-primary px-4 fw-bold">Cari</button>
+                            <input type="text" id="search-input" class="form-control form-control-premium border-start-0 border-end-0" placeholder="Ketik alamat atau tempel tautan Google Maps..." autocomplete="off" style="border-color: #cbd5e1;" aria-label="Input pencarian lokasi">
+                            <button type="button" id="btn-search" class="btn btn-primary px-4 fw-bold" aria-label="Cari Lokasi">Cari</button>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
                             <div class="form-text text-muted small mb-0 flex-grow-1" style="max-width: 70%;">
@@ -227,8 +227,8 @@
                         </div>
 
                         <div class="mt-auto pt-3">
-                            <button type="submit" class="btn btn-primary w-100 py-2.5 fw-bold shadow-sm rounded-3 btn-save-premium" data-loading-text="Menyimpan...">
-                                <i class="bi bi-save me-2"></i>Simpan Pengaturan
+                            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold shadow-sm rounded-3 btn-save-premium" data-loading-text="Menyimpan..." aria-label="Simpan Pengaturan Lokasi">
+                                <i class="bi bi-save me-2" aria-hidden="true"></i>Simpan Pengaturan
                             </button>
                         </div>
                     </form>

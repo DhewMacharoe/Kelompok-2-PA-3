@@ -45,7 +45,7 @@
                             <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">Digunakan untuk mengirimkan notifikasi antrean.</small>
                         </div>
 
-                        <button type="submit" class="auth-button auth-button--google mt-3">Simpan Profil</button>
+                        <button type="submit" class="auth-button auth-button--google mt-3 py-3">Simpan Profil</button>
                     </form>
 
                     <p class="auth-footer-copy mb-0">Setelah disimpan, Anda akan diarahkan kembali ke halaman utama Margaya

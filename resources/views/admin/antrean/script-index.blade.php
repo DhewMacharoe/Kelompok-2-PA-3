@@ -269,7 +269,7 @@
                 return;
             }
 
-            adminSlotsContainer.innerHTML = '<span class="text-muted small"><i class="fas fa-spinner fa-spin me-1"></i> Memuat jadwal...</span>';
+            adminSlotsContainer.innerHTML = '<span class="text-muted small"><i class="fas fa-spinner fa-spin me-1" aria-hidden="true"></i> Memuat jadwal...</span>';
             adminWaktuBooking.value = '';
 
             try {

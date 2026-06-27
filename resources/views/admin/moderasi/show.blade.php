@@ -4,35 +4,35 @@
 
 @section('content')
 <div class="mb-4">
-    <a href="{{ route('admin.moderasi.index') }}" class="btn btn-outline-secondary btn-sm px-3 mb-3">
-        <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar
+    <a href="{{ route('admin.moderasi.index') }}" class="btn btn-outline-secondary btn-sm px-3 py-2 mb-3" aria-label="Kembali ke Daftar Moderasi">
+        <i class="bi bi-arrow-left me-1" aria-hidden="true"></i> Kembali ke Daftar
     </a>
     <div class="d-flex justify-content-between align-items-start">
         <div>
             <h4 class="fw-bold text-dark m-0">{{ $user->name }}</h4>
             <p class="text-muted small m-0">Detail profil, statistik, dan riwayat aktivitas moderasi pelanggan.</p>
         </div>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 flex-wrap">
             @if($user->is_blocked)
                 <form action="{{ route('admin.moderasi.unblock', $user->id) }}" method="POST" 
                       onsubmit="return confirm('Apakah Anda yakin ingin membuka blokir akun pelanggan ini?')">
                     @csrf
-                    <button type="submit" class="btn btn-success fw-semibold px-4 shadow-sm">
-                        <i class="bi bi-unlock-fill me-1"></i> Buka Blokir
+                    <button type="submit" class="btn btn-success fw-semibold px-4 py-2 shadow-sm" aria-label="Buka Blokir Akun Pelanggan">
+                        <i class="bi bi-unlock-fill me-1" aria-hidden="true"></i> Buka Blokir
                     </button>
                 </form>
             @else
-                <button type="button" class="btn btn-danger fw-semibold px-4 shadow-sm" 
-                        data-bs-toggle="modal" data-bs-target="#blockModal">
-                    <i class="bi bi-lock-fill me-1"></i> Blokir Akun
+                <button type="button" class="btn btn-danger fw-semibold px-4 py-2 shadow-sm" 
+                        data-bs-toggle="modal" data-bs-target="#blockModal" aria-label="Tampilkan Modal Blokir Akun">
+                    <i class="bi bi-lock-fill me-1" aria-hidden="true"></i> Blokir Akun
                 </button>
             @endif
 
             <form action="{{ route('admin.moderasi.resetRisk', $user->id) }}" method="POST"
                   onsubmit="return confirm('Apakah Anda yakin ingin mereset indikator risiko pelanggan ini? Perhitungan risiko sebelumnya tidak akan dihitung kembali.')">
                 @csrf
-                <button type="submit" class="btn btn-warning fw-semibold px-3 shadow-sm text-dark">
-                    <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Risiko
+                <button type="submit" class="btn btn-warning fw-semibold px-4 py-2 shadow-sm text-dark" aria-label="Reset Indikator Risiko">
+                    <i class="bi bi-arrow-counterclockwise me-1" aria-hidden="true"></i> Reset Risiko
                 </button>
             </form>
         </div>

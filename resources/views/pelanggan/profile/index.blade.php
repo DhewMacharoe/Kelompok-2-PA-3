@@ -56,7 +56,7 @@
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
         color: white;
-        padding: 0.5rem 1rem;
+        padding: 0.75rem 1.25rem;
         border-radius: 0.5rem;
         text-decoration: none;
         font-weight: 500;
@@ -233,8 +233,8 @@
             <h1 class="profile-name">{{ $user->username }}</h1>
             <div class="profile-email">{{ $user->email }}</div>
         </div>
-        <a href="{{ route('profile.edit') }}" class="edit-profile-btn">
-            <i class="bi bi-pencil-square me-1"></i> Ubah Profil
+        <a href="{{ route('profile.edit') }}" class="edit-profile-btn" aria-label="Ubah Profil">
+            <i class="bi bi-pencil-square me-1" aria-hidden="true"></i> Ubah Profil
         </a>
     </div>
 
@@ -322,7 +322,7 @@
                     <i class="bi bi-calendar-x empty-icon"></i>
                     <h3 class="fw-bold text-dark h5 mb-2">Belum ada booking aktif</h3>
                     <p class="text-muted mb-4">Jadwal reservasi yang telah Anda buat akan muncul di sini.</p>
-                    <a href="{{ route('barbershop.home', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop']) }}" class="btn btn-outline-primary rounded-pill px-4">Buat Antrean Sekarang</a>
+                    <a href="{{ route('barbershop.home', ['slug' => $activeBarbershop->slug ?? 'arga-barbershop']) }}" class="btn btn-outline-primary rounded-pill px-4 py-3">Buat Antrean Sekarang</a>
                 </div>
             @endforelse
         </div>
