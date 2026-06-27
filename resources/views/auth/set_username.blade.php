@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/arga-auth.css') }}">
 @endsection
 
-@section('title', isset($activeBarbershop) && $activeBarbershop->nama_brand ? 'Lengkapi Profil - ' . $activeBarbershop->nama_brand : "Lengkapi Profil - Arga Home's")
+@section('title', isset($activeBarbershop) && $activeBarbershop->nama_brand ? 'Lengkapi Profil - ' . $activeBarbershop->nama_brand : "Lengkapi Profil - Margaya Toba")
 
 @section('content')
     <div class="auth-shell auth-shell--public">
@@ -48,8 +48,8 @@
                         <button type="submit" class="auth-button auth-button--google mt-3">Simpan Profil</button>
                     </form>
 
-                    <p class="auth-footer-copy mb-0">Setelah disimpan, Anda akan diarahkan kembali ke halaman utama Arga
-                        Home's.</p>
+                    <p class="auth-footer-copy mb-0">Setelah disimpan, Anda akan diarahkan kembali ke halaman utama Margaya
+                        Toba.</p>
                 </div>
             </div>
         </div>

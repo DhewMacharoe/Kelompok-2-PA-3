@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', $activeBarbershop->nama_brand ?? 'Admin Barbershop')</title>
-    <link rel="icon" type="image/png" href="{{ isset($activeBarbershop) && $activeBarbershop->favicon ? asset($activeBarbershop->favicon) : asset('favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <!-- PWA Manifest & iOS Tags -->
     <link rel="manifest" href="{{ asset('manifest.json') }}">

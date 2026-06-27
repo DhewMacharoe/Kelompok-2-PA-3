@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk - Arga Home's</title>
+    <title>Masuk - Margaya Toba</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/arga-auth.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -32,7 +32,7 @@
 
 
                     <div class="auth-kicker">Selamat datang</div>
-                    <h2 class="auth-section-title">Masuk ke Arga Home's</h2>
+                    <h2 class="auth-section-title">Masuk ke Margaya Toba</h2>
                     <p class="auth-section-copy">Masuk dengan Google untuk Mengambil Antrean Lebih Cepat</p>
 
                     @if (session('error'))
@@ -74,7 +74,7 @@
 
                     <p class="auth-footer-copy mb-0">
                         Dengan melanjutkan, Anda setuju untuk menggunakan akun Google sebagai identitas masuk ke layanan
-                        Arga Home's.
+                        Margaya Toba.
                     </p>
                     <p class="auth-footer-copy">Atau <a href="/login" class="text-decoration-underline auth-footer-copy mb-0">Masuk Sebagai Admin</a></p>
 

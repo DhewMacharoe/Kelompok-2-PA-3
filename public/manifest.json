@@ -1,7 +1,7 @@
 {
-    "name": "Arga Barbershop",
-    "short_name": "Arga",
-    "description": "Aplikasi Antrean dan Layanan Arga Barbershop & Cafe. Tempat pangkas rambut premium dengan layanan walk-in queue.",
+    "name": "Margaya Toba",
+    "short_name": "Margaya Toba",
+    "description": "Aplikasi Antrean dan Layanan Margaya Toba & Cafe. Tempat pangkas rambut premium dengan layanan walk-in queue.",
     "start_url": "/",
     "scope": "/",
     "display": "standalone",
